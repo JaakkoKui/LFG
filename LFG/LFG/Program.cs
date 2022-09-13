@@ -1,6 +1,7 @@
 using LFG.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,6 +40,18 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.UseSpa(spa =>
+{
+    spa.Options.SourcePath="../src";
+    if (app.Environment.IsDevelopment())
+{
+    spa.UseReactDevelopmentServer(npmScript: "start");
+}
+});
+
+
+
 app.MapRazorPages();
 
 app.Run();
