@@ -18,7 +18,7 @@ jobs:
       with:
         dotnet-version: 6.0.x
     - name: Restore dependencies
-      run: dotnet restore LFG.csproj
+      run: dotnet restore LFG/LFG/LFG/LFG.csproj
     - name: Build
       run: dotnet build --no-restore
     - name: Test
