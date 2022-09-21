@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Jaakk\\Desktop\\Ohj.tuot.proj\\LFG\\LFG\\LFG.csproj": {}
+    "C:\\Users\\Jaakk\\OneDrive\\Työpöytä\\Suunnittelumallit\\LFG\\LFG\\LFG\\LFG.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Jaakk\\Desktop\\Ohj.tuot.proj\\LFG\\LFG\\LFG.csproj": {
+    "C:\\Users\\Jaakk\\OneDrive\\Työpöytä\\Suunnittelumallit\\LFG\\LFG\\LFG\\LFG.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Jaakk\\Desktop\\Ohj.tuot.proj\\LFG\\LFG\\LFG.csproj",
+        "projectUniqueName": "C:\\Users\\Jaakk\\OneDrive\\Työpöytä\\Suunnittelumallit\\LFG\\LFG\\LFG\\LFG.csproj",
         "projectName": "LFG",
-        "projectPath": "C:\\Users\\Jaakk\\Desktop\\Ohj.tuot.proj\\LFG\\LFG\\LFG.csproj",
+        "projectPath": "C:\\Users\\Jaakk\\OneDrive\\Työpöytä\\Suunnittelumallit\\LFG\\LFG\\LFG\\LFG.csproj",
         "packagesPath": "C:\\Users\\Jaakk\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Jaakk\\Desktop\\Ohj.tuot.proj\\LFG\\LFG\\obj\\",
+        "outputPath": "C:\\Users\\Jaakk\\OneDrive\\Työpöytä\\Suunnittelumallit\\LFG\\LFG\\LFG\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Jaakk\\AppData\\Roaming\\NuGet\\NuGet.Config",

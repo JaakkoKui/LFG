@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "II4YG3YkatbK6llDhE+va77rNGBL+SH1n56atWATQVjXW6cAvkMrJi2EAsixlUMabTEygg2rIxRMJ8eeIN6naw==",
+  "dgSpecHash": "jnzr9B12CZgo7imlqVvFGtwY+Ws0PzcPKapr52/57AoCdagHDQU6GbdTrP4sfyDrNBjyH+swrSt6z7fcaXDjZA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Jaakk\\Desktop\\Ohj.tuot.proj\\LFG\\LFG\\LFG.csproj",
+  "projectFilePath": "C:\\Users\\Jaakk\\OneDrive\\Työpöytä\\Suunnittelumallit\\LFG\\LFG\\LFG\\LFG.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Jaakk\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\Jaakk\\.nuget\\packages\\messagepack\\2.1.152\\messagepack.2.1.152.nupkg.sha512",

@@ -10,7 +10,7 @@ namespace LFG.Models
         public string Nickname { get; set; }
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
-        public DateTime?  Age { get; set; }
+        public int?  Age { get; set; }
         public byte[]? Avatar { get; set; }
         public string?  DiscordNick { get; set; }
         public DateTime? JoiningDate { get; set; }
