@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 
+
+
 namespace LFG.Controllers
 {
     [Route("api/[controller]/[Action]")]
@@ -24,7 +26,10 @@ namespace LFG.Controllers
             try
             {
 
-            } catch(Exception ex)
+                response = await _authDL.SignUp(request);
+
+            } 
+            catch(Exception ex)
             {
                 response.IsSuccess = false;
                 response.Message = ex.Message;
