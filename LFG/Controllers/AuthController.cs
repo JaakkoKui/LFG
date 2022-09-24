@@ -41,10 +41,10 @@ namespace LFG.Controllers
         [HttpPost]
         public async Task<IActionResult> SignIn(SignInRequest request)
         {
-            SignUpResponse response = new SignUpResponse();
+            SignInResponse response = new SignInResponse();
             try
             {
-
+                response= await _authDL.SignIn(request);
             }
             catch (Exception ex)
             {

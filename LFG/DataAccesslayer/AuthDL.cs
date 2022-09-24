@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
 using System;
+using System.Data.Common;
 using System.Threading.Tasks;
 
 
@@ -18,9 +19,54 @@ namespace LFG.DataAccesslayer
             _mySqlConnection = new MySqlConnection(_configuration["ConnectionStrings:MySqlDBConnection"]);
         }
 
-        public Task<SignInResponse> SignIn(SignInRequest request)
+        public async Task<SignInResponse> SignIn(SignInRequest request)
         {
-            throw new System.NotImplementedException();
+            SignInResponse response = new SignInResponse(); ;
+            response.IsSuccess = true;
+            response.Message = "Succesful";
+            try
+            {                
+
+                if (_mySqlConnection.State != System.Data.ConnectionState.Open)
+                {
+                    await _mySqlConnection.OpenAsync();
+                }
+
+                string SqlQuery = @"SELECT * FROM User WHERE Email=@Email AND Password=@Password;";
+
+                using (MySqlCommand sqlCommand = new MySqlCommand(SqlQuery, _mySqlConnection))
+                {
+                    sqlCommand.CommandType = System.Data.CommandType.Text;
+                    sqlCommand.CommandTimeout = 180;
+                    sqlCommand.Parameters.AddWithValue("@Email", request.Email);
+                    sqlCommand.Parameters.AddWithValue("@Password", request.Password);
+                    
+                    using(DbDataReader dataReader = await sqlCommand.ExecuteReaderAsync())
+                    {
+                        if(dataReader.HasRows)
+                        {
+                            response.Message = "Login Successful";
+                        }
+                        else
+                        {
+                            response.IsSuccess = false;
+                            response.Message = "Login Failed";
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = ex.Message;
+            }
+            finally
+            {
+                await _mySqlConnection.CloseAsync();
+                await _mySqlConnection.DisposeAsync();
+            }
+
+            return response;
         }
 
         public async Task<SignUpResponse> SignUp(SignUpRequest request)
