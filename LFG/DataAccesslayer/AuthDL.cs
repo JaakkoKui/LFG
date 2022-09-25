@@ -5,8 +5,6 @@ using System;
 using System.Data.Common;
 using System.Threading.Tasks;
 
-
-
 namespace LFG.DataAccesslayer
 {
     public class AuthDL : IAuthDL
