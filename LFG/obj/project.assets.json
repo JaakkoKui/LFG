@@ -10434,19 +10434,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Jaakk\\.nuget\\packages\\": {}
+    "C:\\Users\\psjOj\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Jaakk\\OneDrive\\Työpöytä\\Suunnittelumallit\\LFG\\LFG\\LFG\\LFG.csproj",
+      "projectUniqueName": "C:\\Users\\psjOj\\OPT\\LFG\\LFG.csproj",
       "projectName": "LFG",
-      "projectPath": "C:\\Users\\Jaakk\\OneDrive\\Työpöytä\\Suunnittelumallit\\LFG\\LFG\\LFG\\LFG.csproj",
-      "packagesPath": "C:\\Users\\Jaakk\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Jaakk\\OneDrive\\Työpöytä\\Suunnittelumallit\\LFG\\LFG\\LFG\\obj\\",
+      "projectPath": "C:\\Users\\psjOj\\OPT\\LFG\\LFG.csproj",
+      "packagesPath": "C:\\Users\\psjOj\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\psjOj\\OPT\\LFG\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Jaakk\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\psjOj\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -10520,7 +10520,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.401\\RuntimeIdentifierGraph.json"
       }
     }
   }

@@ -1,34 +1,39 @@
 import React, { useEffect, useState } from 'react';
 import Profile from './Component/Profile';
-import Login from './Component/Login';
+import LoginPage from './Component/Login';
 import './App.css';
+import { useStateValue } from './state/state';
+//import { Login } from './types';
+
 
 
 const App: React.FC = () => {
-  const [userName, setUserName] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const [state, dispatch] = useStateValue();
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedUser');
-    if (loggedUserJSON) {
+    if (loggedUserJSON && loggedUserJSON !== undefined) {
       const user = JSON.parse(loggedUserJSON);
-      setUserName(user.user);
+      
+      dispatch({type: "LOGIN", payload: user.logged});
     }
-  }, [userName]);
-
-  if (userName !== "root") {
+    console.log("logged", loggedUserJSON);
+    
+  }, [dispatch]);
+  
+  if ( state.email === "") {
     return (
-      <Login setName={setUserName} password={setPassword} />
+      <LoginPage />
     )
   } else {
 
     window.localStorage.setItem(
-      'loggedUser', JSON.stringify({ user: userName })
+      'loggedUser', JSON.stringify({logged: state.email})
     )
 
     const handleLogout = () => {
       window.localStorage.clear();
-      setUserName('');
+      dispatch({type: "LOGOUT", payload: "" })
     }
 
     return (

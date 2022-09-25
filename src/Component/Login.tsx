@@ -1,9 +1,6 @@
 import React from "react";
-
-interface Props {
-    setName: React.Dispatch<React.SetStateAction<string>>;
-    password: React.Dispatch<React.SetStateAction<string>>;
-}
+import { useStateValue } from "../state/state";
+import Register from './Register'
 
 interface FormElements extends HTMLFormControlsCollection {
     name: HTMLInputElement;
@@ -14,28 +11,45 @@ interface YourFormElement extends HTMLFormElement {
     readonly elements: FormElements
 }
 
-const Login: React.FC<Props> = ({ setName, password }) => {
+const Login: React.FC = () => {
+    const [state, dispatch] = useStateValue();
+    const [registerForm, showRegister] = React.useState<boolean>(false);
+
+    const openRegister = () => {
+        showRegister(true);
+    }
+
 
     const handleLogin = (e: React.FormEvent<YourFormElement>) => {
         e.preventDefault();
 
-        setName(e.currentTarget.elements.name.value)
-        password(e.currentTarget.elements.password.value)
-        if (e.currentTarget.elements.name.value !== 'root'
-            || e.currentTarget.elements.password.value !== 'root') {
-            alert('username or password was invalid');
-        }
+        const email = e.currentTarget.elements.name.value;
+        const password = e.currentTarget.elements.password.value;
+
+        Object.values(state.login).map(able => {
+            if(able.Email === email && able.Password === password){
+                dispatch({type: "LOGIN", payload: email})
+            }
+        })
+        
         e.currentTarget.elements.password.value = '';
         e.currentTarget.elements.name.value = '';
     }
 
+    if (registerForm) {
+        return (
+            <Register closeRegister={showRegister} />
+        )
+    }
     return (
+        <>
         <form className='login' onSubmit={handleLogin}>
             <div>
                 Login here!
             </div>
             <input name='name' id='name'
-                placeholder='enter username'
+                placeholder='enter email'
+                type='email'
                 className="username" />
             <input name='password' id='password'
                 type='password'
@@ -44,7 +58,10 @@ const Login: React.FC<Props> = ({ setName, password }) => {
             <button className="login_button" type="submit">
                 Login
             </button>
-        </form>
+            </form>
+            <button onClick={openRegister}>Register here!</button>
+            
+        </>
     );
 };
 
