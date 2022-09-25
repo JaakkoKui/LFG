@@ -17,6 +17,7 @@ const App: React.FC = () => {
       
       dispatch({type: "LOGIN", payload: user.logged});
     }
+    dispatch({type: "ADD_LOGIN", payload: {Email: "root@root.fi", Password: "root"}});
     console.log("logged", loggedUserJSON);
     
   }, [dispatch]);
