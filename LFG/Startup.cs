@@ -48,8 +48,15 @@ namespace LFG
 
             app.UseAuthorization();
 
-            app.UseSwagger();
+            app.UseCors();
+            app.UseCors(
+                builder =>
+                {
+                    builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+                }
+                );
 
+            app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
