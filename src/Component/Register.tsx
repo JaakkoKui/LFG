@@ -39,6 +39,7 @@ const Register: React.FC<Props> = ({closeRegister}) => {
 
         dispatch({type: "ADD_PROFILE", payload:{Id: id, Nickname: username, FirstName: fisrtname, LastName:lastname,
         Age:age, DiscordNick:discord}})
+        
         dispatch({type: "ADD_LOGIN", payload:{Id: id, Email: email, Password:password}});
 
         closeRegister(false);
