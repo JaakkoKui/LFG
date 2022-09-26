@@ -1,6 +1,8 @@
 import React from "react";
 import { useStateValue } from "../state/state";
 import { v1 as uuid} from "uuid";
+import {Login} from '../types';
+import axios from 'axios';
 
 interface Props {
     closeRegister: React.Dispatch<React.SetStateAction<boolean>>;
@@ -14,14 +16,17 @@ interface FormElements extends HTMLFormControlsCollection {
     lastname: HTMLInputElement;
     age: HTMLInputElement;
     discord: HTMLInputElement;
+    confirm_password: HTMLInputElement;
 }
 
 interface YourFormElement extends HTMLFormElement {
     readonly elements: FormElements
 }
 
+const baseUrl = "https://localhost:44372/api/Auth";
+
 const Register: React.FC<Props> = ({closeRegister}) => {
-    const [, dispatch] = useStateValue();
+    const [{login}, dispatch] = useStateValue();
 
     const handleCancel = () => {
         closeRegister(false);
@@ -36,11 +41,28 @@ const Register: React.FC<Props> = ({closeRegister}) => {
         const lastname = e.currentTarget.elements.lastname.value;
         const age = Number(e.currentTarget.elements.age.value);
         const discord = e.currentTarget.elements.discord.value;
-
-        dispatch({type: "ADD_PROFILE", payload:{Id: id, Nickname: username, FirstName: fisrtname, LastName:lastname,
-        Age:age, DiscordNick:discord}})
+        const confirm = e.currentTarget.elements.confirm_password.value;
         
-        dispatch({type: "ADD_LOGIN", payload:{Id: id, Email: email, Password:password}});
+        dispatch({type: "ADD_PROFILE", payload:{Id: id, Nickname: username, FirstName: fisrtname, LastName:lastname,
+        Age:age, DiscordNick:discord, Email:email}})
+
+        const SignUp = async (signup: Login) => {
+            try{
+                const{data: message} = await axios.post(`${baseUrl}/SignUp`, signup)
+                console.log(message);
+                if(message.isSuccess){
+                    dispatch({type:"ADD_LOGIN", payload:{email:email, password:password}})
+                }
+            }catch(e: unknown){
+                let errorMessage = 'Something went wrong.'
+                if (axios.isAxiosError(e) && e.response) {
+                    errorMessage += ' Error: ' + e.response.data;
+                }
+                console.error(errorMessage);
+            }
+        }
+        
+        void SignUp({email: email, password: password, confirmPassword: confirm});
 
         closeRegister(false);
     }
@@ -57,6 +79,11 @@ const Register: React.FC<Props> = ({closeRegister}) => {
               id="password"
               type="password"
               placeholder="Password"
+            /><br />
+            <div>Confirm password:</div> <input name='confirm_password'
+              id="confim_password"
+              type="password"
+              placeholder="Confirm Password"
             /><br />
 
             <div>Username:</div> <input name='username' id='username'

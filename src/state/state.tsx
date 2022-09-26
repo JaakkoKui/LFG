@@ -6,7 +6,7 @@ export interface State {
     games: { [GameId: number]: Game }
     profile: { [Id: string]: Profile}
     email: string,
-    login: {[Id: string]: Login}
+    login: {[email: string]: Login}
 }
 
 const initialState: State = {

@@ -67,7 +67,7 @@ export const reducer = (state: State, action: Action): State => {
                 ...state,
                 login: {
                     ...state.login,
-                    [action.payload.Id]: action.payload
+                    [action.payload.email]: action.payload
                 }
             };
         case "ADD_PROFILE":

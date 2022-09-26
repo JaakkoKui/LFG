@@ -9,9 +9,9 @@ const Profile: React.FC = () => {
     const [{email}] = useStateValue();
 
     if(email !== ""){
-        const loggedUser = Object.values(login).filter(log => log.Email === email)
+        const loggedUser = Object.values(login).filter(log => log.email === email)
         
-    const user =Object.values(profile).filter(prof => prof.Id === loggedUser[0].Id)
+    const user =Object.values(profile).filter(prof => prof.Email === loggedUser[0].email)
 
     
     if(user.length !== 0){

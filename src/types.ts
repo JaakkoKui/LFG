@@ -16,10 +16,11 @@ export interface Profile {
     Age?: number;
     DiscordNick?: string;
     JoiningDate?: Date;
+    Email: string;
 }
 
 export interface Login {
-    Id: string;
-    Email: string;
-    Password: string;
+    email: string;
+    password: string;
+    confirmPassword?: string;
 }
