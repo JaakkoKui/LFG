@@ -67,7 +67,22 @@ export const reducer = (state: State, action: Action): State => {
                 ...state,
                 login: {
                     ...state.login,
-                    [action.payload.Email]: action.payload
+                    [action.payload.Id]: action.payload
+                }
+            };
+        case "ADD_PROFILE":
+            return {
+                ...state,
+                profile: {
+                    ...state.profile,
+                    [action.payload.Id]: action.payload
+                }
+            };
+        case "GET_PROFILE":
+            return {
+                ...state,
+                profile: {
+                    
                 }
             }
         default:

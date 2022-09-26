@@ -1,5 +1,6 @@
 import React from "react";
 import { useStateValue } from "../state/state";
+import { v1 as uuid} from "uuid";
 
 interface Props {
     closeRegister: React.Dispatch<React.SetStateAction<boolean>>;
@@ -8,6 +9,11 @@ interface Props {
 interface FormElements extends HTMLFormControlsCollection {
     email: HTMLInputElement;
     password: HTMLInputElement;
+    username: HTMLInputElement;
+    firstname: HTMLInputElement;
+    lastname: HTMLInputElement;
+    age: HTMLInputElement;
+    discord: HTMLInputElement;
 }
 
 interface YourFormElement extends HTMLFormElement {
@@ -15,37 +21,63 @@ interface YourFormElement extends HTMLFormElement {
 }
 
 const Register: React.FC<Props> = ({closeRegister}) => {
-    const [state, dispatch] = useStateValue();
+    const [, dispatch] = useStateValue();
 
     const handleCancel = () => {
         closeRegister(false);
     }
     const handleRegister = (e: React.FormEvent<YourFormElement>) => {
         e.preventDefault();
-
+        const id = uuid();
         const email = e.currentTarget.elements.email.value;
         const password = e.currentTarget.elements.password.value;
+        const username = e.currentTarget.elements.username.value;
+        const fisrtname = e.currentTarget.elements.firstname.value;
+        const lastname = e.currentTarget.elements.lastname.value;
+        const age = Number(e.currentTarget.elements.age.value);
+        const discord = e.currentTarget.elements.discord.value;
 
-        dispatch({type: "ADD_LOGIN", payload:{Email: email, Password:password}})
+        dispatch({type: "ADD_PROFILE", payload:{Id: id, Nickname: username, FirstName: fisrtname, LastName:lastname,
+        Age:age, DiscordNick:discord}})
+        dispatch({type: "ADD_LOGIN", payload:{Id: id, Email: email, Password:password}});
+
         closeRegister(false);
     }
 
     return (
         <><h1>Register info</h1>
         <form onSubmit={handleRegister}>
-            <input name='email'
+            <div>Email: </div><input name='email'
               id="email"
               type="email"
               placeholder="Write your email"
-            />
-            <input name='password'
+            /><br />
+            <div>Password:</div> <input name='password'
               id="password"
               type="password"
               placeholder="Password"
-            />
-          
+            /><br />
+
+            <div>Username:</div> <input name='username' id='username'
+            placeholder="Username" /> <br />
+
+            <div>First name:</div> <input name="firstname"
+            id="firstname" placeholder="First name (optional)" /><br />
+
+            <div>Last name:</div> <input name="lastname"
+            id="lastname" placeholder="Last name (optional)" /> <br/>
+
+            <div>Age:</div> <input name="age" id="age" type="number"
+            placeholder="Your age (optional)" width="90%"/> <br/>
+
+            <div>Discord nick:</div> <input name="discord" id="discord"
+            placeholder="Discord nick (optional)" /> <br/>
+
+            
+            <button type='submit'>Register</button><br />
             <button onClick={handleCancel}>Cancel</button>
-            <button type='submit'>Register</button>
+            
+
             </form>
         </>
     )

@@ -4,6 +4,7 @@ import LoginPage from './Component/Login';
 import './App.css';
 import { useStateValue } from './state/state';
 //import { Login } from './types';
+import { v1 as uuid} from "uuid";
 
 
 
@@ -11,13 +12,14 @@ const App: React.FC = () => {
   const [state, dispatch] = useStateValue();
 
   useEffect(() => {
+    const id = uuid();
     const loggedUserJSON = window.localStorage.getItem('loggedUser');
     if (loggedUserJSON && loggedUserJSON !== undefined) {
       const user = JSON.parse(loggedUserJSON);
       
       dispatch({type: "LOGIN", payload: user.logged});
     }
-    dispatch({type: "ADD_LOGIN", payload: {Email: "root@root.fi", Password: "root"}});
+    dispatch({type: "ADD_LOGIN", payload: {Id: id, Email: "root@root.fi", Password: "root"}});
     console.log("logged", loggedUserJSON);
     
   }, [dispatch]);

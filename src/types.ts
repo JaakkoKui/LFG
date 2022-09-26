@@ -9,7 +9,7 @@ export interface Game {
 }
 
 export interface Profile {
-    Id: number;
+    Id: string;
     Nickname: string;
     FirstName?: string;
     LastName?: string;
@@ -19,7 +19,7 @@ export interface Profile {
 }
 
 export interface Login {
-    Id?: number;
+    Id: string;
     Email: string;
     Password: string;
 }
