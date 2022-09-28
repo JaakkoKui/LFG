@@ -8,5 +8,7 @@ namespace LFG.DataAccesslayer
         public Task<SignUpResponse> SignUp(SignUpRequest request);
 
         public Task<SignInResponse> SignIn(SignInRequest request);
+
+        public Task<ProfileResponse> Profile(ProfileRequest request);
     }
 }
