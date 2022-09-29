@@ -55,23 +55,6 @@ namespace LFG.Controllers
             return Ok(response);
         }
 
-        // oma lisäys 28.9.
-        [HttpPost]
-        public async Task<IActionResult> Profile(ProfileRequest request)
-        {
-            ProfileResponse response = new ProfileResponse();
-            try
-            {
-                response = await _authDL.Profile(request);
-            }
-            catch (Exception ex)
-            {
-                response.IsSuccess = false;
-                response.Message = ex.Message;
-            }
 
-            return Ok(response);
-        }
-        // oma lisäys 28.9 loppuu
     }
 }

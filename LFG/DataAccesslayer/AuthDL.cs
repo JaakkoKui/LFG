@@ -17,54 +17,7 @@ namespace LFG.DataAccesslayer
             _mySqlConnection = new MySqlConnection(_configuration["ConnectionStrings:MySqlDBConnection"]);
         }
 
-        public async Task<ProfileResponse> Profile(ProfileRequest request)
-        {
-            ProfileResponse response = new ProfileResponse(); ;
-            response.IsSuccess = true;
-            response.Message = "Profile Succesful";
-            try
-            {
-
-                if (_mySqlConnection.State != System.Data.ConnectionState.Open)
-                {
-                    await _mySqlConnection.OpenAsync();
-                }
-
-                string SqlQuery = @"insert into Profile (Nickname, FirstName, LastName, Age, Avatar, DiscordNick, JoiningDate) Values (@Nickname, @FirstName, @LastName, @Age, @Avatar, @DiscordNick, @JoiningDate);";
-                
-                using (MySqlCommand sqlCommand = new MySqlCommand(SqlQuery, _mySqlConnection))
-                {
-                    sqlCommand.CommandType = System.Data.CommandType.Text;
-                    sqlCommand.CommandTimeout = 180;
-                    sqlCommand.Parameters.AddWithValue("@Nickname", request.Nickname);
-                    sqlCommand.Parameters.AddWithValue("@FirstName", request.FirstName);
-                    sqlCommand.Parameters.AddWithValue("@LastName", request.LastName);
-                    sqlCommand.Parameters.AddWithValue("@Age", request.Age);
-                    sqlCommand.Parameters.AddWithValue("@Avatar", request.Avatar);
-                    sqlCommand.Parameters.AddWithValue("@DiscordNick", request.DiscordNick);
-                    sqlCommand.Parameters.AddWithValue("@JoiningDate", request.JoiningDate);
-                    int Status = await sqlCommand.ExecuteNonQueryAsync();
-                    if (Status <= 0)
-                    {
-                        response.IsSuccess = false;
-                        response.Message = "Something Went Wrong";
-                        return response;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                response.IsSuccess = false;
-                response.Message = ex.Message;
-            }
-            finally
-            {
-                await _mySqlConnection.CloseAsync();
-                await _mySqlConnection.DisposeAsync();
-            }
-
-            return response;
-        }
+        
 
         public async Task<SignInResponse> SignIn(SignInRequest request)
         {
