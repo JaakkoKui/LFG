@@ -1,8 +1,7 @@
 import React from "react";
 import { useStateValue } from "../state/state";
-import { v1 as uuid} from "uuid";
-import {Login} from '../types';
-import axios from 'axios';
+import { v1 as uuid } from "uuid";
+import { SignUp } from '../services/loginService';
 
 interface Props {
     closeRegister: React.Dispatch<React.SetStateAction<boolean>>;
@@ -25,8 +24,8 @@ interface YourFormElement extends HTMLFormElement {
 
 const baseUrl = "https://localhost:44372/api/Auth";
 
-const Register: React.FC<Props> = ({closeRegister}) => {
-    const [{login}, dispatch] = useStateValue();
+const Register: React.FC<Props> = ({ closeRegister }) => {
+    const [, dispatch] = useStateValue();
 
     const handleCancel = () => {
         closeRegister(false);
@@ -42,69 +41,58 @@ const Register: React.FC<Props> = ({closeRegister}) => {
         const age = Number(e.currentTarget.elements.age.value);
         const discord = e.currentTarget.elements.discord.value;
         const confirm = e.currentTarget.elements.confirm_password.value;
-        
-        dispatch({type: "ADD_PROFILE", payload:{Id: id, Nickname: username, FirstName: fisrtname, LastName:lastname,
-        Age:age, DiscordNick:discord, Email:email}})
 
-        const SignUp = async (signup: Login) => {
-            try{
-                const{data: message} = await axios.post(`${baseUrl}/SignUp`, signup)
-                console.log(message);
-                if(message.isSuccess){
-                    dispatch({type:"ADD_LOGIN", payload:{email:email, password:password}})
-                }
-            }catch(e: unknown){
-                let errorMessage = 'Something went wrong.'
-                if (axios.isAxiosError(e) && e.response) {
-                    errorMessage += ' Error: ' + e.response.data;
-                }
-                console.error(errorMessage);
+        dispatch({
+            type: "ADD_PROFILE", payload: {
+                Id: id, Nickname: username, FirstName: fisrtname, LastName: lastname,
+                Age: age, DiscordNick: discord, Email: email
             }
-        }
-        
-        void SignUp({email: email, password: password, confirmPassword: confirm});
+        })
 
+        SignUp({ email: email, password: password, confirmPassword: confirm });
+
+        dispatch({ type: "ADD_LOGIN", payload: { email: email, password: password } })
         closeRegister(false);
     }
 
     return (
         <><h1>Register info</h1>
-        <form onSubmit={handleRegister}>
-            <div>Email: </div><input name='email'
-              id="email"
-              type="email"
-              placeholder="Write your email"
-            /><br />
-            <div>Password:</div> <input name='password'
-              id="password"
-              type="password"
-              placeholder="Password"
-            /><br />
-            <div>Confirm password:</div> <input name='confirm_password'
-              id="confim_password"
-              type="password"
-              placeholder="Confirm Password"
-            /><br />
+            <form onSubmit={handleRegister}>
+                <div>Email: </div><input name='email'
+                    id="email"
+                    type="email"
+                    placeholder="Write your email"
+                /><br />
+                <div>Password:</div> <input name='password'
+                    id="password"
+                    type="password"
+                    placeholder="Password"
+                /><br />
+                <div>Confirm password:</div> <input name='confirm_password'
+                    id="confim_password"
+                    type="password"
+                    placeholder="Confirm Password"
+                /><br />
 
-            <div>Username:</div> <input name='username' id='username'
-            placeholder="Username" /> <br />
+                <div>Username:</div> <input name='username' id='username'
+                    placeholder="Username" /> <br />
 
-            <div>First name:</div> <input name="firstname"
-            id="firstname" placeholder="First name (optional)" /><br />
+                <div>First name:</div> <input name="firstname"
+                    id="firstname" placeholder="First name (optional)" /><br />
 
-            <div>Last name:</div> <input name="lastname"
-            id="lastname" placeholder="Last name (optional)" /> <br/>
+                <div>Last name:</div> <input name="lastname"
+                    id="lastname" placeholder="Last name (optional)" /> <br />
 
-            <div>Age:</div> <input name="age" id="age" type="number"
-            placeholder="Your age (optional)" width="90%"/> <br/>
+                <div>Age:</div> <input name="age" id="age" type="number"
+                    placeholder="Your age (optional)" width="90%" /> <br />
 
-            <div>Discord nick:</div> <input name="discord" id="discord"
-            placeholder="Discord nick (optional)" /> <br/>
+                <div>Discord nick:</div> <input name="discord" id="discord"
+                    placeholder="Discord nick (optional)" /> <br />
 
-            
-            <button type='submit'>Register</button><br />
-            <button onClick={handleCancel}>Cancel</button>
-            
+
+                <button type='submit'>Register</button><br />
+                <button onClick={handleCancel}>Cancel</button>
+
 
             </form>
         </>

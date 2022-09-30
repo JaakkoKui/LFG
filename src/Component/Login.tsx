@@ -1,10 +1,8 @@
 import React from "react";
 import { useStateValue } from "../state/state";
 import Register from './Register';
-import axios from 'axios';
+import { SignIn } from '../services/loginService';
 
-
-const baseUrl = "https://localhost:44372/api/Auth";
 
 interface FormElements extends HTMLFormControlsCollection {
     name: HTMLInputElement;
@@ -16,7 +14,7 @@ interface YourFormElement extends HTMLFormElement {
 }
 
 const Login: React.FC = () => {
-    const [{login}, dispatch] = useStateValue();
+    const [{ login }, dispatch] = useStateValue();
     const [registerForm, showRegister] = React.useState<boolean>(false);
 
     const openRegister = () => {
@@ -29,28 +27,11 @@ const Login: React.FC = () => {
 
         const email = e.currentTarget.elements.name.value;
         const password = e.currentTarget.elements.password.value;
-        
-        const SignIn = async () => {
-    
-            try{
-                const{data: message} = await axios.post(`${baseUrl}/SignIn`, {email:email, password:password})
-                console.log(message);
-                
-                if(message.isSuccess){
-                    dispatch({type: "LOGIN", payload: email})
-                dispatch({type:"ADD_LOGIN", payload: {email:email, password:password}})
-                }
-                
-            }catch(e: unknown){
-                let errorMessage = 'Something went wrong.'
-                if (axios.isAxiosError(e) && e.response) {
-                    errorMessage += ' Error: ' + e.response.data;
-                }
-                console.error(errorMessage);
-            }
-        }
-        void SignIn();
-       
+
+        SignIn({ email: email, password: password });
+
+        dispatch({ type: "LOGIN", payload: email })
+        dispatch({ type: "ADD_LOGIN", payload: { email: email, password: password } })
         e.currentTarget.elements.password.value = '';
         e.currentTarget.elements.name.value = '';
     }
@@ -62,24 +43,24 @@ const Login: React.FC = () => {
     }
     return (
         <>
-        <form className='login' onSubmit={handleLogin}>
-            <div>
-                Login here!
-            </div>
-            <input name='name' id='name'
-                placeholder='enter email'
-                type='email'
-                className="username" />
-            <input name='password' id='password'
-                type='password'
-                placeholder='enter password'
-                className="password" />
-            <button className="login_button" type="submit">
-                Login
-            </button>
+            <form className='login' onSubmit={handleLogin}>
+                <div>
+                    Login here!
+                </div>
+                <input name='name' id='name'
+                    placeholder='enter email'
+                    type='email'
+                    className="username" />
+                <input name='password' id='password'
+                    type='password'
+                    placeholder='enter password'
+                    className="password" />
+                <button className="login_button" type="submit">
+                    Login
+                </button>
             </form>
             <button onClick={openRegister}>Register here!</button>
-            
+
         </>
     );
 };
