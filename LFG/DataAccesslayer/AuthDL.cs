@@ -17,6 +17,8 @@ namespace LFG.DataAccesslayer
             _mySqlConnection = new MySqlConnection(_configuration["ConnectionStrings:MySqlDBConnection"]);
         }
 
+        
+
         public async Task<SignInResponse> SignIn(SignInRequest request)
         {
             SignInResponse response = new SignInResponse(); ;
