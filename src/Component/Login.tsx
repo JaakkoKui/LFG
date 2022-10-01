@@ -28,10 +28,10 @@ const Login: React.FC = () => {
         const email = e.currentTarget.elements.name.value;
         const password = e.currentTarget.elements.password.value;
 
-        SignIn({ email: email, password: password });
+        SignIn({ Email: email, Password: password });
 
         dispatch({ type: "LOGIN", payload: email })
-        dispatch({ type: "ADD_LOGIN", payload: { email: email, password: password } })
+        dispatch({ type: "ADD_LOGIN", payload: { Email: email, Password: password } })
         e.currentTarget.elements.password.value = '';
         e.currentTarget.elements.name.value = '';
     }

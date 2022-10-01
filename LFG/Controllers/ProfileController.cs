@@ -23,7 +23,7 @@ namespace LFG.Controllers
         public JsonResult Get()
         {
             string query = @"
-                        SELECT ProfileId,Nickname,FirstName,LastName,Age,Avatar,DiscordNick,
+                        SELECT ProfileId,Nickname,FirstName,LastName,Age,Avatar,DiscordNick,Email,
                         DATE_FORMAT(JoiningDate,'%y-%m-%d') as JoiningDate
                         FROM
                         Profile
@@ -53,9 +53,9 @@ namespace LFG.Controllers
         {
             string query = @"
                         INSERT INTO Profile 
-                        (Nickname, FirstName, LastName, Age, Avatar, DiscordNick, JoiningDate) 
+                        (Nickname, FirstName, LastName, Age, Avatar, DiscordNick, JoiningDate, Email) 
                         VALUES 
-                        (@Nickname, @FirstName, @LastName, @Age, @Avatar, @DiscordNick, @JoiningDate);
+                        (@Nickname, @FirstName, @LastName, @Age, @Avatar, @DiscordNick, @JoiningDate, @Email);
 
         ";
             DataTable table = new DataTable();
@@ -73,6 +73,7 @@ namespace LFG.Controllers
                     myCommand.Parameters.AddWithValue("@Avatar", profile.Avatar);
                     myCommand.Parameters.AddWithValue("@DiscordNick", profile.DiscordNick);
                     myCommand.Parameters.AddWithValue("@JoiningDate", profile.JoiningDate);
+                    myCommand.Parameters.AddWithValue("@Email", profile.Email);
 
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
@@ -98,7 +99,8 @@ namespace LFG.Controllers
                         Age =@Age,
                         Avatar =@Avatar,
                         DiscordNick =@DiscordNick,
-                        JoiningDate =@JoiningDate
+                        JoiningDate =@JoiningDate,
+                        Email =@Email
                         WHERE ProfileId=@ProfileId;
                         
 
@@ -118,6 +120,7 @@ namespace LFG.Controllers
                     myCommand.Parameters.AddWithValue("@Avatar", profile.Avatar);
                     myCommand.Parameters.AddWithValue("@DiscordNick", profile.DiscordNick);
                     myCommand.Parameters.AddWithValue("@JoiningDate", profile.JoiningDate);
+                    myCommand.Parameters.AddWithValue("@Email", profile.Email);
 
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);

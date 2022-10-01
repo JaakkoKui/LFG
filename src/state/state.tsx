@@ -4,9 +4,9 @@ import { Action } from "./reducer";
 
 export interface State {
     games: { [GameId: number]: Game }
-    profile: { [email: string]: ProfileModel}
+    profile: { [ProfileId: number]: ProfileModel}
     email: string,
-    login: {[email: string]: Login}
+    login: {[Email: string]: Login}
 }
 
 const initialState: State = {

@@ -1,31 +1,35 @@
 import React from "react";
 import { useStateValue } from "../state/state";
-import { getProfiles} from "../services/profileService";
-import { ProfileModel } from "../types";
+import { getProfiles } from "../services/profileService";
+import { Login, ProfileModel } from "../types";
+import { getUsers } from "../services/userService";
+
 
 const Profile: React.FC = () => {
     const [{ profile }, dispatch] = useStateValue();
-    const [{ login }] = useStateValue();
     const [{ email }] = useStateValue();
 
     React.useEffect(() => {
-        getProfiles().then(data =>{ 
-            console.log(data);
+
+        getProfiles().then(data => {
+
             const profiles: ProfileModel[] = data as ProfileModel[];
-            dispatch({type: "GET_PROFILES", payload: profiles});
+            dispatch({ type: "GET_PROFILES", payload: profiles });
         });
-        
-        
+        getUsers().then(user => {
+            const users: Login[] = user as Login[];
+
+            dispatch({ type: "GET_USERS", payload: users });
+        })
+
     }, [dispatch]);
 
     if (email !== "") {
-        const loggedUser = Object.values(login).filter(log => log.email === email);
 
-        const user = Object.values(profile).filter(prof => prof.email === loggedUser[0].email);
-
+        const user = Object.values(profile).filter(prof => prof.Email === email);
 
         if (user.length !== 0) {
-            return (<div key={user[0].Id}>
+            return (<div key={user[0].ProfileId}>
                 <h1 className="text-3xl font-bold underline">
                     Hello world!
                 </h1>

@@ -3,35 +3,47 @@ import Profile from './Component/Profile';
 import LoginPage from './Component/Login';
 import './App.css';
 import { useStateValue } from './state/state';
-//import { Login } from './types';
-import { v1 as uuid} from "uuid";
+import { Login, ProfileModel } from './types';
+import { getUsers } from './services/userService';
+import { getProfiles } from './services/profileService';
 
 
 
 const App: React.FC = () => {
-  const [state, dispatch] = useStateValue();
+  const [{email}, dispatch] = useStateValue();
 
   useEffect(() => {
-    const id = uuid();
+    getUsers().then(user => {
+      const users: Login[] = user as Login[];
+      
+      dispatch({type: "GET_USERS", payload: users});
+    });
+
+    getProfiles().then(data =>{ 
+            
+      const profiles: ProfileModel[] = data as ProfileModel[];
+      dispatch({type: "GET_PROFILES", payload: profiles});
+  });
+  
     const loggedUserJSON = window.localStorage.getItem('loggedUser');
     if (loggedUserJSON && loggedUserJSON !== undefined) {
-      const user = JSON.parse(loggedUserJSON);
+      const user: Login = JSON.parse(loggedUserJSON);
       
-      dispatch({type: "LOGIN", payload: user.logged});
+      dispatch({type: "LOGIN", payload: user.Email});
     }
-    //dispatch({type: "ADD_LOGIN", payload: {email: "root@root.fi", password: "root"}});
+    
     console.log("logged", loggedUserJSON);
     
   }, [dispatch]);
   
-  if ( state.email === "") {
+  if ( email === "") {
     return (
       <LoginPage />
     )
   } else {
 
     window.localStorage.setItem(
-      'loggedUser', JSON.stringify({logged: state.email})
+      'loggedUser', JSON.stringify({email})
     )
 
     const handleLogout = () => {

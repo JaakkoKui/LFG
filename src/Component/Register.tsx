@@ -40,19 +40,17 @@ const Register: React.FC<Props> = ({ closeRegister }) => {
         const discord = e.currentTarget.elements.discord.value;
         const confirm = e.currentTarget.elements.confirm_password.value;
 
-        console.log(Date.now().toString());
-
-        addProfile({email: email, Nickname: username, FirstName:firstname, LastName: lastname, Age: age,avatar:"Juu", DiscordNick: discord,JoiningDate: "22"})
+        addProfile({Email: email, Nickname: username, FirstName:firstname, LastName: lastname, Age: age,Avatar:"Juu", DiscordNick: discord,JoiningDate: "2002.11.22"})
         dispatch({
             type: "ADD_PROFILE", payload: {
                 Nickname: username, FirstName: firstname, LastName: lastname,
-                Age: age, DiscordNick: discord, email:email
+                Age: age,Avatar:"Juu", DiscordNick: discord, Email:email,JoiningDate: "2002.11.22"
             }
         })
 
-        SignUp({ email: email, password: password, confirmPassword: confirm });
+        SignUp({ Email: email, Password: password, confirmPassword: confirm });
 
-        dispatch({ type: "ADD_LOGIN", payload: { email: email, password: password } })
+        dispatch({ type: "ADD_LOGIN", payload: { Email: email, Password: password } })
         closeRegister(false);
     }
 

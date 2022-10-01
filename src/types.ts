@@ -9,19 +9,19 @@ export interface Game {
 }
 
 export interface ProfileModel {
-    Id?: string;
+    ProfileId?: string;
     Nickname: string;
     FirstName?: string;
     LastName?: string;
     Age?: number;
     DiscordNick?: string;
     JoiningDate?: string;
-    avatar?: string;
-    email?: string;
+    Avatar?: string;
+    Email: string;
 }
 
 export interface Login {
-    email: string;
-    password: string;
+    Email: string;
+    Password: string;
     confirmPassword?: string;
 }
