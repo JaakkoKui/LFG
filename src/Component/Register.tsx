@@ -1,7 +1,7 @@
 import React from "react";
 import { useStateValue } from "../state/state";
-import { v1 as uuid } from "uuid";
 import { SignUp } from '../services/loginService';
+import { addProfile } from '../services/profileService';
 
 interface Props {
     closeRegister: React.Dispatch<React.SetStateAction<boolean>>;
@@ -22,8 +22,6 @@ interface YourFormElement extends HTMLFormElement {
     readonly elements: FormElements
 }
 
-const baseUrl = "https://localhost:44372/api/Auth";
-
 const Register: React.FC<Props> = ({ closeRegister }) => {
     const [, dispatch] = useStateValue();
 
@@ -32,20 +30,23 @@ const Register: React.FC<Props> = ({ closeRegister }) => {
     }
     const handleRegister = (e: React.FormEvent<YourFormElement>) => {
         e.preventDefault();
-        const id = uuid();
+
         const email = e.currentTarget.elements.email.value;
         const password = e.currentTarget.elements.password.value;
         const username = e.currentTarget.elements.username.value;
-        const fisrtname = e.currentTarget.elements.firstname.value;
+        const firstname = e.currentTarget.elements.firstname.value;
         const lastname = e.currentTarget.elements.lastname.value;
         const age = Number(e.currentTarget.elements.age.value);
         const discord = e.currentTarget.elements.discord.value;
         const confirm = e.currentTarget.elements.confirm_password.value;
 
+        console.log(Date.now().toString());
+
+        addProfile({email: email, Nickname: username, FirstName:firstname, LastName: lastname, Age: age,avatar:"Juu", DiscordNick: discord,JoiningDate: "22"})
         dispatch({
             type: "ADD_PROFILE", payload: {
-                Id: id, Nickname: username, FirstName: fisrtname, LastName: lastname,
-                Age: age, DiscordNick: discord, Email: email
+                Nickname: username, FirstName: firstname, LastName: lastname,
+                Age: age, DiscordNick: discord, email:email
             }
         })
 

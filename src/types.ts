@@ -8,15 +8,16 @@ export interface Game {
     Comments?: string;
 }
 
-export interface Profile {
-    Id: string;
+export interface ProfileModel {
+    Id?: string;
     Nickname: string;
     FirstName?: string;
     LastName?: string;
     Age?: number;
     DiscordNick?: string;
-    JoiningDate?: Date;
-    Email: string;
+    JoiningDate?: string;
+    avatar?: string;
+    email?: string;
 }
 
 export interface Login {

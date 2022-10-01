@@ -54,7 +54,5 @@ namespace LFG.Controllers
 
             return Ok(response);
         }
-
-
     }
 }

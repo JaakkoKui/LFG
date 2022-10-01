@@ -1,4 +1,4 @@
-import {Game, Login, Profile } from "../types"
+import {Game, Login, ProfileModel } from "../types"
 import { State } from "./state";
 
 
@@ -21,15 +21,19 @@ export type Action =
     }
     | {
         type: "GET_PROFILE";
-        payload: Profile;
+        payload: ProfileModel;
     }
     | {
         type: "ADD_PROFILE";
-        payload: Profile;
+        payload: ProfileModel;
     }
     | {
         type: "ADD_LOGIN";
         payload: Login;
+    }
+    | {
+        type: "GET_PROFILES";
+        payload: ProfileModel[];
     };
 
 export const reducer = (state: State, action: Action): State => {
@@ -75,7 +79,7 @@ export const reducer = (state: State, action: Action): State => {
                 ...state,
                 profile: {
                     ...state.profile,
-                    [action.payload.Id]: action.payload
+                    [action.payload.Nickname]: action.payload
                 }
             };
         case "GET_PROFILE":
@@ -84,7 +88,18 @@ export const reducer = (state: State, action: Action): State => {
                 profile: {
                     
                 }
-            }
+            };
+        case "GET_PROFILES":
+            return {
+                ...state,
+                profile: {
+                    ...action.payload.reduce(
+                        (memo, profile) => ({ ...memo, [profile.Nickname]: profile }), 
+                        {}
+                        ),
+                    ...state.profile
+                }
+            };
         default:
             return state;
     }

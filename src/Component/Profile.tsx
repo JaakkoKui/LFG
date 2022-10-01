@@ -1,15 +1,27 @@
 import React from "react";
 import { useStateValue } from "../state/state";
+import { getProfiles} from "../services/profileService";
+import { ProfileModel } from "../types";
 
 const Profile: React.FC = () => {
-    const [{ profile }] = useStateValue();
+    const [{ profile }, dispatch] = useStateValue();
     const [{ login }] = useStateValue();
     const [{ email }] = useStateValue();
 
-    if (email !== "") {
-        const loggedUser = Object.values(login).filter(log => log.email === email)
+    React.useEffect(() => {
+        getProfiles().then(data =>{ 
+            console.log(data);
+            const profiles: ProfileModel[] = data as ProfileModel[];
+            dispatch({type: "GET_PROFILES", payload: profiles});
+        });
+        
+        
+    }, [dispatch]);
 
-        const user = Object.values(profile).filter(prof => prof.Email === loggedUser[0].email)
+    if (email !== "") {
+        const loggedUser = Object.values(login).filter(log => log.email === email);
+
+        const user = Object.values(profile).filter(prof => prof.email === loggedUser[0].email);
 
 
         if (user.length !== 0) {
