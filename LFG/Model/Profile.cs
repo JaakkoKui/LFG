@@ -1,10 +1,15 @@
 ﻿using Microsoft.VisualBasic;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace LFG.Model
 {
     public class Profile
     {
+
+        [Required]
+        public string Email { get; set; }
+
         [Required]
         public string Nickname { get; set; }
 
