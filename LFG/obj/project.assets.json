@@ -1784,19 +1784,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\psjOj\\.nuget\\packages\\": {}
+    "C:\\Users\\antti\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\psjOj\\OPT\\LFG\\LFG.csproj",
+      "projectUniqueName": "C:\\Users\\antti\\Source\\Repos\\LFG\\LFG\\LFG.csproj",
       "projectName": "LFG",
-      "projectPath": "C:\\Users\\psjOj\\OPT\\LFG\\LFG.csproj",
-      "packagesPath": "C:\\Users\\psjOj\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\psjOj\\OPT\\LFG\\obj\\",
+      "projectPath": "C:\\Users\\antti\\Source\\Repos\\LFG\\LFG\\LFG.csproj",
+      "packagesPath": "C:\\Users\\antti\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\antti\\Source\\Repos\\LFG\\LFG\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\psjOj\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\antti\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -1862,7 +1867,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.401\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
       }
     }
   }

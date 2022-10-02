@@ -1,7 +1,12 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\LFG",
+    "\\public",
+    "\\src",
+    "\\src\\Component",
+    "\\src\\services"
   ],
-  "SelectedNode": "\\LFG.sln",
+  "SelectedNode": "\\LFG\\Program.cs",
   "PreviewInSolutionExplorer": false
 }
