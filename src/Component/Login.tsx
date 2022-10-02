@@ -14,14 +14,13 @@ interface YourFormElement extends HTMLFormElement {
 }
 
 const Login: React.FC = () => {
-    const [{ login }, dispatch] = useStateValue();
+    const [, dispatch] = useStateValue();
     const [registerForm, showRegister] = React.useState<boolean>(false);
 
     const openRegister = () => {
         showRegister(true);
     }
 
-    console.log("Logged: ", login);
     const handleLogin = (e: React.FormEvent<YourFormElement>) => {
         e.preventDefault();
 

@@ -20,10 +20,6 @@ export type Action =
         payload: string;
     }
     | {
-        type: "GET_PROFILE";
-        payload: ProfileModel;
-    }
-    | {
         type: "ADD_PROFILE";
         payload: ProfileModel;
     }
@@ -48,7 +44,7 @@ export const reducer = (state: State, action: Action): State => {
                 ...state,
                 games: {
                     ...action.payload.reduce(
-                        (memo, game) => ({ ...memo, [game.GameId]: game }), {}),
+                        (memo, game) => ({ ...memo, [game.GameName]: game }), {}),
                     ...state.games
                 }
             };
@@ -57,7 +53,7 @@ export const reducer = (state: State, action: Action): State => {
                 ...state,
                 games: {
                     ...state.games,
-                    [action.payload.GameId]: action.payload
+                    [action.payload.GameName]: action.payload
                 }
             };
         case "LOGIN":
@@ -85,13 +81,6 @@ export const reducer = (state: State, action: Action): State => {
                 profile: {
                     ...state.profile,
                     [action.payload.Email]: action.payload
-                }
-            };
-        case "GET_PROFILE":
-            return {
-                ...state,
-                profile: {
-                    
                 }
             };
         case "GET_PROFILES":

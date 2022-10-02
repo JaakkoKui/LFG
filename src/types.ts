@@ -1,5 +1,5 @@
 export interface Game {
-    GameId: number;
+    GameId?: number;
     GameName: string;
     NicknameIngame?: string;
     HoursPlayed?: number;

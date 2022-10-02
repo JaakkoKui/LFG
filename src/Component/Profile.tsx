@@ -37,7 +37,7 @@ const Profile: React.FC = () => {
                 <div>Firstname: {user[0].FirstName}</div>
             </div>)
         } else {
-            return (<></>)
+            return (<>Some kind of Error happened...</>)
         }
     } else {
         return (
