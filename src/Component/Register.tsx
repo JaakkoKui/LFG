@@ -2,6 +2,7 @@ import React from "react";
 import { useStateValue } from "../state/state";
 import { SignUp } from '../services/loginService';
 import { addProfile } from '../services/profileService';
+import { ProfileModel } from "../types";
 
 interface Props {
     closeRegister: React.Dispatch<React.SetStateAction<boolean>>;
@@ -16,6 +17,7 @@ interface FormElements extends HTMLFormControlsCollection {
     age: HTMLInputElement;
     discord: HTMLInputElement;
     confirm_password: HTMLInputElement;
+    avatar: HTMLInputElement
 }
 
 interface YourFormElement extends HTMLFormElement {
@@ -24,13 +26,16 @@ interface YourFormElement extends HTMLFormElement {
 
 const Register: React.FC<Props> = ({ closeRegister }) => {
     const [, dispatch] = useStateValue();
+    const [myAvatar, setAvatar] = React.useState<File>()
 
     const handleCancel = () => {
         closeRegister(false);
     }
     const handleRegister = (e: React.FormEvent<YourFormElement>) => {
         e.preventDefault();
-
+        const date = new Date();
+        const today = date.getFullYear() +"."+ (date.getMonth()+1) +"."+ date.getDate();
+        
         const email = e.currentTarget.elements.email.value;
         const password = e.currentTarget.elements.password.value;
         const username = e.currentTarget.elements.username.value;
@@ -39,19 +44,41 @@ const Register: React.FC<Props> = ({ closeRegister }) => {
         const age = Number(e.currentTarget.elements.age.value);
         const discord = e.currentTarget.elements.discord.value;
         const confirm = e.currentTarget.elements.confirm_password.value;
+        //const avatar = new File(e.currentTarget.elements.avatar.value);
+        if(myAvatar){
+            const avatar = myAvatar;
+            console.log(avatar.name);
+        }
+        
+        const newProfile: ProfileModel = {
+            Email: email, 
+            Nickname: username, 
+            FirstName:firstname,
+            LastName: lastname, 
+            Age: age,
+            Avatar:"avatar", 
+            DiscordNick: discord,
+            JoiningDate: today
+        };
 
-        addProfile({Email: email, Nickname: username, FirstName:firstname, LastName: lastname, Age: age,Avatar:"Juu", DiscordNick: discord,JoiningDate: "2002.11.22"})
+        addProfile(newProfile);
+
         dispatch({
-            type: "ADD_PROFILE", payload: {
-                Nickname: username, FirstName: firstname, LastName: lastname,
-                Age: age,Avatar:"Juu", DiscordNick: discord, Email:email,JoiningDate: "2002.11.22"
-            }
-        })
+            type: "ADD_PROFILE", payload: newProfile
+        });
 
         SignUp({ Email: email, Password: password, confirmPassword: confirm });
 
         dispatch({ type: "ADD_LOGIN", payload: { Email: email, Password: password } })
         closeRegister(false);
+    }
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+    {
+        
+        const fileList: FileList = e.target.files as FileList;
+        console.log(fileList[0]);
+        setAvatar(fileList[0]);
     }
 
     return (
@@ -72,7 +99,6 @@ const Register: React.FC<Props> = ({ closeRegister }) => {
                     type="password"
                     placeholder="Confirm Password"
                 /><br />
-
                 <div>Username:</div> <input name='username' id='username'
                     placeholder="Username" /> <br />
 
@@ -88,14 +114,15 @@ const Register: React.FC<Props> = ({ closeRegister }) => {
                 <div>Discord nick:</div> <input name="discord" id="discord"
                     placeholder="Discord nick (optional)" /> <br />
 
-
+<div>Avatar: <input type="file" accept="image/*" multiple={false} id="avatar" name="avatar" onChange={handleChange } />
+        </div>
                 <button type='submit'>Register</button><br />
                 <button onClick={handleCancel}>Cancel</button>
 
 
             </form>
         </>
-    )
+    );
 }
 
 export default Register;

@@ -20,6 +20,7 @@ const ProfileInfo: React.FC = () => {
             <div>Last name: {myProfile.LastName}</div>
             <div>Age: {myProfile.Age}</div>
             <div>Discord Nick: {myProfile.DiscordNick}</div>
+            <div>Joining date: {myProfile.JoiningDate}</div>
         </>
     )
 }
