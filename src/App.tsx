@@ -10,45 +10,43 @@ import { getProfiles } from './services/profileService';
 
 
 const App: React.FC = () => {
-  const [{email}, dispatch] = useStateValue();
+  const [{ email }, dispatch] = useStateValue();
 
   useEffect(() => {
     getUsers().then(user => {
       const users: Login[] = user as Login[];
-      
-      dispatch({type: "GET_USERS", payload: users});
+
+      dispatch({ type: "GET_USERS", payload: users });
     });
 
-    getProfiles().then(data =>{ 
-            
+    getProfiles().then(data => {
+
       const profiles: ProfileModel[] = data as ProfileModel[];
-      dispatch({type: "GET_PROFILES", payload: profiles});
-  });
-  
+      dispatch({ type: "GET_PROFILES", payload: profiles });
+    });
+
     const loggedUserJSON = window.localStorage.getItem('loggedUser');
     if (loggedUserJSON && loggedUserJSON !== undefined) {
-      const user: Login = JSON.parse(loggedUserJSON);
-      
-      dispatch({type: "LOGIN", payload: user.Email});
+      const user = JSON.parse(loggedUserJSON);
+
+      dispatch({ type: "LOGIN", payload: user });
     }
-    
-    console.log("logged", loggedUserJSON);
-    
+
   }, [dispatch]);
-  
-  if ( email === "") {
+
+  if (email === "") {
     return (
       <LoginPage />
     )
   } else {
 
     window.localStorage.setItem(
-      'loggedUser', JSON.stringify({email})
+      'loggedUser', JSON.stringify(email)
     )
 
     const handleLogout = () => {
       window.localStorage.clear();
-      dispatch({type: "LOGOUT", payload: "" })
+      dispatch({ type: "LOGOUT", payload: "" })
     }
 
     return (

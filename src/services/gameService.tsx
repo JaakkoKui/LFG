@@ -1,11 +1,11 @@
 import axios from "axios";
-import { Game }	from "../types"
+import { Game } from "../types"
 
-const baseUrl: string = "https://localhost:44372/api/Game";
+const baseUrl = "https://localhost:44372/api/Game";
 
 export const getAll = async () => {
 	try {
-		const {data: games } = await axios.get<Game[]>(baseUrl)
+		const { data: games } = await axios.get<Game[]>(baseUrl)
 		return games
 	} catch (error: unknown) {
 		let errorMessage = 'Something went wrong.'
@@ -14,13 +14,13 @@ export const getAll = async () => {
 		}
 		console.error(errorMessage);
 	}
-	
+
 }
 
 export const addGame = async (game: Game) => {
 	try {
-		const {data: data } = await axios.post<Game>(baseUrl, game)
-		
+		const { data: data } = await axios.post<Game>(baseUrl, game)
+		return game;
 	} catch (error: unknown) {
 		let errorMessage = 'Something went wrong.'
 		if (axios.isAxiosError(error) && error.response) {
