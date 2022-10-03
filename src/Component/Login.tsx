@@ -36,20 +36,17 @@ export const Login: React.FC = () => {
     }
 
     return (
-        <>
-            <div className='w-full h-1/3 pb-7 flex'>
-                <img className='mx-auto w-1/4 mt-auto object-contain' src='/images/logo.png' alt='logo' />
-            </div>
+        <div>
+            <img className='mx-auto h-[200px] -mt-[240px] mb-[40px] object-contain' src='/images/logo.png' alt='logo' />
+            <div className='h-[300px] w-3/5 m-auto'>
 
-            <div className='h-[340px] w-1/2 m-auto'>
-
-                <div className='font-semibold subpixel-antialiased mb-6'>
+                <div className='font-semibold subpixel-antialiased'>
                     LOGIN
                 </div>
 
                 {/* Login form */}
-                <form id='login' onSubmit={handleLogin} className='h-4/5 flex flex-col relative justify-between border-b pt-2 pb-8 border-gray-300'>
-                    <label>
+                <form id='login' onSubmit={handleLogin} className='h-full flex flex-col relative pt-2 pb-8'>
+                    <label className='mt-4'>
                         E-mail
                         <input name='email' id='email'
                             placeholder='Email'
@@ -57,7 +54,7 @@ export const Login: React.FC = () => {
                             className='w-full border-solid border-2 border-gray-300 rounded-lg py-2 px-4 mt-1' />
                     </label>
 
-                    <label>
+                    <label className='mt-4'>
                         Password
                         <input name='password' id='password'
                             type='password'
@@ -65,20 +62,22 @@ export const Login: React.FC = () => {
                             className='w-full border-solid border-2 border-gray-300 rounded-lg py-2 px-4 mt-1' />
                     </label>
 
-                    <button className='rounded-full bg-primary py-2 text-white w-full uppercase font-semibold subpixel-antialiased font-sm mt-2' type='submit'>
+                    <button className='rounded-full bg-primary py-2 text-white w-full uppercase font-semibold subpixel-antialiased font-sm mt-6 mb-9' type='submit'>
                         Login
                     </button>
 
-                    <div className='text-sm absolute -bottom-5 w-full'>
-                        <p className='p-1.5 bg-white border-solid border border-gray-300 w-fit rounded-full mx-auto block'>
+                    <div className='text-sm absolute bottom-0 w-full'>
+                        <p className='p-1.5 bg-white border-solid border border-gray-300 w-fit rounded-full mx-auto'>
                             OR
                         </p>
                     </div>
+
+                    <hr className='border-gray-300'></hr>
                 </form>
                 {/* /Login form */}
 
             </div>
-        </>
+        </div>
     );
 };
 
