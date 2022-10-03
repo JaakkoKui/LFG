@@ -21,7 +21,7 @@ namespace LFG.Controllers
         public JsonResult Get()
         {
             string query = @"
-                        SELECT GameName, NicknameIngame, HoursPlayed, Rank, Server, Comments
+                        SELECT GameId, GameName, NicknameIngame, HoursPlayed, Rank, Server, Comments
                         FROM
                         Game
         ";

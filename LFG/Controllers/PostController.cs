@@ -21,7 +21,7 @@ namespace LFG.Controllers
         public JsonResult Get()
         {
             string query = @"
-                        SELECT Title, CreateDate, Content, PosterProfile
+                        SELECT PostId, Title, CreateDate, Content, PosterProfile
                         FROM
                         Post
         ";

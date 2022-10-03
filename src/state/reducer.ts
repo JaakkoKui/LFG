@@ -1,4 +1,4 @@
-import {Game, Login, ProfileModel } from "../types"
+import { Game, Login, Post, ProfileModel } from "../types"
 import { State } from "./state";
 
 
@@ -20,21 +20,29 @@ export type Action =
         payload: string;
     }
     | {
-        type: "ADD_PROFILE";
-        payload: ProfileModel;
-    }
-    | {
         type: "ADD_LOGIN";
         payload: Login;
     }
     | {
-        type:"GET_USERS";
+        type: "GET_USERS";
         payload: Login[];
     }
-    
-    |{
+
+    | {
+        type: "ADD_PROFILE";
+        payload: ProfileModel;
+    }
+    | {
         type: "GET_PROFILES";
         payload: ProfileModel[];
+    }
+    | {
+        type:"GET_POSTS";
+        payload: Post[];
+    }
+    | {
+        type:"ADD_POST";
+        payload: Post;
     };
 
 export const reducer = (state: State, action: Action): State => {
@@ -60,15 +68,15 @@ export const reducer = (state: State, action: Action): State => {
             return {
                 ...state,
                 email: action.payload
-                
+
             };
         case "LOGOUT":
-            return{
+            return {
                 ...state,
                 email: action.payload
             };
         case "ADD_LOGIN":
-            return{
+            return {
                 ...state,
                 login: {
                     ...state.login,
@@ -88,9 +96,9 @@ export const reducer = (state: State, action: Action): State => {
                 ...state,
                 profile: {
                     ...action.payload.reduce(
-                        (memo, profile) => ({ ...memo, [profile.Email]: profile }), 
+                        (memo, profile) => ({ ...memo, [profile.Email]: profile }),
                         {}
-                        ),
+                    ),
                     ...state.profile
                 }
             };
@@ -99,10 +107,29 @@ export const reducer = (state: State, action: Action): State => {
                 ...state,
                 login: {
                     ...action.payload.reduce(
-                        (memo, login) => ({ ...memo, [login.Email]: login }), 
+                        (memo, login) => ({ ...memo, [login.Email]: login }),
                         {}
-                        ),
+                    ),
                     ...state.login
+                }
+            }
+        case "GET_POSTS":
+            return{
+                ...state,
+                posts:{
+                    ...action.payload.reduce(
+                        (memo, post) => ({ ...memo, [post.Title]: post }),
+                        {}
+                    ),
+                    ...state.posts
+                }
+            }
+        case "ADD_POST":
+            return {
+                ...state,
+                posts: {
+                    ...state.posts,
+                    [action.payload.Title]: action.payload
                 }
             }
         default:

@@ -1,16 +1,19 @@
 import React from "react";
 import { useStateValue } from "../state/state";
 import { getProfiles } from "../services/profileService";
-import { Game, Login, ProfileModel } from "../types";
+import { Game, Login, Post, ProfileModel } from "../types";
 import { getUsers } from "../services/userService";
 import AddGame from "./AddGame";
 import { getAll } from "../services/gameService";
 import Games from "./Games";
 import ProfileInfo from "./ProfileInfo";
+import AddPost from "./AddPost";
+import { getPosts } from "../services/postService";
+import Posts from "./Posts";
 
 
 const Profile: React.FC = () => {
-    const [{ profile, games, email }, dispatch] = useStateValue();
+    const [{ profile, email }, dispatch] = useStateValue();
     const [addGame, setAddGame] = React.useState<boolean>(false);
 
     const addNewGame = () => {
@@ -37,6 +40,12 @@ const Profile: React.FC = () => {
             dispatch({ type: "GET_GAME_LIST", payload: games });
         });
 
+        getPosts().then(post => {
+            const posts: Post[] = post as Post[];
+
+            dispatch({type: "GET_POSTS", payload: posts});
+        })
+
         const loggedUserJSON = window.localStorage.getItem('loggedUser');
         if (loggedUserJSON && loggedUserJSON !== undefined) {
             const user = JSON.parse(loggedUserJSON);
@@ -46,8 +55,6 @@ const Profile: React.FC = () => {
 
 
     const user = Object.values(profile).filter(prof => prof.Email === email);
-
-    const myGames = Object.values(games).concat();
 
     if (user.length !== 0) {
         if (addGame) {
@@ -60,6 +67,8 @@ const Profile: React.FC = () => {
                 Hello world!
             </h1>
             <br />
+            <AddPost currentUser={user[0]}/>
+            <Posts currentUser={user[0]}/>
             <ProfileInfo />
             <br />
 
