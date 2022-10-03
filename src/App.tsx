@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Profile from './Component/Profile';
-import LoginPage from './Component/Login';
+import LoginPage from './Component/LoginPage';
 import './App.css';
 import { useStateValue } from './state/state';
 import { Login, ProfileModel } from './types';
@@ -10,7 +10,7 @@ import { getProfiles } from './services/profileService';
 
 
 const App: React.FC = () => {
-  const [{ email }, dispatch] = useStateValue();
+    const [{ email }, dispatch] = useStateValue();
 
   useEffect(() => {
     getUsers().then(user => {
@@ -35,8 +35,8 @@ const App: React.FC = () => {
   }, [dispatch]);
 
   if (email === "") {
-    return (
-      <LoginPage />
+      return (
+          <LoginPage/>
     )
   } else {
 

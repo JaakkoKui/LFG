@@ -24,7 +24,7 @@ interface YourFormElement extends HTMLFormElement {
     readonly elements: FormElements
 }
 
-const Register: React.FC<Props> = ({ closeRegister }) => {
+export const Register: React.FC<Props> = ({ closeRegister }) => {
     const [, dispatch] = useStateValue();
     const [myAvatar, setAvatar] = React.useState<File>()
 
@@ -82,46 +82,107 @@ const Register: React.FC<Props> = ({ closeRegister }) => {
     }
 
     return (
-        <><h1>Register info</h1>
-            <form onSubmit={handleRegister}>
-                <div>Email: </div><input name='email'
+        <div className='h-[95%] w-1/2 mx-auto pt-10'>
+            <div className='font-semibold subpixel-antialiased mb-6'>
+                REGISTER
+            </div>
+
+            <form id='register' onSubmit={handleRegister} className='h-4/5 flex flex-col relative justify-between border-b pt-2 pb-8 border-gray-300'>
+                <label>
+                    Email:
+                    <input name='email'
                     id="email"
                     type="email"
                     placeholder="Write your email"
-                /><br />
-                <div>Password:</div> <input name='password'
-                    id="password"
-                    type="password"
-                    placeholder="Password"
-                /><br />
-                <div>Confirm password:</div> <input name='confirm_password'
-                    id="confim_password"
-                    type="password"
-                    placeholder="Confirm Password"
-                /><br />
-                <div>Username:</div> <input name='username' id='username'
-                    placeholder="Username" /> <br />
+                    className='w-full border-solid border-2 border-gray-300 rounded-lg py-2 px-4 mt-1' />
+                </label>
+                <label>
+                    Password:
+                        <input name='password'
+                        id="password"
+                        type="password"
+                        placeholder="Password"
+                        className='w-full border-solid border-2 border-gray-300 rounded-lg py-2 px-4 mt-1'
+                        />
+                </label>
 
-                <div>First name:</div> <input name="firstname"
-                    id="firstname" placeholder="First name (optional)" /><br />
+                <label>
+                    Confirm password:
+                        <input name='confirm_password'
+                        id="confim_password"
+                        type="password"
+                        placeholder="Confirm Password"
+                        className='w-full border-solid border-2 border-gray-300 rounded-lg py-2 px-4 mt-1' />
+                </label>
 
-                <div>Last name:</div> <input name="lastname"
-                    id="lastname" placeholder="Last name (optional)" /> <br />
+                <label>
+                    Username:
+                        <input
+                        name='username'
+                        id='username'
+                        placeholder="Username"
+                        className='w-full border-solid border-2 border-gray-300 rounded-lg py-2 px-4 mt-1' />
+                </label>
 
-                <div>Age:</div> <input name="age" id="age" type="number"
-                    placeholder="Your age (optional)" width="90%" /> <br />
+                <div className='flex justify-between'>
+                    <label className='w-[49%]'>
+                        First name:
+                        <input
+                            name="firstname"
+                            id="firstname"
+                            placeholder="First name (optional)"
+                            className='w-full border-solid border-2 border-gray-300 rounded-lg py-2 px-4 mt-1' />
+                    </label>
 
-                <div>Discord nick:</div> <input name="discord" id="discord"
-                    placeholder="Discord nick (optional)" /> <br />
+                    <label className='w-[49%]'>
+                        Last name:
+                        <input
+                            name="lastname"
+                            id="lastname"
+                            placeholder="Last name (optional)"
+                            className='w-full border-solid border-2 border-gray-300 rounded-lg py-2 px-4 mt-1' />
+                    </label>
+                </div>
 
-<div>Avatar: <input type="file" accept="image/*" multiple={false} id="avatar" name="avatar" onChange={handleChange } />
-        </div>
-                <button type='submit'>Register</button><br />
-                <button onClick={handleCancel}>Cancel</button>
+                <label>
+                    Age:
+                    <input
+                        name="age"
+                        id="age"
+                        type="number"
+                        placeholder="Your age (optional)"
+                        className='w-full border-solid border-2 border-gray-300 rounded-lg py-2 px-4 mt-1'
+                    />
+                </label>
 
+                <label>
+                    Discord nick:
+                    <input
+                        name="discord"
+                        id="discord"
+                        placeholder="Discord nick (optional)"
+                        className='w-full border-solid border-2 border-gray-300 rounded-lg py-2 px-4 mt-1'/>
+                </label>
+
+                <label>
+                    Avatar: 
+                    <br/>
+                    <input
+                        type="file"
+                        accept="image/*"
+                        multiple={false}
+                        id="avatar"
+                        name="avatar"
+                        onChange={handleChange}
+                    />
+                </label>
+
+                <button className='rounded-full bg-primary py-2 text-white w-full uppercase font-semibold subpixel-antialiased font-sm mt-2' type='submit'>
+                    Register
+                </button>
 
             </form>
-        </>
+        </div>
     );
 }
 

@@ -1,12 +1,10 @@
 {
   "ExpandedNodes": [
     "",
-    "\\LFG",
     "\\public",
+    "\\public\\images",
     "\\src",
-    "\\src\\Component",
-    "\\src\\services"
+    "\\src\\Component"
   ],
-  "SelectedNode": "\\LFG\\Program.cs",
   "PreviewInSolutionExplorer": false
 }
