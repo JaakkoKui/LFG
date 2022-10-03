@@ -51,12 +51,12 @@ const App: React.FC = () => {
 
     return (
       <>
-        <header>
-          <nav>
+            <header>
+                <nav className="h-[65px]">
             <button onClick={handleLogout}>Logout</button>
           </nav>
         </header>
-        <Profile />
+            <Profile />
       </>
     );
   }

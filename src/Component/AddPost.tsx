@@ -45,13 +45,15 @@ const AddPost: React.FC<Props> = ({ currentUser }) => {
         e.currentTarget.elements.content.value = "";
     }
     return (
-        <>
+        <div id='addPost' className='ring-2 ring-primary rounded-xl mx-6 p-4'>
             <form onSubmit={handlePost}>
-                <input id="title" name="title" placeholder="Title"/>
-                <textarea name="content" id="content" cols={50} rows={5} placeholder="Post Content..." />
-                <button type="submit">Post!</button>
+                <div className='flex flex-col'>
+                    <input id="title" name="title" placeholder="Title" className='border-2 rounded-md border-gray-300 py-2 px-4 mt-4 w-1/3' />
+                    <textarea name="content" id="content" cols={50} rows={5} placeholder="Post Content..." className='border-2 rounded-md border-gray-300 py-2 px-4 mt-4' />
+                    <button className='w-20 bg-primary rounded-full text-white px-4 py-2 mt-4' type="submit">Post!</button>
+                </div>
             </form>
-        </>
+        </div>
     );
 }
 

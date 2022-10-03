@@ -62,19 +62,22 @@ const Profile: React.FC = () => {
                 <AddGame closeForm={setAddGame} />
             )
         }
-        return (<div key={user[0].ProfileId}>
-            <h1 className="text-3xl font-bold underline">
-                Hello world!
-            </h1>
-            <br />
-            <AddPost currentUser={user[0]}/>
-            <Posts currentUser={user[0]}/>
-            <ProfileInfo />
-            <br />
+        return (
+            <div key={user[0].ProfileId} className='w-4/5 min-h-[calc(100vh-65px)] z-10 py-10 bg-darkBackground text-gray-200'>
 
-            <Games />
-            <button onClick={addNewGame}>Add New Game</button>
-        </div>)
+                <Posts currentUser={user[0]} />
+
+                <ProfileInfo />
+
+                <AddPost currentUser={user[0]} />
+
+                <div id='game-section'>
+                    <Games />
+
+                    <button onClick={addNewGame}>Add New Game</button>
+                </div>
+            </div>
+        )
     } else {
         return (<>Loading....</>)
     }
