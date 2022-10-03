@@ -3,19 +3,22 @@ import Login from './Login'
 import Register from './Register';
 
 export default function LoginPage() {
-    const [registerForm, showRegister] = React.useState<boolean>(true);
+    const [registerForm, showRegister] = React.useState<boolean>(false);
 
-    const openRegister = () => {
-        showRegister(true);
+    const showRegisterForm = () => {
+        if (registerForm) {
+            showRegister(false)
+        } else {
+            showRegister(true);
+        }
     }
 
     return (
         <div className='flex flex-row h-screen overflow-clip'>
             <Background/>
-            <div className='basis-1/3 flex flex-col bg-white shadow-lg z-10'>
-                <div className='h-full'>
-                    <FormRender isLogin={registerForm} showRegister={showRegister} />
-                </div>
+            <div className='basis-1/3 flex flex-col justify-center bg-white shadow-lg z-10'>
+                <FormRender isLogin={registerForm} showRegister={showRegister} />
+                <button id='registerButton' onClick={() => showRegisterForm()} className='py-3 px-6 mt-6 w-fit text-center mx-auto block uppercase font-semibold subpixel-antialiased font-sm text-gray-500 hover:text-gray-900' > <ButtonText isLogin={registerForm} /> </button>
             </div>
         </div>
     )
@@ -30,11 +33,6 @@ type MainProps = {
 class FormRender extends React.Component<MainProps> {
     constructor(props: MainProps) {
         super(props)
-        this.changeForm = this.changeForm.bind(this);
-    }
-
-    changeForm = () => {
-        this.props.showRegister(false);
     }
 
     render() {
@@ -49,11 +47,28 @@ class FormRender extends React.Component<MainProps> {
         return (
             <>
                 {formToRender}
-                <button id='registerButton' onClick={() => this.changeForm()} className='p-3 w-full text-center block uppercase font-semibold subpixel-antialiased font-sm text-gray-700' >Register here</button>
             </>
         );
     }
 
+}
+
+type ButtonProps = {
+    isLogin: boolean;
+}
+
+class ButtonText extends React.Component<ButtonProps> {
+    constructor(props: ButtonProps) {
+        super(props)
+    }
+
+    render() {
+        if (this.props.isLogin) {
+            return <> Register here </>
+        } else {
+            return <> Login here </>
+        }
+    }
 }
 
 class Background extends React.Component {
