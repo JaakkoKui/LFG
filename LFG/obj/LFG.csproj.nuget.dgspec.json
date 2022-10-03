@@ -11,7 +11,7 @@
         "projectName": "LFG",
         "projectPath": "C:\\Users\\antti\\source\\repos\\LFG\\LFG\\LFG.csproj",
         "packagesPath": "C:\\Users\\antti\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\antti\\Source\\Repos\\LFG\\LFG\\obj\\",
+        "outputPath": "C:\\Users\\antti\\source\\repos\\LFG\\LFG\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

@@ -35,11 +35,6 @@ export const Login: React.FC = () => {
         e.currentTarget.elements.email.value = '';
     }
 
-    if (registerForm) {
-        return (
-            <Register closeRegister={showRegister} />
-        )
-    }
     return (
         <>
             <div className='w-full h-1/3 pb-7 flex'>

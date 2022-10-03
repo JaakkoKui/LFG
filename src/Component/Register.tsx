@@ -82,7 +82,7 @@ export const Register: React.FC<Props> = ({ closeRegister }) => {
     }
 
     return (
-        <div className='h-screen w-1/2 mx-auto pt-10'>
+        <div className='h-[95%] w-1/2 mx-auto pt-10'>
             <div className='font-semibold subpixel-antialiased mb-6'>
                 REGISTER
             </div>
