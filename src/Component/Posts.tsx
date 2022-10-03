@@ -7,9 +7,9 @@ interface Props {
 }
 
 const Posts: React.FC<Props> = ({currentUser}) => {
-    const [{posts}, dispatch] = useStateValue();
+    const [{posts}] = useStateValue();
 
-    const myPosts = Object.values(posts).filter(post => post.PosterProfile === currentUser.ProfileId);
+    const myPosts = Object.values(posts).filter(post => Number(post.PosterProfile) === Number(currentUser.ProfileId));
     if(myPosts){
         return (
         <>

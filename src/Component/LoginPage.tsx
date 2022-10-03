@@ -3,7 +3,7 @@ import Login from './Login'
 import Register from './Register';
 
 export default function LoginPage() {
-    const [registerForm, showRegister] = React.useState<boolean>(false);
+    const [registerForm, showRegister] = React.useState<boolean>(true);
 
     const showRegisterForm = () => {
         if (registerForm) {
