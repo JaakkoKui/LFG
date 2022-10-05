@@ -18,7 +18,7 @@ import CustomRouter from './Component/CustomRouter';
 
 const App: React.FC = () => {
   const [{ email }, dispatch] = useStateValue();
-  
+
   useEffect(() => {
     getUsers().then(user => {
       const users: User[] = user as User[];
@@ -57,18 +57,28 @@ const App: React.FC = () => {
     }
 
     return (
-      <CustomRouter> 
+      <CustomRouter>
         <header>
-          <nav>
-            <Link to="/login"><button onClick={handleLogout}>Logout</button></Link>
-            <Link to="/profile">My profile</Link>
-            <Link to="/">Home Page</Link>
+          <nav className="h-[65px] border-b shadow-lg flex relative font-semibold text-gray-600">
+
+            <div className="absolute w-full h-full">
+              <div className="flex h-full mx-auto w-fit justify-around">
+                <Link to="/"><button className="px-5 hover:bg-gray-300 hover:text-gray-900">Feed</button></Link>
+                <button onClick={handleLogout} className="px-5 hover:bg-gray-300 hover:text-gray-900">About</button>
+              </div>
+            </div>
+
+            <div className="ml-auto flex z-10">
+              <Link to="/profile"><button className="px-5 hover:bg-gray-300 hover:text-gray-900">Profile</button></Link>
+              <Link to="/login"><button onClick={handleLogout} className="px-5 hover:bg-red-400 bg-red-600 text-white">Logout</button></Link>
+            </div>
+
           </nav>
         </header>
         <Routes>
           <Route path='/' element={<HomePage />} />
           <Route path='/profile' element={<Profile />} />
-          <Route path='/login' element={<LoginPage />}/>
+          <Route path='/login' element={<LoginPage />} />
         </Routes>
       </CustomRouter>
     );
