@@ -14,7 +14,7 @@ const ProfileInfo: React.FC = () => {
     const user = Object.values(profile).filter(prof => prof.Email === email);
     const myProfile = user[0];
     return(
-        <div id="profileInfo" className='flex py-5 mb-6 mx-6 ring-4 ring-primary rounded-md'>
+        <div id="profileInfo" className='flex py-10 px-6'>
             <div className='mx-6 ring-4 ring-primary rounded-full bg-primary'>
                 <img className='h-[100px] object-contain' src='/images/avatar-empty.png' alt='avatar' />
             </div>

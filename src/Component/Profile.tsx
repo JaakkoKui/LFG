@@ -63,18 +63,24 @@ const Profile: React.FC = () => {
             )
         }
         return (
-            <div key={user[0].ProfileId} className='w-4/5 min-h-[calc(100vh-65px)] z-10 py-10 bg-darkBackground text-gray-200'>
+            <div key={user[0].ProfileId} className='min-h-[calc(100vh-65px)] z-10 bg-darkBackground text-gray-200'>
 
                 <Posts currentUser={user[0]} />
 
                 <ProfileInfo />
 
-                <AddPost currentUser={user[0]} />
+                <div id='game-section' className='border-primary border-y-4 px-10 pb-10 bg-white text-gray-600'>
+                    <h1 className='font-bold text-3xl py-5'>Games</h1>
+                    <div className='flex'>
+                        <Games />
+                        <div className='ring-2 rounded-md ring-darkBackground flex flex-col h-96 w-60 mx-2 relative'>
+                            <button onClick={addNewGame} className='w-full h-full font-bold text-7xl bg-darkBackground text-white hover:bg-primary'>+</button>
+                        </div>
+                    </div>
+                </div>
 
-                <div id='game-section'>
-                    <Games />
-
-                    <button onClick={addNewGame}>Add New Game</button>
+                <div className='px-10 py-10'>
+                    <AddPost currentUser={user[0]} />
                 </div>
             </div>
         )

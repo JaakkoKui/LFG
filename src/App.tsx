@@ -52,10 +52,22 @@ const App: React.FC = () => {
     return (
       <>
             <header>
-                <nav className="h-[65px]">
-            <button onClick={handleLogout}>Logout</button>
-          </nav>
-        </header>
+                <nav className="h-[65px] border-b shadow-lg flex relative font-semibold text-gray-600">
+
+                    <div className="absolute w-full h-full">
+                        <div className="flex h-full mx-auto w-fit justify-around">
+                            <button onClick={handleLogout} className="px-5 hover:bg-gray-300 hover:text-gray-900">Feed</button>
+                            <button onClick={handleLogout} className="px-5 hover:bg-gray-300 hover:text-gray-900">About</button>
+                        </div>
+                    </div>
+
+                    <div className="ml-auto flex z-10">
+                        <button onClick={handleLogout} className="px-5 hover:bg-gray-300 hover:text-gray-900">Profile</button>
+                        <button onClick={handleLogout} className="px-5 hover:bg-red-400 bg-red-600 text-white">Logout</button>
+                    </div>
+
+                </nav>
+            </header>
             <Profile />
       </>
     );
