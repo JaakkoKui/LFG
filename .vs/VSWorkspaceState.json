@@ -1,10 +1,12 @@
 {
   "ExpandedNodes": [
     "",
+    "\\LFG",
     "\\public",
     "\\public\\images",
     "\\src",
     "\\src\\Component"
   ],
+  "SelectedNode": "\\tailwind.config.js",
   "PreviewInSolutionExplorer": false
 }
