@@ -3,6 +3,7 @@ import { useStateValue } from "../state/state";
 import { SignUp } from '../services/loginService';
 import { addProfile } from '../services/profileService';
 import { ProfileModel } from "../types";
+import { Link } from "react-router-dom";
 
 interface Props {
     closeRegister: React.Dispatch<React.SetStateAction<boolean>>;
@@ -70,7 +71,7 @@ export const Register: React.FC<Props> = ({ closeRegister }) => {
         SignUp({ Email: email, Password: password, confirmPassword: confirm });
 
         dispatch({ type: "ADD_LOGIN", payload: { Email: email, Password: password } })
-        closeRegister(false);
+        closeRegister(true);
     }
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
@@ -185,6 +186,7 @@ export const Register: React.FC<Props> = ({ closeRegister }) => {
                 <button className='rounded-full bg-primary py-2 text-white w-full uppercase font-semibold subpixel-antialiased font-sm mt-8 mb-8' type='submit'>
                     Register
                 </button>
+                
 
                 <div className='text-sm absolute bottom-0 w-full'>
                     <p className='p-1.5 bg-white border-solid border border-gray-300 w-fit rounded-full mx-auto'>

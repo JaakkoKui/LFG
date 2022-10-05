@@ -20,7 +20,7 @@ export interface ProfileModel {
     Email: string;
 }
 
-export interface Login {
+export interface User {
     Email: string;
     Password: string;
     confirmPassword?: string;

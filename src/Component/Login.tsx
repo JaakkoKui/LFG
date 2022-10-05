@@ -2,6 +2,10 @@ import React from "react";
 import { useStateValue } from "../state/state";
 import Register from './Register';
 import { SignIn } from '../services/loginService';
+import { useNavigate } from "react-router-dom";
+import { rootNavigate } from "./CustomRouter";
+
+
 
 
 interface FormElements extends HTMLFormControlsCollection {
@@ -13,10 +17,11 @@ interface YourFormElement extends HTMLFormElement {
     readonly elements: FormElements
 }
 
-export const Login: React.FC = () => {
+const Login: React.FC = () => {
     const [, dispatch] = useStateValue();
     const [registerForm, showRegister] = React.useState<boolean>(false);
-
+    
+    
     const openRegister = () => {
         showRegister(true);
     }
@@ -27,13 +32,18 @@ export const Login: React.FC = () => {
         const email = e.currentTarget.elements.email.value;
         const password = e.currentTarget.elements.password.value;
 
+
         SignIn({ Email: email, Password: password });
 
-        dispatch({ type: "LOGIN", payload: email })
-        dispatch({ type: "ADD_LOGIN", payload: { Email: email, Password: password } })
+        dispatch({ type: "LOGIN", payload: email });
+        dispatch({ type: "ADD_LOGIN", payload: { Email: email, Password: password } });
         e.currentTarget.elements.password.value = '';
         e.currentTarget.elements.email.value = '';
+
+        rootNavigate("/");
     }
+
+    
 
     return (
         <div>

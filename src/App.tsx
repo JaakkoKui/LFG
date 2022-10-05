@@ -3,18 +3,25 @@ import Profile from './Component/Profile';
 import LoginPage from './Component/LoginPage';
 import './App.css';
 import { useStateValue } from './state/state';
-import { Login, ProfileModel } from './types';
+import { User, ProfileModel } from './types';
 import { getUsers } from './services/userService';
 import { getProfiles } from './services/profileService';
+import {
+  HashRouter as Router,
+  Route, Link, Routes
+} from "react-router-dom"
+import HomePage from './Component/HomePage';
+import CustomRouter from './Component/CustomRouter';
+
 
 
 
 const App: React.FC = () => {
-    const [{ email }, dispatch] = useStateValue();
-
+  const [{ email }, dispatch] = useStateValue();
+  
   useEffect(() => {
     getUsers().then(user => {
-      const users: Login[] = user as Login[];
+      const users: User[] = user as User[];
 
       dispatch({ type: "GET_USERS", payload: users });
     });
@@ -35,8 +42,8 @@ const App: React.FC = () => {
   }, [dispatch]);
 
   if (email === "") {
-      return (
-          <LoginPage/>
+    return (
+      <LoginPage />
     )
   } else {
 
@@ -50,14 +57,20 @@ const App: React.FC = () => {
     }
 
     return (
-      <>
+      <CustomRouter> 
         <header>
           <nav>
-            <button onClick={handleLogout}>Logout</button>
+            <Link to="/login"><button onClick={handleLogout}>Logout</button></Link>
+            <Link to="/profile">My profile</Link>
+            <Link to="/">Home Page</Link>
           </nav>
         </header>
-        <Profile />
-      </>
+        <Routes>
+          <Route path='/' element={<HomePage />} />
+          <Route path='/profile' element={<Profile />} />
+          <Route path='/login' element={<LoginPage />}/>
+        </Routes>
+      </CustomRouter>
     );
   }
 }

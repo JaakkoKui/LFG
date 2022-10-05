@@ -1,12 +1,12 @@
 import axios from "axios";
-import { Login } from "../types";
+import { User } from "../types";
 
 const baseUrl = "https://localhost:44372/api/User";
 
 export const getUsers = async () => {
     try {
 
-        const { data: data } = await axios.get<Login[]>(baseUrl);
+        const { data: data } = await axios.get<User[]>(baseUrl);
         
         return data;
     } catch (e: unknown) {
