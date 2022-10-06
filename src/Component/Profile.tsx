@@ -19,7 +19,6 @@ const Profile: React.FC = () => {
     }
 
     React.useEffect(() => {
-
         getProfiles().then(data => {
 
             const profiles: ProfileModel[] = data as ProfileModel[];
@@ -39,8 +38,8 @@ const Profile: React.FC = () => {
 
         getPosts().then(post => {
             const posts: Post[] = post as Post[];
-
-            dispatch({type: "GET_POSTS", payload: posts});
+            posts.sort((a, b) => Number(b.PostId) - Number(a.PostId));
+            dispatch({ type: "GET_POSTS", payload: posts });
         })
 
         const loggedUserJSON = window.localStorage.getItem('loggedUser');
@@ -49,7 +48,6 @@ const Profile: React.FC = () => {
             dispatch({ type: "LOGIN", payload: user });
         }
     }, [dispatch]);
-
 
     const user = Object.values(profile).filter(prof => prof.Email === email);
 
@@ -72,7 +70,7 @@ const Profile: React.FC = () => {
                         <hr className='border-2 border-gray-300 w-full mt-5 ml-5 rounded-md'></hr>
                     </div>
                     <div className='flex w-fit mt-20'>
-                        <Games currentUser={user[0]}/>
+                        <Games currentUser={user[0]} />
                         <div className='ring-2 rounded-md ring-darkBackground flex flex-col h-96 w-60 mx-2 relative'>
                             <button onClick={addNewGame} className='w-full h-full font-bold text-7xl bg-darkBackground text-white hover:bg-primary'>+</button>
                         </div>
@@ -88,7 +86,6 @@ const Profile: React.FC = () => {
     } else {
         return (<>Loading....</>)
     }
-
 };
 
 export default Profile;

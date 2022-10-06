@@ -1,9 +1,7 @@
 import React from "react";
-import { addPost } from "../services/postService";
+import { addPost, getPosts } from "../services/postService";
 import { useStateValue } from "../state/state";
 import { Post, ProfileModel } from "../types";
-
-
 
 interface FormElements extends HTMLFormControlsCollection {
     title: HTMLInputElement;
@@ -26,20 +24,26 @@ const AddPost: React.FC<Props> = ({ currentUser }) => {
         e.preventDefault();
 
         const date = new Date();
-        const today = date.getFullYear() +"."+ (date.getMonth()+1) +"."+ date.getDate();
+        const today = date.getFullYear() + "." + (date.getMonth() + 1) + "." + date.getDate();
 
         const title = e.currentTarget.elements.title.value;
         const content = e.currentTarget.elements.content.value;
 
-        const newPost:Post = {
+        const newPost: Post = {
             Title: title,
             CreateDate: today,
             Content: content,
-            PosterProfile: currentUser.ProfileId
+            PosterProfile: Number(currentUser.ProfileId)
         }
 
         addPost(newPost);
-        dispatch({type: "ADD_POST", payload: newPost});
+        dispatch({ type: "ADD_POST", payload: newPost });
+
+        getPosts().then(post => {
+            const posts: Post[] = post as Post[];
+            posts.sort((a, b) => Number(b.PostId) - Number(a.PostId));
+            dispatch({ type: "GET_POSTS", payload: posts });
+        })
 
         e.currentTarget.elements.title.value = "";
         e.currentTarget.elements.content.value = "";

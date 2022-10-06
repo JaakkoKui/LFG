@@ -128,8 +128,8 @@ export const reducer = (state: State, action: Action): State => {
             return {
                 ...state,
                 posts: {
-                    ...state.posts,
-                    [action.payload.Title]: action.payload
+                    [action.payload.Title]: action.payload,
+                    ...state.posts
                 }
             }
         default:

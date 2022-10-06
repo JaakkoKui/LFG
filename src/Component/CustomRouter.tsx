@@ -6,9 +6,9 @@ const history = createBrowserHistory();
 
 const CustomRouter: FC<PropsWithChildren> = ({ children, ...props }) => {
     return (
-    <HistoryRouter history={history} {...props}>
-        {children}
-    </HistoryRouter>
+        <HistoryRouter history={history} {...props}>
+            {children}
+        </HistoryRouter>
     );
 };
 

@@ -20,9 +20,10 @@ const HomePage: React.FC = () => {
 
         getPosts().then(post => {
             const posts: Post[] = post as Post[];
-
+            posts.sort((a, b) => Number(b.PostId) - Number(a.PostId));
             dispatch({ type: "GET_POSTS", payload: posts });
         })
+
     }, [dispatch]);
 
     return (
@@ -31,15 +32,14 @@ const HomePage: React.FC = () => {
                 Home Page
             </h1>
             <div>
-
                 Posts:
                 <ul>
                     {allPosts.map(post =>
-                        <li key={post.PostId}>title: {post.Title} <br />
+                        <li key={Number(post.PostId)}>title: {post.Title} <br />
                             Content: {post.Content} <br />
                             By: {allProfiles.find(prof => Number(prof.ProfileId) === Number(post.PosterProfile))?.Nickname}
-                            <br /> 
-                            <br/>/ /</li>
+                            <br />
+                            <br />/ /</li>
                     )}
                 </ul>
             </div>
