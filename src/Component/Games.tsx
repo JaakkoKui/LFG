@@ -1,12 +1,17 @@
 import { useStateValue } from "../state/state";
-//import { Game } from "../types";
+import { Game, ProfileModel } from "../types";
 
-const Games: React.FC = () => {
+interface Props {
+    currentUser: ProfileModel;
+}
+/* eslint-disable react/prop-types */
+const Games: React.FC<Props> = ({currentUser}) => {
     const [{games}] = useStateValue();
-
-    const myGames = Object.values(games).concat();
-    
-    return(
+/* eslint-disable react/prop-types */
+    const myGames = Object.values(games).filter(game => Number(game.ProfileId) === Number(currentUser.ProfileId));
+    //const myGames = Games.filter(game => game.ProfileId === currentUser.ProfileId)
+    if(myGames){
+        return(
         <div className='flex'>
             {myGames.map(game =>
                 <div key={game.GameId} className='ring-2 rounded-lg ring-darkBackground flex flex-col h-96 w-60 mx-2 relative text-white bg-darkBackground'>
@@ -22,6 +27,10 @@ const Games: React.FC = () => {
             )}
         </div>
     )
+    }else{
+        return( <></>)
+    }
+    
 }
 
 export default Games;

@@ -9,5 +9,6 @@
         public string Rank { get; set; }
         public string Server { get; set; }
         public string Comments { get; set; }
+        public int ProfileId { get; set; }
     }
 }

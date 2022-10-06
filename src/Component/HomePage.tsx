@@ -4,12 +4,14 @@ import { getUsers } from "../services/userService";
 import { useStateValue } from "../state/state";
 import { Post, User } from "../types";
 
-const HomePage:React.FC = () => {
-const [{posts,profile}, dispatch] = useStateValue();
+const HomePage: React.FC = () => {
+    const [{ posts, profile }, dispatch] = useStateValue();
+
     const allPosts = Object.values(posts).concat();
-    allPosts.sort((a, b) => Number(b.PostId)- Number(a.PostId));
+    allPosts.sort((a, b) => Number(b.PostId) - Number(a.PostId));
     const allProfiles = Object.values(profile).concat();
-    React.useEffect(()=>{
+
+    React.useEffect(() => {
         getUsers().then(user => {
             const users: User[] = user as User[];
 
@@ -19,11 +21,11 @@ const [{posts,profile}, dispatch] = useStateValue();
         getPosts().then(post => {
             const posts: Post[] = post as Post[];
 
-            dispatch({type: "GET_POSTS", payload: posts});
+            dispatch({ type: "GET_POSTS", payload: posts });
         })
     }, [dispatch]);
 
-    return(
+    return (
         <>
             <h1 className="text-3xl font-bold underline">
                 Home Page
@@ -32,11 +34,12 @@ const [{posts,profile}, dispatch] = useStateValue();
 
                 Posts:
                 <ul>
-                {allPosts.map(post =>
-                    <li key={post.PostId}>title: {post.Title} <br />
-                    Content: {post.Content} <br/>
-                    By: {allProfiles.find(prof => Number(prof.ProfileId) === Number(post.PosterProfile))?.Nickname}
-                    <br/> / /</li>
+                    {allPosts.map(post =>
+                        <li key={post.PostId}>title: {post.Title} <br />
+                            Content: {post.Content} <br />
+                            By: {allProfiles.find(prof => Number(prof.ProfileId) === Number(post.PosterProfile))?.Nickname}
+                            <br /> 
+                            <br/>/ /</li>
                     )}
                 </ul>
             </div>

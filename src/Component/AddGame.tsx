@@ -1,7 +1,7 @@
 import React from "react";
 import { addGame } from "../services/gameService";
 import { useStateValue } from "../state/state";
-import { Game } from '../types';
+import { Game, ProfileModel } from '../types';
 
 interface FormElements extends HTMLFormControlsCollection {
     GameName: HTMLInputElement;
@@ -18,9 +18,10 @@ interface YourFormElement extends HTMLFormElement {
 
 interface Props {
     closeForm: React.Dispatch<React.SetStateAction<boolean>>;
+    currentUser: ProfileModel;
 }
 
-const AddGame: React.FC<Props> = ({ closeForm }) => {
+const AddGame: React.FC<Props> = ({ closeForm, currentUser }) => {
     const [, dispatch] = useStateValue();
 
     const handleSubmit = (e: React.FormEvent<YourFormElement>) => {
@@ -39,7 +40,8 @@ const AddGame: React.FC<Props> = ({ closeForm }) => {
             HoursPlayed: hours,
             Rank: rank,
             Server: server,
-            Comments: comment
+            Comments: comment,
+            ProfileId: Number(currentUser.ProfileId)
         }
 
         addGame(newGame);
