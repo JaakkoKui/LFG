@@ -20,7 +20,7 @@ export interface ProfileModel {
     Email: string;
 }
 
-export interface Login {
+export interface User {
     Email: string;
     Password: string;
     confirmPassword?: string;
@@ -32,4 +32,9 @@ export interface Post {
     CreateDate: string;
     Content: string;
     PosterProfile: number | undefined;
+}
+
+export interface Message{
+    IsSuccess: boolean,
+    Message: string
 }

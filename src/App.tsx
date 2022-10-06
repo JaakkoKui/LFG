@@ -3,18 +3,25 @@ import Profile from './Component/Profile';
 import LoginPage from './Component/LoginPage';
 import './App.css';
 import { useStateValue } from './state/state';
-import { Login, ProfileModel } from './types';
+import { User, ProfileModel } from './types';
 import { getUsers } from './services/userService';
 import { getProfiles } from './services/profileService';
+import {
+  HashRouter as Router,
+  Route, Link, Routes
+} from "react-router-dom"
+import HomePage from './Component/HomePage';
+import CustomRouter from './Component/CustomRouter';
+
 
 
 
 const App: React.FC = () => {
-    const [{ email }, dispatch] = useStateValue();
+  const [{ email }, dispatch] = useStateValue();
 
   useEffect(() => {
     getUsers().then(user => {
-      const users: Login[] = user as Login[];
+      const users: User[] = user as User[];
 
       dispatch({ type: "GET_USERS", payload: users });
     });
@@ -35,8 +42,8 @@ const App: React.FC = () => {
   }, [dispatch]);
 
   if (email === "") {
-      return (
-          <LoginPage/>
+    return (
+      <LoginPage />
     )
   } else {
 
@@ -50,26 +57,30 @@ const App: React.FC = () => {
     }
 
     return (
-      <>
-            <header>
-                <nav className="h-[65px] border-b shadow-lg flex relative font-semibold text-gray-600">
+      <CustomRouter>
+        <header>
+          <nav className="h-[65px] border-b shadow-lg flex relative font-semibold text-gray-600">
 
-                    <div className="absolute w-full h-full">
-                        <div className="flex h-full mx-auto w-fit justify-around">
-                            <button onClick={handleLogout} className="px-5 hover:bg-gray-300 hover:text-gray-900">Feed</button>
-                            <button onClick={handleLogout} className="px-5 hover:bg-gray-300 hover:text-gray-900">About</button>
-                        </div>
-                    </div>
+            <div className="absolute w-full h-full">
+              <div className="flex h-full mx-auto w-fit justify-around">
+                <Link to="/"><button className="px-5 hover:bg-gray-300 hover:text-gray-900">Feed</button></Link>
+                <button onClick={handleLogout} className="px-5 hover:bg-gray-300 hover:text-gray-900">About</button>
+              </div>
+            </div>
 
-                    <div className="ml-auto flex z-10">
-                        <button onClick={handleLogout} className="px-5 hover:bg-gray-300 hover:text-gray-900">Profile</button>
-                        <button onClick={handleLogout} className="px-5 hover:bg-red-400 bg-red-600 text-white">Logout</button>
-                    </div>
+            <div className="ml-auto flex z-10">
+              <Link to="/profile"><button className="px-5 hover:bg-gray-300 hover:text-gray-900">Profile</button></Link>
+              <Link to="/login"><button onClick={handleLogout} className="px-5 hover:bg-red-400 bg-red-600 text-white">Logout</button></Link>
+            </div>
 
-                </nav>
-            </header>
-            <Profile />
-      </>
+          </nav>
+        </header>
+        <Routes>
+          <Route path='/' element={<HomePage />} />
+          <Route path='/profile' element={<Profile />} />
+          <Route path='/login' element={<LoginPage />} />
+        </Routes>
+      </CustomRouter>
     );
   }
 }

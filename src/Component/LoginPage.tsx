@@ -1,10 +1,11 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import Login from './Login'
 import Register from './Register';
 
 export default function LoginPage() {
     const [registerForm, showRegister] = React.useState<boolean>(true);
-
+    
     const showRegisterForm = () => {
         if (registerForm) {
             showRegister(false)
@@ -23,6 +24,8 @@ export default function LoginPage() {
         </div>
     )
 }
+
+
 
 type MainProps = {
     isLogin: boolean;

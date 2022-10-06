@@ -1,16 +1,11 @@
 import React from "react";
-import { getProfiles } from "../services/profileService";
 import { useStateValue } from "../state/state";
-import { ProfileModel } from "../types";
+
 
 
 const ProfileInfo: React.FC = () => {
     const [{profile, email}, dispatch] = useStateValue();
-/*
-    React.useEffect(() => {
-        
-    }, [dispatch])
-*/
+
     const user = Object.values(profile).filter(prof => prof.Email === email);
     const myProfile = user[0];
     return(

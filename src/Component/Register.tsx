@@ -2,7 +2,7 @@ import React from "react";
 import { useStateValue } from "../state/state";
 import { SignUp } from '../services/loginService';
 import { addProfile } from '../services/profileService';
-import { ProfileModel } from "../types";
+import { ProfileModel, Message } from "../types";
 
 interface Props {
     closeRegister: React.Dispatch<React.SetStateAction<boolean>>;
@@ -24,18 +24,17 @@ interface YourFormElement extends HTMLFormElement {
     readonly elements: FormElements
 }
 
+
+
 export const Register: React.FC<Props> = ({ closeRegister }) => {
     const [, dispatch] = useStateValue();
     const [myAvatar, setAvatar] = React.useState<File>()
 
-    const handleCancel = () => {
-        closeRegister(false);
-    }
     const handleRegister = (e: React.FormEvent<YourFormElement>) => {
         e.preventDefault();
         const date = new Date();
-        const today = date.getFullYear() +"."+ (date.getMonth()+1) +"."+ date.getDate();
-        
+        const today = date.getFullYear() + "." + (date.getMonth() + 1) + "." + date.getDate();
+
         const email = e.currentTarget.elements.email.value;
         const password = e.currentTarget.elements.password.value;
         const username = e.currentTarget.elements.username.value;
@@ -45,37 +44,55 @@ export const Register: React.FC<Props> = ({ closeRegister }) => {
         const discord = e.currentTarget.elements.discord.value;
         const confirm = e.currentTarget.elements.confirm_password.value;
         //const avatar = new File(e.currentTarget.elements.avatar.value);
-        if(myAvatar){
+        if (myAvatar) {
             const avatar = myAvatar;
             console.log(avatar.name);
         }
-        
+
         const newProfile: ProfileModel = {
-            Email: email, 
-            Nickname: username, 
-            FirstName:firstname,
-            LastName: lastname, 
+            Email: email,
+            Nickname: username,
+            FirstName: firstname,
+            LastName: lastname,
             Age: age,
-            Avatar:"avatar", 
+            Avatar: "avatar",
             DiscordNick: discord,
             JoiningDate: today
         };
 
-        addProfile(newProfile);
+        if(newProfile.Nickname.length === 0 || email.length === 0 || password.length === 0  || confirm.length === 0){
+            window.alert("You must enter Email, Password, Confirm Password and Username!")
+        }else{
+        SignUp({ Email: email, Password: password, confirmPassword: confirm }).then(mess => {
+            
+            const message: Message = mess as Message;
 
-        dispatch({
-            type: "ADD_PROFILE", payload: newProfile
+            if (message.IsSuccess) {
+                addProfile(newProfile);
+
+                dispatch({
+                    type: "ADD_PROFILE", payload: newProfile
+                });
+
+                dispatch({ 
+                    type: "ADD_LOGIN", payload: { Email: email, Password: password } 
+                })
+                closeRegister(true);
+            }else{
+                if(message.Message.includes("Duplicate")){
+                    window.alert("Profile with your email already exists!");
+                }else if(message.Message.includes("Password")){
+                    window.alert(message.Message);
+                }
+            }
         });
+        }
 
-        SignUp({ Email: email, Password: password, confirmPassword: confirm });
 
-        dispatch({ type: "ADD_LOGIN", payload: { Email: email, Password: password } })
-        closeRegister(false);
     }
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
-    {
-        
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+
         const fileList: FileList = e.target.files as FileList;
         console.log(fileList[0]);
         setAvatar(fileList[0]);
@@ -185,6 +202,7 @@ export const Register: React.FC<Props> = ({ closeRegister }) => {
                 <button className='rounded-full bg-primary py-2 text-white w-full uppercase font-semibold subpixel-antialiased font-sm mt-8 mb-8' type='submit'>
                     Register
                 </button>
+
 
                 <div className='text-sm absolute bottom-0 w-full'>
                     <p className='p-1.5 bg-white border-solid border border-gray-300 w-fit rounded-full mx-auto'>

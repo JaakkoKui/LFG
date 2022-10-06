@@ -1,15 +1,15 @@
 import axios from "axios";
-import { Login } from "../types";
+import { User, Message } from "../types";
 
 const baseUrl = "https://localhost:44372/api/Auth";
 
 
-export const SignIn = async (login: Login) => {
+export const SignIn = async (login: User) => {
     
     try{
-        const{data: message} = await axios.post<Login>(`${baseUrl}/SignIn`, login)
+        const{data: message} = await axios.post<Message>(`${baseUrl}/SignIn`, login)
         console.log(message);
-        
+        return message;
     }catch(e: unknown){
         let errorMessage = 'Something went wrong.'
 		if (axios.isAxiosError(e) && e.response) {
@@ -20,11 +20,11 @@ export const SignIn = async (login: Login) => {
     }
 }
 
-export const SignUp = async (signup: Login) => {
+export const SignUp = async (signup: User) => {
     try{
-        const{data: message} = await axios.post<Login>(`${baseUrl}/SignUp`, signup)
+        const{data: message} = await axios.post<Message>(`${baseUrl}/SignUp`, signup)
         console.log(message);
-        
+        return message;
     }catch(e: unknown){
         let errorMessage = 'Something went wrong.'
 		if (axios.isAxiosError(e) && e.response) {

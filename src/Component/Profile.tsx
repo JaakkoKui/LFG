@@ -1,7 +1,7 @@
 import React from "react";
 import { useStateValue } from "../state/state";
 import { getProfiles } from "../services/profileService";
-import { Game, Login, Post, ProfileModel } from "../types";
+import { Game, User, Post, ProfileModel } from "../types";
 import { getUsers } from "../services/userService";
 import AddGame from "./AddGame";
 import { getAll } from "../services/gameService";
@@ -11,14 +11,11 @@ import AddPost from "./AddPost";
 import { getPosts } from "../services/postService";
 import Posts from "./Posts";
 
-
 const Profile: React.FC = () => {
     const [{ profile, email }, dispatch] = useStateValue();
     const [addGame, setAddGame] = React.useState<boolean>(false);
-
     const addNewGame = () => {
         setAddGame(true);
-
     }
 
     React.useEffect(() => {
@@ -29,7 +26,7 @@ const Profile: React.FC = () => {
             dispatch({ type: "GET_PROFILES", payload: profiles });
         });
         getUsers().then(user => {
-            const users: Login[] = user as Login[];
+            const users: User[] = user as User[];
 
             dispatch({ type: "GET_USERS", payload: users });
         });
