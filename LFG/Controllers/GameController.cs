@@ -24,6 +24,7 @@ namespace LFG.Controllers
                         SELECT GameId, GameName, NicknameIngame, HoursPlayed, Rank, Server, Comments
                         FROM
                         Game
+                        WHERE Game.GameId = Profile.GameId
         ";
 
             DataTable table = new DataTable();
