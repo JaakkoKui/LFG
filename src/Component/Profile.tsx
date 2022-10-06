@@ -56,7 +56,7 @@ const Profile: React.FC = () => {
     if (user.length !== 0) {
         if (addGame) {
             return (
-                <AddGame closeForm={setAddGame} />
+                <AddGame closeForm={setAddGame} currentUser={user[0]} />
             )
         }
         return (
@@ -72,7 +72,7 @@ const Profile: React.FC = () => {
                         <hr className='border-2 border-gray-300 w-full mt-5 ml-5 rounded-md'></hr>
                     </div>
                     <div className='flex w-fit mt-20'>
-                        <Games />
+                        <Games currentUser={user[0]}/>
                         <div className='ring-2 rounded-md ring-darkBackground flex flex-col h-96 w-60 mx-2 relative'>
                             <button onClick={addNewGame} className='w-full h-full font-bold text-7xl bg-darkBackground text-white hover:bg-primary'>+</button>
                         </div>

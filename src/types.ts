@@ -6,6 +6,7 @@ export interface Game {
     Rank?: string;
     Server?: string;
     Comments?: string;
+    ProfileId: number;
 }
 
 export interface ProfileModel {

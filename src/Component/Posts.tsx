@@ -3,7 +3,7 @@ import { useStateValue } from "../state/state";
 import { ProfileModel } from "../types";
 
 interface Props {
-    currentUser: ProfileModel
+    currentUser: ProfileModel;
 }
 
 const Posts: React.FC<Props> = ({currentUser}) => {
