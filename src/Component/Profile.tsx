@@ -62,8 +62,6 @@ const Profile: React.FC = () => {
         return (
             <div key={user[0].ProfileId} className='min-h-[calc(100vh-65px)] z-10 bg-darkBackground text-gray-200'>
 
-                <Posts currentUser={user[0]} />
-
                 <ProfileInfo />
 
                 <div id='game-section' className='px-10 pb-10 bg-white text-gray-600 overflow-x-auto'>
@@ -71,9 +69,9 @@ const Profile: React.FC = () => {
                         <h1>Games</h1>
                         <hr className='border-2 border-gray-300 w-full mt-5 ml-5 rounded-md'></hr>
                     </div>
-                    <div className='flex w-fit mt-20'>
-                        <Games />
-                        <div className='flex flex-col h-96 w-60 mx-2 relative rounded-lg border-8 border-white'>
+                    <div className='flex w-fit mt-20 -ml-2'>
+                        <Games currentUser={user[0]} />
+                        <div className='flex flex-col h-96 w-60 relative rounded-lg border-8 border-white'>
                             <button onClick={addNewGame} className='hover:ring-4 ring-primary rounded-lg w-full h-full ring-offset-4 font-bold text-7xl bg-darkBackground text-white hover:bg-primary'>+</button>
                         </div>
                     </div>
@@ -83,9 +81,12 @@ const Profile: React.FC = () => {
                     <div className='font-bold text-3xl pb-5 flex w-full'>
                         <h1>Posts</h1>
                         <hr className='border-2 border-gray-300 w-full mt-5 mx-5 rounded-md'></hr>
-                        <button className='rounded-full bg-primary text-sm px-4 py-2 w-28 mt-1 font-medium'>New Post</button>
+                        <button className='rounded-full bg-primary text-sm px-4 py-2 w-28 mt-1'>New Post</button>
                     </div>
-                    <AddPost currentUser={user[0]} />
+                    <Posts currentUser={user[0]} />
+                    <div className='text-gray-600'>
+                        {/*<AddPost currentUser={user[0]} >*/}
+                    </div>
 
                 </div>
             </div>
