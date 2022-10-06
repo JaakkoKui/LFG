@@ -20,7 +20,7 @@ export const getAll = async () => {
 export const addGame = async (game: Game) => {
 	try {
 		const { data: data } = await axios.post<Game>(baseUrl, game)
-		return game;
+		return data;
 	} catch (error: unknown) {
 		let errorMessage = 'Something went wrong.'
 		if (axios.isAxiosError(error) && error.response) {

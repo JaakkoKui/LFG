@@ -21,9 +21,8 @@ namespace LFG.Controllers
         public JsonResult Get()
         {
             string query = @"
-                        SELECT GameName, NicknameIngame, HoursPlayed, Rank, Server, Comments
-                        FROM Game WHERE ProfileId IN
-                        (SELECT ProfileId FROM Profile);
+                        SELECT *
+                        FROM Game;
         ";
 
             DataTable table = new DataTable();

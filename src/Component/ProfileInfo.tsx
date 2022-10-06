@@ -2,7 +2,7 @@ import React from "react";
 import { useStateValue } from "../state/state";
 
 const ProfileInfo: React.FC = () => {
-    const [{ profile, email }, dispatch] = useStateValue();
+    const [{ profile, email }] = useStateValue();
 
     const user = Object.values(profile).filter(prof => prof.Email === email);
     const myProfile = user[0];
