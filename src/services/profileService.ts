@@ -6,7 +6,7 @@ const baseUrl = "https://localhost:44372/api/Profile";
 export const addProfile = async (profile: ProfileModel) => {
     try{
         const {data: data} = await axios.post<ProfileModel>(baseUrl, profile);
-        
+        return data;
     }catch(e: unknown){
         let errorMessage = 'Something went wrong.'
 		if (axios.isAxiosError(e) && e.response) {

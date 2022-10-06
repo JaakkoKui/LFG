@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Profile from './Component/Profile';
 import LoginPage from './Component/LoginPage';
 import './App.css';
@@ -7,14 +7,12 @@ import { User, ProfileModel } from './types';
 import { getUsers } from './services/userService';
 import { getProfiles } from './services/profileService';
 import {
-  HashRouter as Router,
   Route, Link, Routes
 } from "react-router-dom"
 import HomePage from './Component/HomePage';
 import CustomRouter from './Component/CustomRouter';
-
-
-
+import ProfilePage from './Component/ProfilePage';
+import GameInfo from './Component/GameInfo';
 
 const App: React.FC = () => {
   const [{ email }, dispatch] = useStateValue();
@@ -79,6 +77,8 @@ const App: React.FC = () => {
           <Route path='/' element={<HomePage />} />
           <Route path='/profile' element={<Profile />} />
           <Route path='/login' element={<LoginPage />} />
+          <Route path='/profile/:id' element={<ProfilePage />} />
+          <Route path='/game/:id' element={<GameInfo />} />
         </Routes>
       </CustomRouter>
     );
