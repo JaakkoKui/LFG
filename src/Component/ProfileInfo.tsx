@@ -24,11 +24,13 @@ const ProfileInfo: React.FC = () => {
                     </div>
                 </div>
 
-                <div className='absolute bottom-0 left-0'>
-                    <p>Discord: {myProfile.DiscordNick}</p>
+                <div className='ml-auto font-semibold h-fit'>
+                    <div className='flex w-fit absolute bottom-0 w-38 right-0'>
+                        <img className='h-[15px] object-contain my-auto mr-1.5' src='/images/discord-icon.png' alt='discord' />
+                        <p>{myProfile.DiscordNick}</p>
+                    </div>
+                    <p className='absolute top-0 w-38 right-0'>Join date: {myProfile.JoiningDate}</p>
                 </div>
-
-                <p className='ml-auto mr-6'>Joining date: {myProfile.JoiningDate}</p>
             </div>
         </div>
     )

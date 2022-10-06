@@ -64,24 +64,24 @@ const Profile: React.FC = () => {
 
                 <ProfileInfo />
 
-                <div id='game-section' className='px-10 pb-10 bg-white text-gray-600 overflow-x-auto'>
-                    <div className='font-bold text-3xl py-5 fixed flex w-full'>
+                <div id='game-section' className='px-10 pb-10 pt-8 bg-white text-gray-600 overflow-x-auto'>
+                    <div className='font-bold text-3xl pb-7 w-full flex w-full'>
                         <h1>Games</h1>
                         <hr className='border-2 border-gray-300 w-full mt-5 ml-5 rounded-md'></hr>
                     </div>
-                    <div className='flex w-fit mt-20 -ml-2'>
+                    <div className='flex w-fit'>
                         <Games currentUser={user[0]} />
-                        <div className='flex flex-col h-96 w-60 relative rounded-lg border-8 border-white'>
-                            <button onClick={addNewGame} className='hover:ring-4 ring-primary rounded-lg w-full h-full ring-offset-4 font-bold text-7xl bg-darkBackground text-white hover:bg-primary'>+</button>
+                        <div className='ring-4 hover:ring-4 hover:ring-primary hover:ring-offset-4 rounded-lg ring-darkBackground flex flex-col h-96 w-60 mx-2 relative text-white bg-darkBackground '>
+                            <button onClick={addNewGame} className='rounded-lg w-full h-full font-bold text-7xl bg-darkBackground text-white hover:bg-primary'>+</button>
                         </div>
                     </div>
                 </div>
 
                 <div className='px-10 py-10'>
-                    <div className='font-bold text-3xl pb-5 flex w-full'>
+                    <div className='font-bold text-3xl pb-7 flex w-full'>
                         <h1>Posts</h1>
                         <hr className='border-2 border-gray-300 w-full mt-5 mx-5 rounded-md'></hr>
-                        <button className='rounded-full bg-primary text-sm px-4 py-2 w-28 mt-1'>New Post</button>
+                        <button className='rounded-full bg-primary text-sm px-4 py-2 w-28'>New Post</button>
                     </div>
                     <Posts currentUser={user[0]} />
                     <div className='text-gray-600'>
