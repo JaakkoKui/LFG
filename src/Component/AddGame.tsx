@@ -74,10 +74,10 @@ const AddGame: React.FC<Props> = ({ closeForm, currentUser }) => {
                 <label>Server:</label> <input name="Server"
                     id="Server" placeholder="Server you play (optional)" /><br />
 
-                <label>Comments: <br/>
-                <textarea name="Comment" rows={4} cols={40}
-                    id="Comment" placeholder="Comments about the game (optional)" /> <br />
-</label>
+                <label>Comments: <br />
+                    <textarea name="Comment" rows={4} cols={40}
+                        id="Comment" placeholder="Comments about the game (optional)" /> <br />
+                </label>
                 <button type='submit'>Add Game</button><br />
                 <button onClick={handleCancel}>Cancel</button>
             </form>

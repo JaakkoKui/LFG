@@ -24,8 +24,6 @@ interface YourFormElement extends HTMLFormElement {
     readonly elements: FormElements
 }
 
-
-
 export const Register: React.FC<Props> = ({ closeRegister }) => {
     const [, dispatch] = useStateValue();
     const [myAvatar, setAvatar] = React.useState<File>()
@@ -60,35 +58,33 @@ export const Register: React.FC<Props> = ({ closeRegister }) => {
             JoiningDate: today
         };
 
-        if(newProfile.Nickname.length === 0 || email.length === 0 || password.length === 0  || confirm.length === 0){
+        if (newProfile.Nickname.length === 0 || email.length === 0 || password.length === 0 || confirm.length === 0) {
             window.alert("You must enter Email, Password, Confirm Password and Username!")
-        }else{
-        SignUp({ Email: email, Password: password, confirmPassword: confirm }).then(mess => {
-            
-            const message: Message = mess as Message;
+        } else {
+            SignUp({ Email: email, Password: password, confirmPassword: confirm }).then(mess => {
 
-            if (message.IsSuccess) {
-                addProfile(newProfile);
+                const message: Message = mess as Message;
 
-                dispatch({
-                    type: "ADD_PROFILE", payload: newProfile
-                });
+                if (message.IsSuccess) {
+                    addProfile(newProfile);
 
-                dispatch({ 
-                    type: "ADD_LOGIN", payload: { Email: email, Password: password } 
-                })
-                closeRegister(true);
-            }else{
-                if(message.Message.includes("Duplicate")){
-                    window.alert("Profile with your email already exists!");
-                }else if(message.Message.includes("Password")){
-                    window.alert(message.Message);
+                    dispatch({
+                        type: "ADD_PROFILE", payload: newProfile
+                    });
+
+                    dispatch({
+                        type: "ADD_LOGIN", payload: { Email: email, Password: password }
+                    })
+                    closeRegister(true);
+                } else {
+                    if (message.Message.includes("Duplicate")) {
+                        window.alert("Profile with your email already exists!");
+                    } else if (message.Message.includes("Password")) {
+                        window.alert(message.Message);
+                    }
                 }
-            }
-        });
+            });
         }
-
-
     }
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -202,7 +198,6 @@ export const Register: React.FC<Props> = ({ closeRegister }) => {
                 <button className='rounded-full bg-primary py-2 text-white w-full uppercase font-semibold subpixel-antialiased font-sm mt-8 mb-8' type='submit'>
                     Register
                 </button>
-
 
                 <div className='text-sm absolute bottom-0 w-full'>
                     <p className='p-1.5 bg-white border-solid border border-gray-300 w-fit rounded-full mx-auto'>

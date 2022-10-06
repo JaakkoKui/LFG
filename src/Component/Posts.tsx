@@ -6,27 +6,25 @@ interface Props {
     currentUser: ProfileModel;
 }
 
-const Posts: React.FC<Props> = ({currentUser}) => {
-    const [{posts}] = useStateValue();
+const Posts: React.FC<Props> = ({ currentUser }) => {
+    const [{ posts }] = useStateValue();
 
     const myPosts = Object.values(posts).filter(post => Number(post.PosterProfile) === Number(currentUser.ProfileId));
-    if(myPosts){
+    if (myPosts) {
         return (
-        <>
-            <ul>
-                {myPosts.map(post =>
-                    <li key={post.PostId}>Title: {post.Title}, Content: {post.Content}</li>
+            <>
+                <ul>
+                    {myPosts.map(post =>
+                        <li key={Number(post.PostId)}>Title: {post.Title}, Content: {post.Content}</li>
                     )}
-            </ul>
-        
-        </>
-    )
-    }else{
-        return(
+                </ul>
+            </>
+        )
+    } else {
+        return (
             <></>
         )
     }
-    
 }
 
 export default Posts;

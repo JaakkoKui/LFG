@@ -32,7 +32,7 @@ export interface Post {
     Title: string;
     CreateDate: string;
     Content: string;
-    PosterProfile: number | undefined;
+    PosterProfile: number;
 }
 
 export interface Message{

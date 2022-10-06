@@ -1,13 +1,8 @@
 import React from "react";
 import { useStateValue } from "../state/state";
-import Register from './Register';
 import { SignIn } from '../services/loginService';
-import { useNavigate } from "react-router-dom";
 import { rootNavigate } from "./CustomRouter";
 import { Message } from "../types";
-
-
-
 
 interface FormElements extends HTMLFormControlsCollection {
     email: HTMLInputElement;
@@ -27,7 +22,6 @@ const Login: React.FC = () => {
         const email = e.currentTarget.elements.email.value;
         const password = e.currentTarget.elements.password.value;
 
-
         SignIn({ Email: email, Password: password }).then(mess => {
             const message: Message = mess as Message;
 
@@ -35,17 +29,14 @@ const Login: React.FC = () => {
                 dispatch({ type: "LOGIN", payload: email });
                 dispatch({ type: "ADD_LOGIN", payload: { Email: email, Password: password } });
                 rootNavigate("/");
-            }else{
+            } else {
                 window.alert(message.Message);
             }
         });
 
-
         e.currentTarget.elements.password.value = '';
         e.currentTarget.elements.email.value = '';
     }
-
-
 
     return (
         <div>

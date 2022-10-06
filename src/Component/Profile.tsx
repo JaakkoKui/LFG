@@ -56,7 +56,7 @@ const Profile: React.FC = () => {
     if (user.length !== 0) {
         if (addGame) {
             return (
-                <AddGame closeForm={setAddGame} />
+                <AddGame closeForm={setAddGame} currentUser={user[0]} />
             )
         }
         return (

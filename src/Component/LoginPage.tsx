@@ -1,11 +1,10 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import Login from './Login'
 import Register from './Register';
 
 export default function LoginPage() {
     const [registerForm, showRegister] = React.useState<boolean>(true);
-    
+
     const showRegisterForm = () => {
         if (registerForm) {
             showRegister(false)
@@ -16,7 +15,7 @@ export default function LoginPage() {
 
     return (
         <div className='flex flex-row h-screen overflow-clip'>
-            <Background/>
+            <Background />
             <div className='basis-1/3 flex flex-col justify-center bg-white shadow-lg z-10'>
                 <FormRender isLogin={registerForm} showRegister={showRegister} />
                 <button id='registerButton' onClick={() => showRegisterForm()} className='py-3 px-6 mt-6 w-fit text-center mx-auto block uppercase font-semibold subpixel-antialiased font-sm text-gray-500 hover:text-gray-900' > <ButtonText isLogin={registerForm} /> </button>
@@ -25,13 +24,10 @@ export default function LoginPage() {
     )
 }
 
-
-
 type MainProps = {
     isLogin: boolean;
     showRegister: React.Dispatch<React.SetStateAction<boolean>>;
 }
-
 
 class FormRender extends React.Component<MainProps> {
     constructor(props: MainProps) {
@@ -45,7 +41,6 @@ class FormRender extends React.Component<MainProps> {
         } else {
             formToRender = <Register closeRegister={this.props.showRegister} />
         }
-
 
         return (
             <>

@@ -1,14 +1,13 @@
 import React from "react";
 import { useStateValue } from "../state/state";
 
-
-
 const ProfileInfo: React.FC = () => {
-    const [{profile, email}, dispatch] = useStateValue();
+    const [{ profile, email }, dispatch] = useStateValue();
 
     const user = Object.values(profile).filter(prof => prof.Email === email);
     const myProfile = user[0];
-    return(
+
+    return (
         <div id="profileInfo" className='flex py-10 px-6'>
             <div className='mx-6 ring-4 ring-primary rounded-full bg-primary'>
                 <img className='h-[100px] object-contain' src='/images/avatar-empty.png' alt='avatar' />
