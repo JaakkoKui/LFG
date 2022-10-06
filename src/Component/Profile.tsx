@@ -10,13 +10,10 @@ import ProfileInfo from "./ProfileInfo";
 import AddPost from "./AddPost";
 import { getPosts } from "../services/postService";
 import Posts from "./Posts";
-import { useNavigate } from "react-router-dom";
-
 
 const Profile: React.FC = () => {
     const [{ profile, email }, dispatch] = useStateValue();
     const [addGame, setAddGame] = React.useState<boolean>(false);
-    const navigate = useNavigate();
     const addNewGame = () => {
         setAddGame(true);
     }

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { User } from "../types";
+import { User, Message } from "../types";
 
 const baseUrl = "https://localhost:44372/api/Auth";
 
@@ -7,7 +7,7 @@ const baseUrl = "https://localhost:44372/api/Auth";
 export const SignIn = async (login: User) => {
     
     try{
-        const{data: message} = await axios.post<JSON>(`${baseUrl}/SignIn`, login)
+        const{data: message} = await axios.post<Message>(`${baseUrl}/SignIn`, login)
         console.log(message);
         return message;
     }catch(e: unknown){
@@ -22,7 +22,7 @@ export const SignIn = async (login: User) => {
 
 export const SignUp = async (signup: User) => {
     try{
-        const{data: message} = await axios.post<User>(`${baseUrl}/SignUp`, signup)
+        const{data: message} = await axios.post<Message>(`${baseUrl}/SignUp`, signup)
         console.log(message);
         return message;
     }catch(e: unknown){

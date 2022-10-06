@@ -33,3 +33,8 @@ export interface Post {
     Content: string;
     PosterProfile: number | undefined;
 }
+
+export interface Message{
+    IsSuccess: boolean,
+    Message: string
+}
