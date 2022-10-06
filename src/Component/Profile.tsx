@@ -66,9 +66,12 @@ const Profile: React.FC = () => {
 
                 <ProfileInfo />
 
-                <div id='game-section' className='border-primary border-y-4 px-10 pb-10 bg-white text-gray-600'>
-                    <h1 className='font-bold text-3xl py-5'>Games</h1>
-                    <div className='flex'>
+                <div id='game-section' className='border-primary border-y-4 px-10 pb-10 bg-white text-gray-600 overflow-x-auto'>
+                    <div className='font-bold text-3xl py-5 fixed flex w-full'>
+                        <h1>Games</h1>
+                        <hr className='border-2 border-gray-300 w-full mt-5 ml-5 rounded-md'></hr>
+                    </div>
+                    <div className='flex w-fit mt-20'>
                         <Games />
                         <div className='ring-2 rounded-md ring-darkBackground flex flex-col h-96 w-60 mx-2 relative'>
                             <button onClick={addNewGame} className='w-full h-full font-bold text-7xl bg-darkBackground text-white hover:bg-primary'>+</button>
@@ -77,6 +80,7 @@ const Profile: React.FC = () => {
                 </div>
 
                 <div className='px-10 py-10'>
+                    <h1 className='font-bold text-3xl pb-5'>Posts</h1>
                     <AddPost currentUser={user[0]} />
                 </div>
             </div>
