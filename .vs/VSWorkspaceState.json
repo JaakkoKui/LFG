@@ -1,7 +1,12 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\LFG",
+    "\\LFG\\Controllers",
+    "\\public",
+    "\\public\\images",
+    "\\src",
+    "\\src\\Component"
   ],
-  "SelectedNode": "\\LFG.sln",
   "PreviewInSolutionExplorer": false
 }
