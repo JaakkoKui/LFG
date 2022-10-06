@@ -63,14 +63,14 @@ const App: React.FC = () => {
 
             <div className="absolute w-full h-full">
               <div className="flex h-full mx-auto w-fit justify-around">
-                <Link to="/"><button className="px-5 hover:bg-gray-300 hover:text-gray-900">Feed</button></Link>
+                <Link to="/"><button className="px-5 hover:bg-gray-300 h-full hover:text-gray-900">Feed</button></Link>
                 <button onClick={handleLogout} className="px-5 hover:bg-gray-300 hover:text-gray-900">About</button>
               </div>
             </div>
 
             <div className="ml-auto flex z-10">
-              <Link to="/profile"><button className="px-5 hover:bg-gray-300 hover:text-gray-900">Profile</button></Link>
-              <Link to="/login"><button onClick={handleLogout} className="px-5 hover:bg-red-400 bg-red-600 text-white">Logout</button></Link>
+              <Link to="/profile"><button className="h-full px-5 hover:bg-gray-300 hover:text-gray-900">Profile</button></Link>
+              <Link to="/login"><button onClick={handleLogout} className="h-full px-5 hover:bg-red-400 bg-red-600 text-white">Logout</button></Link>
             </div>
 
           </nav>

@@ -21,9 +21,9 @@ namespace LFG.Controllers
         public JsonResult Get()
         {
             string query = @"
-                        SELECT GameId, GameName, NicknameIngame, HoursPlayed, Rank, Server, Comments
-                        FROM
-                        Game
+                        SELECT GameName, NicknameIngame, HoursPlayed, Rank, Server, Comments
+                        FROM Game WHERE ProfileId IN
+                        (SELECT ProfileId FROM Profile);
         ";
 
             DataTable table = new DataTable();
@@ -51,9 +51,9 @@ namespace LFG.Controllers
         {
             string query = @"
                         INSERT INTO Game 
-                        (GameName, NicknameIngame, HoursPlayed, Rank, Server, Comments)
+                        (GameName, NicknameIngame, HoursPlayed, Rank, Server, Comments, ProfileId)
                         VALUES 
-                        (@GameName, @NicknameIngame, @HoursPlayed, @Rank, @Server, @Comments);
+                        (@GameName, @NicknameIngame, @HoursPlayed, @Rank, @Server, @Comments, @ProfileId);
             ";
 
             DataTable table = new DataTable();
@@ -70,6 +70,7 @@ namespace LFG.Controllers
                     myCommand.Parameters.AddWithValue("@Rank", game.Rank);
                     myCommand.Parameters.AddWithValue("@Server", game.Server);
                     myCommand.Parameters.AddWithValue("@Comments", game.Comments);
+                    myCommand.Parameters.AddWithValue("@ProfileId", game.ProfileId);
 
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
