@@ -31,3 +31,32 @@ export const getProfiles = async () => {
         
     }
 }
+
+export const updateProfile = async (profile: ProfileModel) => {
+    try{
+        const {data: data} = await axios.put<string>(baseUrl, profile);
+        
+        return data;
+    }catch(e: unknown){
+        let errorMessage = 'Something went wrong.'
+		if (axios.isAxiosError(e) && e.response) {
+			errorMessage += ' Error: ' + e.response.data;
+		}
+		console.error(errorMessage);
+    }
+}
+
+export const deleteProfile = async (id:number) => {
+    try{
+        const {data: data} = await axios.delete<string>(`${baseUrl}(${id})`);
+        
+        return data;
+    }catch(e: unknown){
+        let errorMessage = 'Something went wrong.'
+		if (axios.isAxiosError(e) && e.response) {
+			errorMessage += ' Error: ' + e.response.data;
+		}
+		console.error(errorMessage);
+        
+    }
+}

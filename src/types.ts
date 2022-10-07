@@ -23,7 +23,7 @@ export interface ProfileModel {
 
 export interface User {
     Email: string;
-    Password: string;
+    Password?: string;
     confirmPassword?: string;
 }
 

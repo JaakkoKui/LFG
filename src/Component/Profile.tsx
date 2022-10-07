@@ -68,7 +68,7 @@ const Profile: React.FC = () => {
         return (
             <div key={user[0].ProfileId} className='min-h-[calc(100vh-65px)] z-10 bg-darkBackground text-gray-200'>
 
-                <ProfileInfo />
+                <ProfileInfo currentUser={user[0]}/>
 
                 <div id='game-section' className='px-10 pb-10 pt-8 bg-white text-gray-600 overflow-x-auto'>
                     <div className='font-bold text-3xl pb-7 w-full flex w-full'>

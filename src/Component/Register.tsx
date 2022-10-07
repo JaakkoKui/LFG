@@ -31,7 +31,7 @@ export const Register: React.FC<Props> = ({ closeRegister }) => {
     const handleRegister = (e: React.FormEvent<YourFormElement>) => {
         e.preventDefault();
         const date = new Date();
-        const today = date.getFullYear() + "." + (date.getMonth() + 1) + "." + date.getDate();
+        const today = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
 
         const email = e.currentTarget.elements.email.value;
         const password = e.currentTarget.elements.password.value;
