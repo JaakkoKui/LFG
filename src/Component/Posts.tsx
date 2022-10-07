@@ -10,6 +10,7 @@ const Posts: React.FC<Props> = ({ currentUser }) => {
     const [{ posts }] = useStateValue();
 
     const myPosts = Object.values(posts).filter(post => Number(post.PosterProfile) === Number(currentUser.ProfileId));
+    myPosts.sort((A,B) => B.PostId - A.PostId);
     if (myPosts) {
         return (
             <>

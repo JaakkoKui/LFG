@@ -12,10 +12,16 @@ import { getPosts } from "../services/postService";
 import Posts from "./Posts";
 
 const Profile: React.FC = () => {
-    const [{ profile, email }, dispatch] = useStateValue();
+    const [{ profile, email, games }, dispatch] = useStateValue();
     const [addGame, setAddGame] = React.useState<boolean>(false);
+    const [newPost, setNewPost] = React.useState<boolean>(false);
+
     const addNewGame = () => {
-        setAddGame(true);
+        setAddGame(!addGame);
+    }
+
+    const togglePost = () => {
+        setNewPost(!newPost)
     }
 
     React.useEffect(() => {
@@ -33,16 +39,16 @@ const Profile: React.FC = () => {
 
         getAll().then(game => {
             const games: Game[] = game as Game[];
-
+        
             dispatch({ type: "GET_GAME_LIST", payload: games });
         });
 
         getPosts().then(post => {
             const posts: Post[] = post as Post[];
-
-            dispatch({type: "GET_POSTS", payload: posts});
+            posts.sort((a, b) => Number(b.PostId) - Number(a.PostId));
+            dispatch({ type: "GET_POSTS", payload: posts });
         })
-
+        
         const loggedUserJSON = window.localStorage.getItem('loggedUser');
         if (loggedUserJSON && loggedUserJSON !== undefined) {
             const user = JSON.parse(loggedUserJSON);
@@ -56,7 +62,7 @@ const Profile: React.FC = () => {
     if (user.length !== 0) {
         if (addGame) {
             return (
-                <AddGame closeForm={setAddGame} currentUser={user[0]} />
+                <AddGame closeForm={addNewGame} currentUser={user[0]} />
             )
         }
         return (
@@ -81,13 +87,13 @@ const Profile: React.FC = () => {
                     <div className='font-bold text-3xl pb-7 flex w-full'>
                         <h1>Posts</h1>
                         <hr className='border-2 border-gray-300 w-full mt-5 mx-5 rounded-md'></hr>
-                        <button className='rounded-full bg-primary text-sm px-4 py-2 w-28'>New Post</button>
-                    </div>
-                    <Posts currentUser={user[0]} />
-                    <div className='text-gray-600'>
-                        {/*<AddPost currentUser={user[0]} >*/}
+                        <button onClick={togglePost} className='rounded-full bg-primary text-sm px-4 py-2 w-28'>New Post</button>
                     </div>
 
+                    <div className='text-gray-600'>
+                        {newPost && <AddPost currentUser={user[0]} toggleNewPost={togglePost} />}
+                    </div>
+                    <Posts currentUser={user[0]} />
                 </div>
             </div>
         )
