@@ -8,8 +8,8 @@ const ProfileInfo: React.FC = () => {
     const myProfile = user[0];
 
     return (
-        <div id="profileInfo" className='flex py-10 px-6'>
-            <div className='mx-6 ring-4 ring-primary rounded-full bg-primary'>
+        <div id="profileInfo" className='flex py-10 px-10'>
+            <div className='ring-4 mr-10 ring-primary rounded-full bg-primary'>
                 <img className='h-[100px] object-contain' src='/images/avatar-empty.png' alt='avatar' />
             </div>
             <div className='flex w-full relative'>
