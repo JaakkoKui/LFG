@@ -25,11 +25,11 @@ const AddPost: React.FC<Props> = ({ currentUser, toggleNewPost }) => {
         e.preventDefault();
 
         const date = new Date();
-        const today = date.getFullYear() + "." + (date.getMonth() + 1) + "." + date.getDate();
+        const today = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
 
         const title = e.currentTarget.elements.title.value;
         const content = e.currentTarget.elements.content.value;
-        const id = Object.values(posts).concat().length+1;
+        const id = Object.values(posts).concat().length+5000;
 
         const newPost: Post = {
             PostId: id,

@@ -13,6 +13,7 @@ import HomePage from './Component/HomePage';
 import CustomRouter from './Component/CustomRouter';
 import ProfilePage from './Component/ProfilePage';
 import GameInfo from './Component/GameInfo';
+import AboutPage from './Component/AboutPage';
 
 const App: React.FC = () => {
   const [{ email }, dispatch] = useStateValue();
@@ -62,7 +63,7 @@ const App: React.FC = () => {
             <div className="absolute w-full h-full">
               <div className="flex h-full mx-auto w-fit justify-around">
                 <Link to="/"><button className="px-5 hover:bg-gray-300 h-full hover:text-gray-900">Feed</button></Link>
-                <button onClick={handleLogout} className="px-5 hover:bg-gray-300 hover:text-gray-900">About</button>
+                <Link to="/about"><button className="px-5 hover:bg-gray-300 h-full hover:text-gray-900">About</button></Link>
               </div>
             </div>
 
@@ -79,6 +80,7 @@ const App: React.FC = () => {
           <Route path='/login' element={<LoginPage />} />
           <Route path='/profile/:id' element={<ProfilePage />} />
           <Route path='/game/:id' element={<GameInfo />} />
+          <Route path='/about' element={<AboutPage />} />
         </Routes>
       </CustomRouter>
     );

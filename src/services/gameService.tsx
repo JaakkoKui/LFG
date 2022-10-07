@@ -29,3 +29,29 @@ export const addGame = async (game: Game) => {
 		console.error(errorMessage);
 	}
 }
+
+export const editGame = async (game: Game) => {
+	try {
+		const { data: data } = await axios.put<Game>(baseUrl, game)
+		return data;
+	} catch (error: unknown) {
+		let errorMessage = 'Something went wrong.'
+		if (axios.isAxiosError(error) && error.response) {
+			errorMessage += ' Error: ' + error.response.data;
+		}
+		console.error(errorMessage);
+	}
+}
+
+export const deleteGame = async (id: number) => {
+	try {
+		const { data: data } = await axios.delete<string>(`${baseUrl}/${id}`)
+		return data;
+	} catch (error: unknown) {
+		let errorMessage = 'Something went wrong.'
+		if (axios.isAxiosError(error) && error.response) {
+			errorMessage += ' Error: ' + error.response.data;
+		}
+		console.error(errorMessage);
+	}
+}

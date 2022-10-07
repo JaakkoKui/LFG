@@ -1,11 +1,12 @@
 import React from "react";
 import { useStateValue } from "../state/state";
+import { ProfileModel } from "../types";
 
-const ProfileInfo: React.FC = () => {
-    const [{ profile, email }] = useStateValue();
+interface Props {
+    currentUser: ProfileModel;
+}
 
-    const user = Object.values(profile).filter(prof => prof.Email === email);
-    const myProfile = user[0];
+const ProfileInfo: React.FC<Props> = ({currentUser}) => {
 
     return (
         <div id="profileInfo" className='flex py-10 px-10'>
@@ -16,20 +17,20 @@ const ProfileInfo: React.FC = () => {
 
                 <div>
                     <div className='flex h-fit'>
-                        <h1 className="text-3xl font-bold h-fit"> {myProfile.Nickname} </h1>
-                        <h4 className="text-md capitalize font-semibold italic ml-2 h-fit my-auto">( {myProfile.FirstName} {myProfile.LastName} )</h4>
+                        <h1 className="text-3xl font-bold h-fit"> {currentUser.Nickname} </h1>
+                        <h4 className="text-md capitalize font-semibold italic ml-2 h-fit my-auto">( {currentUser.FirstName} {currentUser.LastName} )</h4>
                     </div>
                     <div>
-                        <p>Age: {myProfile.Age}</p>
+                        <p>Age: {currentUser.Age}</p>
                     </div>
                 </div>
 
                 <div className='ml-auto font-semibold h-fit'>
                     <div className='flex w-fit absolute bottom-0 w-38 right-0'>
                         <img className='h-[15px] object-contain my-auto mr-1.5' src='/images/discord-icon.png' alt='discord' />
-                        <p>{myProfile.DiscordNick}</p>
+                        <p>{currentUser.DiscordNick}</p>
                     </div>
-                    <p className='absolute top-0 w-38 right-0'>Join date: {myProfile.JoiningDate}</p>
+                    <p className='absolute top-0 w-38 right-0'>Join date: {currentUser.JoiningDate}</p>
                 </div>
             </div>
         </div>
