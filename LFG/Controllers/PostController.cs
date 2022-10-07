@@ -1,9 +1,12 @@
 ﻿using LFG.Model;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
+using System;
 using System.Data;
+using System.IO;
 
 namespace LFG.Controllers
 {
@@ -12,16 +15,18 @@ namespace LFG.Controllers
     public class PostController : ControllerBase
     {
         private readonly IConfiguration _configuration;
-        public PostController(IConfiguration configuration)
+        private readonly IWebHostEnvironment _env;
+        public PostController(IConfiguration configuration, IWebHostEnvironment env)
         {
             _configuration = configuration;
+            _env = env;
         }
 
         [HttpGet]
         public JsonResult Get()
         {
             string query = @"
-                        SELECT PostId, Title, CreateDate, Content, PosterProfile
+                        SELECT PostId, Title, CreateDate, Content, PosterProfile, PhotoFileName
                         FROM
                         Post
         ";
@@ -50,9 +55,9 @@ namespace LFG.Controllers
         {
             string query = @"
                         INSERT INTO Post 
-                        (Title, CreateDate, Content, PosterProfile) 
+                        (Title, CreateDate, Content, PosterProfile, PhotoFileName) 
                         VALUES 
-                        (@Title, @CreateDate, @Content, @PosterProfile);
+                        (@Title, @CreateDate, @Content, @PosterProfile, @PhotoFileName);
         ";
 
             DataTable table = new DataTable();
@@ -67,6 +72,7 @@ namespace LFG.Controllers
                     myCommand.Parameters.AddWithValue("@CreateDate", post.CreateDate);
                     myCommand.Parameters.AddWithValue("@Content", post.Content);
                     myCommand.Parameters.AddWithValue("@PosterProfile", post.PosterProfile);
+                    myCommand.Parameters.AddWithValue("@PhotoFileName", post.PhotoFileName);
 
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
@@ -88,7 +94,8 @@ namespace LFG.Controllers
                         Title =@Title,
                         CreateDate =@CreateDate,
                         Content =@Content,
-                        PosterProfile =@PosterProfile
+                        PosterProfile =@PosterProfile,
+                        PhotoFileName =@PhotoFileName
 
                         WHERE PostId=@PostId;
 
@@ -107,6 +114,7 @@ namespace LFG.Controllers
                     myCommand.Parameters.AddWithValue("@CreateDate", post.CreateDate);
                     myCommand.Parameters.AddWithValue("@Content", post.Content);
                     myCommand.Parameters.AddWithValue("@PosterProfile", post.PosterProfile);
+                    myCommand.Parameters.AddWithValue("@PhotoFileName", post.PhotoFileName);
 
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
@@ -148,6 +156,29 @@ namespace LFG.Controllers
             }
 
             return new JsonResult("Deleted Successfully!");
+        }
+
+        [Route("SaveFile")]
+        [HttpPost]
+        public JsonResult SaveFile()
+        {
+            try
+            {
+                var httpRequest = Request.Form;
+                var postedFile = httpRequest.Files[0];
+                string filename = postedFile.FileName;
+                var physicalPath = _env.ContentRootPath + "/Photos/" + filename;
+
+                using(var stream=new FileStream(physicalPath, FileMode.Create))
+                {
+                    postedFile.CopyTo(stream);
+                }
+
+                return new JsonResult(filename);
+            } catch (Exception)
+            {
+                return new JsonResult("anonymous.png");
+            }
         }
     }
 }
