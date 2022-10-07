@@ -85,7 +85,7 @@ const Profile: React.FC = () => {
 
                 <div className='px-10 py-10'>
                     <div className='font-bold text-3xl pb-7 flex w-full'>
-                        <h1>Posts</h1>
+                        <h1 className='w-44'>Your Posts</h1>
                         <hr className='border-2 border-gray-300 w-full mt-5 mx-5 rounded-md'></hr>
                         <button onClick={togglePost} className='rounded-full bg-primary text-sm px-4 py-2 w-28'>New Post</button>
                     </div>
