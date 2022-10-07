@@ -1,5 +1,5 @@
 export interface Game {
-    GameId?: number;
+    GameId: number;
     GameName: string;
     NicknameIngame?: string;
     HoursPlayed?: number;
@@ -28,7 +28,7 @@ export interface User {
 }
 
 export interface Post {
-    PostId?: number;
+    PostId: number;
     Title: string;
     CreateDate: string;
     Content: string;

@@ -52,7 +52,7 @@ export const reducer = (state: State, action: Action): State => {
                 ...state,
                 games: {
                     ...action.payload.reduce(
-                        (memo, game) => ({ ...memo, [game.GameName]: game }), {}),
+                        (memo, game) => ({ ...memo, [game.GameId]: game }), {}),
                     ...state.games
                 }
             };
@@ -61,7 +61,7 @@ export const reducer = (state: State, action: Action): State => {
                 ...state,
                 games: {
                     ...state.games,
-                    [action.payload.GameName]: action.payload
+                    [action.payload.GameId]: action.payload
                 }
             };
         case "LOGIN":
@@ -118,7 +118,7 @@ export const reducer = (state: State, action: Action): State => {
                 ...state,
                 posts:{
                     ...action.payload.reduce(
-                        (memo, post) => ({ ...memo, [post.Title]: post }),
+                        (memo, post) => ({ ...memo, [post.PostId]: post }),
                         {}
                     ),
                     ...state.posts
@@ -128,7 +128,7 @@ export const reducer = (state: State, action: Action): State => {
             return {
                 ...state,
                 posts: {
-                    [action.payload.Title]: action.payload,
+                    [action.payload.PostId]: action.payload,
                     ...state.posts
                 }
             }
