@@ -7,5 +7,6 @@
         public string CreateDate { get; set; }
         public string Content { get; set; }
         public string PosterProfile { get; set; }
+        public string PhotoFileName { get; set; }
     }
 }
