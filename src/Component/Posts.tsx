@@ -54,14 +54,14 @@ const Posts: React.FC<Props> = ({ currentUser }) => {
         myPosts.sort((A, B) => Number(B.PostId) - Number(A.PostId));
         if (myPosts) {
             return (
-                <div className='flex flex-col gap-y-4'>
+                <div className='flex flex-col gap-y-5'>
                     {myPosts.map(post =>
                         <div key={Number(post.PostId)} className='flex flex-col gap-y-4'>
                             <div key={Number(post.PostId)}>
                                 <div className='py-5 bg-primary rounded-t-md flex break-words'>
                                     <img className='w-[50px] mx-5 object-contain w-fit border-4 border-darkBackground rounded-full bg-primary' src='/images/test-avatar.png' alt='avatar' />
                                     <div className='my-auto'>
-                                        <h2 className='text-xl font-bold'>You</h2>
+                                        <h2 className='text-xl font-bold'>{currentUser.Nickname}</h2>
                                         <h4 className='text-center text-sm italic font-semibold'>{post.CreateDate}</h4>
                                     </div>
                                 </div>
@@ -100,13 +100,13 @@ const Posts: React.FC<Props> = ({ currentUser }) => {
         }
     } else {
         return (
-            <div className='flex flex-col gap-y-4'>
+            <div className='flex flex-col gap-y-5'>
                 {allPosts.map(post =>
                     <div key={Number(post.PostId)}>
                         <div className='py-5 bg-primary rounded-t-md flex break-words'>
                             <img className='w-[50px] mx-5 object-contain w-fit border-4 border-darkBackground rounded-full bg-primary' src='/images/test-avatar.png' alt='avatar' />
                             <div className='my-auto'>
-                                <h2 className='text-xl font-bold'><Link to={`/profile/${Number(allProfiles.find(prof => Number(prof.ProfileId) === Number(post.PosterProfile))?.ProfileId)}`}>{allProfiles.find(prof => Number(prof.ProfileId) === Number(post.PosterProfile))?.Nickname}</Link></h2>
+                                <h2 className='text-xl font-bold hover:text-white'><Link to={`/profile/${Number(allProfiles.find(prof => Number(prof.ProfileId) === Number(post.PosterProfile))?.ProfileId)}`}>{allProfiles.find(prof => Number(prof.ProfileId) === Number(post.PosterProfile))?.Nickname}</Link></h2>
                                 <h4 className='text-center text-sm italic font-semibold'>{post.CreateDate}</h4>
                             </div>
                         </div>
@@ -123,9 +123,15 @@ const Posts: React.FC<Props> = ({ currentUser }) => {
                                     </span>
                                 </button>
                             </div>
-                            <div className='pr-7 pb-5'>
+                            <div className='pr-7'>
                                 <h1 className='break-words text-2xl font-bold mb-2 w-fit pb-2'>{post.Title}</h1>
                                 <p>{post.Content}</p>
+
+                                <div className='flex pt-5'>
+                                    <p className='border-r pr-2.5'>0 likes</p>
+                                    <p className='pl-2.5'>0 dislikes</p>
+                                </div>
+
                             </div>
                         </div>
 
