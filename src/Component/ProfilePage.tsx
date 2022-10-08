@@ -2,16 +2,19 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { useStateValue } from "../state/state";
 import { ProfileModel } from "../types";
+import { rootNavigate } from "./CustomRouter";
 import Games from "./Games";
 import Posts from "./Posts";
 import ProfileInfo from "./ProfileInfo";
 
 const ProfilePage: React.FC = () => {
-    const [{ profile }] = useStateValue();
+    const [{ profile,email }] = useStateValue();
 
     const id = useParams().id as string;
     const thisUser: ProfileModel = Object.values(profile).find(prof => Number(prof.ProfileId) === Number(id)) as ProfileModel
-
+    if(thisUser.Email === email){
+        rootNavigate("/profile");
+    }
     return (
         <div key={thisUser.ProfileId} className='min-h-[calc(100vh-65px)] z-10 bg-darkBackground text-gray-200'>
 

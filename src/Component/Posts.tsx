@@ -1,18 +1,25 @@
 import React from "react"
 import { Link } from "react-router-dom";
 import { getAll } from "../services/gameService";
-import { getPosts } from "../services/postService";
+import { deletePost, getPosts } from "../services/postService";
 import { getProfiles } from "../services/profileService";
 import { getUsers } from "../services/userService";
 import { useStateValue } from "../state/state";
 import { Game, Post, ProfileModel, User } from "../types";
+import EditPostForm from "./EditPostForm";
+import CSS from 'csstype';
 
 interface Props {
     currentUser?: ProfileModel;
 }
 
 const Posts: React.FC<Props> = ({ currentUser }) => {
-    const [{ posts, profile }, dispatch] = useStateValue();
+    const [{ posts, profile, email }, dispatch] = useStateValue();
+    const [editForm, toggleForm] = React.useState<boolean>(false);
+
+    const toggle = () => {
+        toggleForm(!editForm);
+    }
 
     const allPosts = Object.values(posts).concat();
     allPosts.sort((a, b) => Number(b.PostId) - Number(a.PostId));
@@ -49,6 +56,17 @@ const Posts: React.FC<Props> = ({ currentUser }) => {
         }
     }, [dispatch]);
 
+    const handleDelete = (post: Post) => {
+        if (window.confirm(`Are you sure you want to delete post titled ${post.Title}?`)) {
+            deletePost(Number(post.PostId));
+            window.location.reload();
+        }
+    }
+
+    const contentStyle: CSS.Properties = {
+        whiteSpace: "pre-line"
+    }
+
     if (currentUser) {
         const myPosts = Object.values(posts).filter(post => Number(post.PosterProfile) === Number(currentUser.ProfileId));
         myPosts.sort((A, B) => Number(B.PostId) - Number(A.PostId));
@@ -80,7 +98,7 @@ const Posts: React.FC<Props> = ({ currentUser }) => {
                                     </div>
                                     <div className='pr-7'>
                                         <h1 className='break-words text-2xl font-bold mb-2 w-fit pb-2'>{post.Title}</h1>
-                                        <p>{post.Content}</p>
+                                        <p style={contentStyle}>{post.Content}</p>
 
                                         <div className='flex pt-5'>
                                             <p className='border-r pr-2.5'>0 likes</p>
@@ -90,7 +108,8 @@ const Posts: React.FC<Props> = ({ currentUser }) => {
                                     </div>
                                 </div>
                             </div>
-
+                            {currentUser.Email === email && <button onClick={() => handleDelete(post)}>Delete this post</button>}
+                            {currentUser.Email === email && <button onClick={toggle}>Edit this post</button>} {editForm && <EditPostForm currentPost={post} toggleForm={toggle} />}
                         </div>
                     )}
                 </div>
@@ -125,7 +144,7 @@ const Posts: React.FC<Props> = ({ currentUser }) => {
                             </div>
                             <div className='pr-7'>
                                 <h1 className='break-words text-2xl font-bold mb-2 w-fit pb-2'>{post.Title}</h1>
-                                <p>{post.Content}</p>
+                                <p style={contentStyle}>{post.Content}</p>
 
                                 <div className='flex pt-5'>
                                     <p className='border-r pr-2.5'>0 likes</p>
