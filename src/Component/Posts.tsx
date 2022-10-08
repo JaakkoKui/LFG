@@ -51,7 +51,7 @@ const Posts: React.FC<Props> = ({ currentUser }) => {
 
     if (currentUser) {
         const myPosts = Object.values(posts).filter(post => Number(post.PosterProfile) === Number(currentUser.ProfileId));
-        myPosts.sort((A, B) => B.PostId - A.PostId);
+        myPosts.sort((A, B) => Number(B.PostId) - Number(A.PostId));
         if (myPosts) {
             return (
                 <div className='flex flex-col gap-y-4'>

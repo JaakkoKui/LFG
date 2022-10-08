@@ -99,10 +99,9 @@ namespace LFG.Controllers
                         Age =@Age,
                         Avatar =@Avatar,
                         DiscordNick =@DiscordNick,
-                        JoiningDate =@JoiningDate,
-                        Email =@Email
-                        WHERE ProfileId=@ProfileId;
-                        
+                        JoiningDate =@JoiningDate
+
+                        WHERE Email =@Email; 
 
         ";
             DataTable table = new DataTable();

@@ -33,10 +33,11 @@ const AddGame: React.FC<Props> = ({ closeForm, currentUser }) => {
         const rank = e.currentTarget.elements.Rank.value;
         const server = e.currentTarget.elements.Server.value;
         const comment = e.currentTarget.elements.Comment.value;
-        const id = Object.values(games).length +5000;
        
+
+
         const newGame: Game = {
-            GameId: id,
+            GameId: undefined,
             GameName: name,
             NicknameIngame: nick,
             HoursPlayed: hours,
@@ -47,7 +48,6 @@ const AddGame: React.FC<Props> = ({ closeForm, currentUser }) => {
         }
 
         addGame(newGame);
-        dispatch({ type: "ADD_GAME", payload: newGame });
         closeForm();
     }
     const handleCancel = () => {

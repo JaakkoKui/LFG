@@ -48,7 +48,7 @@ export const updateProfile = async (profile: ProfileModel) => {
 
 export const deleteProfile = async (id:number) => {
     try{
-        const {data: data} = await axios.delete<string>(`${baseUrl}(${id})`);
+        const {data: data} = await axios.delete<string>(`${baseUrl}/${id}`);
         
         return data;
     }catch(e: unknown){

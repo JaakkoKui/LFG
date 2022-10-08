@@ -29,14 +29,15 @@ const AddPost: React.FC<Props> = ({ currentUser, toggleNewPost }) => {
 
         const title = e.currentTarget.elements.title.value;
         const content = e.currentTarget.elements.content.value;
-        const id = Object.values(posts).concat().length+5000;
+        
 
         const newPost: Post = {
-            PostId: id,
+            PostId: undefined,
             Title: title,
             CreateDate: today,
             Content: content,
-            PosterProfile: Number(currentUser.ProfileId)
+            PosterProfile: Number(currentUser.ProfileId),
+            PhotoFileName: "jep"
         }
 
         addPost(newPost);

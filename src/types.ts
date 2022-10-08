@@ -1,5 +1,5 @@
 export interface Game {
-    GameId: number;
+    GameId: number | undefined;
     GameName: string;
     NicknameIngame?: string;
     HoursPlayed?: number;
@@ -22,17 +22,19 @@ export interface ProfileModel {
 }
 
 export interface User {
+    UserId?: number;
     Email: string;
     Password?: string;
     confirmPassword?: string;
 }
 
 export interface Post {
-    PostId: number;
+    PostId: number | undefined;
     Title: string;
     CreateDate: string;
     Content: string;
     PosterProfile: number;
+    PhotoFileName: string;
 }
 
 export interface Message{

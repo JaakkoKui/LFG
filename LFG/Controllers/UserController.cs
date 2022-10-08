@@ -21,7 +21,7 @@ namespace LFG.Controllers
         public JsonResult Get()
         {
             string query = @"
-                        SELECT Email
+                        SELECT UserId, Email, Password
                         FROM
                         User
         ";
