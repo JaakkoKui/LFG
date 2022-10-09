@@ -8,8 +8,7 @@
         public string Content { get; set; }
         public int PosterProfile { get; set; }
         public string PhotoFileName { get; set; }
-
-        public int Like { get; set; }
-        public int Dislike { get; set; }
+        public int Likepost { get; set; }
+        public int Dislikepost { get; set; }
     }
 }

@@ -1,7 +1,7 @@
 import React from "react";
 import { useStateValue } from "../state/state";
 import { deleteProfile, getProfiles } from "../services/profileService";
-import { Game, User, Post, ProfileModel, Comment } from "../types";
+import { Game, User, Post, ProfileModel, Comments } from "../types";
 import { deleteUser, getUsers } from "../services/userService";
 import AddGame from "./AddGame";
 import { deleteGame, getAll } from "../services/gameService";
@@ -59,7 +59,7 @@ const Profile: React.FC = () => {
         })
 
         getComments().then(comment => {
-            const comments: Comment[] = comment as Comment[];
+            const comments: Comments[] = comment as Comments[];
             dispatch({type: "GET_COMMENTS", payload: comments})
         })
 
