@@ -3,7 +3,10 @@
     "",
     "\\LFG",
     "\\LFG\\Controllers",
+    "\\LFG\\DataAccesslayer",
     "\\LFG\\Model",
+    "\\public",
+    "\\public\\images",
     "\\src",
     "\\src\\Component"
   ],
