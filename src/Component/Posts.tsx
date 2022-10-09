@@ -1,13 +1,14 @@
 import React from "react"
 import { Link } from "react-router-dom";
 import { getAll } from "../services/gameService";
-import { deletePost, getPosts } from "../services/postService";
+import { deletePost, dislikePost, getPosts, likePost } from "../services/postService";
 import { getProfiles } from "../services/profileService";
 import { getUsers } from "../services/userService";
 import { useStateValue } from "../state/state";
 import { Game, Post, ProfileModel, User } from "../types";
 import EditPostForm from "./EditPostForm";
 import CSS from 'csstype';
+import Comment from "./Comment";
 
 interface Props {
     currentUser?: ProfileModel;
@@ -67,6 +68,14 @@ const Posts: React.FC<Props> = ({ currentUser }) => {
         whiteSpace: "pre-line"
     }
 
+    const likeThis = (post: Post) =>{
+        likePost(post);
+    }
+
+    const dislikeThis = (post: Post) => {
+        dislikePost(post);
+    }
+
     if (currentUser) {
         const myPosts = Object.values(posts).filter(post => Number(post.PosterProfile) === Number(currentUser.ProfileId));
         myPosts.sort((A, B) => Number(B.PostId) - Number(A.PostId));
@@ -101,13 +110,14 @@ const Posts: React.FC<Props> = ({ currentUser }) => {
                                         <p style={contentStyle}>{post.Content}</p>
 
                                         <div className='flex pt-5'>
-                                            <p className='border-r pr-2.5'>0 likes</p>
-                                            <p className='pl-2.5'>0 dislikes</p>
+                                            <p className='border-r pr-2.5'>{post.Like} likes</p>
+                                            <p className='pl-2.5'>{post.Dislike} dislikes</p>
                                         </div>
 
                                     </div>
                                 </div>
                             </div>
+                            <Comment post={post}/>
                             {currentUser.Email === email && <button onClick={() => handleDelete(post)}>Delete this post</button>}
                             {currentUser.Email === email && <button onClick={toggle}>Edit this post</button>} {editForm && <EditPostForm currentPost={post} toggleForm={toggle} />}
                         </div>
@@ -131,12 +141,12 @@ const Posts: React.FC<Props> = ({ currentUser }) => {
                         </div>
                         <div className='py-5 bg-lightBackground rounded-b-lg flex'>
                             <div className='flex flex-col justify-between h-16 px-5 mt-2'>
-                                <button className='w-[50px] hover:text-white'>
+                                <button onClick={() => likeThis(post)} className='w-[50px] hover:text-white'>
                                     <span className='material-symbols-outlined'>
                                         thumb_up
                                     </span>
                                 </button>
-                                <button className='w-[50px] hover:text-white'>
+                                <button onClick={() => dislikeThis(post)} className='w-[50px] hover:text-white'>
                                     <span className='material-symbols-outlined'>
                                         thumb_down
                                     </span>
@@ -153,7 +163,7 @@ const Posts: React.FC<Props> = ({ currentUser }) => {
 
                             </div>
                         </div>
-
+                        <Comment post={post}/>
                     </div>
                 )}
             </div>

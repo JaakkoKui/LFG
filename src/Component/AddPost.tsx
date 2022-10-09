@@ -19,7 +19,7 @@ interface Props {
 
 const AddPost: React.FC<Props> = ({ currentUser, toggleNewPost }) => {
 
-    const [{posts}, dispatch] = useStateValue();
+    const [, dispatch] = useStateValue();
 
     const handlePost = (e: React.FormEvent<YourFormElement>) => {
         e.preventDefault();
@@ -37,7 +37,9 @@ const AddPost: React.FC<Props> = ({ currentUser, toggleNewPost }) => {
             CreateDate: today,
             Content: content,
             PosterProfile: Number(currentUser.ProfileId),
-            PhotoFileName: "jep"
+            PhotoFileName: "jep",
+            Like: 0,
+            Dislike: 0
         }
 
         addPost(newPost);

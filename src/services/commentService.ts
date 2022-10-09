@@ -3,7 +3,7 @@ import { Comment } from "../types";
 
 const baseUrl = "https://localhost:44372/api/Comment";
 
-export const getAll = async () => {
+export const getComments = async () => {
     try {
 		const { data: comments } = await axios.get<Comment[]>(baseUrl);
 		return comments;

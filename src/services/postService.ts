@@ -58,3 +58,33 @@ export const editPost = async (post: Post) => {
 
     }
 }
+
+export const likePost = async (post: Post) => {
+    try{
+        post.Like++;
+        const {data: data} = await axios.put<string>(baseUrl, post);
+        return data;
+    }catch (e: unknown) {
+        let errorMessage = 'Something went wrong.'
+        if (axios.isAxiosError(e) && e.response) {
+            errorMessage += ' Error: ' + e.response.data;
+        }
+        console.error(errorMessage);
+
+    }
+}
+
+export const dislikePost = async (post:Post) => {
+    try{
+        post.Dislike++;
+        const {data: data} = await axios.put<string>(baseUrl, post);
+        return data;
+    }catch (e: unknown) {
+        let errorMessage = 'Something went wrong.'
+        if (axios.isAxiosError(e) && e.response) {
+            errorMessage += ' Error: ' + e.response.data;
+        }
+        console.error(errorMessage);
+
+    }
+}

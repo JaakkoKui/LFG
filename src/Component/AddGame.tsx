@@ -1,6 +1,5 @@
 import React from "react";
 import { addGame } from "../services/gameService";
-import { useStateValue } from "../state/state";
 import { Game, ProfileModel } from '../types';
 
 interface FormElements extends HTMLFormControlsCollection {
@@ -22,7 +21,6 @@ interface Props {
 }
 
 const AddGame: React.FC<Props> = ({ closeForm, currentUser }) => {
-    const [{games}, dispatch] = useStateValue();
 
     const handleSubmit = (e: React.FormEvent<YourFormElement>) => {
         e.preventDefault();
