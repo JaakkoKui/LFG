@@ -26,7 +26,7 @@ namespace LFG.Controllers
         public JsonResult Get()
         {
             string query = @"
-                        SELECT PostId, Title, CreateDate, Content, PosterProfile, PhotoFileName
+                        SELECT *
                         FROM
                         Post
         ";
@@ -55,9 +55,9 @@ namespace LFG.Controllers
         {
             string query = @"
                         INSERT INTO Post 
-                        (Title, CreateDate, Content, PosterProfile, PhotoFileName) 
+                        (Title, CreateDate, Content, PosterProfile, PhotoFileName, Like, Dislike) 
                         VALUES 
-                        (@Title, @CreateDate, @Content, @PosterProfile, @PhotoFileName);
+                        (@Title, @CreateDate, @Content, @PosterProfile, @PhotoFileName, @Like, @Dislike);
         ";
 
             DataTable table = new DataTable();
@@ -73,6 +73,8 @@ namespace LFG.Controllers
                     myCommand.Parameters.AddWithValue("@Content", post.Content);
                     myCommand.Parameters.AddWithValue("@PosterProfile", post.PosterProfile);
                     myCommand.Parameters.AddWithValue("@PhotoFileName", post.PhotoFileName);
+                    myCommand.Parameters.AddWithValue("@Like", post.Like);
+                    myCommand.Parameters.AddWithValue("@Dislike", post.Dislike);
 
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
@@ -95,7 +97,9 @@ namespace LFG.Controllers
                         CreateDate =@CreateDate,
                         Content =@Content,
                         PosterProfile =@PosterProfile,
-                        PhotoFileName =@PhotoFileName
+                        PhotoFileName =@PhotoFileName,
+                        Like =@Like,
+                        Dislike =@Dislike
 
                         WHERE PostId=@PostId;
 
@@ -115,8 +119,10 @@ namespace LFG.Controllers
                     myCommand.Parameters.AddWithValue("@Content", post.Content);
                     myCommand.Parameters.AddWithValue("@PosterProfile", post.PosterProfile);
                     myCommand.Parameters.AddWithValue("@PhotoFileName", post.PhotoFileName);
+                    myCommand.Parameters.AddWithValue("@Like", post.Like);
+                    myCommand.Parameters.AddWithValue("@Dislike", post.Dislike);
 
-                    myReader = myCommand.ExecuteReader();
+                        myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
 
                     myReader.Close();

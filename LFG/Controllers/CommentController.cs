@@ -21,7 +21,7 @@ namespace LFG.Controllers
         public JsonResult Get()
         {
             string query = @"
-                        SELECT CommentContent, Date, CommentingProfile
+                        SELECT *
                         FROM
                         Comment
         ";
@@ -51,9 +51,9 @@ namespace LFG.Controllers
         {
             string query = @"
                         INSERT INTO Comment 
-                        (CommentContent, Date, CommentingProfile)
+                        (CommentContent, Date, CommentingProfile, PostId)
                         VALUES 
-                        (@CommentContent, @Date, @CommentingProfile);
+                        (@CommentContent, @Date, @CommentingProfile, @PostId);
             ";
 
             DataTable table = new DataTable();
@@ -67,6 +67,7 @@ namespace LFG.Controllers
                     myCommand.Parameters.AddWithValue("@CommentContent", comment.CommentContent);
                     myCommand.Parameters.AddWithValue("@Date", comment.Date);
                     myCommand.Parameters.AddWithValue("@CommentingProfile", comment.CommentingProfile);
+                    myCommand.Parameters.AddWithValue("@PostId", comment.PostId);
 
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
@@ -88,6 +89,7 @@ namespace LFG.Controllers
                         CommentContent =@CommentContent,
                         Date =@Date,
                         CommentingProfile =@CommentingProfile
+                        PostId =@PostId
                         WHERE Id=@Id;
 
             ";
@@ -104,6 +106,7 @@ namespace LFG.Controllers
                     myCommand.Parameters.AddWithValue("@CommentContent", comment.CommentContent);
                     myCommand.Parameters.AddWithValue("@Date", comment.Date);
                     myCommand.Parameters.AddWithValue("@CommentingProfile", comment.CommentingProfile);
+                    myCommand.Parameters.AddWithValue("@PostId", comment.PostId);
 
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);

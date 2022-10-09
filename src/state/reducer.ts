@@ -1,6 +1,5 @@
-import { Game, User, Post, ProfileModel } from "../types"
+import { Game, User, Post, ProfileModel, Comment } from "../types"
 import { State } from "./state";
-
 
 export type Action =
     | {
@@ -27,7 +26,6 @@ export type Action =
         type: "GET_USERS";
         payload: User[];
     }
-
     | {
         type: "ADD_PROFILE";
         payload: ProfileModel;
@@ -37,12 +35,20 @@ export type Action =
         payload: ProfileModel[];
     }
     | {
-        type:"GET_POSTS";
+        type: "GET_POSTS";
         payload: Post[];
     }
     | {
-        type:"ADD_POST";
+        type: "ADD_POST";
         payload: Post;
+    }
+    | {
+        type: "ADD_COMMENT";
+        payload: Comment;
+    }
+    | {
+        type: "GET_COMMENTS";
+        payload: Comment[];
     };
 
 export const reducer = (state: State, action: Action): State => {
@@ -112,18 +118,18 @@ export const reducer = (state: State, action: Action): State => {
                     ),
                     ...state.user
                 }
-            }
+            };
         case "GET_POSTS":
-            return{
+            return {
                 ...state,
-                posts:{
+                posts: {
                     ...action.payload.reduce(
                         (memo, post) => ({ ...memo, [Number(post.PostId)]: post }),
                         {}
                     ),
                     ...state.posts
                 }
-            }
+            };
         case "ADD_POST":
             return {
                 ...state,
@@ -131,7 +137,26 @@ export const reducer = (state: State, action: Action): State => {
                     [Number(action.payload.PostId)]: action.payload,
                     ...state.posts
                 }
-            }
+            };
+        case "GET_COMMENTS":
+            return {
+                ...state,
+                comment: {
+                    ...action.payload.reduce(
+                        (memo, comment) => ({ ...memo, [Number(comment.Id)]: comment }),
+                        {}
+                    ),
+                    ...state.comment
+                }
+            };
+        case "ADD_COMMENT":
+            return {
+                ...state,
+                comment: {
+                    [Number(action.payload.Id)]: action.payload,
+                    ...state.comment
+                }
+            };
         default:
             return state;
     }

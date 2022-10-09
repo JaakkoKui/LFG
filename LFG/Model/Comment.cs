@@ -6,5 +6,7 @@
         public string CommentContent { get; set; }
         public string Date { get; set; }
         public int CommentingProfile { get; set; }
+
+        public int PostId { get; set; }
     }
 }

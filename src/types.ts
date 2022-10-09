@@ -35,9 +35,19 @@ export interface Post {
     Content: string;
     PosterProfile: number;
     PhotoFileName: string;
+    Like: number;
+    Dislike: number;
 }
 
 export interface Message{
     IsSuccess: boolean,
     Message: string
+}
+
+export interface Comment{
+    Id: number | undefined;
+    CommentContent: string;
+    Date: string;
+    CommentingProfile: number;
+    PostId: number;
 }
