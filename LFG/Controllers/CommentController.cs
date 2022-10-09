@@ -21,7 +21,7 @@ namespace LFG.Controllers
         public JsonResult Get()
         {
             string query = @"
-                        SELECT CommentContent, Date, CommentingProfile
+                        SELECT *
                         FROM
                         Comment
         ";

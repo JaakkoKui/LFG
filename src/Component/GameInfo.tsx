@@ -5,6 +5,7 @@ import { useStateValue } from "../state/state";
 import { Game, ProfileModel } from "../types";
 import { rootNavigate } from "./CustomRouter";
 import EditGameForm from "./EditGameForm";
+import CSS from 'csstype';
 
 const GameInfo: React.FC = () => {
     const [{ games, profile, email }, dispatch] = useStateValue();
@@ -34,6 +35,9 @@ const GameInfo: React.FC = () => {
         }
     }
 
+    const contentStyle: CSS.Properties = {
+        whiteSpace: "pre-line"
+    }
     return (
         <>
             <h1 className="text-3xl font-bold underline">
@@ -51,9 +55,9 @@ const GameInfo: React.FC = () => {
             <div>
                 Nickname ingame: {gameInfo.NicknameIngame}
             </div>
-            <div>
+            <p style={contentStyle}>
                 Comments about the game: {gameInfo.Comments} <br /> by <Link to={`/profile/${Number(thisUser.ProfileId)}`}>{thisUser.Nickname}</Link>
-            </div>
+            </p>
             <br />
             {thisUser.Email === email && <div>
                 <button onClick={toggle} className="text-xl">Edit game</button>
