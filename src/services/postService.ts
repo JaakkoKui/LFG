@@ -61,7 +61,7 @@ export const editPost = async (post: Post) => {
 
 export const likePost = async (post: Post) => {
     try{
-        post.Like++;
+        post.Likepost++;
         const {data: data} = await axios.put<string>(baseUrl, post);
         return data;
     }catch (e: unknown) {
@@ -76,7 +76,7 @@ export const likePost = async (post: Post) => {
 
 export const dislikePost = async (post:Post) => {
     try{
-        post.Dislike++;
+        post.Dislikepost++;
         const {data: data} = await axios.put<string>(baseUrl, post);
         return data;
     }catch (e: unknown) {

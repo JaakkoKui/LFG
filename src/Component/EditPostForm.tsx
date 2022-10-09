@@ -34,8 +34,8 @@ const EditPostForm: React.FC<Props> = ({currentPost, toggleForm}) => {
             PosterProfile: Number(currentPost.PosterProfile),
             CreateDate: currentPost.CreateDate,
             PhotoFileName: "jep",
-            Like: currentPost.Like,
-            Dislike: currentPost.Dislike
+            Likepost: currentPost.Likepost,
+            Dislikepost: currentPost.Dislikepost
         }
 
         editPost(updatedPost).then(mes => {

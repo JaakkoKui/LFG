@@ -55,9 +55,9 @@ namespace LFG.Controllers
         {
             string query = @"
                         INSERT INTO Post 
-                        (Title, CreateDate, Content, PosterProfile, PhotoFileName, Like, Dislike) 
+                        (Title, CreateDate, Content, PosterProfile, PhotoFileName, Likepost, Dislikepost) 
                         VALUES 
-                        (@Title, @CreateDate, @Content, @PosterProfile, @PhotoFileName, @Like, @Dislike);
+                        (@Title, @CreateDate, @Content, @PosterProfile, @PhotoFileName, @Likepost, @Dislikepost);
         ";
 
             DataTable table = new DataTable();
@@ -73,8 +73,8 @@ namespace LFG.Controllers
                     myCommand.Parameters.AddWithValue("@Content", post.Content);
                     myCommand.Parameters.AddWithValue("@PosterProfile", post.PosterProfile);
                     myCommand.Parameters.AddWithValue("@PhotoFileName", post.PhotoFileName);
-                    myCommand.Parameters.AddWithValue("@Like", post.Like);
-                    myCommand.Parameters.AddWithValue("@Dislike", post.Dislike);
+                    myCommand.Parameters.AddWithValue("@Likepost", post.Likepost);
+                    myCommand.Parameters.AddWithValue("@Dislikepost", post.Dislikepost);
 
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
@@ -98,8 +98,8 @@ namespace LFG.Controllers
                         Content =@Content,
                         PosterProfile =@PosterProfile,
                         PhotoFileName =@PhotoFileName,
-                        Like =@Like,
-                        Dislike =@Dislike
+                        Likepost =@Likepost,
+                        Dislikepost =@Dislikepost
 
                         WHERE PostId=@PostId;
 
@@ -119,10 +119,10 @@ namespace LFG.Controllers
                     myCommand.Parameters.AddWithValue("@Content", post.Content);
                     myCommand.Parameters.AddWithValue("@PosterProfile", post.PosterProfile);
                     myCommand.Parameters.AddWithValue("@PhotoFileName", post.PhotoFileName);
-                    myCommand.Parameters.AddWithValue("@Like", post.Like);
-                    myCommand.Parameters.AddWithValue("@Dislike", post.Dislike);
+                    myCommand.Parameters.AddWithValue("@Likepost", post.Likepost);
+                    myCommand.Parameters.AddWithValue("@Dislikepost", post.Dislikepost);
 
-                        myReader = myCommand.ExecuteReader();
+                    myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
 
                     myReader.Close();
@@ -175,13 +175,14 @@ namespace LFG.Controllers
                 string filename = postedFile.FileName;
                 var physicalPath = _env.ContentRootPath + "/Photos/" + filename;
 
-                using(var stream=new FileStream(physicalPath, FileMode.Create))
+                using (var stream = new FileStream(physicalPath, FileMode.Create))
                 {
                     postedFile.CopyTo(stream);
                 }
 
                 return new JsonResult(filename);
-            } catch (Exception)
+            }
+            catch (Exception)
             {
                 return new JsonResult("anonymous.png");
             }

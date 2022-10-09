@@ -35,8 +35,8 @@ export interface Post {
     Content: string;
     PosterProfile: number;
     PhotoFileName: string;
-    Like: number;
-    Dislike: number;
+    Likepost: number;
+    Dislikepost: number;
 }
 
 export interface Message{

@@ -110,8 +110,8 @@ const Posts: React.FC<Props> = ({ currentUser }) => {
                                         <p style={contentStyle}>{post.Content}</p>
 
                                         <div className='flex pt-5'>
-                                            <p className='border-r pr-2.5'>{post.Like} likes</p>
-                                            <p className='pl-2.5'>{post.Dislike} dislikes</p>
+                                            <p className='border-r pr-2.5'>{post.Likepost} likes</p>
+                                            <p className='pl-2.5'>{post.Dislikepost} dislikes</p>
                                         </div>
 
                                     </div>
@@ -157,8 +157,8 @@ const Posts: React.FC<Props> = ({ currentUser }) => {
                                 <p style={contentStyle}>{post.Content}</p>
 
                                 <div className='flex pt-5'>
-                                    <p className='border-r pr-2.5'>0 likes</p>
-                                    <p className='pl-2.5'>0 dislikes</p>
+                                    <p className='border-r pr-2.5'>{post.Likepost} likes</p>
+                                    <p className='pl-2.5'>{post.Dislikepost} dislikes</p>
                                 </div>
 
                             </div>

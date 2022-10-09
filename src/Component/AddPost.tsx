@@ -38,8 +38,8 @@ const AddPost: React.FC<Props> = ({ currentUser, toggleNewPost }) => {
             Content: content,
             PosterProfile: Number(currentUser.ProfileId),
             PhotoFileName: "jep",
-            Like: 0,
-            Dislike: 0
+            Likepost: 0,
+            Dislikepost: 0
         }
 
         addPost(newPost);
