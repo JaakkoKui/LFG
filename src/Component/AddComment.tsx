@@ -46,16 +46,14 @@ const AddComment: React.FC<Props> = ({thisPost, currentUser, toggleForm}) => {
 
     return (
         <>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>
-                    Comment: <textarea id="comment" name="comment" placeholder="Comment" rows={3} cols={40} />
-                </label>
+            <form onSubmit={handleSubmit} className='mt-5 pb-5 w-[400px] border-b border-gray-600'>
+                <div className='flex'>
+                    <div className='h-[30px] w-[30px] mb-2 bg-lightBackground object-contain rounded-full'></div>
+                    <textarea id="comment" name="comment" className='bg-lightBackground rounded-md px-2 py-1 ml-2 h-[32px] w-[calc(100%-30px)]' placeholder="Comment" rows={3} cols={40} />
                 </div>
 
-                <div>
-                    <button type="submit" >Comment this post</button>
-                    <div><button onSubmit={handleCancel}>Cancel</button></div>
+                <div className='mt-2 w-fit ml-auto'>
+                    <button type='submit' className='rounded-full bg-primary text-sm px-4 py-2 hover:ring-4'>Comment</button>
                 </div>
             </form>
         </>

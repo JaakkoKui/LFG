@@ -89,7 +89,7 @@ const Posts: React.FC<Props> = ({ currentUser }) => {
         }
         else if(currentUser?.Email === email){
             window.location.reload();
-        }else{
+        } else {
             rootNavigate(`/profile/${Number(currentUser.ProfileId)}`)
         }
     }
@@ -121,18 +121,6 @@ const Posts: React.FC<Props> = ({ currentUser }) => {
                                 <div className='mx-5 w-fit'>
                                     <img className='w-[50px] object-contain rounded-full bg-primary' src='/images/test-avatar.png' alt='avatar' />
                                 </div>
- <div className='flex flex-col justify-between h-16 px-5 mt-2'>
-                                <button onClick={() => likeThis(post)} className='w-[50px] hover:text-white'>
-                                    <span className='material-symbols-outlined'>
-                                        thumb_up
-                                    </span>
-                                </button>
-                                <button onClick={() => dislikeThis(post)} className='w-[50px] hover:text-white'>
-                                    <span className='material-symbols-outlined'>
-                                        thumb_down
-                                    </span>
-                                </button>
-                            </div>
                                 <div className='relative w-full flex'>
                                     <div className='w-full'>
                                    
@@ -181,7 +169,6 @@ const Posts: React.FC<Props> = ({ currentUser }) => {
     } else {
         return (
             <div className='flex flex-col'>
-                <hr className='w-full border-gray-700'></hr>
                 {allPosts.map(post =>
 
                     <>
@@ -192,19 +179,6 @@ const Posts: React.FC<Props> = ({ currentUser }) => {
                             </div>
 
                             <div className='relative w-full flex'>
-<div className='flex flex-col justify-between h-16 px-5 mt-2'>
-                                <button onClick={() => likeThis(post)} className='w-[50px] hover:text-white'>
-                                    <span className='material-symbols-outlined'>
-                                        thumb_up
-                                    </span>
-                                </button>
-                                <button onClick={() => dislikeThis(post)} className='w-[50px] hover:text-white'>
-                                    <span className='material-symbols-outlined'>
-                                        thumb_down
-                                    </span>
-                                </button>
-                            </div>
-
 
                                 <div className='w-full'>
                                     <div className='flex h-[50px]'>
@@ -226,6 +200,19 @@ const Posts: React.FC<Props> = ({ currentUser }) => {
                                 </div>
 
                                 <div className='w-[50px] mx-5'>
+                                </div>
+
+                                <div className='flex flex-col justify-between h-16 px-5 mt-2'>
+                                    <button onClick={() => likeThis(post)} className='w-[50px] hover:text-white'>
+                                        <span className='material-symbols-outlined'>
+                                            thumb_up
+                                        </span>
+                                    </button>
+                                    <button onClick={() => dislikeThis(post)} className='w-[50px] hover:text-white'>
+                                        <span className='material-symbols-outlined'>
+                                            thumb_down
+                                        </span>
+                                    </button>
                                 </div>
                             </div>
                         </div>
