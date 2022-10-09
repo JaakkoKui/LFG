@@ -59,27 +59,29 @@ const EditGameForm: React.FC<Props> = ({ currentGame, toggleForm }) => {
     }
 
     return (
-        <>
-            <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
+            <ul className="py-5 my-5 border-y border-gray-600 h-[146px]">
+                <li className="flex">
+                    <p className="w-[153px]">Nickname ingame: </p> <input id="nick" name="nick" className="font-semibold px-2 bg-darkBackground rounded-t-md w-[calc(100%-153px)] border-b-2 border-lightBackground" defaultValue={currentGame.NicknameIngame} placeholder="Nickname (ingame)" />
+                </li>
+                <li className="flex">
+                    <p className="w-[132px] mr-5">Hours played:</p> <input id="hours" name="hours" className="font-semibold px-2 bg-darkBackground w-[calc(100%-153px)] border-b-2 border-lightBackground" type="number" defaultValue={currentGame.HoursPlayed} placeholder="Hours played" />
+                </li>
+                <li className="flex">
+                    <p className="w-[132px] mr-5">Rank:</p> <input id="rank" name="rank" className="font-semibold px-2 bg-darkBackground w-[calc(100%-153px)] border-b-2 border-lightBackground" defaultValue={currentGame.Rank} placeholder="Rank" />
+                </li>
+                <li className="flex">
+                    <p className="w-[132px] mr-5">Server:</p> <input id="server" name="server" className="font-semibold px-2 bg-darkBackground rounded-b-md w-[calc(100%-153px)]" defaultValue={currentGame.Server} placeholder="Server" />
+                </li>
+            </ul>
 
-                <div><label>
-                    Hours played: <input id="hours" name="hours" type="number" defaultValue={currentGame.HoursPlayed} placeholder="First name" />
-                </label></div>
-                <div><label>
-                    Nickname ingame: <input id="nick" name="nick" defaultValue={currentGame.NicknameIngame} placeholder="Nickname ingame" />
-                </label></div>
-                <div><label>
-                    Rank: <input id="rank" name="rank" defaultValue={currentGame.Rank} placeholder="Rank" />
-                </label></div>
-                <div><label>
-                    Server: <input id="server" name="server" defaultValue={currentGame.Server} placeholder="Server" />
-                </label></div>
-                <div><label>
-                    Comments: <textarea id="comment" name="comment" defaultValue={currentGame.Comments} placeholder="Comments " rows={4} cols={40}/>
-                </label></div>
-                <button type="submit" className="text-xl">Edit game info</button>
-            </form>
-        </>
+            <div className="border-b border-gray-600 pb-5">
+                <h4 className="font-bold">Comment:</h4>
+                <p className="mt-1"><textarea id="comment" name="comment" className="px-5 bg-darkBackground rounded-md w-full" defaultValue={currentGame.Comments} placeholder="Comments " rows={4} cols={40} /></p>
+            </div>
+
+            <button type="submit" className="mt-5 rounded-full bg-primary text-white text-sm px-4 py-2 w-28 hover:ring-4">Update</button>
+        </form>
     )
 }
 

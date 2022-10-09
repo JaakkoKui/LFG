@@ -3,11 +3,10 @@
     "",
     "\\LFG",
     "\\LFG\\Controllers",
-    "\\public",
-    "\\public\\images",
+    "\\LFG\\Model",
     "\\src",
     "\\src\\Component"
   ],
-  "SelectedNode": "\\src\\Component\\HomePage.tsx",
+  "SelectedNode": "\\src\\Component\\Posts.tsx",
   "PreviewInSolutionExplorer": false
 }

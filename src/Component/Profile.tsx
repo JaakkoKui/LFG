@@ -105,8 +105,8 @@ const Profile: React.FC = () => {
         return (
             <>
                 <button className="text-2xl" onClick={showEditForm}>Edit profile</button> <br />
-                {editProfile && <EditProfileForm currentUser={thisuser[0]} toggleForm={showEditForm} />}
                 <div>
+                    {editProfile && <EditProfileForm currentUser={thisuser[0]} toggleForm={showEditForm} />}
                     <button onClick={removeProfile}>Delete Profile</button>
                 </div>
                 <div key={thisuser[0].ProfileId} className='min-h-[calc(100vh-65px)] z-10 bg-darkBackground text-gray-200'>
@@ -130,7 +130,8 @@ const Profile: React.FC = () => {
                     <div className='font-bold text-3xl pb-7 flex w-full'>
                         <h1 className='w-fit'>Your&nbsp;Posts</h1>
                         <hr className='border-2 border-gray-300 w-full mt-5 mx-5 rounded-md'></hr>
-                        <button onClick={togglePost} className='rounded-full bg-primary text-sm px-4 py-2 w-28 hover:ring-4'>New Post</button>
+                            {!newPost && <button onClick={togglePost} className='rounded-full bg-primary text-sm px-4 py-2 w-28 hover:ring-4'>New Post</button> }
+                            {newPost && <button onClick={togglePost} className='rounded-full bg-red-500 text-sm px-4 py-2 w-28 hover:ring-4'>Cancel</button> }
                     </div>
 
                         <div className='text-gray-600'>
