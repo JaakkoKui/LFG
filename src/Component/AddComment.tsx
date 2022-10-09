@@ -1,7 +1,7 @@
 import React from "react";
 import { addComment } from "../services/commentService";
 import { useStateValue } from "../state/state";
-import { Comment, Post, ProfileModel } from "../types";
+import { Comments, Post, ProfileModel } from "../types";
 
 interface FormElements extends HTMLFormControlsCollection {
     comment: HTMLInputElement;
@@ -28,7 +28,7 @@ const AddComment: React.FC<Props> = ({thisPost, currentUser, toggleForm}) => {
 
         const comment = e.currentTarget.elements.comment.value;
 
-        const newComment: Comment = {
+        const newComment: Comments = {
             Id: undefined,
             PostId: Number(thisPost.PostId),
             CommentContent: comment,

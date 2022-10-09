@@ -1,11 +1,11 @@
 import axios from "axios";
-import { Comment } from "../types";
+import { Comments } from "../types";
 
 const baseUrl = "https://localhost:44372/api/Comment";
 
 export const getComments = async () => {
     try {
-		const { data: comments } = await axios.get<Comment[]>(baseUrl);
+		const { data: comments } = await axios.get<Comments[]>(baseUrl);
 		return comments;
 	} catch (error: unknown) {
 		let errorMessage = 'Something went wrong.';
@@ -16,9 +16,9 @@ export const getComments = async () => {
 	}
 };
 
-export const addComment = async (comment: Comment) => {
+export const addComment = async (comment: Comments) => {
     try {
-		const { data: comments } = await axios.post<Comment>(baseUrl, comment);
+		const { data: comments } = await axios.post<Comments>(baseUrl, comment);
 		return comments;
 	} catch (error: unknown) {
 		let errorMessage = 'Something went wrong.';

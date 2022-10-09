@@ -44,7 +44,7 @@ export interface Message{
     Message: string
 }
 
-export interface Comment{
+export interface Comments{
     Id: number | undefined;
     CommentContent: string;
     Date: string;

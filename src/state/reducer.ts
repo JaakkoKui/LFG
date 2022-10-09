@@ -1,4 +1,4 @@
-import { Game, User, Post, ProfileModel, Comment } from "../types"
+import { Game, User, Post, ProfileModel, Comments } from "../types"
 import { State } from "./state";
 
 export type Action =
@@ -44,11 +44,11 @@ export type Action =
     }
     | {
         type: "ADD_COMMENT";
-        payload: Comment;
+        payload: Comments;
     }
     | {
         type: "GET_COMMENTS";
-        payload: Comment[];
+        payload: Comments[];
     };
 
 export const reducer = (state: State, action: Action): State => {

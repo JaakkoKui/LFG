@@ -5,7 +5,7 @@ import { getPosts } from "../services/postService";
 import { getProfiles } from "../services/profileService";
 import { getUsers } from "../services/userService";
 import { useStateValue } from "../state/state";
-import { Comment, Game, Post, ProfileModel, User } from "../types";
+import { Comments, Game, Post, ProfileModel, User } from "../types";
 import Posts from "./Posts";
 
 const HomePage: React.FC = () => {
@@ -37,7 +37,7 @@ const HomePage: React.FC = () => {
             });
 
             getComments().then(comment => {
-                const comments: Comment[] = comment as Comment[];
+                const comments: Comments[] = comment as Comments[];
                 dispatch({type: "GET_COMMENTS", payload: comments})
             })
     

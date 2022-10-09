@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useReducer } from "react";
-import { Game, User, ProfileModel, Post, Comment } from "../types";
+import { Game, User, ProfileModel, Post, Comments } from "../types";
 import { Action } from "./reducer";
 
 export interface State {
@@ -8,7 +8,7 @@ export interface State {
     email: string,
     user: {[Email: string]: User},
     posts: {[PostID: number] : Post},
-    comment: {[Id: number]: Comment}
+    comment: {[Id: number]: Comments}
 }
 
 const initialState: State = {

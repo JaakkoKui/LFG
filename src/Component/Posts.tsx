@@ -5,10 +5,12 @@ import { deletePost, dislikePost, getPosts, likePost } from "../services/postSer
 import { getProfiles } from "../services/profileService";
 import { getUsers } from "../services/userService";
 import { useStateValue } from "../state/state";
-import { Game, Post, ProfileModel, User } from "../types";
+import { Game, Post, ProfileModel, User, Comments } from "../types";
 import EditPostForm from "./EditPostForm";
 import CSS from 'csstype';
 import Comment from "./Comment";
+import { rootNavigate } from "./CustomRouter";
+import { getComments } from "../services/commentService";
 
 interface Props {
     currentUser?: ProfileModel;
@@ -53,7 +55,12 @@ const Posts: React.FC<Props> = ({ currentUser }) => {
             const posts: Post[] = post as Post[];
             posts.sort((a, b) => Number(b.PostId) - Number(a.PostId));
             dispatch({ type: "GET_POSTS", payload: posts });
-        })
+        });
+
+        getComments().then(comment => {
+            const comments: Comments[] = comment as Comments[];
+            dispatch({type: "GET_COMMENTS", payload: comments})
+        });
 
         const loggedUserJSON = window.localStorage.getItem('loggedUser');
         if (loggedUserJSON && loggedUserJSON !== undefined) {
@@ -75,10 +82,29 @@ const Posts: React.FC<Props> = ({ currentUser }) => {
 
     const likeThis = (post: Post) =>{
         likePost(post);
+        
+        if(!currentUser){
+            
+            window.location.reload();
+        }
+        else if(currentUser?.Email === email){
+            window.location.reload();
+        }else{
+            rootNavigate(`/profile/${Number(currentUser.ProfileId)}`)
+        }
     }
 
     const dislikeThis = (post: Post) => {
         dislikePost(post);
+
+        if(!currentUser){
+            window.location.reload();
+        }
+        else if(currentUser?.Email === email){
+            window.location.reload();
+        }else{
+            rootNavigate(`/profile/${Number(currentUser.ProfileId)}`);
+        }
     }
 
     if (currentUser) {
@@ -95,9 +121,21 @@ const Posts: React.FC<Props> = ({ currentUser }) => {
                                 <div className='mx-5 w-fit'>
                                     <img className='w-[50px] object-contain rounded-full bg-primary' src='/images/test-avatar.png' alt='avatar' />
                                 </div>
-
+ <div className='flex flex-col justify-between h-16 px-5 mt-2'>
+                                <button onClick={() => likeThis(post)} className='w-[50px] hover:text-white'>
+                                    <span className='material-symbols-outlined'>
+                                        thumb_up
+                                    </span>
+                                </button>
+                                <button onClick={() => dislikeThis(post)} className='w-[50px] hover:text-white'>
+                                    <span className='material-symbols-outlined'>
+                                        thumb_down
+                                    </span>
+                                </button>
+                            </div>
                                 <div className='relative w-full flex'>
                                     <div className='w-full'>
+                                   
                                         <div className='flex h-[50px]'>
                                             <h2 className='text-md font-bold hover:text-white'>{currentUser.Nickname}</h2>
                                             <h4 className='text-sm italic font-semibold text-gray-400 pt-0.5 ml-3'>{post.CreateDate}</h4>
@@ -123,8 +161,8 @@ const Posts: React.FC<Props> = ({ currentUser }) => {
                                         {editForm && <EditPostForm currentPost={post} toggleForm={toggle} />}
 
                                         <div className='flex mt-auto text-gray-400'>
-                                            <p className='border-r pr-2.5 border-gray-400'>0 likes</p>
-                                            <p className='pl-2.5'>0 dislikes</p>
+                                            <p className='border-r pr-2.5 border-gray-400'>{post.Likepost} likes</p>
+                                            <p className='pl-2.5'>{post.Dislikepost} dislikes</p>
                                         </div>
                                     </div>
 
@@ -154,12 +192,26 @@ const Posts: React.FC<Props> = ({ currentUser }) => {
                             </div>
 
                             <div className='relative w-full flex'>
+<div className='flex flex-col justify-between h-16 px-5 mt-2'>
+                                <button onClick={() => likeThis(post)} className='w-[50px] hover:text-white'>
+                                    <span className='material-symbols-outlined'>
+                                        thumb_up
+                                    </span>
+                                </button>
+                                <button onClick={() => dislikeThis(post)} className='w-[50px] hover:text-white'>
+                                    <span className='material-symbols-outlined'>
+                                        thumb_down
+                                    </span>
+                                </button>
+                            </div>
+
+
                                 <div className='w-full'>
                                     <div className='flex h-[50px]'>
                                         <h2 className='text-md font-bold hover:text-white'><Link to={`/profile/${Number(allProfiles.find(prof => Number(prof.ProfileId) === Number(post.PosterProfile))?.ProfileId)}`}>{allProfiles.find(prof => Number(prof.ProfileId) === Number(post.PosterProfile))?.Nickname}</Link></h2>
                                         <h4 className='text-sm italic font-semibold text-gray-400 pt-0.5 ml-3'>{post.CreateDate}</h4>
                                     </div>
-
+                                    
                                     <div className='mb-5'>
                                         <h1 className='break-words text-xl font-bold mb-2'>{post.Title}</h1>
                                         <p style={contentStyle}>{post.Content}</p>
@@ -168,8 +220,8 @@ const Posts: React.FC<Props> = ({ currentUser }) => {
                                     <Comment post={post} />
 
                                     <div className='flex mt-auto text-gray-400'>
-                                        <p className='border-r pr-2.5 border-gray-400'>0 likes</p>
-                                        <p className='pl-2.5'>0 dislikes</p>
+                                        <p className='border-r pr-2.5 border-gray-400'>{post.Likepost} likes</p>
+                                        <p className='pl-2.5'>{post.Dislikepost} dislikes</p>
                                     </div>
                                 </div>
 

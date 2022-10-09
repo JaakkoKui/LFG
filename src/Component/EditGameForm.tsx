@@ -54,7 +54,7 @@ const EditGameForm: React.FC<Props> = ({ currentGame, toggleForm }) => {
         });
 
         toggleForm();
-        rootNavigate("/profile");
+        rootNavigate(`/profile`);
         window.location.reload();
     }
 
