@@ -61,7 +61,7 @@ const App: React.FC = () => {
     return (
       <CustomRouter>
         <header>
-          <nav className="h-[65px] border-b shadow-lg flex relative font-semibold text-gray-600">
+                <nav className="h-[65px] flex relative font-semibold text-gray-600 z-20 bg-white">
 
             <div className="absolute w-full h-full">
               <div className="flex h-full mx-auto w-fit justify-around">

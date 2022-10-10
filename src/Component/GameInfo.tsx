@@ -39,8 +39,27 @@ const GameInfo: React.FC = () => {
         whiteSpace: "pre-line"
     }
     return (
-        <div className="w-screen h-full bg-darkBackground min-h-[calc(100vh-65px)]">
-            <div className="flex md:w-2/3 xl:w-1/2 mx-auto pt-10 relative">
+        <div className="w-screen h-full bg-darkBackground min-h-[calc(100vh-65px)] overflow-clip">
+            <div className='basis-2/3 bg-darkBackground relative'>
+
+                <div className='absolute h-[700px] w-[700px] rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 opacity-50 rotate-45 -right-[100px] -top-[500px] z-10'>
+                    <div className='absolute h-[670px] w-[670px] bg-darkBackground'></div>
+                </div>
+
+                <div className='absolute h-[1100px] w-[1100px] rounded-xl bg-gradient-to-r from-sky-500 to-indigo-500 opacity-50 rotate-45 -right-[300px] -top-[800px]'>
+                    <div className='absolute h-[1070px] w-[1070px] bg-darkBackground'></div>
+                </div>
+
+                <div className='absolute h-[1000px] w-[1100px] rounded-xl bg-gradient-to-r from-violet-500 to-fuchsia-500 opacity-50 -rotate-45 -left-[700px] -bottom-[130vh] z-10'>
+                    <div className='absolute h-[970px] w-[1070px] bg-darkBackground'></div>
+                </div>
+
+                <div className='absolute h-[1100px] w-[1100px] rounded-xl bg-gradient-to-r from-cyan-500 to-blue-500 opacity-50 -rotate-45 -left-[560px] -bottom-[130vh]'>
+                    <div className='absolute h-[1070px] w-[1070px] bg-darkBackground'></div>
+                </div>
+
+            </div>
+            <div className="flex md:w-[800px] lg:w-[1000px] 2xl:w-[1100px] mx-auto pt-20 relative z-10 drop-shadow-lg">
                 <div className="w-1/2 rounded-l-lg bg-primary flex justify-center">
                     <img className='object-contain rounded-l-lg' src='/images/wolfenstein-demo.jpg' alt='game' />
                 </div>
