@@ -19,7 +19,11 @@ interface Props {
 
 
 const EditPostForm: React.FC<Props> = ({currentPost, toggleForm}) => {
-    const [,dispatch] = useStateValue();
+    const [, dispatch] = useStateValue();
+
+    const [showEditButton, editButton] = React.useState<boolean>(false);
+    const [textField, textFieldDispatch] = React.useState<string>("");
+    const [inputField, inputFieldDispatch] = React.useState<string>("");
 
     const handleSubmit = (e: React.FormEvent<YourFormElement>) => {
         e.preventDefault();
@@ -50,22 +54,29 @@ const EditPostForm: React.FC<Props> = ({currentPost, toggleForm}) => {
         toggleForm();
     }
 
+    const activateTextAreaChange = () => {
+        editButton(true);
+    }
+
+    const deactivateTextAreaChange = () => {
+        textFieldDispatch("");
+        inputFieldDispatch("");
+        editButton(false);
+    }
+
     return (
         <>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>
-                        Title: <input name="title" id="title" defaultValue={currentPost.Title} placeholder="Title" />
-                    </label>
+            <form onSubmit={handleSubmit} className='w-1/3'>
+                <div className='flex flex-col mb-5'>
+                    <input name="title" id="title" className='break-words bg-lightBackground px-2 py-1 text-xl font-bold mb-2 rounded-md' onChange={(e) => inputFieldDispatch(e.target.value)} value={inputField} onFocus={activateTextAreaChange} defaultValue={currentPost.Title} placeholder="Title" />
+                    <textarea name="content" id="content" className='p-2 bg-lightBackground rounded-md' defaultValue={currentPost.Content} onChange={(e) => textFieldDispatch(e.target.value)} value={textField} onFocus={activateTextAreaChange} placeholder="Content" rows={4} cols={40} />
                 </div>
-                <div>
-                    <label>
-                        Content: <textarea name="content" id="content" defaultValue={currentPost.Content} placeholder="Content" rows={4} cols={40}/>
-                    </label>
-                </div>
-                <div>
-                    <button type="submit">Edit post</button>
-                </div>
+                {showEditButton &&
+                    <div className='ml-auto w-fit'>
+                        <button onClick={deactivateTextAreaChange} className='uppercase text-sm w-24 px-4 py-2 hover:text-white'>Cancel</button>
+                        <button type="submit" className='rounded-full bg-primary text-sm px-4 py-2 w-24 text-white hover:ring-4 px-4 py-2 uppercase font-semibold'>Edit</button>
+                    </div>
+                }
             </form>
         </>
     )

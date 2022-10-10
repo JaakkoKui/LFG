@@ -2,13 +2,10 @@
   "ExpandedNodes": [
     "",
     "\\LFG",
-    "\\LFG\\Controllers",
-    "\\LFG\\Model",
     "\\public",
-    "\\public\\images",
     "\\src",
     "\\src\\Component"
   ],
-  "SelectedNode": "\\src\\Component\\Profile.tsx",
+  "SelectedNode": "\\src\\Component\\AddComment.tsx",
   "PreviewInSolutionExplorer": false
 }
