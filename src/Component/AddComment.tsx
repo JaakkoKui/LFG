@@ -26,7 +26,7 @@ const AddComment: React.FC<Props> = ({thisPost, currentUser, toggleForm}) => {
         e.preventDefault();
 
         const date = new Date();
-        const today = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+        date.setMilliseconds(0);
 
         const comment = e.currentTarget.elements.comment.value;
 
@@ -35,7 +35,7 @@ const AddComment: React.FC<Props> = ({thisPost, currentUser, toggleForm}) => {
             PostId: Number(thisPost.PostId),
             CommentContent: comment,
             CommentingProfile: Number(currentUser.ProfileId),
-            Date: today
+            Date: date.toISOString().replace(".000Z", "")
         }
 
         addComment(newComment);

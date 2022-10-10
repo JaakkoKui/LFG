@@ -28,7 +28,7 @@ const AddPost: React.FC<Props> = ({ currentUser, toggleNewPost }) => {
         e.preventDefault();
 
         const date = new Date();
-        const today = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+        date.setMilliseconds(0);
 
         const title = e.currentTarget.elements.title.value;
         const content = e.currentTarget.elements.content.value;
@@ -36,7 +36,7 @@ const AddPost: React.FC<Props> = ({ currentUser, toggleNewPost }) => {
         const newPost: Post = {
             PostId: undefined,
             Title: title,
-            CreateDate: today,
+            CreateDate: date.toISOString().replace(".000Z", ""),
             Content: content,
             PosterProfile: Number(currentUser.ProfileId),
             PhotoFileName: "jep",
