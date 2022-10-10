@@ -129,16 +129,16 @@ const Posts: React.FC<Props> = ({ currentUser }) => {
                                         <div className='flex h-[50px]'>
                                             <h2 className='text-md font-bold hover:text-white'>{currentUser.Nickname}</h2>
                                             <h4 className='text-sm italic font-semibold text-gray-400 pt-0.5 ml-3'>{post.CreateDate.replace("T", " | ")}</h4>
-                                            <button className='right-5 h-fit absolute text-gray-400 hover:text-white' onClick={toggleDrop}>
+                                           {currentUser.Email === email &&  <button className='right-5 h-fit absolute text-gray-400 hover:text-white' onClick={toggleDrop}>
                                                 <span className="material-symbols-outlined">
                                                     more_horiz
                                                 </span>
-                                            </button>
+                                            </button>}
                                             { moreDropdown &&
                                                 <div className='right-5 flex flex-col absolute bg-white text-gray-800 text-center rounded-md drop-shadow-md'>
                                                     <button className='py-2 w-28 border-b' onClick={toggleDrop} >Cancel</button>
-                                                    {currentUser.Email === email && <button className='py-2 w-28 border-b' onClick={toggle}>Edit</button>}
-                                                    {currentUser.Email === email && <button className='py-2 w-28 text-red-500 hover:bg-gray-200 hover:text-red-600' onClick={() => handleDelete(post)}>Delete</button>}
+                                                    <button className='py-2 w-28 border-b' onClick={toggle}>Edit</button>
+                                                    <button className='py-2 w-28 text-red-500 hover:bg-gray-200 hover:text-red-600' onClick={() => handleDelete(post)}>Delete</button>
                                                 </div>
                                             }
                                         </div>
