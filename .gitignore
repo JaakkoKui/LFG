@@ -179,6 +179,7 @@ DocProject/Help/html
 
 # Click-Once directory
 publish/
+.vs
 
 # Publish Web Output
 *.[Pp]ublish.xml
@@ -285,6 +286,7 @@ FakesAssemblies/
 # Node.js Tools for Visual Studio
 .ntvs_analysis.dat
 node_modules/
+build/
 
 # Visual Studio 6 build log
 *.plg
