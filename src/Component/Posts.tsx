@@ -28,6 +28,9 @@ const Posts: React.FC<Props> = ({ currentUser }) => {
 
     const toggleDrop = (id: number) => {
         toggleDropdown(!moreDropdown);
+        if (editForm) {
+            toggleForm(!editForm);
+        }
         setPostID(id);
     }
 
@@ -146,12 +149,14 @@ const Posts: React.FC<Props> = ({ currentUser }) => {
                                             }
                                         </div>
 
+                                        {editForm && postID === Number(post.PostId) && <EditPostForm currentPost={post} toggleForm={toggle} />}
+
+                                        {!editForm &&
                                         <div className='mb-5'>
                                             <h1 className='break-words text-xl font-bold mb-2'>{post.Title}</h1>
                                             <p style={contentStyle}>{post.Content}</p>
                                         </div>
-
-                                        {editForm && postID === Number(post.PostId) && <EditPostForm currentPost={post} toggleForm={toggle} />}
+                                        }
 
                                         <div className='flex mt-auto text-gray-400'>
                                             <p className='border-r pr-2.5 border-gray-400'>{post.Likepost} likes</p>
