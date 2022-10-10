@@ -14,9 +14,10 @@ import CustomRouter from './Component/CustomRouter';
 import ProfilePage from './Component/ProfilePage';
 import GameInfo from './Component/GameInfo';
 import AboutPage from './Component/AboutPage';
+import EditProfileForm from './Component/EditProfileForm';
 
 const App: React.FC = () => {
-  const [{ email }, dispatch] = useStateValue();
+    const [{ profile, email, user, posts, games }, dispatch] = useStateValue();
 
   useEffect(() => {
     getUsers().then(user => {
@@ -53,7 +54,9 @@ const App: React.FC = () => {
     const handleLogout = () => {
       window.localStorage.clear();
       dispatch({ type: "LOGOUT", payload: "" })
-    }
+      }
+
+      const thisuser = Object.values(profile).filter(prof => prof.Email === email);
 
     return (
       <CustomRouter>
@@ -80,6 +83,7 @@ const App: React.FC = () => {
           <Route path='/login' element={<LoginPage />} />
           <Route path='/profile/:id' element={<ProfilePage />} />
           <Route path='/game/:id' element={<GameInfo />} />
+          <Route path='/profile/edit' element={<EditProfileForm currentUser={thisuser[0]} />} />
           <Route path='/about' element={<AboutPage />} />
         </Routes>
       </CustomRouter>

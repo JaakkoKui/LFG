@@ -41,9 +41,10 @@ const GameInfo: React.FC = () => {
     return (
         <div className="w-screen h-full bg-darkBackground min-h-[calc(100vh-65px)]">
             <div className="flex md:w-2/3 xl:w-1/2 mx-auto pt-10 relative">
-                <div className="w-1/2">
+                <div className="w-1/2 rounded-l-lg bg-primary flex justify-center">
                     <img className='object-contain rounded-l-lg' src='/images/wolfenstein-demo.jpg' alt='game' />
                 </div>
+
                 <div className="w-1/2 text-gray-300 bg-lightBackground rounded-r-lg">
                     <div className="m-10">
                         <h1 className="text-4xl font-bold">

@@ -11,11 +11,13 @@ import AddPost from "./AddPost";
 import { deletePost, getPosts } from "../services/postService";
 import Posts from "./Posts";
 import EditProfileForm from "./EditProfileForm";
-import { rootNavigate } from "./CustomRouter";
 import { getComments } from "../services/commentService";
+import {
+    Route, Link, Routes
+} from "react-router-dom"
 
 const Profile: React.FC = () => {
-    const [{ profile, email, user, posts, games }, dispatch] = useStateValue();
+    const [{ profile, email}, dispatch] = useStateValue();
     const [addGame, setAddGame] = React.useState<boolean>(false);
     const [newPost, setNewPost] = React.useState<boolean>(false);
     const [editProfile, setEditProfile] = React.useState<boolean>(false);
@@ -30,8 +32,6 @@ const Profile: React.FC = () => {
     const togglePost = () => {
         setNewPost(!newPost)
     }
-
-    const loggedUser = Object.values(user).find(u => u.Email === email) as User;
 
     React.useEffect(() => {
 
@@ -74,30 +74,6 @@ const Profile: React.FC = () => {
         }
     }, [dispatch]);
 
-    const removeProfile = () => {
-        if (window.confirm(`Are you sure you want to remove your profile, note that this action will remove your logging info as well?`)) {
-            const myPosts = Object.values(posts).filter(post => Number(post.PosterProfile) === Number(thisuser[0].ProfileId));
-            const myGames = Object.values(games).filter(game => Number(game.ProfileId) === Number(thisuser[0].ProfileId));
-            const logged = Object.values(profile).find(prof => prof.Email === email) as ProfileModel;
-            myPosts.map(post => {
-                deletePost(Number(post.PostId));
-            })
-
-            myGames.map(game => {
-                deleteGame(Number(game.GameId))
-            })
-
-
-            deleteProfile(Number(logged.ProfileId));
-            deleteUser(Number(loggedUser.UserId));
-
-            window.localStorage.clear();
-            dispatch({ type: "LOGOUT", payload: "" });
-            rootNavigate("/login");
-            window.location.reload();
-        }
-    }
-
     const thisuser = Object.values(profile).filter(prof => prof.Email === email);
 
     if (thisuser.length !== 0) {
@@ -108,10 +84,8 @@ const Profile: React.FC = () => {
         }
         return (
             <>
-                <button className="text-2xl" onClick={showEditForm}>Edit profile</button> <br />
-                <div>
-                    {editProfile && <EditProfileForm currentUser={thisuser[0]} toggleForm={showEditForm} />}
-                    <button onClick={removeProfile}>Delete Profile</button>
+                <div className='absolute top-[145px] right-[2.5rem] text-gray-400 z-10'>
+                    <Link to="/profile/edit"><button className="uppercase font-semibold">Edit</button></Link>
                 </div>
                 <div key={thisuser[0].ProfileId} className='min-h-[calc(100vh-65px)] z-10 bg-darkBackground text-gray-200'>
 
@@ -143,7 +117,8 @@ const Profile: React.FC = () => {
                         </div>
                         <Posts currentUser={thisuser[0]} />
                     </div>
-                </div></>
+                </div>
+            </>
         )
     } else {
         return (<>Loading....</>)

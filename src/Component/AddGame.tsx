@@ -58,7 +58,7 @@ const AddGame: React.FC<Props> = ({ closeForm, currentUser }) => {
 
                 <div className="w-screen h-full bg-darkBackground min-h-[calc(100vh-65px)]">
                     <div className="flex w-1/2 mx-auto pt-10">
-                        <div className="w-1/2 h-[693px] rounded-l-lg bg-primary flex justify-center">
+                        <div className="w-1/2 min-h-[800px] rounded-l-lg bg-primary flex justify-center">
                             <h4 className="text-4xl font-bold my-auto uppercase text-gray-300">[game cover]</h4>
                         </div>
                         <div className="w-1/2 text-gray-300 bg-lightBackground rounded-r-lg">

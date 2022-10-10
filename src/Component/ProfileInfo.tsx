@@ -10,8 +10,8 @@ const ProfileInfo: React.FC<Props> = ({ currentUser }) => {
     return (
         <>
             <div id="profileInfo" className='flex py-10 px-10'>
-                <div className='ring-4 mr-10 ring-primary rounded-full bg-primary'>
-                    <img className='h-[100px] object-contain' src='/images/avatar-empty.png' alt='avatar' />
+                <div className='mr-10'>
+                    <img className='h-[100px] w-[100px] max-w-[100px] object-contain rounded-full' src='/images/test-avatar.png' alt='avatar' />
                 </div>
                 <div className='flex w-full relative'>
 
