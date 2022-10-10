@@ -59,6 +59,9 @@ const Posts: React.FC<Props> = ({ currentUser }) => {
 
         getComments().then(comment => {
             const comments: Comments[] = comment as Comments[];
+            comments.map(comment => {
+                comment.Date = comment.Date.replace("T", " | ");
+            })
             dispatch({type: "GET_COMMENTS", payload: comments})
         });
 
@@ -83,8 +86,7 @@ const Posts: React.FC<Props> = ({ currentUser }) => {
     const likeThis = (post: Post) =>{
         likePost(post);
         
-        if(!currentUser){
-            
+        if(!currentUser){   
             window.location.reload();
         }
         else if(currentUser?.Email === email){
@@ -126,17 +128,17 @@ const Posts: React.FC<Props> = ({ currentUser }) => {
                                    
                                         <div className='flex h-[50px]'>
                                             <h2 className='text-md font-bold hover:text-white'>{currentUser.Nickname}</h2>
-                                            <h4 className='text-sm italic font-semibold text-gray-400 pt-0.5 ml-3'>{post.CreateDate}</h4>
-                                            <button className='right-5 h-fit absolute text-gray-400 hover:text-white' onClick={toggleDrop}>
+                                            <h4 className='text-sm italic font-semibold text-gray-400 pt-0.5 ml-3'>{post.CreateDate.replace("T", " | ")}</h4>
+                                           {currentUser.Email === email &&  <button className='right-5 h-fit absolute text-gray-400 hover:text-white' onClick={toggleDrop}>
                                                 <span className="material-symbols-outlined">
                                                     more_horiz
                                                 </span>
-                                            </button>
+                                            </button>}
                                             { moreDropdown &&
                                                 <div className='right-5 flex flex-col absolute bg-white text-gray-800 text-center rounded-md drop-shadow-md'>
                                                     <button className='py-2 w-28 border-b' onClick={toggleDrop} >Cancel</button>
-                                                    {currentUser.Email === email && <button className='py-2 w-28 border-b' onClick={toggle}>Edit</button>}
-                                                    {currentUser.Email === email && <button className='py-2 w-28 text-red-500 hover:bg-gray-200 hover:text-red-600' onClick={() => handleDelete(post)}>Delete</button>}
+                                                    <button className='py-2 w-28 border-b' onClick={toggle}>Edit</button>
+                                                    <button className='py-2 w-28 text-red-500 hover:bg-gray-200 hover:text-red-600' onClick={() => handleDelete(post)}>Delete</button>
                                                 </div>
                                             }
                                         </div>
@@ -156,6 +158,18 @@ const Posts: React.FC<Props> = ({ currentUser }) => {
 
                                     <div className='w-[50px] mx-5'>
                                     </div>
+                                    {currentUser.Email !== email && <div className='flex flex-col justify-between h-16 px-5 mt-2 text-gray-400'>
+                                    <button onClick={() => likeThis(post)} className='w-[50px] hover:text-white'>
+                                        <span className='material-symbols-outlined'>
+                                            thumb_up
+                                        </span>
+                                    </button>
+                                    <button onClick={() => dislikeThis(post)} className='w-[50px] hover:text-white'>
+                                        <span className='material-symbols-outlined'>
+                                            thumb_down
+                                        </span>
+                                    </button>
+                                </div>}
                                 </div>
                             </div>
                             <hr className='w-full border-gray-700'></hr>
@@ -183,7 +197,7 @@ const Posts: React.FC<Props> = ({ currentUser }) => {
                                 <div className='w-full'>
                                     <div className='flex h-[50px]'>
                                         <h2 className='text-md font-bold hover:text-white'><Link to={`/profile/${Number(allProfiles.find(prof => Number(prof.ProfileId) === Number(post.PosterProfile))?.ProfileId)}`}>{allProfiles.find(prof => Number(prof.ProfileId) === Number(post.PosterProfile))?.Nickname}</Link></h2>
-                                        <h4 className='text-sm italic font-semibold text-gray-400 pt-0.5 ml-3'>{post.CreateDate}</h4>
+                                        <h4 className='text-sm italic font-semibold text-gray-400 pt-0.5 ml-3'>{post.CreateDate.replace("T", " | ")}</h4>
                                     </div>
                                     
                                     <div className='mb-5'>

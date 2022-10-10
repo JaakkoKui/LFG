@@ -38,6 +38,9 @@ const HomePage: React.FC = () => {
 
             getComments().then(comment => {
                 const comments: Comments[] = comment as Comments[];
+                comments.map(comment => {
+                    comment.Date = comment.Date.replace("T", " | ");
+                })
                 dispatch({type: "GET_COMMENTS", payload: comments})
             })
     

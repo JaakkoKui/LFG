@@ -85,7 +85,7 @@ const EditProfileForm: React.FC<Props> = ({ currentUser, toggleForm }) => {
 
                 <br /><div>{editPassword && <div><label>Current Password: <input type="password" id="currentPassword" name="currentPassword" placeholder="Current password" /></label><br />
                     <label>New Password: <input type="password" id="password" name="password" placeholder="New password" /></label><br />
-                    <label>Confirm Password: <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm password" /></label></div>}
+                    <label>Confirm New Password: <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm password" /></label></div>}
 
                 </div>
                 <div>
