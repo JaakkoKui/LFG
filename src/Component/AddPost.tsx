@@ -20,6 +20,9 @@ interface Props {
 const AddPost: React.FC<Props> = ({ currentUser, toggleNewPost }) => {
 
     const [, dispatch] = useStateValue();
+    const [showCommentButton, postButton] = React.useState<boolean>(false);
+    const [textField, textFieldDispatch] = React.useState<string>("");
+    const [inputField, inputFieldDispatch] = React.useState<string>("");
 
     const handlePost = (e: React.FormEvent<YourFormElement>) => {
         e.preventDefault();
@@ -29,7 +32,6 @@ const AddPost: React.FC<Props> = ({ currentUser, toggleNewPost }) => {
 
         const title = e.currentTarget.elements.title.value;
         const content = e.currentTarget.elements.content.value;
-        
 
         const newPost: Post = {
             PostId: undefined,
@@ -56,14 +58,30 @@ const AddPost: React.FC<Props> = ({ currentUser, toggleNewPost }) => {
 
         toggleNewPost();
     }
+
+    const activateTextAreaChange = () => {
+        postButton(true);
+    }
+
+    const deactivateTextAreaChange = () => {
+        textFieldDispatch("");
+        inputFieldDispatch("");
+        postButton(false);
+    }
+
     return (
-        <div id='addPost' className=''>
+        <div id='addPost'>
             <form onSubmit={handlePost}>
-                <div className='flex flex-col'>
-                    <input id="title" name="title" placeholder="Title" className='border-2 rounded-md border-gray-300 py-2 px-4 w-1/3' />
-                    <textarea name="content" id="content" cols={50} rows={5} placeholder="Post Content..." className='border-2 rounded-md border-gray-300 py-2 px-4 mt-4' />
-                    <button className='w-20 bg-primary rounded-full text-white px-4 py-2 mt-4' type="submit">Post!</button>
-                    <br/>
+                <div className='flex flex-col text-gray-300'>
+                    <input id="title" name="title" onChange={(e) => inputFieldDispatch(e.target.value)} value={inputField} onFocus={activateTextAreaChange} placeholder="Your title..." className='rounded-md bg-lightBackground py-2 px-4 w-1/3' />
+                    <textarea name="content" id="content" onChange={(e) => textFieldDispatch(e.target.value)} value={textField} onFocus={activateTextAreaChange} cols={50} rows={5} placeholder="Your post..." className='rounded-md bg-lightBackground py-2 px-4 mt-4' />
+                    {showCommentButton &&
+                        <div className='flex ml-auto'>
+                            <button onClick={deactivateTextAreaChange} className='uppercase text-sm w-24 px-4 mt-5 py-2 hover:text-white'>Cancel</button>
+                            <button className='rounded-full bg-primary text-sm px-4 py-2 w-24 text-white hover:ring-4 px-4 py-2 mt-5 uppercase font-semibold' type="submit">Post</button>
+                        </div>
+                    }
+                    <br />
                 </div>
             </form>
         </div>

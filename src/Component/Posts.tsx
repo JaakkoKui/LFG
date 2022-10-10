@@ -202,7 +202,7 @@ const Posts: React.FC<Props> = ({ currentUser }) => {
                                 <div className='w-[50px] mx-5'>
                                 </div>
 
-                                <div className='flex flex-col justify-between h-16 px-5 mt-2'>
+                                <div className='flex flex-col justify-between h-16 px-5 mt-2 text-gray-400'>
                                     <button onClick={() => likeThis(post)} className='w-[50px] hover:text-white'>
                                         <span className='material-symbols-outlined'>
                                             thumb_up

@@ -19,6 +19,8 @@ interface Props {
 
 const AddComment: React.FC<Props> = ({thisPost, currentUser, toggleForm}) => {
     const [, dispatch] = useStateValue();
+    const [showCommentButton, commentButton] = React.useState<boolean>(false);
+    const [textField, textFieldDispatch] = React.useState<string>("");
     
     const handleSubmit = (e: React.FormEvent<YourFormElement>) => {
         e.preventDefault();
@@ -39,21 +41,33 @@ const AddComment: React.FC<Props> = ({thisPost, currentUser, toggleForm}) => {
         addComment(newComment);
         dispatch({type: "ADD_COMMENT", payload:newComment});
         toggleForm();
+        deactivateTextAreaChange();
     }
-    const handleCancel = () => {
-        toggleForm();
+
+    const activateTextAreaChange = () => {
+        commentButton(true);
+    }
+
+    const deactivateTextAreaChange = () => {
+        textFieldDispatch("");
+        commentButton(false);
     }
 
     return (
         <>
-            <form onSubmit={handleSubmit} className='mt-5 pb-5 w-[400px] border-b border-gray-600'>
+            <form onSubmit={handleSubmit} className='mt-5 w-[400px] mb-5'>
                 <div className='flex'>
-                    <div className='h-[30px] w-[30px] mb-2 bg-lightBackground object-contain rounded-full'></div>
-                    <textarea id="comment" name="comment" className='bg-lightBackground rounded-md px-2 py-1 ml-2 h-[32px] w-[calc(100%-30px)]' placeholder="Comment" rows={3} cols={40} />
+                    <div className='h-[35px] w-[35px] mb-2 bg-lightBackground object-contain rounded-full'></div>
+                    <textarea id="comment" name="comment" onChange={(e) => textFieldDispatch(e.target.value)} value={textField} className='bg-lightBackground rounded-md px-2 py-1 ml-2 h-[32px] w-[calc(100%-30px)]' onFocus={activateTextAreaChange} placeholder="Comment" rows={3} cols={40} />
                 </div>
 
-                <div className='mt-2 w-fit ml-auto'>
-                    <button type='submit' className='rounded-full bg-primary text-sm px-4 py-2 hover:ring-4'>Comment</button>
+                <div className='w-fit ml-auto'>
+                    {showCommentButton &&
+                        <>
+                            <button onClick={deactivateTextAreaChange} className='uppercase text-sm px-4 py-2 hover:text-white'>Cancel</button>
+                            <button type='submit' className='uppercase rounded-full bg-primary text-sm px-4 py-2 hover:ring-4'>Comment</button>
+                        </>
+                    }
                 </div>
             </form>
         </>

@@ -28,7 +28,7 @@ const Comment: React.FC<Props> = ({ post }) => {
             <div>
                 <div className='flex'>
                     {!showComments &&
-                        <button onClick={toggleComments} className='font-semibold text-gray-400'>Show {comments.length} Comments</button>
+                        <button onClick={toggleComments} className='font-semibold text-gray-400 mb-1.5'>Show {comments.length} Comments</button>
                     }
                     {showComments &&
                         <button onClick={toggleComments}  className='font-semibold text-gray-400'>Hide Comments</button>
@@ -40,16 +40,18 @@ const Comment: React.FC<Props> = ({ post }) => {
                     <AddComment currentUser={currentUser} thisPost={post} toggleForm={addComment} />
 
                     {comments.map(comment =>
-                        <div key={comment.Id} className='my-5 w-1/2'>
-                            <div className='flex'>
-                                <img className='h-[30px] object-contain rounded-full' src='/images/test-avatar.png' alt='logo' />
-                                <h4 className='font-bold h-fit my-auto ml-[7px]'>{Object.values(profile).find(prof => Number(prof.ProfileId) === Number(comment.CommentingProfile))?.Nickname}</h4>
-                                <h6 className='italic text-xs font-semobold my-auto ml-2'>({comment.Date})</h6>
-                            </div>
+                        <div key={comment.Id} className='my-5 w-1/2 flex'>
+                            <img className='h-[35px] mt-1 object-contain rounded-full' src='/images/test-avatar.png' alt='logo' />
                             <div>
-                                <p className='ml-[37px]'>
+                                <div className='flex'>
+                                    <h4 className='font-bold h-fit ml-[7px]'>{Object.values(profile).find(prof => Number(prof.ProfileId) === Number(comment.CommentingProfile))?.Nickname}</h4>
+                                    <h6 className='italic text-xs font-semobold mt-1 ml-2'>({comment.Date})</h6>
+                                </div>
+                                <div>
+                                <p className='ml-[7px]'>
                                     {comment.CommentContent}
                                 </p>
+                                </div>
                             </div>
                         </div>)
                     }

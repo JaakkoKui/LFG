@@ -3,13 +3,12 @@
     "",
     "\\LFG",
     "\\LFG\\Controllers",
-    "\\LFG\\DataAccesslayer",
     "\\LFG\\Model",
     "\\public",
     "\\public\\images",
     "\\src",
     "\\src\\Component"
   ],
-  "SelectedNode": "\\src\\Component\\Posts.tsx",
+  "SelectedNode": "\\src\\Component\\Profile.tsx",
   "PreviewInSolutionExplorer": false
 }
