@@ -55,10 +55,7 @@ const Profile: React.FC = () => {
         getPosts().then(post => {
             const posts: Post[] = post as Post[];
             posts.sort((a, b) => Number(b.PostId) - Number(a.PostId));
-            posts.map(post => {
-                post.CreateDate = post.CreateDate.replace("T", " | ");
-                console.log(post.CreateDate);
-            })
+            
             dispatch({ type: "GET_POSTS", payload: posts });
         })
 
