@@ -1784,19 +1784,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\psjOj\\.nuget\\packages\\": {}
+    "C:\\Users\\djdre\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\psjOj\\OPT\\LFG\\LFG.csproj",
+      "projectUniqueName": "C:\\LFG1010\\LFG\\LFG.csproj",
       "projectName": "LFG",
-      "projectPath": "C:\\Users\\psjOj\\OPT\\LFG\\LFG.csproj",
-      "packagesPath": "C:\\Users\\psjOj\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\psjOj\\OPT\\LFG\\obj\\",
+      "projectPath": "C:\\LFG1010\\LFG\\LFG.csproj",
+      "packagesPath": "C:\\Users\\djdre\\.nuget\\packages\\",
+      "outputPath": "C:\\LFG1010\\LFG\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\psjOj\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\djdre\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
