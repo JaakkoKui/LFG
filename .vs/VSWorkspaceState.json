@@ -3,9 +3,11 @@
     "",
     "\\LFG",
     "\\public",
+    "\\public\\images",
+    "\\public\\images\\DemoCovers",
     "\\src",
     "\\src\\Component"
   ],
-  "SelectedNode": "\\public\\index.html",
+  "SelectedNode": "\\public\\images\\DemoCovers\\World of Warcraft.png",
   "PreviewInSolutionExplorer": false
 }

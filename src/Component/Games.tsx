@@ -17,12 +17,13 @@ const Games: React.FC<Props> = ({ currentUser }) => {
                 {myGames.map(game =>
                     <div key={Number(game.GameId)} className='animate__animated animate__fadeIn ring-4 hover:ring-4 hover:ring-primary hover:ring-offset-4 rounded-lg ring-darkBackground flex flex-col h-96 w-60 mx-2 relative text-white bg-darkBackground hover:bg-primary'>
                         <Link to={`/game/${Number(game.GameId)}`}><div className='absolute top-0 w-full text-center py-3'>
-                            <h4 className='text-md italic text-center my-auto'></h4> { /*&quot;{game.Comments}&quot;*/}
                         </div>
-                        <img className='object-contain mt-10' src='/images/game-empty.png' alt='game' />
-                        <div className='px-5 pb-5 pt-7 mt-auto h-fit w-full'>
-                            <h1 className='text-xl font-semibold border-b pb-1 text-center'>{game.GameName}</h1>
-                            <h1 className='text-lg italic font-semibold text-center'>{game.HoursPlayed} Hours</h1>
+                            <img className='object-contain rounded-t-lg' src={'/images/DemoCovers/' + game.GameName + '.png'} alt='game' />
+                            <div className='pb-2 h-[140px] w-full absolute bottom-0 bg-gradient-to-t from-darkBackground via-darkBackground rounded-b-lg'>
+                                <div className='mt-auto absolute bottom-0 w-[90%] mx-[5%] mb-2'>
+                                    <h1 className='text-xl font-semibold border-b pb-1 text-center'>{game.GameName}</h1>
+                                    <h2 className='text-lg italic font-semibold text-center'>{game.HoursPlayed} Hours</h2>
+                                </div>
                         </div></Link>
                     </div>
                 )}
