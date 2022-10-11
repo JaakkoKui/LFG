@@ -10,7 +10,7 @@ const ProfileInfo: React.FC<Props> = ({ currentUser }) => {
     return (
         <div id="profileInfo" className='flex py-10 px-10'>
             <div className='mr-10'>
-                <img className='h-[100px] w-[100px] max-w-[100px] object-contain rounded-full' src='/images/test-avatar.png' alt='avatar' />
+                <img className='h-[100px] w-[100px] max-w-[100px] object-contain rounded-full' src={'/images/DefaultAvatars/' + currentUser.Nickname + '.png'} alt='avatar' />
             </div>
             <div className='flex w-full relative'>
 

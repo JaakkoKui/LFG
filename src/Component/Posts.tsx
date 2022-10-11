@@ -116,7 +116,7 @@ const Posts: React.FC<Props> = ({ currentUser }) => {
                             <div key={Number(post.PostId)} className='flex rounded-lg py-5'>
 
                                 <div className='mx-5 w-fit'>
-                                    <img className='w-[50px] object-contain rounded-full bg-primary' src='/images/test-avatar.png' alt='avatar' />
+                                    <img className='w-[50px] object-contain rounded-full bg-primary' src={'/images/DefaultAvatars/' + currentUser.Nickname + '.png'} alt='avatar' />
                                 </div>
                                 <div className='relative w-full flex'>
                                     <div className='w-full'>
@@ -187,7 +187,7 @@ const Posts: React.FC<Props> = ({ currentUser }) => {
                         <div key={Number(post.PostId)} className='flex rounded-lg py-5'>
 
                             <div className='mx-5 w-fit'>
-                                <img className='w-[50px] object-contain rounded-full bg-primary' src='/images/test-avatar.png' alt='avatar' />
+                                <img className='w-[50px] object-contain rounded-full bg-primary' src={'/images/DefaultAvatars/' + allProfiles.find(prof => Number(prof.ProfileId) === Number(post.PosterProfile))?.Nickname + '.png'} alt='avatar' />
                             </div>
 
                             <div className='relative w-full flex'>
