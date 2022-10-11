@@ -9,7 +9,6 @@ import { Game, Post, ProfileModel, User, Comments } from "../types";
 import EditPostForm from "./EditPostForm";
 import CSS from 'csstype';
 import Comment from "./Comment";
-import { rootNavigate } from "./CustomRouter";
 import { getComments } from "../services/commentService";
 
 interface Props {
@@ -90,28 +89,13 @@ const Posts: React.FC<Props> = ({ currentUser }) => {
 
     const likeThis = (post: Post) =>{
         likePost(post);
+        dispatch({type: "LIKE_POST", payload: post});
         
-        if(!currentUser){   
-            window.location.reload();
-        }
-        else if(currentUser?.Email === email){
-            window.location.reload();
-        } else {
-            rootNavigate(`/profile/${Number(currentUser.ProfileId)}`)
-        }
     }
 
     const dislikeThis = (post: Post) => {
         dislikePost(post);
-
-        if(!currentUser){
-            window.location.reload();
-        }
-        else if(currentUser?.Email === email){
-            window.location.reload();
-        }else{
-            rootNavigate(`/profile/${Number(currentUser.ProfileId)}`);
-        }
+        dispatch({type: "DISLIKE_POST", payload: post});
     }
 
     if (currentUser) {
