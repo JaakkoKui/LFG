@@ -57,6 +57,18 @@ export type Action =
     | {
         type: "DISLIKE_POST";
         payload: Post;
+    } |
+    {
+        type: "UPDATE_GAME";
+        payload: Game;
+    }
+    | {
+        type: "UPDATE_PROFILE";
+        payload: ProfileModel;
+    }
+    | {
+        type: "UPDATE_POST";
+        payload: Post;
     };
 
 export const reducer = (state: State, action: Action): State => {
@@ -166,13 +178,38 @@ export const reducer = (state: State, action: Action): State => {
                 }
             };
         case "LIKE_POST":
-            {
-                return { ...state };
-            }
+            return { ...state };
+
         case "DISLIKE_POST":
-            {
-                return { ...state };
-            }
+            return { ...state };
+
+        case "UPDATE_GAME":
+            return {
+                ...state,
+                games: {
+                    ...state.games,
+                    [Number(action.payload.GameId)]: action.payload
+                }
+            };
+
+        case "UPDATE_PROFILE":
+
+            return {
+                ...state,
+                profile: {
+                    ...state.profile,
+                    [action.payload.Email]: action.payload
+                }
+            };
+        case "UPDATE_POST":
+            return {
+                ...state,
+                posts: {
+                    [Number(action.payload.PostId)]: action.payload,
+                    ...state.posts
+                }
+            };
+
         default:
             return state;
     }

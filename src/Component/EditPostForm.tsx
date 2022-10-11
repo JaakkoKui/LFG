@@ -50,7 +50,7 @@ const EditPostForm: React.FC<Props> = ({currentPost, toggleForm}) => {
                 dispatch({ type: "GET_POSTS", payload: posts });
         })});
 
-        window.location.reload();
+        dispatch({type: "UPDATE_POST", payload: updatedPost});
         toggleForm();
     }
 
