@@ -3,11 +3,11 @@ import { updateProfile } from "../services/profileService";
 import { editUser } from "../services/userService";
 import { useStateValue } from "../state/state";
 import { ProfileModel, User } from "../types";
-import { deletePost, getPosts } from "../services/postService";
-import { deleteGame, getAll } from "../services/gameService";
+import { deletePost } from "../services/postService";
+import { deleteGame } from "../services/gameService";
 import { rootNavigate } from "./CustomRouter";
-import { deleteUser, getUsers } from "../services/userService";
-import { deleteProfile, getProfiles } from "../services/profileService";
+import { deleteUser } from "../services/userService";
+import { deleteProfile } from "../services/profileService";
 
 interface FormElements extends HTMLFormControlsCollection {
     password: HTMLInputElement;

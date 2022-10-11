@@ -5,7 +5,7 @@ import { useStateValue } from "../state/state";
 import { Game, ProfileModel } from "../types";
 import { rootNavigate } from "./CustomRouter";
 import EditGameForm from "./EditGameForm";
-import CSS from 'csstype';
+
 
 const GameInfo: React.FC = () => {
     const [{ games, profile, email }, dispatch] = useStateValue();
@@ -35,9 +35,6 @@ const GameInfo: React.FC = () => {
         }
     }
 
-    const contentStyle: CSS.Properties = {
-        whiteSpace: "pre-line"
-    }
     return (
         <div className="w-screen h-full bg-darkBackground min-h-[calc(100vh-65px)] overflow-clip">
             <div className='basis-2/3 bg-darkBackground relative'>
