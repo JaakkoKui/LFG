@@ -1,6 +1,9 @@
 import React from "react";
+import { getComments } from "../services/commentService";
+import { getPosts } from "../services/postService";
+import { getProfiles } from "../services/profileService";
 import { useStateValue } from "../state/state";
-import { Post, ProfileModel } from "../types";
+import { Comments, Post, ProfileModel } from "../types";
 import AddComment from "./AddComment";
 
 interface Props {
@@ -8,7 +11,7 @@ interface Props {
 }
 
 const Comment: React.FC<Props> = ({ post }) => {
-    const [{ comment,profile,email }] = useStateValue();
+    const [{ comment,profile,email }, dispatch] = useStateValue();
     const [newComment, setForm] = React.useState<boolean>(true);
     const [showComments, commentArea] = React.useState<boolean>(false);
 
@@ -19,6 +22,29 @@ const Comment: React.FC<Props> = ({ post }) => {
     const toggleComments = () => {
         commentArea(!showComments)
     }
+
+    React.useEffect(() => {
+        getProfiles().then(data => {
+
+            const profiles: ProfileModel[] = data as ProfileModel[];
+            dispatch({ type: "GET_PROFILES", payload: profiles });
+        });
+
+        getPosts().then(post => {
+            const posts: Post[] = post as Post[];
+            posts.sort((a, b) => Number(b.PostId) - Number(a.PostId));
+            dispatch({ type: "GET_POSTS", payload: posts });
+        });
+
+        getComments().then(comment => {
+            const comments: Comments[] = comment as Comments[];
+            comments.map(comment => {
+                comment.Date = comment.Date.replace("T", " | ");
+            })
+            dispatch({type: "GET_COMMENTS", payload: comments})
+        });
+
+    }, [dispatch]);
  
     const comments = Object.values(comment).filter(comm => Number(comm.PostId) === Number(post.PostId));
     const currentUser = Object.values(profile).find(prof => prof.Email === email) as ProfileModel;

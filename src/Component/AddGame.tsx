@@ -1,6 +1,8 @@
 import React from "react";
 import { addGame } from "../services/gameService";
+import { useStateValue } from "../state/state";
 import { Game, ProfileModel } from '../types';
+import { rootNavigate } from "./CustomRouter";
 
 interface FormElements extends HTMLFormControlsCollection {
     GameName: HTMLInputElement;
@@ -22,6 +24,8 @@ interface Props {
 
 const AddGame: React.FC<Props> = ({ closeForm, currentUser }) => {
 
+    const [{games}, dispatch] = useStateValue();
+
     const handleSubmit = (e: React.FormEvent<YourFormElement>) => {
         e.preventDefault();
 
@@ -32,10 +36,10 @@ const AddGame: React.FC<Props> = ({ closeForm, currentUser }) => {
         const server = e.currentTarget.elements.Server.value;
         const comment = e.currentTarget.elements.Comment.value;
        
-
+        const id = Object.values(games).concat().pop()?.GameId as number
 
         const newGame: Game = {
-            GameId: undefined,
+            GameId: id+1,
             GameName: name,
             NicknameIngame: nick,
             HoursPlayed: hours,
@@ -46,6 +50,8 @@ const AddGame: React.FC<Props> = ({ closeForm, currentUser }) => {
         }
 
         addGame(newGame);
+        dispatch({type:"ADD_GAME", payload:newGame});
+        rootNavigate("/profile");
         closeForm();
     }
     const handleCancel = () => {

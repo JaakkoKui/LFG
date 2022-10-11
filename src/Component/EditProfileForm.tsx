@@ -103,8 +103,8 @@ const EditProfileForm: React.FC<Props> = ({ currentUser }) => {
         }
 
         updateProfile(editedProfile);
+        dispatch({type: "UPDATE_PROFILE", payload:editedProfile});
         rootNavigate("/profile");
-        window.location.reload();
     }
 
     return (

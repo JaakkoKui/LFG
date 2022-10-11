@@ -1,7 +1,8 @@
 import React from "react";
-import { addPost, getPosts } from "../services/postService";
+import { addPost } from "../services/postService";
 import { useStateValue } from "../state/state";
 import { Post, ProfileModel } from "../types";
+import { rootNavigate } from "./CustomRouter";
 
 interface FormElements extends HTMLFormControlsCollection {
     title: HTMLInputElement;
@@ -18,8 +19,7 @@ interface Props {
 }
 
 const AddPost: React.FC<Props> = ({ currentUser, toggleNewPost }) => {
-
-    const [, dispatch] = useStateValue();
+    const [{posts}, dispatch] = useStateValue();
     const [showCommentButton, postButton] = React.useState<boolean>(false);
     const [textField, textFieldDispatch] = React.useState<string>("");
     const [inputField, inputFieldDispatch] = React.useState<string>("");
@@ -34,9 +34,10 @@ const AddPost: React.FC<Props> = ({ currentUser, toggleNewPost }) => {
 
         const title = e.currentTarget.elements.title.value;
         const content = e.currentTarget.elements.content.value;
+        const id = Object.values(posts).concat().pop()?.PostId as number
 
         const newPost: Post = {
-            PostId: undefined,
+            PostId: id+1,
             Title: title,
             CreateDate: date.toISOString().replace(".000Z", ""),
             Content: content,
@@ -47,17 +48,10 @@ const AddPost: React.FC<Props> = ({ currentUser, toggleNewPost }) => {
         }
 
         addPost(newPost);
-        dispatch({ type: "ADD_POST", payload: newPost });
-
-        getPosts().then(post => {
-            const posts: Post[] = post as Post[];
-            posts.sort((a, b) => Number(b.PostId) - Number(a.PostId));
-            dispatch({ type: "GET_POSTS", payload: posts });
-        })
-
+        dispatch({type: "ADD_POST", payload: newPost});
         e.currentTarget.elements.title.value = "";
         e.currentTarget.elements.content.value = "";
-
+        rootNavigate("/profile");
         toggleNewPost();
     }
 

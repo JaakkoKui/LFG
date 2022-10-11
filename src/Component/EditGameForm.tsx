@@ -56,7 +56,7 @@ const EditGameForm: React.FC<Props> = ({ currentGame, toggleForm }) => {
         
         rootNavigate(`/profile`);
         toggleForm();
-        window.location.reload();
+        dispatch({type: "UPDATE_GAME", payload: updatedGame});
     }
 
     return (

@@ -1,7 +1,9 @@
 import React from "react";
 import { addComment } from "../services/commentService";
 import { useStateValue } from "../state/state";
+
 import { Comments, Post, ProfileModel } from "../types";
+//import { rootNavigate } from "./CustomRouter";
 
 interface FormElements extends HTMLFormControlsCollection {
     comment: HTMLInputElement;
@@ -18,7 +20,8 @@ interface Props {
 }
 
 const AddComment: React.FC<Props> = ({thisPost, currentUser, toggleForm}) => {
-    const [, dispatch] = useStateValue();
+    
+    const [{comment}, dispatch] = useStateValue();
     const [showCommentButton, commentButton] = React.useState<boolean>(false);
     const [textField, textFieldDispatch] = React.useState<string>("");
 
@@ -30,20 +33,27 @@ const AddComment: React.FC<Props> = ({thisPost, currentUser, toggleForm}) => {
         const date = new Date();
         date.setMilliseconds(0);
 
-        const comment = e.currentTarget.elements.comment.value;
+        const Comment = e.currentTarget.elements.comment.value;
+        
+        const id:number = Object.values(comment).concat().pop()?.Id as number;
+        console.log(id);
 
         const newComment: Comments = {
-            Id: undefined,
+            Id: id+1,
             PostId: Number(thisPost.PostId),
-            CommentContent: comment,
+            CommentContent: Comment,
             CommentingProfile: Number(currentUser.ProfileId),
             Date: date.toISOString().replace(".000Z", "")
         }
 
         addComment(newComment);
-        dispatch({type: "ADD_COMMENT", payload:newComment});
+
+        newComment.Date = newComment.Date.replace("T", " | ");
         toggleForm();
+        dispatch({type:"ADD_COMMENT", payload:newComment});
         deactivateTextAreaChange();
+        //rootNavigate("/");
+        
     }
 
     const activateTextAreaChange = () => {

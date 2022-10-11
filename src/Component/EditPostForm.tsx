@@ -2,6 +2,7 @@ import React from "react";
 import { editPost, getPosts } from "../services/postService";
 import { useStateValue } from "../state/state";
 import { Post } from "../types";
+import { rootNavigate } from "./CustomRouter";
 
 interface FormElements extends HTMLFormControlsCollection {
     title: HTMLInputElement;
@@ -53,6 +54,8 @@ const EditPostForm: React.FC<Props> = ({currentPost, toggleForm}) => {
                 dispatch({ type: "GET_POSTS", payload: posts });
         })});
 
+        dispatch({type: "UPDATE_POST", payload: updatedPost});
+        rootNavigate("/profile");
         window.location.reload();
         toggleForm();
     }
@@ -72,7 +75,7 @@ const EditPostForm: React.FC<Props> = ({currentPost, toggleForm}) => {
             <form onSubmit={handleSubmit} className='w-1/3'>
                 <div className='flex flex-col mb-5'>
                     <input name="title" id="title" className='break-words bg-lightBackground px-2 py-1 text-xl font-bold mb-2 rounded-md' onChange={(e) => inputFieldDispatch(e.target.value)} value={inputField} onFocus={activateTextAreaChange} defaultValue={currentPost.Title} placeholder="Title" maxLength={maxTitleLenght} />
-                    <textarea name="content" id="content" className='p-2 bg-lightBackground rounded-md' defaultValue={currentPost.Content} onChange={(e) => textFieldDispatch(e.target.value)} value={textField} onFocus={activateTextAreaChange} placeholder="Content" rows={4} cols={40} maxLength={maxPostLenght} />
+                    <textarea name="content" id="content" className='p-2 bg-lightBackground rounded-md' defaultValue={currentPost.Content} onChange={(e) => textFieldDispatch(e.target.value)} onFocus={activateTextAreaChange} placeholder="Content" rows={4} cols={40} maxLength={maxPostLenght} />
                     <p className='text-xs mt-0.5 font-semibold text-gray-500'>{textField.length}/{maxPostLenght}</p>
                 </div>
                 {showEditButton &&
