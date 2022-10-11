@@ -9,14 +9,14 @@ import { Game, Post, ProfileModel, User, Comments } from "../types";
 import EditPostForm from "./EditPostForm";
 import CSS from 'csstype';
 import Comment from "./Comment";
-import { getComments } from "../services/commentService";
+import { deleteComment, getComments } from "../services/commentService";
 
 interface Props {
     currentUser?: ProfileModel;
 }
 
 const Posts: React.FC<Props> = ({ currentUser }) => {
-    const [{ posts, profile, email }, dispatch] = useStateValue();
+    const [{ posts, profile, email, comment }, dispatch] = useStateValue();
     const [editForm, toggleForm] = React.useState<boolean>(false);
     const [moreDropdown, toggleDropdown] = React.useState<boolean>(false);
     const [postID, setPostID] = React.useState<number>(0)
@@ -33,6 +33,7 @@ const Posts: React.FC<Props> = ({ currentUser }) => {
         setPostID(id);
     }
 
+    const allComments = Object.values(comment).concat();
     const allPosts = Object.values(posts).concat();
     allPosts.sort((a, b) => Number(b.PostId) - Number(a.PostId));
     const allProfiles = Object.values(profile).concat();
@@ -79,6 +80,11 @@ const Posts: React.FC<Props> = ({ currentUser }) => {
     const handleDelete = (post: Post) => {
         if (window.confirm(`Are you sure you want to delete post titled ${post.Title}?`)) {
             deletePost(Number(post.PostId));
+            allComments.map(comment => {
+                if(comment.PostId === post.PostId){
+                    deleteComment(Number(comment.Id));
+                }
+            })
             window.location.reload();
         }
     }
@@ -141,7 +147,7 @@ const Posts: React.FC<Props> = ({ currentUser }) => {
                                             <p style={contentStyle}>{post.Content}</p>
                                         </div>
                                         }
-
+                                        <Comment post={post} />
                                         <div className='flex mt-auto text-gray-400'>
                                             <p className='border-r pr-2.5 border-gray-400'>{post.Likepost} likes</p>
                                             <p className='pl-2.5'>{post.Dislikepost} dislikes</p>
