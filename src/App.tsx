@@ -3,7 +3,7 @@ import Profile from './Component/Profile';
 import LoginPage from './Component/LoginPage';
 import './App.css';
 import { useStateValue } from './state/state';
-import { User, ProfileModel } from './types';
+import { User, ProfileModel, Game, Post, Comments } from './types';
 import { getUsers } from './services/userService';
 import { getProfiles } from './services/profileService';
 import {
@@ -15,22 +15,46 @@ import ProfilePage from './Component/ProfilePage';
 import GameInfo from './Component/GameInfo';
 import AboutPage from './Component/AboutPage';
 import EditProfileForm from './Component/EditProfileForm';
+import { getAll } from './services/gameService';
+import { getPosts } from './services/postService';
+import { getComments } from './services/commentService';
 
 const App: React.FC = () => {
-    const [{ profile, email, user, posts, games }, dispatch] = useStateValue();
+    const [{ profile, email }, dispatch] = useStateValue();
 
   useEffect(() => {
-    getUsers().then(user => {
-      const users: User[] = user as User[];
-
-      dispatch({ type: "GET_USERS", payload: users });
-    });
-
     getProfiles().then(data => {
 
       const profiles: ProfileModel[] = data as ProfileModel[];
       dispatch({ type: "GET_PROFILES", payload: profiles });
-    });
+  });
+  getUsers().then(user => {
+      const users: User[] = user as User[];
+
+      dispatch({ type: "GET_USERS", payload: users });
+  });
+
+  getAll().then(game => {
+      const games: Game[] = game as Game[];
+
+      dispatch({ type: "GET_GAME_LIST", payload: games });
+  });
+
+  getPosts().then(post => {
+      const posts: Post[] = post as Post[];
+      posts.sort((a, b) => Number(b.PostId) - Number(a.PostId));
+      
+      dispatch({ type: "GET_POSTS", payload: posts });
+  })
+
+  getComments().then(comment => {
+      const comments: Comments[] = comment as Comments[];
+      comments.map(comment => {
+          comment.Date = comment.Date.replace("T", " | ");
+      })
+      dispatch({type: "GET_COMMENTS", payload: comments})
+  })
+
 
     const loggedUserJSON = window.localStorage.getItem('loggedUser');
     if (loggedUserJSON && loggedUserJSON !== undefined) {

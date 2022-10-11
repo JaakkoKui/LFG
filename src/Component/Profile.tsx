@@ -1,30 +1,25 @@
 import React from "react";
 import { useStateValue } from "../state/state";
-import { deleteProfile, getProfiles } from "../services/profileService";
+import { getProfiles } from "../services/profileService";
 import { Game, User, Post, ProfileModel, Comments } from "../types";
-import { deleteUser, getUsers } from "../services/userService";
+import { getUsers } from "../services/userService";
 import AddGame from "./AddGame";
-import { deleteGame, getAll } from "../services/gameService";
+import { getAll } from "../services/gameService";
 import Games from "./Games";
 import ProfileInfo from "./ProfileInfo";
 import AddPost from "./AddPost";
-import { deletePost, getPosts } from "../services/postService";
+import { getPosts } from "../services/postService";
 import Posts from "./Posts";
-import EditProfileForm from "./EditProfileForm";
 import { getComments } from "../services/commentService";
 import {
-    Route, Link, Routes
+     Link
 } from "react-router-dom"
 
 const Profile: React.FC = () => {
     const [{ profile, email}, dispatch] = useStateValue();
     const [addGame, setAddGame] = React.useState<boolean>(false);
     const [newPost, setNewPost] = React.useState<boolean>(false);
-    const [editProfile, setEditProfile] = React.useState<boolean>(false);
 
-    const showEditForm = () => {
-        setEditProfile(!editProfile);
-    }
     const addNewGame = () => {
         setAddGame(!addGame);
     }
