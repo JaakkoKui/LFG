@@ -15,7 +15,7 @@ const Games: React.FC<Props> = ({ currentUser }) => {
         return (
             <div className='flex'>
                 {myGames.map(game =>
-                    <div key={Number(game.GameId)} className='ring-4 hover:ring-4 hover:ring-primary hover:ring-offset-4 rounded-lg ring-darkBackground flex flex-col h-96 w-60 mx-2 relative text-white bg-darkBackground hover:bg-primary'>
+                    <div key={Number(game.GameId)} className='animate__animated animate__fadeIn ring-4 hover:ring-4 hover:ring-primary hover:ring-offset-4 rounded-lg ring-darkBackground flex flex-col h-96 w-60 mx-2 relative text-white bg-darkBackground hover:bg-primary'>
                         <Link to={`/game/${Number(game.GameId)}`}><div className='absolute top-0 w-full text-center py-3'>
                             <h4 className='text-md italic text-center my-auto'></h4> { /*&quot;{game.Comments}&quot;*/}
                         </div>

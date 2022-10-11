@@ -93,7 +93,7 @@ const Profile: React.FC = () => {
                         </div>
                         <div className='flex w-fit'>
                             <Games currentUser={thisuser[0]} />
-                            <div className='ring-4 hover:ring-4 hover:ring-primary hover:ring-offset-4 rounded-lg ring-darkBackground flex flex-col h-96 w-60 mx-2 relative text-white bg-darkBackground '>
+                            <div className='ring-4 hover:ring-4 hover:ring-primary hover:ring-offset-4 rounded-lg ring-darkBackground flex flex-col h-96 w-60 mx-2 text-white bg-darkBackground animate__animated animate__fadeIn'>
                                 <button onClick={addNewGame} className='rounded-lg w-full h-full font-bold text-7xl bg-darkBackground text-white hover:bg-primary'>+</button>
                             </div>
                         </div>

@@ -8,7 +8,7 @@ const AboutPage: React.FC = () => {
             </div>
             <div>
                 Created by:
-                <h1 className="text-3xl">Jesper Oja</h1><h1 className="text-3xl">Antti Aho</h1> <h1 className="text-3xl">Andreas Lang</h1> <h1 className="text-3xl">Jaakko Kuivasniemi</h1>
+                <h1 className="text-3xl animate__animated">Jesper Oja</h1><h1 className="text-3xl">Antti Aho</h1> <h1 className="text-3xl">Andreas Lang</h1> <h1 className="text-3xl">Jaakko Kuivasniemi</h1>
             </div>
         </div>
     )
