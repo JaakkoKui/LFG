@@ -81,7 +81,7 @@ const EditGameForm: React.FC<Props> = ({ currentGame, toggleForm }) => {
                 <p className="mt-1"><textarea id="comment" name="comment" className="px-5 bg-darkBackground rounded-md w-full" defaultValue={currentGame.Comments} placeholder="Comments " rows={4} cols={40} /></p>
             </div>
 
-            <button type="submit" className="mt-5 rounded-full bg-primary text-white text-sm px-4 py-2 w-28 hover:ring-4">Update</button>
+            <button type="submit" className="mt-5 ml-auto block rounded-full bg-primary text-white text-sm px-4 py-2 w-28 hover:ring-4">Update</button>
         </form>
     )
 }
