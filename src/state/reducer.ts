@@ -49,6 +49,14 @@ export type Action =
     | {
         type: "GET_COMMENTS";
         payload: Comments[];
+    } |
+    {
+        type: "LIKE_POST";
+        payload: Post;
+    }
+    | {
+        type: "DISLIKE_POST";
+        payload: Post;
     };
 
 export const reducer = (state: State, action: Action): State => {
@@ -157,6 +165,14 @@ export const reducer = (state: State, action: Action): State => {
                     ...state.comment
                 }
             };
+        case "LIKE_POST":
+            {
+                return { ...state };
+            }
+        case "DISLIKE_POST":
+            {
+                return { ...state };
+            }
         default:
             return state;
     }
