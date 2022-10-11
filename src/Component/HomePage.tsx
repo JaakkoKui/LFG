@@ -57,7 +57,7 @@ const HomePage: React.FC = () => {
                 <h1>Posts</h1>
                 <hr className='border-2 border-gray-300 w-full mt-5 mx-5 rounded-md'></hr>
             </div>
-            <hr className='w-full border-gray-700 mt-5'></hr>
+            <hr className='w-full border-gray-700 mt-5 '></hr>
             <Posts currentUser={undefined} />
         </div>
     )

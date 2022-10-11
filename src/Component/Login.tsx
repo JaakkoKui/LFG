@@ -40,7 +40,7 @@ const Login: React.FC = () => {
 
     return (
         <div>
-            <img className='mx-auto h-[200px] -mt-[240px] mb-[40px] object-contain' src='/images/logo.png' alt='logo' />
+            <img className='mx-auto h-[200px] -mt-[240px] mb-[40px] object-contain animate__animated animate__fadeIn' src='/images/logo.png' alt='logo' />
             <div className='h-[300px] w-3/5 m-auto'>
 
                 <div className='font-semibold subpixel-antialiased'>
@@ -65,7 +65,7 @@ const Login: React.FC = () => {
                             className='w-full border-solid border-2 border-gray-300 rounded-lg py-2 px-4 mt-1' />
                     </label>
 
-                    <button className='rounded-full bg-primary py-2 text-white w-full uppercase font-semibold subpixel-antialiased font-sm mt-6 mb-9' type='submit'>
+                    <button className='rounded-full bg-primary py-2 text-white w-full uppercase font-semibold subpixel-antialiased font-sm mt-6 mb-9 hover:drop-shadow-xl' type='submit'>
                         Login
                     </button>
 

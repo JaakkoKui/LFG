@@ -21,6 +21,8 @@ const AddComment: React.FC<Props> = ({thisPost, currentUser, toggleForm}) => {
     const [, dispatch] = useStateValue();
     const [showCommentButton, commentButton] = React.useState<boolean>(false);
     const [textField, textFieldDispatch] = React.useState<string>("");
+
+    const maxPostLenght = 500;
     
     const handleSubmit = (e: React.FormEvent<YourFormElement>) => {
         e.preventDefault();
@@ -56,9 +58,9 @@ const AddComment: React.FC<Props> = ({thisPost, currentUser, toggleForm}) => {
     return (
         <>
             <form onSubmit={handleSubmit} className='mt-5 w-[400px] mb-5'>
-                <div className='flex'>
+                <div className='flex h-fit'>
                     <div className='h-[35px] w-[35px] mb-2 bg-lightBackground object-contain rounded-full'></div>
-                    <textarea id="comment" name="comment" onChange={(e) => textFieldDispatch(e.target.value)} value={textField} className='bg-lightBackground rounded-md px-2 py-1 ml-2 h-[32px] w-[calc(100%-30px)]' onFocus={activateTextAreaChange} placeholder="Comment" rows={3} cols={40} />
+                    <textarea id="comment" name="comment" onChange={(e) => textFieldDispatch(e.target.value)} value={textField} className='bg-lightBackground rounded-md h-fit px-2 py-1 ml-2 w-[calc(100%-30px)]' onFocus={activateTextAreaChange} placeholder="Comment" rows={1} cols={40} maxLength={maxPostLenght} />
                 </div>
 
                 <div className='w-fit ml-auto'>

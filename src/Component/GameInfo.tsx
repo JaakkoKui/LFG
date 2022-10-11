@@ -57,8 +57,8 @@ const GameInfo: React.FC = () => {
 
             </div>
             <div className="flex md:w-[800px] lg:w-[1000px] 2xl:w-[1100px] mx-auto pt-20 relative z-10 drop-shadow-lg">
-                <div className="w-1/2 rounded-l-lg bg-primary flex justify-center">
-                    <img className='object-contain rounded-l-lg' src='/images/wolfenstein-demo.jpg' alt='game' />
+                <div className="w-1/2 rounded-l-lg flex justify-center aspect-[1/1.4142]">
+                    <img className='object-fill w-full rounded-l-lg' src={'/images/DemoCovers/' + gameInfo.GameName + '.png'} alt='game' />
                 </div>
 
                 <div className="w-1/2 text-gray-300 bg-lightBackground rounded-r-lg">

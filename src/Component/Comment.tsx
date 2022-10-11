@@ -36,7 +36,7 @@ const Comment: React.FC<Props> = ({ post }) => {
                 </div>
             </div>
             {showComments &&
-                <div className='ml-10'>
+                <div className='ml-10 h-fit'>
                     <AddComment currentUser={currentUser} thisPost={post} toggleForm={addComment} />
 
                     {comments.map(comment =>
