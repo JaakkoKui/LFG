@@ -1,5 +1,5 @@
 import React from "react";
-import { addGame } from "../services/gameService";
+import { addGame, getAll } from "../services/gameService";
 import { useStateValue } from "../state/state";
 import { Game, ProfileModel } from '../types';
 import { rootNavigate } from "./CustomRouter";
@@ -49,8 +49,13 @@ const AddGame: React.FC<Props> = ({ closeForm, currentUser }) => {
             ProfileId: Number(currentUser.ProfileId)
         }
 
-        addGame(newGame);
-        dispatch({type:"ADD_GAME", payload:newGame});
+        addGame(newGame).then(mes => {
+            console.log(mes);
+            getAll().then(game => {
+                const games: Game[] = game as Game[];
+                dispatch({type:"GET_GAME_LIST", payload: games});
+            })
+        });
         rootNavigate("/profile");
         closeForm();
     }
