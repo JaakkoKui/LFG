@@ -1,10 +1,8 @@
 {
   "ExpandedNodes": [
     "",
-    "\\LFG",
-    "\\src",
-    "\\src\\Component"
+    "\\LFG"
   ],
-  "SelectedNode": "\\.gitignore",
+  "SelectedNode": "\\LFG\\Startup.cs",
   "PreviewInSolutionExplorer": false
 }
