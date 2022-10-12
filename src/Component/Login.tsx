@@ -40,7 +40,7 @@ const Login: React.FC = () => {
 
     return (
         <div>
-            <img className='mx-auto h-[200px] -mt-[240px] mb-[40px] object-contain animate__animated animate__fadeIn' src='/images/logo.png' alt='logo' />
+            <img className='mx-auto h-[200px] -mt-[240px] mb-[20px] object-contain animate__animated animate__fadeIn' src='/images/logo.png' alt='logo' />
             <div className='h-[300px] w-3/5 m-auto'>
 
                 <div className='font-semibold subpixel-antialiased'>

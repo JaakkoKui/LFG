@@ -16,7 +16,7 @@ export default function LoginPage() {
     return (
         <div className='flex flex-row h-screen overflow-clip'>
             <Background />
-            <div className='basis-1/3 flex flex-col justify-center bg-white shadow-lg z-10'>
+            <div className='basis-1/3 flex flex-col justify-center bg-white shadow-lg z-10 overflow-y-auto overflow-x-clip'>
                 <FormRender isLogin={registerForm} showRegister={showRegister} />
                 <button id='registerButton' onClick={() => showRegisterForm()} className='py-3 px-6 mt-6 w-fit text-center mx-auto block uppercase font-semibold subpixel-antialiased font-sm text-gray-500 hover:text-gray-900' > <ButtonText isLogin={registerForm} /> </button>
             </div>

@@ -50,7 +50,7 @@ const AddGame: React.FC<Props> = ({ closeForm, currentUser }) => {
         }
 
         addGame(newGame);
-        dispatch({type:"ADD_GAME", payload:newGame});
+        //dispatch({type:"ADD_GAME", payload:newGame});
         rootNavigate("/profile");
         closeForm();
     }
@@ -82,7 +82,7 @@ const AddGame: React.FC<Props> = ({ closeForm, currentUser }) => {
                         </div>
 
                     </div>
-                    <div className="flex md:w-[800px] lg:w-[1000px] 2xl:w-[1100px] mx-auto pt-20 relative z-10 drop-shadow-lg">
+                    <div className="flex md:w-[800px] lg:w-[1000px] 2xl:w-[1100px] mx-auto pt-10 relative z-10 drop-shadow-lg">
                         <div className="w-1/2 min-h-[800px] rounded-l-lg bg-primary flex justify-center">
                             <h4 className="text-4xl font-bold my-auto uppercase text-gray-300">[game cover]</h4>
                         </div>

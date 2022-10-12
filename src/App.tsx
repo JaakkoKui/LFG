@@ -86,7 +86,6 @@ const App: React.FC = () => {
       <CustomRouter>
         <header>
                 <nav className="h-[65px] flex relative font-semibold text-gray-600 z-20 bg-white">
-
             <div className="absolute w-full h-full">
               <div className="flex h-full mx-auto w-fit justify-around">
                 <Link to="/"><button className="px-5 hover:bg-gray-300 h-full hover:text-gray-900">Feed</button></Link>

@@ -56,7 +56,7 @@ const GameInfo: React.FC = () => {
                 </div>
 
             </div>
-            <div className="flex md:w-[800px] lg:w-[1000px] 2xl:w-[1100px] mx-auto pt-20 relative z-10 drop-shadow-lg">
+            <div className="flex md:w-[800px] lg:w-[1000px] 2xl:w-[1100px] mx-auto pt-10 relative z-10 drop-shadow-lg">
                 <div className="w-1/2 rounded-l-lg flex justify-center aspect-[1/1.4142]">
                     <img className='object-fill w-full rounded-l-lg' src={'/images/DemoCovers/' + gameInfo.GameName + '.png'} alt='game' />
                 </div>
