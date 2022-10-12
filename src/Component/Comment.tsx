@@ -67,7 +67,7 @@ const Comment: React.FC<Props> = ({ post }) => {
 
                     {comments.map(comment =>
                         <div key={comment.Id} className='my-5 w-1/2 flex'>
-                            <img className='h-[35px] mt-1 object-contain rounded-full' src='/images/test-avatar.png' alt='logo' />
+                            <img className='h-[35px] mt-1 object-contain rounded-full' src={'/images/DefaultAvatars/' + currentUser.Nickname + '.png'} alt='logo' />
                             <div>
                                 <div className='flex'>
                                     <h4 className='font-bold h-fit ml-[7px]'>{Object.values(profile).find(prof => Number(prof.ProfileId) === Number(comment.CommentingProfile))?.Nickname}</h4>
