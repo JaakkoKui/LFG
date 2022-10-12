@@ -7,10 +7,6 @@ export type Action =
         payload: Game[];
     }
     | {
-        type: "ADD_GAME";
-        payload: Game;
-    }
-    | {
         type: "LOGIN";
         payload: string;
     }
@@ -37,14 +33,6 @@ export type Action =
     | {
         type: "GET_POSTS";
         payload: Post[];
-    }
-    | {
-        type: "ADD_POST";
-        payload: Post;
-    }
-    | {
-        type: "ADD_COMMENT";
-        payload: Comments;
     }
     | {
         type: "GET_COMMENTS";
@@ -80,14 +68,6 @@ export const reducer = (state: State, action: Action): State => {
                     ...action.payload.reduce(
                         (memo, game) => ({ ...memo, [Number(game.GameId)]: game }), {}),
                     ...state.games
-                }
-            };
-        case "ADD_GAME":
-            return {
-                ...state,
-                games: {
-                    ...state.games,
-                    [Number(action.payload.GameId)]: action.payload
                 }
             };
         case "LOGIN":
@@ -150,14 +130,6 @@ export const reducer = (state: State, action: Action): State => {
                     ...state.posts
                 }
             };
-        case "ADD_POST":
-            return {
-                ...state,
-                posts: {
-                    [Number(action.payload.PostId)]: action.payload,
-                    ...state.posts
-                }
-            };
         case "GET_COMMENTS":
             return {
                 ...state,
@@ -166,14 +138,6 @@ export const reducer = (state: State, action: Action): State => {
                         (memo, comment) => ({ ...memo, [Number(comment.Id)]: comment }),
                         {}
                     ),
-                    ...state.comment
-                }
-            };
-        case "ADD_COMMENT":
-            return {
-                ...state,
-                comment: {
-                    [Number(action.payload.Id)]: action.payload,
                     ...state.comment
                 }
             };

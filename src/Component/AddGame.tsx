@@ -1,5 +1,5 @@
 import React from "react";
-import { addGame } from "../services/gameService";
+import { addGame, getAll } from "../services/gameService";
 import { useStateValue } from "../state/state";
 import { Game, ProfileModel } from '../types';
 import { rootNavigate } from "./CustomRouter";
@@ -48,9 +48,13 @@ const AddGame: React.FC<Props> = ({ closeForm, currentUser }) => {
             Comments: comment,
             ProfileId: Number(currentUser.ProfileId)
         }
-
-        addGame(newGame);
-        //dispatch({type:"ADD_GAME", payload:newGame});
+        addGame(newGame).then(mes => {
+            console.log(mes);
+            getAll().then(game => {
+                const games: Game[] = game as Game[];
+                dispatch({type:"GET_GAME_LIST", payload: games});
+            })
+        });
         rootNavigate("/profile");
         closeForm();
     }
@@ -82,7 +86,7 @@ const AddGame: React.FC<Props> = ({ closeForm, currentUser }) => {
                         </div>
 
                     </div>
-                    <div className="flex md:w-[800px] lg:w-[1000px] 2xl:w-[1100px] mx-auto pt-10 relative z-10 drop-shadow-lg">
+                    <div className="flex md:w-[800px] lg:w-[1000px] 2xl:w-[1100px] mx-auto pt-20 relative z-10 drop-shadow-lg">
                         <div className="w-1/2 min-h-[800px] rounded-l-lg bg-primary flex justify-center">
                             <h4 className="text-4xl font-bold my-auto uppercase text-gray-300">[game cover]</h4>
                         </div>

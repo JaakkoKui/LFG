@@ -1,9 +1,9 @@
 import React from "react";
-import { addComment } from "../services/commentService";
+import { addComment, getComments } from "../services/commentService";
 import { useStateValue } from "../state/state";
 
 import { Comments, Post, ProfileModel } from "../types";
-//import { rootNavigate } from "./CustomRouter";
+
 
 interface FormElements extends HTMLFormControlsCollection {
     comment: HTMLInputElement;
@@ -32,11 +32,11 @@ const AddComment: React.FC<Props> = ({thisPost, currentUser, toggleForm}) => {
 
         const date = new Date();
         date.setMilliseconds(0);
-
+        date.setHours(date.getHours()+3);
         const Comment = e.currentTarget.elements.comment.value;
         
         const id:number = Object.values(comment).concat().pop()?.Id as number;
-        console.log(id);
+        
 
         const newComment: Comments = {
             Id: id+1,
@@ -45,14 +45,19 @@ const AddComment: React.FC<Props> = ({thisPost, currentUser, toggleForm}) => {
             CommentingProfile: Number(currentUser.ProfileId),
             Date: date.toISOString().replace(".000Z", "")
         }
+        addComment(newComment).then(mes => {
+            console.log(mes);
+            getComments().then(comment => {
+                const comments:Comments[] = comment as Comments[]
+                comments.map(comment => {
+                    comment.Date = comment.Date.replace("T", " | ");
+                })
+                dispatch({type:"GET_COMMENTS", payload: comments})
+            })
+        });
 
-        addComment(newComment);
-
-        newComment.Date = newComment.Date.replace("T", " | ");
         toggleForm();
-        dispatch({type:"ADD_COMMENT", payload:newComment});
         deactivateTextAreaChange();
-        //rootNavigate("/");
         
     }
 

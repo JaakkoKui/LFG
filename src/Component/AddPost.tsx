@@ -1,5 +1,5 @@
 import React from "react";
-import { addPost } from "../services/postService";
+import { addPost, getPosts } from "../services/postService";
 import { useStateValue } from "../state/state";
 import { Post, ProfileModel } from "../types";
 import { rootNavigate } from "./CustomRouter";
@@ -31,7 +31,8 @@ const AddPost: React.FC<Props> = ({ currentUser, toggleNewPost }) => {
 
         const date = new Date();
         date.setMilliseconds(0);
-
+        date.setHours(date.getHours()+3);
+        
         const title = e.currentTarget.elements.title.value;
         const content = e.currentTarget.elements.content.value;
         const id = Object.values(posts).concat().pop()?.PostId as number
@@ -46,9 +47,15 @@ const AddPost: React.FC<Props> = ({ currentUser, toggleNewPost }) => {
             Likepost: 0,
             Dislikepost: 0
         }
-
-        addPost(newPost);
-        dispatch({type: "ADD_POST", payload: newPost});
+        addPost(newPost).then(mes => {
+            console.log(mes);
+            getPosts().then(post => {
+                const posts: Post[] = post as Post[]
+                posts.sort((a, b) => Number(b.PostId) - Number(a.PostId));
+            dispatch({ type: "GET_POSTS", payload: posts });
+            })
+        });
+        
         e.currentTarget.elements.title.value = "";
         e.currentTarget.elements.content.value = "";
         rootNavigate("/profile");

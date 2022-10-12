@@ -83,7 +83,7 @@ namespace LFG.Controllers
                     mycon.Close();
                 }
             }
-
+    
             return new JsonResult("Added Succesfully");
         }
 
