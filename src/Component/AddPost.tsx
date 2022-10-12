@@ -47,7 +47,6 @@ const AddPost: React.FC<Props> = ({ currentUser, toggleNewPost }) => {
             Likepost: 0,
             Dislikepost: 0
         }
-
         addPost(newPost).then(mes => {
             console.log(mes);
             getPosts().then(post => {

@@ -48,7 +48,6 @@ const AddGame: React.FC<Props> = ({ closeForm, currentUser }) => {
             Comments: comment,
             ProfileId: Number(currentUser.ProfileId)
         }
-
         addGame(newGame).then(mes => {
             console.log(mes);
             getAll().then(game => {

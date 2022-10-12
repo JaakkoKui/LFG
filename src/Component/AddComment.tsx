@@ -45,7 +45,6 @@ const AddComment: React.FC<Props> = ({thisPost, currentUser, toggleForm}) => {
             CommentingProfile: Number(currentUser.ProfileId),
             Date: date.toISOString().replace(".000Z", "")
         }
-
         addComment(newComment).then(mes => {
             console.log(mes);
             getComments().then(comment => {
