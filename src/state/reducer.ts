@@ -1,6 +1,5 @@
-import {Game, Login, Profile } from "../types"
+import { Game, User, Post, ProfileModel, Comments } from "../types"
 import { State } from "./state";
-
 
 export type Action =
     | {
@@ -20,16 +19,56 @@ export type Action =
         payload: string;
     }
     | {
-        type: "GET_PROFILE";
-        payload: Profile;
+        type: "ADD_LOGIN";
+        payload: User;
+    }
+    | {
+        type: "GET_USERS";
+        payload: User[];
     }
     | {
         type: "ADD_PROFILE";
-        payload: Profile;
+        payload: ProfileModel;
     }
     | {
-        type: "ADD_LOGIN";
-        payload: Login;
+        type: "GET_PROFILES";
+        payload: ProfileModel[];
+    }
+    | {
+        type: "GET_POSTS";
+        payload: Post[];
+    }
+    | {
+        type: "ADD_POST";
+        payload: Post;
+    }
+    | {
+        type: "ADD_COMMENT";
+        payload: Comments;
+    }
+    | {
+        type: "GET_COMMENTS";
+        payload: Comments[];
+    } |
+    {
+        type: "LIKE_POST";
+        payload: Post;
+    }
+    | {
+        type: "DISLIKE_POST";
+        payload: Post;
+    } |
+    {
+        type: "UPDATE_GAME";
+        payload: Game;
+    }
+    | {
+        type: "UPDATE_PROFILE";
+        payload: ProfileModel;
+    }
+    | {
+        type: "UPDATE_POST";
+        payload: Post;
     };
 
 export const reducer = (state: State, action: Action): State => {
@@ -39,7 +78,7 @@ export const reducer = (state: State, action: Action): State => {
                 ...state,
                 games: {
                     ...action.payload.reduce(
-                        (memo, game) => ({ ...memo, [game.GameId]: game }), {}),
+                        (memo, game) => ({ ...memo, [Number(game.GameId)]: game }), {}),
                     ...state.games
                 }
             };
@@ -48,26 +87,26 @@ export const reducer = (state: State, action: Action): State => {
                 ...state,
                 games: {
                     ...state.games,
-                    [action.payload.GameId]: action.payload
+                    [Number(action.payload.GameId)]: action.payload
                 }
             };
         case "LOGIN":
             return {
                 ...state,
                 email: action.payload
-                
+
             };
         case "LOGOUT":
-            return{
+            return {
                 ...state,
                 email: action.payload
             };
         case "ADD_LOGIN":
-            return{
+            return {
                 ...state,
-                login: {
-                    ...state.login,
-                    [action.payload.email]: action.payload
+                user: {
+                    ...state.user,
+                    [action.payload.Email]: action.payload
                 }
             };
         case "ADD_PROFILE":
@@ -75,19 +114,104 @@ export const reducer = (state: State, action: Action): State => {
                 ...state,
                 profile: {
                     ...state.profile,
-                    [action.payload.Id]: action.payload
+                    [action.payload.Email]: action.payload
                 }
             };
-        case "GET_PROFILE":
+        case "GET_PROFILES":
             return {
                 ...state,
                 profile: {
-                    
+                    ...action.payload.reduce(
+                        (memo, profile) => ({ ...memo, [profile.Email]: profile }),
+                        {}
+                    ),
+                    ...state.profile
                 }
-            }
+            };
+        case "GET_USERS":
+            return {
+                ...state,
+                user: {
+                    ...action.payload.reduce(
+                        (memo, login) => ({ ...memo, [login.Email]: login }),
+                        {}
+                    ),
+                    ...state.user
+                }
+            };
+        case "GET_POSTS":
+            return {
+                ...state,
+                posts: {
+                    ...action.payload.reduce(
+                        (memo, post) => ({ ...memo, [Number(post.PostId)]: post }),
+                        {}
+                    ),
+                    ...state.posts
+                }
+            };
+        case "ADD_POST":
+            return {
+                ...state,
+                posts: {
+                    [Number(action.payload.PostId)]: action.payload,
+                    ...state.posts
+                }
+            };
+        case "GET_COMMENTS":
+            return {
+                ...state,
+                comment: {
+                    ...action.payload.reduce(
+                        (memo, comment) => ({ ...memo, [Number(comment.Id)]: comment }),
+                        {}
+                    ),
+                    ...state.comment
+                }
+            };
+        case "ADD_COMMENT":
+            return {
+                ...state,
+                comment: {
+                    [Number(action.payload.Id)]: action.payload,
+                    ...state.comment
+                }
+            };
+        case "LIKE_POST":
+            return { ...state };
+
+        case "DISLIKE_POST":
+            return { ...state };
+
+        case "UPDATE_GAME":
+            return {
+                ...state,
+                games: {
+                    ...state.games,
+                    [Number(action.payload.GameId)]: action.payload
+                }
+            };
+
+        case "UPDATE_PROFILE":
+
+            return {
+                ...state,
+                profile: {
+                    ...state.profile,
+                    [action.payload.Email]: action.payload
+                }
+            };
+        case "UPDATE_POST":
+            return {
+                ...state,
+                posts: {
+                    [Number(action.payload.PostId)]: action.payload,
+                    ...state.posts
+                }
+            };
+
         default:
             return state;
     }
 };
-
 

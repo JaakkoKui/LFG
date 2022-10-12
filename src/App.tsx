@@ -1,53 +1,116 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Profile from './Component/Profile';
-import LoginPage from './Component/Login';
+import LoginPage from './Component/LoginPage';
 import './App.css';
 import { useStateValue } from './state/state';
-//import { Login } from './types';
-import { v1 as uuid} from "uuid";
-
-
+import { User, ProfileModel, Game, Post, Comments } from './types';
+import { getUsers } from './services/userService';
+import { getProfiles } from './services/profileService';
+import {
+  Route, Link, Routes
+} from "react-router-dom"
+import HomePage from './Component/HomePage';
+import CustomRouter from './Component/CustomRouter';
+import ProfilePage from './Component/ProfilePage';
+import GameInfo from './Component/GameInfo';
+import AboutPage from './Component/AboutPage';
+import EditProfileForm from './Component/EditProfileForm';
+import { getAll } from './services/gameService';
+import { getPosts } from './services/postService';
+import { getComments } from './services/commentService';
 
 const App: React.FC = () => {
-  const [state, dispatch] = useStateValue();
+    const [{ profile, email }, dispatch] = useStateValue();
 
   useEffect(() => {
-    const id = uuid();
+    getProfiles().then(data => {
+
+      const profiles: ProfileModel[] = data as ProfileModel[];
+      dispatch({ type: "GET_PROFILES", payload: profiles });
+  });
+  getUsers().then(user => {
+      const users: User[] = user as User[];
+
+      dispatch({ type: "GET_USERS", payload: users });
+  });
+
+  getAll().then(game => {
+      const games: Game[] = game as Game[];
+
+      dispatch({ type: "GET_GAME_LIST", payload: games });
+  });
+
+  getPosts().then(post => {
+      const posts: Post[] = post as Post[];
+      posts.sort((a, b) => Number(b.PostId) - Number(a.PostId));
+      
+      dispatch({ type: "GET_POSTS", payload: posts });
+  })
+
+  getComments().then(comment => {
+      const comments: Comments[] = comment as Comments[];
+      comments.map(comment => {
+          comment.Date = comment.Date.replace("T", " | ");
+      })
+      dispatch({type: "GET_COMMENTS", payload: comments})
+  })
+
+
     const loggedUserJSON = window.localStorage.getItem('loggedUser');
     if (loggedUserJSON && loggedUserJSON !== undefined) {
       const user = JSON.parse(loggedUserJSON);
-      
-      dispatch({type: "LOGIN", payload: user.logged});
+
+      dispatch({ type: "LOGIN", payload: user });
     }
-    //dispatch({type: "ADD_LOGIN", payload: {email: "root@root.fi", password: "root"}});
-    console.log("logged", loggedUserJSON);
-    
+
   }, [dispatch]);
-  
-  if ( state.email === "") {
+
+  if (email === "") {
     return (
       <LoginPage />
     )
   } else {
 
     window.localStorage.setItem(
-      'loggedUser', JSON.stringify({logged: state.email})
+      'loggedUser', JSON.stringify(email)
     )
 
     const handleLogout = () => {
       window.localStorage.clear();
-      dispatch({type: "LOGOUT", payload: "" })
-    }
+      dispatch({ type: "LOGOUT", payload: "" })
+      }
+
+      const thisuser = Object.values(profile).filter(prof => prof.Email === email);
 
     return (
-      <>
+      <CustomRouter>
         <header>
-          <nav>
-            <button onClick={handleLogout}>Logout</button>
+                <nav className="h-[65px] flex relative font-semibold text-gray-600 z-20 bg-white">
+
+            <div className="absolute w-full h-full">
+              <div className="flex h-full mx-auto w-fit justify-around">
+                <Link to="/"><button className="px-5 hover:bg-gray-300 h-full hover:text-gray-900">Feed</button></Link>
+                <Link to="/about"><button className="px-5 hover:bg-gray-300 h-full hover:text-gray-900">About</button></Link>
+              </div>
+            </div>
+
+            <div className="ml-auto flex z-10">
+              <Link to="/profile"><button className="h-full px-5 hover:bg-gray-300 hover:text-gray-900">Profile</button></Link>
+              <Link to="/login"><button onClick={handleLogout} className="h-full px-5 hover:bg-red-400 bg-red-600 text-white">Logout</button></Link>
+            </div>
+
           </nav>
         </header>
-        <Profile />
-      </>
+        <Routes>
+          <Route path='/' element={<HomePage />} />
+          <Route path='/profile' element={<Profile />} />
+          <Route path='/login' element={<LoginPage />} />
+          <Route path='/profile/:id' element={<ProfilePage />} />
+          <Route path='/game/:id' element={<GameInfo />} />
+          <Route path='/profile/edit' element={<EditProfileForm currentUser={thisuser[0]} />} />
+          <Route path='/about' element={<AboutPage />} />
+        </Routes>
+      </CustomRouter>
     );
   }
 }

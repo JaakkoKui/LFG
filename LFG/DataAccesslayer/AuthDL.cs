@@ -1,7 +1,9 @@
 ﻿using LFG.Model;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
 using System;
+using System.Data;
 using System.Data.Common;
 using System.Threading.Tasks;
 
@@ -16,6 +18,8 @@ namespace LFG.DataAccesslayer
             _configuration = configuration;
             _mySqlConnection = new MySqlConnection(_configuration["ConnectionStrings:MySqlDBConnection"]);
         }
+
+        
 
         public async Task<SignInResponse> SignIn(SignInRequest request)
         {
@@ -116,6 +120,6 @@ namespace LFG.DataAccesslayer
             }
 
             return response;
-        }
+        }        
     }
 }

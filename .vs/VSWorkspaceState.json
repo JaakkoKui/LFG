@@ -1,8 +1,13 @@
 {
   "ExpandedNodes": [
     "",
-    "\\LFG"
+    "\\LFG",
+    "\\public",
+    "\\public\\images",
+    "\\public\\images\\DemoCovers",
+    "\\src",
+    "\\src\\Component"
   ],
-  "SelectedNode": "\\LFG\\Startup.cs",
+  "SelectedNode": "\\public\\images\\DemoCovers\\World of Warcraft.png",
   "PreviewInSolutionExplorer": false
 }
