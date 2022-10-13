@@ -1,46 +1,94 @@
-# Getting Started with Create React App
+#LFG (LinkedIn for Gamers)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+LFG is a social media made for gamers.
 
-## Available Scripts
+##Vision
 
-In the project directory, you can run:
+###The Idea
+	The idea is to have a social platform where gamers can bond, compete and find other gamers through video games.
 
-### `npm start`
+###The Need
+	The need is for gamers to find people playing similar games to play games with or befriend.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### What has been done?
+This vision is currently being realized by the possibilities to:
+	- Make and use your very own profile and giving others a Nickname to call you by, an email to us to know you by, a password to protect you 
+	  and optionally for other users your: age, name and discord.
+	- Add games and their statistics to your profile including: nickname, hours, rank and server.
+	- Post your thougts (under 1024 characters) to a common page we call "feed".
+	- Edit or delete the above mentioned.
+	- React to posts by either liking, disliking or discussing by comments (under 500 characters).
+	- View other people's profiles.
 
-### `npm test`
+### What does this hold in the future?
+We would like to continue developing this vision in the near future by:
+	- Adding "communities" where users can discuss and react within a games own community bringing likeminded people together.
+	- Making people able to add the important people into an friendlist for easy access to see what your friends are doing.
+	- Making images and avatars WORK. Giving everyone the ability to customize aspects of their profile to their liking.
+	- Adding API's for the easy of keeping your hours and games up to date.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+	Our mission will be to make LFG more accessible by localization and improvement to our user interface.
 
-### `npm run build`
+##Our technologies used
+This project was made using:
+	
+###Front-end
+	React by Facebook with the use of Typescript. 
+	Libraries supporting react are:
+		- react-dom-router for routing.
+		- tailwindcss for a css library
+		- Google Icons for some icons.
+		- Animate CSS for some css animations.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+###Back-end
+	ASP.NET using .NET Core 3.1 library with the use of C#
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+###Database
+	Database was made using mySQL within the metropolia database servers.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+###DevOps
+	DevOps tools used are:
+		- github (https://github.com/JaakkoKui/LFG)
+		- Nektion (https://app.nektion.com/Metropolia?3-2283946-0)
+		- Jenkins for build testing
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+##Who are we?
+This project is being worked on by Team 7:
+	- Andreal Llang
+	- Jesper Oja
+	- Jaakko Kuivasniemi (Scrum Master)
+	- Antti Aho
+	
+	Metropolia University of Applied Sciences
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+#How to start?
 
-## Learn More
+##Prerequisites
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+You need to download **react** with:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+###`npm i react`
+
+You need to download **react-router-dom** with:
+
+###`npm i react-router-dom`
+
+You **NEED** to be in **Metropolia VPN** in order to access the database.
+
+##Startup
+
+You will need to start the ASP.NET backend by opening the **LFG.sln** and starting the **IIS express**
+
+The start will open a Swagger page into **https://localhost:44372/swagger/index.html** 
+**NOTE! Do not close the Swagger window!**
+
+When the backend is running you can start the app by starting the front end with a command. 
+**NOTE! you need to be have your Terminal pointer in the LFG project FOLDER!** 
+
+###`npm start`
+
+the front-end will available in **http://localhost:3000**
