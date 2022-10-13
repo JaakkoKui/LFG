@@ -4,10 +4,10 @@
     "\\LFG",
     "\\public",
     "\\public\\images",
-    "\\public\\images\\DemoCovers",
+    "\\public\\images\\DefaultAvatars",
     "\\src",
     "\\src\\Component"
   ],
-  "SelectedNode": "\\public\\images\\DemoCovers\\World of Warcraft.png",
+  "SelectedNode": "\\public\\index.html",
   "PreviewInSolutionExplorer": false
 }
