@@ -1,13 +1,13 @@
-#LFG (LinkedIn for Gamers)
+# LFG (LinkedIn for Gamers)
 
 LFG is a social media made for gamers.
 
-##Vision
+## Vision
 
-###The Idea
+### The Idea
 	The idea is to have a social platform where gamers can bond, compete and find other gamers through video games.
 
-###The Need
+### The Need
 	The need is for gamers to find people playing similar games to play games with or befriend.
 
 
@@ -27,13 +27,13 @@ We would like to continue developing this vision in the near future by:
 	- Making people able to add the important people into an friendlist for easy access to see what your friends are doing.
 	- Making images and avatars WORK. Giving everyone the ability to customize aspects of their profile to their liking.
 	- Adding API's for the easy of keeping your hours and games up to date.
-
+	
 	Our mission will be to make LFG more accessible by localization and improvement to our user interface.
 
-##Our technologies used
+## Our technologies used
 This project was made using:
 	
-###Front-end
+### Front-end
 	React by Facebook with the use of Typescript. 
 	Libraries supporting react are:
 		- react-dom-router for routing.
@@ -41,13 +41,13 @@ This project was made using:
 		- Google Icons for some icons.
 		- Animate CSS for some css animations.
 
-###Back-end
+### Back-end
 	ASP.NET using .NET Core 3.1 library with the use of C#
 
-###Database
+### Database
 	Database was made using mySQL within the metropolia database servers.
 
-###DevOps
+### DevOps
 	DevOps tools used are:
 		- github (https://github.com/JaakkoKui/LFG)
 		- Nektion (https://app.nektion.com/Metropolia?3-2283946-0)
@@ -56,7 +56,7 @@ This project was made using:
 
 
 
-##Who are we?
+## Who are we?
 This project is being worked on by Team 7:
 	- Andreal Llang
 	- Jesper Oja
@@ -65,21 +65,21 @@ This project is being worked on by Team 7:
 	
 	Metropolia University of Applied Sciences
 
-#How to start?
+## How to Start?
 
-##Prerequisites
+### Prerequisites
 
 You need to download **react** with:
 
-###`npm i react`
+#### `npm i react`
 
 You need to download **react-router-dom** with:
 
-###`npm i react-router-dom`
+#### `npm i react-router-dom`
 
 You **NEED** to be in **Metropolia VPN** in order to access the database.
 
-##Startup
+### Startup
 
 You will need to start the ASP.NET backend by opening the **LFG.sln** and starting the **IIS express**
 
@@ -89,6 +89,6 @@ The start will open a Swagger page into **https://localhost:44372/swagger/index.
 When the backend is running you can start the app by starting the front end with a command. 
 **NOTE! you need to be have your Terminal pointer in the LFG project FOLDER!** 
 
-###`npm start`
+#### `npm start`
 
 the front-end will available in **http://localhost:3000**
