@@ -52,7 +52,7 @@ DevOps tools used were:
 
 ## Our Team
 This project is being made by Team 7:
-- Andreal Llang
+- Andreas Lang
 - Jesper Oja
 - Jaakko Kuivasniemi (Scrum Master)
 - Antti Aho
