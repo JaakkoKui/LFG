@@ -1,30 +1,22 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+  <nav class="h-[65px] flex relative font-semibold text-gray-600 bg-white">
+    <div class="flex h-full mx-auto w-fit justify-around">
+      <router-link class="px-5 hover:bg-gray-300 h-full hover:text-gray-900" v-for="navItem in navLinks" :key="navItem.navName" :to="navItem.to"><button class="h-full">{{navItem.navName}}</button></router-link>
+    </div>
+    
+    <router-link class="px-5 hover:bg-gray-300 h-full hover:text-gray-900" to="/profile"><button class="h-full">Profile</button></router-link>
   </nav>
-  <router-view/>
+  <div class="text-gray-300">
+    <router-view/>
+  </div>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+<script>
+export default {
+  data() {
+    return {
+      navLinks: [ { navName: "Feed", to: "/" }, { navName: "About", to: "about" } ],
+    }
+  }
 }
-
-nav {
-  padding: 30px;
-}
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
+</script>

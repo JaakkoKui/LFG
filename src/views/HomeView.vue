@@ -1,18 +1,29 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
-  </div>
+  <PostFlexComponent :posts="posts"/>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
+import axios from "axios";
+import PostFlexComponent from "@/components/PostFlexComponent.vue";
 
 export default defineComponent({
   name: 'HomeView',
   components: {
-    HelloWorld,
+    PostFlexComponent
   },
+  
+  data(){
+    return {
+      posts: [],
+    }
+  },
+
+  mounted () {
+    axios
+        .get('https://localhost:44372/api/Post')
+        .then(response => (this.posts = response.data))
+        .catch()
+  }
 });
 </script>

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "L7yYDsRE8/EHI/jccTyD/khNsMejZeUyYEcjgOqeZ4KbXoF18QfD235sAoiKqfhl/pu7t1nzLTkxiqIHm4gXKw==",
+  "dgSpecHash": "POW02fgM3hBQ37ASIOSR6z/7X3kTUS7eDsl7ibfvKDcsRLXGZwBgr7q0I9now5/loca5IuYR8f3miqZ+PguaTw==",
   "success": true,
-  "projectFilePath": "C:\\LFG\\lfg\\LFG.csproj",
+  "projectFilePath": "C:\\Users\\antti\\RiderProjects\\LFG\\LFG.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\antti\\.nuget\\packages\\google.protobuf\\3.19.4\\google.protobuf.3.19.4.nupkg.sha512",
     "C:\\Users\\antti\\.nuget\\packages\\k4os.compression.lz4\\1.2.6\\k4os.compression.lz4.1.2.6.nupkg.sha512",
