@@ -1,11 +1,14 @@
 <template>
-  <PostFlexComponent :posts="posts"/>
+  <div class="absolute font-bold ml-10 mb-10 border-b-4 border-gray-300 text-3xl w-[calc(100%-100px)]">
+    <h1 class="bg-darkBackground pr-5 -mb-4 w-fit">Posts</h1>
+  </div>
+  <PostFlexComponent class="mt-10 pt-10" :posts="posts"/>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import axios from "axios";
-import PostFlexComponent from "@/components/PostFlexComponent.vue";
+import { defineComponent } from 'vue'
+import PostFlexComponent from "@/components/PostFlexComponent.vue"
+import { rootStates } from '@/App.vue'
 
 export default defineComponent({
   name: 'HomeView',
@@ -15,15 +18,9 @@ export default defineComponent({
   
   data(){
     return {
-      posts: [],
+      rootStates,
+      posts: rootStates.posts,
     }
   },
-
-  mounted () {
-    axios
-        .get('https://localhost:44372/api/Post')
-        .then(response => (this.posts = response.data))
-        .catch()
-  }
 });
 </script>

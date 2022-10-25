@@ -30,8 +30,8 @@
 
     <!-- Post aside -->
     <div class="flex flex-col justify-between h-16 px-5 pt-2 text-gray-400">
-      <button class="w-[50px] hover:text-white"><span class="material-symbols-outlined">thumb_up</span></button>
-      <button class="w-[50px] hover:text-white"><span class="material-symbols-outlined">thumb_down</span></button>
+      <button class="w-[50px] hover:text-white" @click="like"><span class="material-symbols-outlined">thumb_up</span></button>
+      <button class="w-[50px] hover:text-white" @click="dislike"><span class="material-symbols-outlined">thumb_down</span></button>
     </div>
   </div>
 </template>
@@ -53,6 +53,12 @@ export default {
     
     postLikes: Number,
     postDislikes: Number,
+    
+    postComments: [],
   },
+  
+  methods: {
+
+  }
 }
 </script>
