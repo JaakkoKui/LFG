@@ -21,6 +21,7 @@
       </div>
 
       <!-- Post footter -->
+      <button class="font-semibold text-gray-400 mb-1.5">Show {{comments.length}} Comments</button>
       <div class="flex mt-auto text-gray-400">
         <p class="border-r pr-2.5 border-gray-400">{{postLikes}} likes</p>
         <p class="pl-2.5">{{postDislikes}} dislikes</p>
@@ -63,6 +64,18 @@ export default {
     return {
       rootStates,
       profile: [],
+    }
+  },
+  
+  computed: {
+    comments(){
+      let returnArray = [];
+      rootStates.comments.forEach(e => {
+        if(e.PostId === this.postID){
+          returnArray.push(e);
+        }
+      })
+      return returnArray;
     }
   },
   

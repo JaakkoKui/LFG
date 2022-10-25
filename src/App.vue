@@ -25,6 +25,7 @@ export default {
     rootStates.getPosts()
     rootStates.getGames()
     rootStates.getProfiles()
+    rootStates.getComments()
   }
 }
 </script>
