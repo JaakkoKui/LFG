@@ -23,7 +23,9 @@
           :key="game.GameId"
           :gameId="game.GameId"
           :gameName="game.GameName"
-          :hoursPlayed="game.HoursPlayed"/>
+          :hoursPlayed="game.HoursPlayed"
+          :profile-name="profile.Nickname"
+      />
       <div class="ring-4 hover:ring-4 hover:ring-primary hover:ring-offset-4 rounded-lg ring-darkBackground flex flex-col h-96 w-60 mx-2 text-white bg-darkBackground">
         <button class="rounded-lg w-full h-full font-bold text-7xl bg-darkBackground text-white hover:bg-primary">+</button>
       </div>
@@ -31,7 +33,10 @@
   </div>
 
   <!-- Posts container -->
-  <div>
+  <div class="absolute font-bold ml-10 mt-10 border-b-4 border-gray-300 text-3xl w-[calc(100%-100px)]">
+    <h1 class="bg-darkBackground pr-5 -mb-4 w-fit">Posts</h1>
+  </div>
+  <div class="pt-10">
     <PostFlexComponent :posts="posts"/>
   </div>
 </template>
