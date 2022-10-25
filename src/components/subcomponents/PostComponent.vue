@@ -10,7 +10,7 @@
     <div class="w-[calc(100%-200px)]">
       <!-- Post header -->
       <div class="flex h-[50px]">
-        <router-link class="text-md font-bold hover:text-white" :to="'/profile/' + posterUsername">{{posterUsername}}</router-link>
+        <router-link class="text-md font-bold hover:text-white" :to="'/profile/' + profile.Nickname">{{profile.Nickname}}</router-link>
         <h4 class="text-sm italic font-semibold text-gray-400 pt-0.5 ml-3">{{postingDate}}</h4>
       </div>
 
@@ -38,12 +38,14 @@
 
 <script>
 import AvatarComponent from "@/components/subcomponents/AvatarComponent";
+import { rootStates } from "@/state-management";
+
 export default {
   name: "PostComponent",
   components: {AvatarComponent},
   
   props: {
-    posterID: Number,
+    posterID: String,
     postID: Number,
     
     postingDate: String,
@@ -57,8 +59,21 @@ export default {
     postComments: [],
   },
   
+  data() {
+    return {
+      rootStates,
+      profile: [],
+    }
+  },
+  
   methods: {
-
+    findPoster(){
+      this.profile = rootStates.profiles.find(profile => profile.ProfileId == this.posterID);
+    }
+  },
+  
+  mounted() {
+    this.findPoster();
   }
 }
 </script>

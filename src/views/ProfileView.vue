@@ -40,7 +40,7 @@
 import ProfileInfoComponent from "@/components/ProfileInfoComponent";
 import GameComponent from "@/components/GameComponent";
 import PostFlexComponent from "@/components/PostFlexComponent";
-import { rootStates } from "@/App.vue";
+import { rootStates } from "@/state-management";
 
 export default {
   name: "ProfileView",
@@ -48,9 +48,14 @@ export default {
   data(){
     return {
       rootStates,
-      profile: rootStates.profiles[0],
       posts: [],
       games: [],
+    }
+  },
+  
+  computed: {
+    profile(){
+      return rootStates.profiles.find(profile => profile.Nickname === this.$route.params.userNick)
     }
   },
   

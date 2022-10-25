@@ -8,7 +8,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import PostFlexComponent from "@/components/PostFlexComponent.vue"
-import { rootStates } from '@/App.vue'
+import { rootStates } from "@/state-management";
 
 export default defineComponent({
   name: 'HomeView',
@@ -19,8 +19,18 @@ export default defineComponent({
   data(){
     return {
       rootStates,
-      posts: rootStates.posts,
+      posts: [],
     }
   },
+  
+  methods: {
+    getPosts(){
+      this.posts = rootStates.posts;
+    }
+  },
+  
+  mounted(){
+    this.getPosts();
+  }
 });
 </script>

@@ -22,14 +22,3 @@ export default {
   }
 }
 </script>
-
-{
-"GameId": 1,
-"GameName": "Path Of Exile",
-"NicknameIngame": "Xerm",
-"HoursPlayed": 5000,
-"Rank": "God",
-"Server": "EU",
-"Comments": "Best ARPG game at this moment!",
-"ProfileId": 1
-}
