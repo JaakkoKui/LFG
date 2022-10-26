@@ -21,7 +21,13 @@
       </div>
 
       <!-- Post footter -->
-      <button class="font-semibold text-gray-400 mb-1.5">Show {{postComments.length}} Comments</button>
+      <button v-if="!commentsOpen" @click="commentsOpen = true" class="font-semibold text-gray-400 mb-1.5">Show {{postComments.length}} Comments</button>
+      <button v-if="commentsOpen" @click="commentsOpen = false" class="font-semibold text-gray-400 mb-1.5">Hide Comments</button>
+      <div v-if="commentsOpen">
+        <div v-for="(comment, key) in postComments" :key="key">
+          <CommentComponent :profile="profile" :comment="comment"/>
+        </div>
+      </div>
       <div class="flex mt-auto text-gray-400">
         <p class="border-r pr-2.5 border-gray-400">{{postLikes}} likes</p>
         <p class="pl-2.5">{{postDislikes}} dislikes</p>
@@ -39,10 +45,11 @@
 
 <script>
 import AvatarComponent from "@/components/subcomponents/AvatarComponent";
+import CommentComponent from "@/components/subcomponents/CommentComponent";
 
 export default {
   name: "PostComponent",
-  components: {AvatarComponent},
+  components: {CommentComponent, AvatarComponent},
   
   props: {
     postingDate: String,
@@ -55,6 +62,12 @@ export default {
 
     profile: [],
     postComments: [],
+  },
+  
+  data(){
+    return{
+      commentsOpen: false,
+    }
   },
 }
 </script>
