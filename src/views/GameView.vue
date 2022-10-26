@@ -61,20 +61,17 @@
 </template>
 
 <script>
-import {rootStates} from "@/state-management";
 
 export default {
   name: "GameView",
   
-  data(){
-    return{
-      rootStates
-    }
+  props: {
+    states: []
   },
   
   computed: {
     game(){
-      return rootStates.games.find(e => e.GameName == this.$route.params.game)
+      return this.states.games.find(e => e.GameName == this.$route.params.game)
     }
   }
   

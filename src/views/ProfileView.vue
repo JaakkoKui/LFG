@@ -37,7 +37,7 @@
     <h1 class="bg-darkBackground pr-5 -mb-4 w-fit">Posts</h1>
   </div>
   <div class="pt-10">
-    <PostFlexComponent :posts="posts"/>
+    <PostFlexComponent :profiles="states.profiles" :comments="states.comments" :posts="posts"/>
   </div>
 </template>
 
@@ -45,14 +45,17 @@
 import ProfileInfoComponent from "@/components/ProfileInfoComponent";
 import GameComponent from "@/components/GameComponent";
 import PostFlexComponent from "@/components/PostFlexComponent";
-import { rootStates } from "@/state-management";
 
 export default {
   name: "ProfileView",
   components: {PostFlexComponent, GameComponent, ProfileInfoComponent},
+  
+  props: {
+    states: [],
+  },
+  
   data(){
     return {
-      rootStates,
       posts: [],
       games: [],
     }
@@ -60,20 +63,20 @@ export default {
   
   computed: {
     profile(){
-      return rootStates.profiles.find(profile => profile.Nickname === this.$route.params.userNick)
+      return this.states.profiles.find(profile => profile.Nickname === this.$route.params.userNick)
     }
   },
   
   methods: {
     getGames(){
-      rootStates.games.forEach( (currentGame) => {
+      this.states.games.forEach( (currentGame) => {
         if(currentGame.ProfileId == this.profile.ProfileId){
           this.games.push(currentGame)
         }
       })
     },
     getPosts(){
-      rootStates.posts.forEach( (currentPost) => {
+      this.states.posts.forEach( (currentPost) => {
         if(currentPost.PosterProfile == this.profile.ProfileId){
           this.posts.push(currentPost)
         }

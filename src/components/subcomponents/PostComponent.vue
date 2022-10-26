@@ -10,7 +10,7 @@
     <div class="w-[calc(100%-200px)]">
       <!-- Post header -->
       <div class="flex h-[50px]">
-        <router-link class="text-md font-bold hover:text-white" :to="'/profile/' + profile.Nickname">{{profile.Nickname}}</router-link>
+        <router-link v-if="profile" class="text-md font-bold hover:text-white" :to="'/profile/' + profile.Nickname">{{profile.Nickname}}</router-link>
         <h4 class="text-sm italic font-semibold text-gray-400 pt-0.5 ml-3">{{postingDate}}</h4>
       </div>
 
@@ -21,7 +21,7 @@
       </div>
 
       <!-- Post footter -->
-      <button class="font-semibold text-gray-400 mb-1.5">Show {{comments.length}} Comments</button>
+      <button class="font-semibold text-gray-400 mb-1.5">Show {{postComments.length}} Comments</button>
       <div class="flex mt-auto text-gray-400">
         <p class="border-r pr-2.5 border-gray-400">{{postLikes}} likes</p>
         <p class="pl-2.5">{{postDislikes}} dislikes</p>
@@ -39,16 +39,12 @@
 
 <script>
 import AvatarComponent from "@/components/subcomponents/AvatarComponent";
-import { rootStates } from "@/state-management";
 
 export default {
   name: "PostComponent",
   components: {AvatarComponent},
   
   props: {
-    posterID: String,
-    postID: Number,
-    
     postingDate: String,
     
     postTitle: String,
@@ -56,37 +52,9 @@ export default {
     
     postLikes: Number,
     postDislikes: Number,
-    
+
+    profile: [],
     postComments: [],
   },
-  
-  data() {
-    return {
-      rootStates,
-      profile: [],
-    }
-  },
-  
-  computed: {
-    comments(){
-      let returnArray = [];
-      rootStates.comments.forEach(e => {
-        if(e.PostId === this.postID){
-          returnArray.push(e);
-        }
-      })
-      return returnArray;
-    }
-  },
-  
-  methods: {
-    findPoster(){
-      this.profile = rootStates.profiles.find(profile => profile.ProfileId == this.posterID);
-    }
-  },
-  
-  mounted() {
-    this.findPoster();
-  }
 }
 </script>

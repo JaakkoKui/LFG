@@ -5,14 +5,14 @@
     <!-- Post list render -->
     <div v-for="post in posts" :key="post.PostId">
       <PostComponent
-          :postID="post.PostId"
           :posterID="post.PosterProfile"
           :posting-date="post.CreateDate"
           :post-title="post.Title"
           :post-content="post.Content"
           :post-likes="post.Likepost"
           :post-dislikes="post.Dislikepost"
-          :post-comments="post.Comments"
+          :post-comments="computedComments(post.PostId)"
+          :profile="profile(post.PosterProfile)"
       />
       <hr class="w-full border-gray-700">
     </div>
@@ -22,15 +22,37 @@
 <script>
 import PostComponent from "@/components/subcomponents/PostComponent.vue";
 
-export default {
+export default({
   name: "PostFlexComponent",
 
   components: {
     PostComponent
   },
-
+  
   props: {
+    profiles: [],
+    comments: [],
     posts: [],
-  }
-}
+  },
+  
+  methods: {
+    //javascript poc, edit later pls
+    profile(id){
+      let profile = this.profiles.find(element => String(element.ProfileId) === id)
+      console.log(this.profiles)
+      console.log(profile)
+      return profile
+    },
+    
+    computedComments(id) {
+      let returnArray = []
+      this.comments.forEach((e) => {
+        if(e.PostId == id){
+          returnArray.push(e)
+        }
+      })
+      return returnArray
+    },
+  },
+})
 </script>
