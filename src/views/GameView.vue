@@ -69,7 +69,7 @@
           </p>
         </div>
 
-        <div class="ml-auto w-fit" v-if="editing">
+        <div class="ml-auto w-fit my-5" v-if="editing">
           <button @click="editing = !editing" class="px-5 border-gray-600 hover:text-white">Cancel</button>
           <button-sub-component @buttonClick="updateGame" name="Submit"/>
         </div>
