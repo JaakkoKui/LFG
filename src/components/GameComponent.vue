@@ -1,5 +1,5 @@
 ﻿<template>
-  <div class="ring-4 hover:ring-4 hover:ring-primary hover:ring-offset-4 rounded-lg ring-darkBackground flex flex-col h-96 w-60 mx-2 relative text-white bg-darkBackground hover:bg-primary">
+  <div class="ring-4 rounded-lg ring-darkBackground flex flex-col h-96 w-60 mx-2 relative text-white bg-darkBackground transition ease-in-out hover:scale-105 duration-200 hover:bg-primary">
     <router-link :to="profileName + '/' + gameName">
       <img class="object-contain rounded-t-lg" src="@/assets/images/DemoCovers/Foxhole.png" :alt="gameName">
       <div class="pb-2 h-[140px] w-full absolute bottom-0 bg-gradient-to-t from-darkBackground via-darkBackground rounded-b-lg">
