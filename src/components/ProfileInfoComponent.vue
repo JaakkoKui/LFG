@@ -13,7 +13,7 @@
     </div>
     <div class="font-semibold flex flex-col justify-around">
       <p class="w-fit ml-auto mb-auto">Join date: {{profile.JoiningDate}}</p>
-      <button v-if="isProfileOwner" class="uppercase font-semibold w-fit ml-auto text-gray-400">Edit</button>
+      <RouterLink v-if="isProfileOwner" class="uppercase font-semibold w-fit ml-auto text-gray-400" :to="'/profile/edit/' + profile.Nickname" >Edit</RouterLink>
       <div class="flex w-fit ml-auto mt-auto">
         <img class="h-[15px] object-contain my-auto mr-1.5" src="@/assets/images/discord-icon.png" alt="discord">
         <p>{{profile.DiscordNick}}</p>

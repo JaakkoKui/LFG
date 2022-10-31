@@ -31,10 +31,44 @@
   <!-- Posts container -->
   <div class="absolute flex font-bold ml-10 mt-10 border-b-4 border-gray-300 text-3xl w-[calc(100%-100px)]">
     <h1 class="bg-darkBackground pr-5 -mb-4 w-fit">Posts</h1>
-    <ButtonSubComponent class="text-base -mb-5 ml-auto -mr-5" v-if="isTheProfileOwner" name="New Post"/>
+    <div v-if="isTheProfileOwner && !isAddingNewPost" class="text-base -mb-5 ml-auto bg-darkBackground z-10 px-5">
+      <ButtonSubComponent class="-mr-10" @buttonClick="isAddingNewPost = true" name="New Post"/>
+    </div>
   </div>
   <div class="pt-10">
-    <PostFlexComponent :profiles="states.profiles" :comments="states.comments" :posts="posts"/>
+    <div v-if="isTheProfileOwner && isAddingNewPost" class="px-10 pt-[60px] -mb-10 z-10">
+
+      <div class="flex w-full">
+
+        <!-- Poster Avatar -->
+        <div class="mx-5 w-[50px]">
+          <AvatarComponent/>
+        </div>
+
+        <!-- Post body -->
+        <div class="w-[calc(100%-200px)]">
+          <!-- Post header -->
+          <div class="flex h-[50px]">
+            <router-link v-if="profile" class="text-md font-bold hover:text-white" :to="'/profile/' + profile.Nickname">{{profile.Nickname}} (You)</router-link>
+          </div>
+
+          <!-- Post content -->
+          <div class="mb-5">
+            <h1 class="break-words text-xl font-bold mb-2">
+              <input class="-ml-2 rounded-lg bg-lightBackground text-white px-2 w-[400px]" v-model="postInfo.title" placeholder="Title" maxlength="50"/>
+            </h1>
+            <textarea class="-ml-2 rounded-lg bg-lightBackground text-white px-2 w-full" v-model="postInfo.content" placeholder="Content" maxlength="512" rows="5"/>
+          </div>
+
+        </div>
+      </div>
+      
+      <div class="w-fit ml-auto flex mr-[120px]">
+        <button @click="cancelNewPost" class="font-semibold py-2 px-5 w-fit uppercase">Cancel</button>
+        <ButtonSubComponent class="disabled:bg-lightBackground transition ease-in-out duration-300" :disabled="!postInfo.title || !postInfo.content"  @buttonClick="postNewPost" name="Post"/>
+      </div>
+    </div>
+    <PostFlexComponent :profiles="states.profiles" :comments="states.comments" :posts="posts" :current-user-email="email"/>
   </div>
 </template>
 
@@ -43,10 +77,12 @@ import ProfileInfoComponent from "@/components/ProfileInfoComponent";
 import GameComponent from "@/components/GameComponent";
 import PostFlexComponent from "@/components/PostFlexComponent";
 import ButtonSubComponent from "@/components/subcomponents/ButtonSubComponent";
+import AvatarComponent from "@/components/subcomponents/AvatarComponent";
+import axios from "axios";
 
 export default {
   name: "ProfileView",
-  components: {ButtonSubComponent, PostFlexComponent, GameComponent, ProfileInfoComponent},
+  components: {ButtonSubComponent, PostFlexComponent, GameComponent, ProfileInfoComponent, AvatarComponent},
   
   props: {
     states: [],
@@ -57,6 +93,17 @@ export default {
     return {
       posts: [],
       games: [],
+      isAddingNewPost: false,
+      postInfo: {
+        postId: 0,
+        title: "",
+        createDate: "",
+        content: "",
+        posterProfile: null,
+        photoFileName: "no-file",
+        likepost: 0,
+        dislikepost: 0
+      },
     }
   },
   
@@ -71,6 +118,30 @@ export default {
   },
   
   methods: {
+    
+    postNewPost(){
+      if(this.postInfo.title && this.postInfo.content){
+        
+        const today = new Date()
+        this.postInfo.createDate = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()+'T'+String(today.getHours()).padStart(2, '0')+':'+String(today.getMinutes()).padStart(2, '0')+':'+String(today.getSeconds()).padStart(2, '0')
+        this.postInfo.posterProfile = this.profile.ProfileId
+        
+        if(this.postInfo.posterProfile){
+          axios
+              .post("https://localhost:44372/api/Post", this.postInfo)
+              .then(response => (this.isAddingNewPost = false))
+              .catch()
+        }
+        
+      }
+    },
+    
+    cancelNewPost(){
+      this.isAddingNewPost = false
+      this.postInfo.title = ""
+      this.postInfo.content = ""
+    },
+    
     getGames(){
       this.states.games.forEach( (currentGame) => {
         if(currentGame.profileId == this.profile.ProfileId){

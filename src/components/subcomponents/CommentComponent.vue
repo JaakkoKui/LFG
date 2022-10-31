@@ -1,5 +1,5 @@
 ﻿<template>
-  <div class="my-5 w-1/2 flex ml-10">
+  <div v-if="profile" class="my-5 w-1/2 flex ml-10">
     <div class="w-[35px] h-[35px]">
       <AvatarComponent/>
     </div>
@@ -22,8 +22,14 @@ export default {
   name: "CommentComponent",
   components: {AvatarComponent},
   props: {
-    profile: [],
-    comment: [],
-  }
+    profiles: [],
+    comment: {},
+  },
+
+  computed: {
+    profile(){
+      return this.profiles.find(profile => profile.ProfileId == this.comment.CommentingProfile)
+    },
+  },
 }
 </script>

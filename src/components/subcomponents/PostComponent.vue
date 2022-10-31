@@ -24,8 +24,30 @@
       <button v-if="!commentsOpen" @click="commentsOpen = true" class="font-semibold text-gray-400 mb-1.5">Show {{postComments.length}} Comments</button>
       <button v-if="commentsOpen" @click="commentsOpen = false" class="font-semibold text-gray-400 mb-1.5">Hide Comments</button>
       <div v-if="commentsOpen">
+        
+        <!-- New comment -->
+        <div class="my-5 w-1/2 flex ml-10">
+          <div class="w-[35px] h-[35px]">
+            <AvatarComponent/>
+          </div>
+
+          <div class="w-full">
+            <div class="flex">
+              <h4 class="font-bold h-fit ml-[7px]">{{searchedProfile.Nickname}}</h4>
+            </div>
+            <div class="w-full px-2">
+              <textarea class="bg-lightBackground rounded-md px-2 w-full mt-1" id="commentText" rows="2" maxlength="50" v-model="commentInfo.commentContent"/>
+            </div>
+            <div v-show="commentInfo.commentContent" class="mt-2 ml-auto w-fit px-2">
+              <button class="py-2 px-5 uppercase font-semibold" @click="handleCommentCancel">Cancel</button>
+              <ButtonSubComponent class="disabled:bg-lightBackground transition duration-300 ease-in-out" :disabled="!commentInfo.commentContent" name="Comment" @buttonClick="postComment"/>
+            </div>
+            
+          </div>
+        </div>
+        
         <div v-for="(comment, key) in postComments" :key="key">
-          <CommentComponent :profile="profile" :comment="comment"/>
+          <CommentComponent :profiles="allProfiles" :comment="comment"/>
         </div>
       </div>
       <div class="flex mt-auto text-gray-400">
@@ -46,10 +68,12 @@
 <script>
 import AvatarComponent from "@/components/subcomponents/AvatarComponent";
 import CommentComponent from "@/components/subcomponents/CommentComponent";
+import axios from "axios";
+import ButtonSubComponent from "@/components/subcomponents/ButtonSubComponent";
 
 export default {
   name: "PostComponent",
-  components: {CommentComponent, AvatarComponent},
+  components: {ButtonSubComponent, CommentComponent, AvatarComponent},
   
   props: {
     postingDate: String,
@@ -59,14 +83,55 @@ export default {
     
     postLikes: Number,
     postDislikes: Number,
+    
+    postId: Number,
 
-    profile: [],
+    profile: {},
     postComments: [],
+    allProfiles: [],
+
+    currentUserEmail: String,
   },
   
   data(){
     return{
       commentsOpen: false,
+      commentInfo: {
+        id: 0,
+        commentContent: "",
+        date: "",
+        commentingProfile: 0,
+        postId: 0
+      },
+    }
+  },
+  
+  computed: {
+    searchedProfile(){
+      return this.allProfiles.find(profile => profile.Email === this.currentUserEmail)
+    },
+  },
+  
+  methods: {
+    
+    handleCommentCancel(){
+      this.commentInfo.commentContent = ''  
+      this.commentsOpen = false
+    },
+    
+    postComment(){
+      this.commentInfo.postId = this.postId
+      this.commentInfo.commentingProfile = this.searchedProfile.ProfileId
+
+      const today = new Date()
+      this.commentInfo.date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()+'T'+String(today.getHours()).padStart(2, '0')+':'+String(today.getMinutes()).padStart(2, '0')+':'+String(today.getSeconds()).padStart(2, '0')
+
+      if(this.commentInfo.commentContent){
+        axios
+            .post("https://localhost:44372/api/Comment", this.commentInfo)
+            .then()
+            .catch()
+      }
     }
   },
 }
