@@ -18,9 +18,15 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('../views/ProfileView.vue')
   },
   {
-    path: '/profile/:userNick/games/:game',
+    path: '/profile/:userNick/games/',
     name: 'game',
-    component: () => import('../views/GameView.vue')
+    children: [
+      {
+        path: '/profile/:userNick/games/:game',
+        name: 'game',
+        component: () => import('../views/GameView.vue')
+      },
+    ]
   },
   {
     path: '/login',

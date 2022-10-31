@@ -15,6 +15,7 @@
           :profile="profile(post.PosterProfile)"
           :all-profiles="profiles"
           :current-user-email="currentUserEmail"
+          :is-owner="isOwner"
       />
       <hr class="w-full border-gray-700">
     </div>
@@ -35,6 +36,7 @@ export default({
     profiles: [],
     comments: [],
     posts: [],
+    isOwner: Boolean,
     currentUserEmail: String,
   },
   
@@ -54,7 +56,7 @@ export default({
           returnArray.push(e)
         }
       })
-      return returnArray
+      return returnArray.reverse()
     },
   },
 })

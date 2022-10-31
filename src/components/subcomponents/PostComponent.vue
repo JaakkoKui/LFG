@@ -16,8 +16,19 @@
 
       <!-- Post content -->
       <div class="mb-5">
-        <h1 class="break-words text-xl font-bold mb-2">{{postTitle}}</h1>
-        <p>{{postContent}}</p>
+        <h1 class="break-words text-xl font-bold mb-2">
+          <span v-if="!editable">{{postTitle}}</span>
+          <input v-if="editable" class="rounded-md bg-lightBackground px-2 -ml-2 w-1/4" :placeholder="postTitle" v-model="postInfo.title">
+        </h1>
+        <p>
+          <span v-if="!editable">{{postContent}}</span>
+          <textarea v-if="editable" class="rounded-md bg-lightBackground px-2 -ml-2 w-full" rows="3" :placeholder="postContent" v-model="postInfo.content"/>
+        </p>
+        
+        <div v-if="editable" class="w-fit ml-auto mr-2 mt-2">
+          <button class="px-4 py-2 font-semibold hover:text-white" @click="handlePostEditCancel">Cancel</button>
+          <ButtonSubComponent name="Edit" @buttonClick="editPost"/>
+        </div>
       </div>
 
       <!-- Post footter -->
@@ -36,9 +47,9 @@
               <h4 class="font-bold h-fit ml-[7px]">{{searchedProfile.Nickname}}</h4>
             </div>
             <div class="w-full px-2">
-              <textarea class="bg-lightBackground rounded-md px-2 w-full mt-1" id="commentText" rows="2" maxlength="50" v-model="commentInfo.commentContent"/>
+              <textarea class="bg-lightBackground rounded-md px-2 py-1 w-full mt-1" id="commentText" :rows="commentRows" @click="openNewComment" maxlength="50" placeholder="Comment" v-model="commentInfo.commentContent"/>
             </div>
-            <div v-show="commentInfo.commentContent" class="mt-2 ml-auto w-fit px-2">
+            <div v-show="newCommentOpen" class="mt-2 ml-auto w-fit px-2">
               <button class="py-2 px-5 uppercase font-semibold" @click="handleCommentCancel">Cancel</button>
               <ButtonSubComponent class="disabled:bg-lightBackground transition duration-300 ease-in-out" :disabled="!commentInfo.commentContent" name="Comment" @buttonClick="postComment"/>
             </div>
@@ -59,8 +70,10 @@
 
     <!-- Post aside -->
     <div class="flex flex-col justify-between h-16 px-5 pt-2 text-gray-400">
-      <button class="w-[50px] hover:text-white" @click="like"><span class="material-symbols-outlined">thumb_up</span></button>
-      <button class="w-[50px] hover:text-white" @click="dislike"><span class="material-symbols-outlined">thumb_down</span></button>
+      <button v-if="isOwner && !editable" @click="handlePostEditable" class="w-[50px] hover:text-white">Edit</button>
+      <button v-if="isOwner && !editable" @click="deletePost" class="w-[50px] text-red-500 hover:text-red-700">Delete</button>
+      <button v-if="!isOwner" class="w-[50px] hover:text-white" @click="like"><span class="material-symbols-outlined">thumb_up</span></button>
+      <button v-if="!isOwner" class="w-[50px] hover:text-white" @click="dislike"><span class="material-symbols-outlined">thumb_down</span></button>
     </div>
   </div>
 </template>
@@ -91,10 +104,15 @@ export default {
     allProfiles: [],
 
     currentUserEmail: String,
+    
+    isOwner: Boolean
   },
   
   data(){
     return{
+      editable: false,
+      commentRows: 1,
+      newCommentOpen: false,
       commentsOpen: false,
       commentInfo: {
         id: 0,
@@ -103,6 +121,16 @@ export default {
         commentingProfile: 0,
         postId: 0
       },
+      postInfo: {
+        postId: 0,
+        title: "",
+        createDate: "",
+        content: "",
+        posterProfile: 0,
+        photoFileName: "",
+        likepost: 0,
+        dislikepost: 0
+      }
     }
   },
   
@@ -114,9 +142,49 @@ export default {
   
   methods: {
     
+    handlePostEditable(){
+      this.postInfo.title = this.postTitle
+      this.postInfo.content = this.postContent
+      
+      this.editable = true
+    },
+
+    handlePostEditCancel(){
+      this.editable = false
+      this.postInfo.title = this.postTitle
+      this.postInfo.content = this.postContent
+    },
+
+    editPost(){
+
+      this.postInfo.postId = this.postId
+      this.postInfo.createDate = this.postingDate
+      this.postInfo.posterProfile = this.profile.ProfileId
+      this.postInfo.likepost = this.postLikes
+      this.postInfo.dislikepost = this.postDislikes
+      
+      axios
+          .put("https://localhost:44372/api/Post", this.postInfo)
+          .then(response => this.editable = false)
+          .catch()
+    },
+
+    deletePost(){
+      axios
+          .delete("https://localhost:44372/api/Post/" + this.postId)
+          .then()
+          .catch()
+    },
+
+    openNewComment(){
+      this.commentRows = 4
+      this.newCommentOpen = true
+    },
+    
     handleCommentCancel(){
-      this.commentInfo.commentContent = ''  
-      this.commentsOpen = false
+      this.commentRows = 1
+      this.newCommentOpen = false
+      this.commentInfo.commentContent = ''
     },
     
     postComment(){
@@ -129,7 +197,7 @@ export default {
       if(this.commentInfo.commentContent){
         axios
             .post("https://localhost:44372/api/Comment", this.commentInfo)
-            .then()
+            .then(response => this.handleCommentCancel())
             .catch()
       }
     }

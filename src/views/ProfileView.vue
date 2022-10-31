@@ -23,7 +23,7 @@
           :profile-name="profile.Nickname"
       />
       <div v-if="isTheProfileOwner" class="ring-4 rounded-lg ring-darkBackground flex flex-col h-96 w-60 mx-2 relative text-white bg-darkBackground transition ease-in-out hover:scale-105 duration-200 hover:bg-primary hover:ring-primary">
-        <button class="rounded-lg w-full h-full font-bold text-7xl bg-darkBackground text-white hover:bg-primary">+</button>
+        <router-link :to="'/profile/' + profile.Nickname + '/games/new'" class="rounded-lg w-full h-full font-bold text-7xl bg-darkBackground text-white hover:bg-primary flex justify-center"><span class="my-auto block h-fit">+</span></router-link>
       </div>
     </div>
   </div>
@@ -68,7 +68,7 @@
         <ButtonSubComponent class="disabled:bg-lightBackground transition ease-in-out duration-300" :disabled="!postInfo.title || !postInfo.content"  @buttonClick="postNewPost" name="Post"/>
       </div>
     </div>
-    <PostFlexComponent :profiles="states.profiles" :comments="states.comments" :posts="posts" :current-user-email="email"/>
+    <PostFlexComponent :profiles="states.profiles" :comments="states.comments" :posts="posts" :current-user-email="email" :is-owner="isTheProfileOwner"/>
   </div>
 </template>
 

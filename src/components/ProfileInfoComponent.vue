@@ -7,14 +7,14 @@
     <div>
       <div class="flex">
         <h1 class="text-3xl font-bold h-fit">{{profile.Nickname}}</h1>
-        <h4 class="text-md capitalize font-semibold italic ml-2 h-fit my-auto">( {{profile.FirstName}} {{profile.LastName}} )</h4>
+        <h4 v-if="profile.FirstName || profile.LastName" class="text-md capitalize font-semibold italic ml-2 h-fit my-auto">( {{profile.FirstName}} {{profile.LastName}} )</h4>
       </div>
-      <p>Age: {{profile.Age}}</p>
+      <p v-if="profile.age > 0">Age: {{profile.Age}}</p>
     </div>
     <div class="font-semibold flex flex-col justify-around">
       <p class="w-fit ml-auto mb-auto">Join date: {{profile.JoiningDate}}</p>
       <RouterLink v-if="isProfileOwner" class="uppercase font-semibold w-fit ml-auto text-gray-400" :to="'/profile/edit/' + profile.Nickname" >Edit</RouterLink>
-      <div class="flex w-fit ml-auto mt-auto">
+      <div v-if="profile.DiscordNick" class="flex w-fit ml-auto mt-auto">
         <img class="h-[15px] object-contain my-auto mr-1.5" src="@/assets/images/discord-icon.png" alt="discord">
         <p>{{profile.DiscordNick}}</p>
       </div>

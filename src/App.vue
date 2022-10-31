@@ -57,8 +57,8 @@ export default {
       console.log(response.IsSuccess)
       if(response.IsSuccess) {
         this.loggedEmail = email
+        router.push('/');
       }
-      router.push('/');
     },
     
     getPosts() {
