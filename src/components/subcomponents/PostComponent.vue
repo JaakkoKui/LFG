@@ -37,7 +37,7 @@
       <div v-if="commentsOpen">
         
         <!-- New comment -->
-        <div class="my-5 w-1/2 flex ml-10">
+        <div v-if="currentUserEmail" class="my-5 w-1/2 flex ml-10">
           <div class="w-[35px] h-[35px]">
             <AvatarComponent/>
           </div>
