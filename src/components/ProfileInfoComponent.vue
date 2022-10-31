@@ -9,7 +9,7 @@
         <h1 class="text-3xl font-bold h-fit">{{profile.Nickname}}</h1>
         <h4 v-if="profile.FirstName || profile.LastName" class="text-md capitalize font-semibold italic ml-2 h-fit my-auto">( {{profile.FirstName}} {{profile.LastName}} )</h4>
       </div>
-      <p v-if="profile.age > 0">Age: {{profile.Age}}</p>
+      <p v-if="profile.Age > 0">Age: {{profile.Age}}</p>
     </div>
     <div class="font-semibold flex flex-col justify-around">
       <p class="w-fit ml-auto mb-auto">Join date: {{profile.JoiningDate}}</p>
@@ -30,7 +30,7 @@ export default {
   name: "ProfileInfoComponent",
   components: {AvatarComponent},
   props: {
-    profile: {},
+    profile: Object,
     isProfileOwner: Boolean
   },
 }

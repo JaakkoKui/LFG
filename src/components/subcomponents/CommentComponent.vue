@@ -22,8 +22,8 @@ export default {
   name: "CommentComponent",
   components: {AvatarComponent},
   props: {
-    profiles: [],
-    comment: {},
+    profiles: Array,
+    comment: Object,
   },
 
   computed: {

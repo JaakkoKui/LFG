@@ -17,7 +17,7 @@
     </div>
   </nav>
   <div class="text-gray-300">
-    <router-view @login="handleLogin" :states="states" :email="loggedEmail"/>
+    <router-view @login="handleLogin" :states="states" :email="loggedEmail" @refreshPosts="getPosts"/>
   </div>
 </template>
 
@@ -62,43 +62,34 @@ export default {
     },
     
     getPosts() {
-      let returnData = []
       axios
           .get(this.host + '/Post')
           .then(response => (this.states.posts = response.data))
           .catch()
 
-      return returnData
+      console.log('PostsGotten!')
     },
     
     getComments() {
-      let returnData = []
       axios
           .get(this.host + '/Comment')
           .then(response => (this.states.comments = response.data))
           .catch()
-      
-      return returnData
     },
 
     getProfiles() {
-      let returnData = []
       axios
           .get(this.host + '/Profile')
           .then(response => (this.states.profiles = response.data))
           .catch()
-      
-      return returnData
     },
 
     getGames() {
-      let returnData = []
       axios
           .get(this.host + '/Game')
           .then(response => (this.states.games = response.data))
           .catch()
       
-      return returnData
     },
     
     compare(a){

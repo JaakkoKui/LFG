@@ -15,7 +15,7 @@ export default{
   },
   
   props: {
-    states: [],
+    states: Object,
     email: String,
   },
 

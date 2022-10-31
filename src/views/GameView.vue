@@ -95,7 +95,7 @@ export default {
   name: "GameView",
   components: {ButtonSubComponent},
   props: {
-    states: [],
+    states: Object,
     email: String,
   },
   

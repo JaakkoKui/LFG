@@ -99,9 +99,9 @@ export default {
     
     postId: Number,
 
-    profile: {},
-    postComments: [],
-    allProfiles: [],
+    profile: Object,
+    postComments: Array,
+    allProfiles: Array,
 
     currentUserEmail: String,
     
@@ -114,6 +114,7 @@ export default {
       commentRows: 1,
       newCommentOpen: false,
       commentsOpen: false,
+      
       commentInfo: {
         id: 0,
         commentContent: "",
@@ -121,6 +122,7 @@ export default {
         commentingProfile: 0,
         postId: 0
       },
+      
       postInfo: {
         postId: 0,
         title: "",
@@ -165,14 +167,14 @@ export default {
       
       axios
           .put("https://localhost:44372/api/Post", this.postInfo)
-          .then(response => this.editable = false)
+          .then(response => {this.editable = false; this.$emit('refreshPosts')})
           .catch()
     },
 
     deletePost(){
       axios
           .delete("https://localhost:44372/api/Post/" + this.postId)
-          .then()
+          .then(this.$emit('refreshPosts'))
           .catch()
     },
 
@@ -197,7 +199,7 @@ export default {
       if(this.commentInfo.commentContent){
         axios
             .post("https://localhost:44372/api/Comment", this.commentInfo)
-            .then(response => this.handleCommentCancel())
+            .then(response => {this.handleCommentCancel(); this.$emit('refreshPosts')})
             .catch()
       }
     }

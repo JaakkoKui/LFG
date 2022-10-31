@@ -60,7 +60,7 @@ export default {
   
   props: {
     email: String,
-    states: [],
+    states: Object,
   },
   
   data(){

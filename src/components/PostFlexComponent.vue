@@ -4,6 +4,7 @@
     <!-- Post list render -->
     <div v-for="post in posts" :key="post.PostId">
       <PostComponent
+          @refreshPosts="$emit('refreshPosts')"
           :posterID="post.PosterProfile"
           :posting-date="post.CreateDate"
           :post-title="post.Title"
@@ -33,9 +34,9 @@ export default({
   },
   
   props: {
-    profiles: [],
-    comments: [],
-    posts: [],
+    profiles: Array,
+    comments: Array,
+    posts: Array,
     isOwner: Boolean,
     currentUserEmail: String,
   },

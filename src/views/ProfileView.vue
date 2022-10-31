@@ -68,7 +68,7 @@
         <ButtonSubComponent class="disabled:bg-lightBackground transition ease-in-out duration-300" :disabled="!postInfo.title || !postInfo.content"  @buttonClick="postNewPost" name="Post"/>
       </div>
     </div>
-    <PostFlexComponent :profiles="states.profiles" :comments="states.comments" :posts="posts" :current-user-email="email" :is-owner="isTheProfileOwner"/>
+    <PostFlexComponent :profiles="states.profiles" :comments="states.comments" :posts="posts" :current-user-email="email" :is-owner="isTheProfileOwner" @refreshPosts="refreshPosts"/>
   </div>
 </template>
 
@@ -85,13 +85,12 @@ export default {
   components: {ButtonSubComponent, PostFlexComponent, GameComponent, ProfileInfoComponent, AvatarComponent},
   
   props: {
-    states: [],
+    states: Object,
     email: String,
   },
   
   data(){
     return {
-      posts: [],
       games: [],
       isAddingNewPost: false,
       postInfo: {
@@ -114,6 +113,16 @@ export default {
     
     isTheProfileOwner(){
       return this.profile.Email === this.email
+    },
+
+    posts(){
+      let posts = []
+      this.states.posts.forEach( (currentPost) => {
+        if(currentPost.PosterProfile == this.profile.ProfileId){
+          posts.push(currentPost)
+        }
+      })
+      return posts
     }
   },
   
@@ -129,7 +138,7 @@ export default {
         if(this.postInfo.posterProfile){
           axios
               .post("https://localhost:44372/api/Post", this.postInfo)
-              .then(response => (this.isAddingNewPost = false))
+              .then(response => {this.isAddingNewPost = false; this.refreshPosts()})
               .catch()
         }
         
@@ -149,19 +158,15 @@ export default {
         }
       })
     },
-    getPosts(){
-      this.states.posts.forEach( (currentPost) => {
-        if(currentPost.PosterProfile == this.profile.ProfileId){
-          this.posts.push(currentPost)
-        }
-      })
-    }
+
+    refreshPosts(){
+      this.$emit("refreshPosts")
+    },
       
   },
 
   mounted () {
     this.getGames()
-    this.getPosts()
-  }
+  },
 }
 </script>
