@@ -44,6 +44,36 @@ namespace LFG.Controllers
             return new JsonResult(table);
         }
 
+        [HttpGet"{id}"]
+        public JsonResult Get(int id)
+        {
+            string query = @"
+                        SELECT *
+                        FROM
+                        Game
+                        WHERE gameId=@gameId
+            ";
+
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
+            MySqlDataReader myReader;
+            using (MySqlConnection mycon = new MySqlConnection(sqlDataSource))
+            {
+                mycon.Open();
+                using (MySqlCommand myCommand = new MySqlCommand(query, mycon))
+                {
+                    myCommand.Parameters.AddWithValue("@gameId", id);
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+
+                    myReader.Close();
+                    mycon.Close();
+                }
+            }
+
+            return new JsonResult(table);
+        }
+
         [HttpPost]
 
         public JsonResult Post(Game game)

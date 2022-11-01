@@ -23,8 +23,8 @@ namespace LFG.Controllers
         public JsonResult Get()
         {
             string query = @"
-                        SELECT ProfileId,Nickname,FirstName,LastName,Age,Avatar,DiscordNick,Email,
-                        DATE_FORMAT(JoiningDate,'%y-%m-%d') as JoiningDate
+                        SELECT profileId,nickname,firstName,lastName,age,avatar,discordNick,email,
+                        DATE_FORMAT(joiningDate,'%y-%m-%d') as joiningDate
                         FROM
                         Profile
         ";
@@ -47,6 +47,38 @@ namespace LFG.Controllers
 
             return new JsonResult(table);
         }
+
+        [HttpGet"{id}"]
+        public JsonResult Get(int id)
+        {
+            string query = @"
+                        SELECT profileId,nickname,firstName,lastName,age,avatar,discordNick,email,
+                        DATE_FORMAT(joiningDate,'%y-%m-%d') as joiningDate
+                        FROM
+                        Post
+                        WHERE profileId=@profileId
+            ";
+
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
+            MySqlDataReader myReader;
+            using (MySqlConnection mycon = new MySqlConnection(sqlDataSource))
+            {
+                mycon.Open();
+                using (MySqlCommand myCommand = new MySqlCommand(query, mycon))
+                {
+                    myCommand.Parameters.AddWithValue("@profileId", id);
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+
+                    myReader.Close();
+                    mycon.Close();
+                }
+            }
+
+            return new JsonResult(table);
+        }
+
 
         [HttpPost]
         public JsonResult Post(Profile profile)

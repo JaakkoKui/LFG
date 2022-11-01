@@ -45,6 +45,36 @@ namespace LFG.Controllers
             return new JsonResult(table);
         }
 
+        [HttpGet"{id}"]
+        public JsonResult Get(int id)
+        {
+            string query = @"
+                        SELECT *
+                        FROM
+                        Comment
+                        WHERE postId=@postId
+            ";
+
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
+            MySqlDataReader myReader;
+            using (MySqlConnection mycon = new MySqlConnection(sqlDataSource))
+            {
+                mycon.Open();
+                using (MySqlCommand myCommand = new MySqlCommand(query, mycon))
+                {
+                    myCommand.Parameters.AddWithValue("@postId", id);
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+
+                    myReader.Close();
+                    mycon.Close();
+                }
+            }
+
+            return new JsonResult(table);
+        }
+
         [HttpPost]
 
         public JsonResult Post(Comment comment)
