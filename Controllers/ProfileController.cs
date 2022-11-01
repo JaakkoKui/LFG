@@ -55,7 +55,7 @@ namespace LFG.Controllers
                         SELECT profileId,nickname,firstName,lastName,age,avatar,discordNick,email,
                         DATE_FORMAT(joiningDate,'%y-%m-%d') as joiningDate
                         FROM
-                        Post
+                        Profile
                         WHERE profileId=@profileId
             ";
 

@@ -1782,19 +1782,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Jaakk\\.nuget\\packages\\": {}
+    "C:\\Users\\djdre\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Jaakk\\source\\repos\\LFGv2\\LFG.csproj",
+      "projectUniqueName": "C:\\LFG0111\\LFG.csproj",
       "projectName": "LFG",
-      "projectPath": "C:\\Users\\Jaakk\\source\\repos\\LFGv2\\LFG.csproj",
-      "packagesPath": "C:\\Users\\Jaakk\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Jaakk\\source\\repos\\LFGv2\\obj\\",
+      "projectPath": "C:\\LFG0111\\LFG.csproj",
+      "packagesPath": "C:\\Users\\djdre\\.nuget\\packages\\",
+      "outputPath": "C:\\LFG0111\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Jaakk\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\djdre\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -1864,7 +1864,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.401\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.402\\RuntimeIdentifierGraph.json"
       }
     }
   }
