@@ -50,7 +50,7 @@ namespace LFG.Controllers
             return new JsonResult(table);
         }
 
-        [HttpGet"{id}"]
+        [HttpGet("{id}")]
         public JsonResult Get(int id)
         {
             string query = @"
