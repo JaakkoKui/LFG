@@ -5,20 +5,20 @@ namespace LFG.Model
     public class SignUpRequest
     {
         [Required]
-        public string Email { get; set; }
+        public string email { get; set; }
 
         [Required]
-        public string Password { get; set; }
+        public string password { get; set; }
 
         [Required]
-        public string ConfirmPassword { get; set; }
+        public string confirmPassword { get; set; }
 
     }
 
     public class SignUpResponse
     {
-        public bool IsSuccess { get; set; }
-        public string Message { get; set; }
+        public bool isSuccess { get; set; }
+        public string message { get; set; }
     }
 }
 

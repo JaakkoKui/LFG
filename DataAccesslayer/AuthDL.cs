@@ -24,8 +24,8 @@ namespace LFG.DataAccesslayer
         public async Task<SignInResponse> SignIn(SignInRequest request)
         {
             SignInResponse response = new SignInResponse(); ;
-            response.IsSuccess = true;
-            response.Message = "Succesful";
+            response.isSuccess = true;
+            response.message = "Succesful";
             try
             {                
 
@@ -34,33 +34,33 @@ namespace LFG.DataAccesslayer
                     await _mySqlConnection.OpenAsync();
                 }
 
-                string SqlQuery = @"SELECT * FROM User WHERE Email=@Email AND Password=@Password;";
+                string SqlQuery = @"SELECT * FROM User WHERE email=@email AND password=@password;";
 
                 using (MySqlCommand sqlCommand = new MySqlCommand(SqlQuery, _mySqlConnection))
                 {
                     sqlCommand.CommandType = System.Data.CommandType.Text;
                     sqlCommand.CommandTimeout = 180;
-                    sqlCommand.Parameters.AddWithValue("@Email", request.Email);
-                    sqlCommand.Parameters.AddWithValue("@Password", request.Password);
+                    sqlCommand.Parameters.AddWithValue("@email", request.email);
+                    sqlCommand.Parameters.AddWithValue("@password", request.password);
                     
                     using(DbDataReader dataReader = await sqlCommand.ExecuteReaderAsync())
                     {
                         if(dataReader.HasRows)
                         {
-                            response.Message = "Login Successful";
+                            response.message = "Login Successful";
                         }
                         else
                         {
-                            response.IsSuccess = false;
-                            response.Message = "Login Failed";
+                            response.isSuccess = false;
+                            response.message = "Login Failed";
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                response.IsSuccess = false;
-                response.Message = ex.Message;
+                response.isSuccess = false;
+                response.message = ex.Message;
             }
             finally
             {
@@ -74,15 +74,15 @@ namespace LFG.DataAccesslayer
         public async Task<SignUpResponse> SignUp(SignUpRequest request)
         {
             SignUpResponse response = new SignUpResponse(); ;
-            response.IsSuccess = true;
-            response.Message = "Succesful";
+            response.isSuccess = true;
+            response.message = "Succesful";
             try
             {
 
-                if(!request.Password.Equals(request.ConfirmPassword))
+                if(!request.password.Equals(request.confirmPassword))
                 {
-                    response.IsSuccess = false;
-                    response.Message = "Password and confirm password not match!";
+                    response.isSuccess = false;
+                    response.message = "Password and confirm password not match!";
                     return response;
                 }
 
@@ -91,27 +91,27 @@ namespace LFG.DataAccesslayer
                     await _mySqlConnection.OpenAsync();
                 }
 
-                string SqlQuery = @"insert into User (Email, Password) Values (@Email, @Password)";
+                string SqlQuery = @"insert into User (email, password) Values (@email, @password)";
 
                 using(MySqlCommand sqlCommand = new MySqlCommand(SqlQuery, _mySqlConnection))
                 {
                     sqlCommand.CommandType = System.Data.CommandType.Text;
                     sqlCommand.CommandTimeout = 180;
-                    sqlCommand.Parameters.AddWithValue("@Email", request.Email);
-                    sqlCommand.Parameters.AddWithValue("@Password", request.Password);
+                    sqlCommand.Parameters.AddWithValue("@email", request.email);
+                    sqlCommand.Parameters.AddWithValue("@password", request.password);
                     int Status = await sqlCommand.ExecuteNonQueryAsync();
                     if (Status <= 0)
                     {
-                        response.IsSuccess = false;
-                        response.Message = "Something Went Wrong";
+                        response.isSuccess = false;
+                        response.message = "Something Went Wrong";
                         return response;
                     }
                 }
             } 
             catch(Exception ex)
             {
-                response.IsSuccess = false;
-                response.Message = ex.Message;
+                response.isSuccess = false;
+                response.message = ex.Message;
             }
             finally
             {

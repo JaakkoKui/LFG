@@ -80,9 +80,9 @@ namespace LFG.Controllers
         {
             string query = @"
                         INSERT INTO Game 
-                        (GameName, NicknameIngame, HoursPlayed, Rank, Server, Comments, ProfileId)
+                        (gameName, nicknameIngame, hoursPlayed, rank, server, comments, profileId)
                         VALUES 
-                        (@GameName, @NicknameIngame, @HoursPlayed, @Rank, @Server, @Comments, @ProfileId);
+                        (@gameName, @nicknameIngame, @hoursPlayed, @rank, @server, @comments, @profileId);
             ";
 
             DataTable table = new DataTable();
@@ -93,13 +93,13 @@ namespace LFG.Controllers
                 mycon.Open();
                 using (MySqlCommand myCommand = new MySqlCommand(query, mycon))
                 {
-                    myCommand.Parameters.AddWithValue("@GameName", game.GameName);
-                    myCommand.Parameters.AddWithValue("@NicknameIngame", game.NicknameIngame);
-                    myCommand.Parameters.AddWithValue("@HoursPlayed", game.HoursPlayed);
-                    myCommand.Parameters.AddWithValue("@Rank", game.Rank);
-                    myCommand.Parameters.AddWithValue("@Server", game.Server);
-                    myCommand.Parameters.AddWithValue("@Comments", game.Comments);
-                    myCommand.Parameters.AddWithValue("@ProfileId", game.ProfileId);
+                    myCommand.Parameters.AddWithValue("@gameName", game.gameName);
+                    myCommand.Parameters.AddWithValue("@nicknameIngame", game.nicknameIngame);
+                    myCommand.Parameters.AddWithValue("@hoursPlayed", game.hoursPlayed);
+                    myCommand.Parameters.AddWithValue("@rank", game.rank);
+                    myCommand.Parameters.AddWithValue("@server", game.server);
+                    myCommand.Parameters.AddWithValue("@comments", game.comments);
+                    myCommand.Parameters.AddWithValue("@profileId", game.profileId);
 
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
@@ -118,14 +118,14 @@ namespace LFG.Controllers
         {
             string query = @"
                         UPDATE Game SET
-                        GameName =@GameName,
-                        NicknameIngame =@NicknameIngame,
-                        HoursPlayed =@HoursPlayed,
-                        Rank =@Rank,
-                        Server =@Server,
-                        Comments =@Comments
+                        gameName =@gameName,
+                        nicknameIngame =@nicknameIngame,
+                        hoursPlayed =@hoursPlayed,
+                        rank =@rank,
+                        server =@server,
+                        comments =@comments
 
-                        WHERE GameId=@GameId;
+                        WHERE gameId=@gameId;
 
             ";
 
@@ -137,13 +137,13 @@ namespace LFG.Controllers
                 mycon.Open();
                 using (MySqlCommand myCommand = new MySqlCommand(query, mycon))
                 {
-                    myCommand.Parameters.AddWithValue("@GameId", game.GameId);
-                    myCommand.Parameters.AddWithValue("@GameName", game.GameName);
-                    myCommand.Parameters.AddWithValue("@NicknameIngame", game.NicknameIngame);
-                    myCommand.Parameters.AddWithValue("@HoursPlayed", game.HoursPlayed);
-                    myCommand.Parameters.AddWithValue("@Rank", game.Rank);
-                    myCommand.Parameters.AddWithValue("@Server", game.Server);
-                    myCommand.Parameters.AddWithValue("@Comments", game.Comments);
+                    myCommand.Parameters.AddWithValue("@gameId", game.gameId);
+                    myCommand.Parameters.AddWithValue("@gameName", game.gameName);
+                    myCommand.Parameters.AddWithValue("@nicknameIngame", game.nicknameIngame);
+                    myCommand.Parameters.AddWithValue("@hoursPlayed", game.hoursPlayed);
+                    myCommand.Parameters.AddWithValue("@rank", game.rank);
+                    myCommand.Parameters.AddWithValue("@server", game.server);
+                    myCommand.Parameters.AddWithValue("@comments", game.comments);
 
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
@@ -162,7 +162,7 @@ namespace LFG.Controllers
         {
             string query = @"
                         DELETE FROM Game    
-                        WHERE GameId=@GameId;
+                        WHERE gameId=@gameId;
 
             ";
 
@@ -174,7 +174,7 @@ namespace LFG.Controllers
                 mycon.Open();
                 using (MySqlCommand myCommand = new MySqlCommand(query, mycon))
                 {
-                    myCommand.Parameters.AddWithValue("@GameId", id);
+                    myCommand.Parameters.AddWithValue("@gameId", id);
 
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);

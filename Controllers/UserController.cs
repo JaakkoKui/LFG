@@ -21,7 +21,7 @@ namespace LFG.Controllers
         public JsonResult Get()
         {
             string query = @"
-                        SELECT UserId, Email, Password
+                        SELECT userId, email, password
                         FROM
                         User
         ";
@@ -52,9 +52,9 @@ namespace LFG.Controllers
         {
             string query = @"
                         UPDATE User SET
-                        Password =@Password
+                        password =@password
 
-                        WHERE Email=@Email;
+                        WHERE email=@email;
 
             ";
 
@@ -66,8 +66,8 @@ namespace LFG.Controllers
                 mycon.Open();
                 using (MySqlCommand myCommand = new MySqlCommand(query, mycon))
                 {
-                    myCommand.Parameters.AddWithValue("@Email", user.Email);
-                    myCommand.Parameters.AddWithValue("@Password", user.Password);
+                    myCommand.Parameters.AddWithValue("@email", user.email);
+                    myCommand.Parameters.AddWithValue("@password", user.password);
 
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
@@ -86,7 +86,7 @@ namespace LFG.Controllers
         {
             string query = @"
                         DELETE FROM User    
-                        WHERE UserId=@UserId;
+                        WHERE userId=@userId;
 
             ";
 
@@ -98,7 +98,7 @@ namespace LFG.Controllers
                 mycon.Open();
                 using (MySqlCommand myCommand = new MySqlCommand(query, mycon))
                 {
-                    myCommand.Parameters.AddWithValue("@UserId", id);
+                    myCommand.Parameters.AddWithValue("@userId", id);
 
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);

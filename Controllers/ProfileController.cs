@@ -85,9 +85,9 @@ namespace LFG.Controllers
         {
             string query = @"
                         INSERT INTO Profile 
-                        (Nickname, FirstName, LastName, Age, Avatar, DiscordNick, JoiningDate, Email) 
+                        (nickname, firstName, lastName, age, avatar, discordNick, joiningDate, email) 
                         VALUES 
-                        (@Nickname, @FirstName, @LastName, @Age, @Avatar, @DiscordNick, @JoiningDate, @Email);
+                        (@nickname, @firstName, @lastName, @age, @avatar, @discordNick, @joiningDate, @email);
 
         ";
             DataTable table = new DataTable();
@@ -98,14 +98,14 @@ namespace LFG.Controllers
                 mycon.Open();
                 using (MySqlCommand myCommand = new MySqlCommand(query, mycon))
                 {
-                    myCommand.Parameters.AddWithValue("@Nickname", profile.Nickname);
-                    myCommand.Parameters.AddWithValue("@FirstName", profile.FirstName);
-                    myCommand.Parameters.AddWithValue("@LastName", profile.LastName);
-                    myCommand.Parameters.AddWithValue("@Age", profile.Age);
-                    myCommand.Parameters.AddWithValue("@Avatar", profile.Avatar);
-                    myCommand.Parameters.AddWithValue("@DiscordNick", profile.DiscordNick);
-                    myCommand.Parameters.AddWithValue("@JoiningDate", profile.JoiningDate);
-                    myCommand.Parameters.AddWithValue("@Email", profile.Email);
+                    myCommand.Parameters.AddWithValue("@nickname", profile.nickname);
+                    myCommand.Parameters.AddWithValue("@firstName", profile.firstName);
+                    myCommand.Parameters.AddWithValue("@lastName", profile.lastName);
+                    myCommand.Parameters.AddWithValue("@age", profile.age);
+                    myCommand.Parameters.AddWithValue("@avatar", profile.avatar);
+                    myCommand.Parameters.AddWithValue("@discordNick", profile.discordNick);
+                    myCommand.Parameters.AddWithValue("@joiningDate", profile.joiningDate);
+                    myCommand.Parameters.AddWithValue("@email", profile.email);
 
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
@@ -125,15 +125,15 @@ namespace LFG.Controllers
         {
             string query = @"
                         UPDATE Profile SET
-                        Nickname =@Nickname,
-                        FirstName =@FirstName,
-                        LastName =@LastName,
-                        Age =@Age,
-                        Avatar =@Avatar,
-                        DiscordNick =@DiscordNick,
-                        JoiningDate =@JoiningDate
+                        nickname =@nickname,
+                        firstName =@firstName,
+                        lastName =@lastName,
+                        age =@age,
+                        avatar =@avatar,
+                        discordNick =@discordNick,
+                        joiningDate =@joiningDate
 
-                        WHERE Email =@Email; 
+                        WHERE email =@email; 
 
         ";
             DataTable table = new DataTable();
@@ -144,14 +144,14 @@ namespace LFG.Controllers
                 mycon.Open();
                 using (MySqlCommand myCommand = new MySqlCommand(query, mycon))
                 {
-                    myCommand.Parameters.AddWithValue("@Nickname", profile.Nickname);
-                    myCommand.Parameters.AddWithValue("@FirstName", profile.FirstName);
-                    myCommand.Parameters.AddWithValue("@LastName", profile.LastName);
-                    myCommand.Parameters.AddWithValue("@Age", profile.Age);
-                    myCommand.Parameters.AddWithValue("@Avatar", profile.Avatar);
-                    myCommand.Parameters.AddWithValue("@DiscordNick", profile.DiscordNick);
-                    myCommand.Parameters.AddWithValue("@JoiningDate", profile.JoiningDate);
-                    myCommand.Parameters.AddWithValue("@Email", profile.Email);
+                    myCommand.Parameters.AddWithValue("@nickname", profile.nickname);
+                    myCommand.Parameters.AddWithValue("@firstName", profile.firstName);
+                    myCommand.Parameters.AddWithValue("@lastName", profile.lastName);
+                    myCommand.Parameters.AddWithValue("@age", profile.age);
+                    myCommand.Parameters.AddWithValue("@avatar", profile.avatar);
+                    myCommand.Parameters.AddWithValue("@discordNick", profile.discordNick);
+                    myCommand.Parameters.AddWithValue("@joiningDate", profile.joiningDate);
+                    myCommand.Parameters.AddWithValue("@email", profile.email);
 
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
@@ -170,7 +170,7 @@ namespace LFG.Controllers
         {
             string query = @"
                         DELETE FROM Profile
-                        WHERE ProfileId=@ProfileId;
+                        WHERE profileId=@profileId;
 
             ";
 
@@ -182,7 +182,7 @@ namespace LFG.Controllers
                 mycon.Open();
                 using (MySqlCommand myCommand = new MySqlCommand(query, mycon))
                 {
-                    myCommand.Parameters.AddWithValue("@ProfileId", id);                   
+                    myCommand.Parameters.AddWithValue("@profileId", id);                   
 
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);

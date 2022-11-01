@@ -8,23 +8,23 @@ namespace LFG.Model
     {
 
         [Required]
-        public string Email { get; set; }
+        public string email { get; set; }
 
         [Required]
-        public string Nickname { get; set; }
+        public string nickname { get; set; }
 
-        public string FirstName { get; set; }
+        public string firstName { get; set; }
 
-        public string LastName { get; set; }
+        public string lastName { get; set; }
 
-        public int Age { get; set; }
+        public int age { get; set; }
 
-        public string Avatar { get; set; }
+        public string avatar { get; set; }
 
-        public string DiscordNick { get; set; }
+        public string discordNick { get; set; }
 
         [Required]
-        public string JoiningDate { get; set; }
+        public string joiningDate { get; set; }
 
     }
 

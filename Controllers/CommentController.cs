@@ -81,9 +81,9 @@ namespace LFG.Controllers
         {
             string query = @"
                         INSERT INTO Comment 
-                        (CommentContent, Date, CommentingProfile, PostId)
+                        (commentContent, date, commentingProfile, postId)
                         VALUES 
-                        (@CommentContent, @Date, @CommentingProfile, @PostId);
+                        (@commentContent, @date, @commentingProfile, @postId);
             ";
 
             DataTable table = new DataTable();
@@ -94,10 +94,10 @@ namespace LFG.Controllers
                 mycon.Open();
                 using (MySqlCommand myCommand = new MySqlCommand(query, mycon))
                 {
-                    myCommand.Parameters.AddWithValue("@CommentContent", comment.CommentContent);
-                    myCommand.Parameters.AddWithValue("@Date", comment.Date);
-                    myCommand.Parameters.AddWithValue("@CommentingProfile", comment.CommentingProfile);
-                    myCommand.Parameters.AddWithValue("@PostId", comment.PostId);
+                    myCommand.Parameters.AddWithValue("@commentContent", comment.commentContent);
+                    myCommand.Parameters.AddWithValue("@date", comment.date);
+                    myCommand.Parameters.AddWithValue("@commentingProfile", comment.commentingProfile);
+                    myCommand.Parameters.AddWithValue("@postId", comment.postId);
 
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
@@ -116,11 +116,11 @@ namespace LFG.Controllers
         {
             string query = @"
                         UPDATE Comment SET
-                        CommentContent =@CommentContent,
-                        Date =@Date,
-                        CommentingProfile =@CommentingProfile
-                        PostId =@PostId
-                        WHERE Id=@Id;
+                        commentContent =@commentContent,
+                        date =@date,
+                        commentingProfile =@commentingProfile
+                        postId =@postId
+                        WHERE Id=@id;
 
             ";
 
@@ -132,11 +132,11 @@ namespace LFG.Controllers
                 mycon.Open();
                 using (MySqlCommand myCommand = new MySqlCommand(query, mycon))
                 {
-                    myCommand.Parameters.AddWithValue("@Id", comment.Id);
-                    myCommand.Parameters.AddWithValue("@CommentContent", comment.CommentContent);
-                    myCommand.Parameters.AddWithValue("@Date", comment.Date);
-                    myCommand.Parameters.AddWithValue("@CommentingProfile", comment.CommentingProfile);
-                    myCommand.Parameters.AddWithValue("@PostId", comment.PostId);
+                    myCommand.Parameters.AddWithValue("@id", comment.id);
+                    myCommand.Parameters.AddWithValue("@commentContent", comment.commentContent);
+                    myCommand.Parameters.AddWithValue("@date", comment.date);
+                    myCommand.Parameters.AddWithValue("@commentingProfile", comment.commentingProfile);
+                    myCommand.Parameters.AddWithValue("@postId", comment.postId);
 
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
@@ -155,7 +155,7 @@ namespace LFG.Controllers
         {
             string query = @"
                         DELETE FROM Comment    
-                        WHERE Id=@Id;
+                        WHERE id=@id;
 
             ";
 
@@ -167,7 +167,7 @@ namespace LFG.Controllers
                 mycon.Open();
                 using (MySqlCommand myCommand = new MySqlCommand(query, mycon))
                 {
-                    myCommand.Parameters.AddWithValue("@Id", id);
+                    myCommand.Parameters.AddWithValue("@id", id);
 
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);

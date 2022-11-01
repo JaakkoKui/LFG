@@ -116,9 +116,9 @@ namespace LFG.Controllers
         {
             string query = @"
                         INSERT INTO Post 
-                        (Title, CreateDate, Content, PosterProfile, PhotoFileName, Likepost, Dislikepost) 
+                        (title, createDate, content, posterProfile, photoFileName, likepost, dislikepost) 
                         VALUES 
-                        (@Title, @CreateDate, @Content, @PosterProfile, @PhotoFileName, @Likepost, @Dislikepost);
+                        (@title, @createDate, @content, @posterProfile, @photoFileName, @likepost, @dislikepost);
         ";
 
             DataTable table = new DataTable();
@@ -129,13 +129,13 @@ namespace LFG.Controllers
                 mycon.Open();
                 using (MySqlCommand myCommand = new MySqlCommand(query, mycon))
                 {
-                    myCommand.Parameters.AddWithValue("@Title", post.Title);
-                    myCommand.Parameters.AddWithValue("@CreateDate", post.CreateDate);
-                    myCommand.Parameters.AddWithValue("@Content", post.Content);
-                    myCommand.Parameters.AddWithValue("@PosterProfile", post.PosterProfile);
-                    myCommand.Parameters.AddWithValue("@PhotoFileName", post.PhotoFileName);
-                    myCommand.Parameters.AddWithValue("@Likepost", post.Likepost);
-                    myCommand.Parameters.AddWithValue("@Dislikepost", post.Dislikepost);
+                    myCommand.Parameters.AddWithValue("@title", post.title);
+                    myCommand.Parameters.AddWithValue("@createDate", post.createDate);
+                    myCommand.Parameters.AddWithValue("@content", post.content);
+                    myCommand.Parameters.AddWithValue("@posterProfile", post.posterProfile);
+                    myCommand.Parameters.AddWithValue("@photoFileName", post.photoFileName);
+                    myCommand.Parameters.AddWithValue("@likepost", post.likepost);
+                    myCommand.Parameters.AddWithValue("@dislikepost", post.dislikepost);
 
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
@@ -154,16 +154,15 @@ namespace LFG.Controllers
         {
             string query = @"
                         UPDATE Post SET
-                        Title =@Title,
-                        CreateDate =@CreateDate,
-                        Content =@Content,
-                        PosterProfile =@PosterProfile,
-                        PhotoFileName =@PhotoFileName,
-                        Likepost =@Likepost,
-                        Dislikepost =@Dislikepost
+                        title =@title,
+                        createDate =@createDate,
+                        content =@content,
+                        posterProfile =@posterProfile,
+                        photoFileName =@photoFileName,
+                        likepost =@likepost,
+                        dislikepost =@dislikepost
 
-                        WHERE PostId=@PostId;
-
+                        WHERE postId=@postId;
             ";
 
             DataTable table = new DataTable();
@@ -174,14 +173,14 @@ namespace LFG.Controllers
                 mycon.Open();
                 using (MySqlCommand myCommand = new MySqlCommand(query, mycon))
                 {
-                    myCommand.Parameters.AddWithValue("@PostId", post.PostId);
-                    myCommand.Parameters.AddWithValue("@Title", post.Title);
-                    myCommand.Parameters.AddWithValue("@CreateDate", post.CreateDate);
-                    myCommand.Parameters.AddWithValue("@Content", post.Content);
-                    myCommand.Parameters.AddWithValue("@PosterProfile", post.PosterProfile);
-                    myCommand.Parameters.AddWithValue("@PhotoFileName", post.PhotoFileName);
-                    myCommand.Parameters.AddWithValue("@Likepost", post.Likepost);
-                    myCommand.Parameters.AddWithValue("@Dislikepost", post.Dislikepost);
+                    myCommand.Parameters.AddWithValue("@postId", post.postId);
+                    myCommand.Parameters.AddWithValue("@title", post.title);
+                    myCommand.Parameters.AddWithValue("@createDate", post.createDate);
+                    myCommand.Parameters.AddWithValue("@content", post.content);
+                    myCommand.Parameters.AddWithValue("@posterProfile", post.posterProfile);
+                    myCommand.Parameters.AddWithValue("@photoFileName", post.photoFileName);
+                    myCommand.Parameters.AddWithValue("@likepost", post.likepost);
+                    myCommand.Parameters.AddWithValue("@dislikepost", post.dislikepost);
 
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
@@ -200,7 +199,7 @@ namespace LFG.Controllers
         {
             string query = @"
                         DELETE FROM Post    
-                        WHERE PostId=@PostId;
+                        WHERE postId=@postId;
 
             ";
 
@@ -212,7 +211,7 @@ namespace LFG.Controllers
                 mycon.Open();
                 using (MySqlCommand myCommand = new MySqlCommand(query, mycon))
                 {
-                    myCommand.Parameters.AddWithValue("@PostId", id);
+                    myCommand.Parameters.AddWithValue("@postId", id);
 
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);

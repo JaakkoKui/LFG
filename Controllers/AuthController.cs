@@ -31,8 +31,8 @@ namespace LFG.Controllers
             } 
             catch(Exception ex)
             {
-                response.IsSuccess = false;
-                response.Message = ex.Message;
+                response.isSuccess = false;
+                response.message = ex.Message;
             }
 
             return Ok(response);
@@ -48,8 +48,8 @@ namespace LFG.Controllers
             }
             catch (Exception ex)
             {
-                response.IsSuccess = false;
-                response.Message = ex.Message;
+                response.isSuccess = false;
+                response.message = ex.Message;
             }
 
             return Ok(response);
