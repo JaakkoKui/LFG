@@ -23,7 +23,7 @@ namespace LFG.Controllers
         }
 
         [HttpGet]
-        public JsonResult Get()
+        public JsonResult GetAll()
         {
             string query = @"
                         SELECT *
@@ -69,6 +69,37 @@ namespace LFG.Controllers
                 using (MySqlCommand myCommand = new MySqlCommand(query, mycon))
                 {
                     myCommand.Parameters.AddWithValue("@postId", id);
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+
+                    myReader.Close();
+                    mycon.Close();
+                }
+            }
+
+            return new JsonResult(table);
+        }
+ 
+        [HttpGet]
+        [Route("GetPostsByProfile")]
+        public JsonResult GetPostsByProfile(int posterProfile)
+        {
+            string query = @"
+                        SELECT *
+                        FROM
+                        Post
+                        WHERE posterProfile=@posterProfile
+            ";
+
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
+            MySqlDataReader myReader;
+            using (MySqlConnection mycon = new MySqlConnection(sqlDataSource))
+            {
+                mycon.Open();
+                using (MySqlCommand myCommand = new MySqlCommand(query, mycon))
+                {
+                    myCommand.Parameters.AddWithValue("@posterProfile", posterProfile);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
 
