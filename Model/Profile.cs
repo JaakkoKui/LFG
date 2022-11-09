@@ -6,12 +6,11 @@ namespace LFG.Model
 {
     public class Profile
     {
+        [Required] public ulong id { get; set; }
 
-        [Required]
-        public string email { get; set; }
+        [Required] public string discordName { get; set; }
 
-        [Required]
-        public string nickname { get; set; }
+        [Required] public string nickname { get; set; }
 
         public string firstName { get; set; }
 
@@ -21,11 +20,6 @@ namespace LFG.Model
 
         public string avatar { get; set; }
 
-        public string discordNick { get; set; }
-
-        [Required]
-        public string joiningDate { get; set; }
-
+        [Required] public string joiningDate { get; set; }
     }
-
 }

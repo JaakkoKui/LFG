@@ -21,6 +21,7 @@ import AvatarComponent from "@/components/subcomponents/AvatarComponent";
 export default {
   name: "CommentComponent",
   components: {AvatarComponent},
+  
   props: {
     profiles: Array,
     comment: Object,
@@ -28,7 +29,7 @@ export default {
 
   computed: {
     profile(){
-      return this.profiles.find(profile => profile.ProfileId == this.comment.CommentingProfile)
+      return this.profiles.find(profile => profile.profileId == this.comment.commentingProfile)
     },
   },
 }

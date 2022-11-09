@@ -87,13 +87,11 @@
 </template>
 
 <script>
-
-import ButtonSubComponent from "@/components/subcomponents/ButtonSubComponent";
 import axios from "axios";
 import router from "@/router";
 export default {
   name: "GameView",
-  components: {ButtonSubComponent},
+  components: {},
   props: {
     states: Object,
     email: String,

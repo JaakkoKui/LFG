@@ -7,6 +7,9 @@ using MySql.Data.MySqlClient;
 using System;
 using System.Data;
 using System.IO;
+using System.Linq;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LFG.Controllers
 {
@@ -16,6 +19,7 @@ namespace LFG.Controllers
     {
         private readonly IConfiguration _configuration;
         private readonly IWebHostEnvironment _env;
+
         public PostController(IConfiguration configuration, IWebHostEnvironment env)
         {
             _configuration = configuration;
@@ -25,11 +29,7 @@ namespace LFG.Controllers
         [HttpGet]
         public JsonResult GetAll()
         {
-            string query = @"
-                        SELECT *
-                        FROM
-                        Post
-        ";
+            string query = @"SELECT * FROM Post";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
@@ -53,12 +53,7 @@ namespace LFG.Controllers
         [HttpGet("{id}")]
         public JsonResult Get(int id)
         {
-            string query = @"
-                        SELECT *
-                        FROM
-                        Post
-                        WHERE postId=@postId
-            ";
+            string query = @"SELECT * FROM Post WHERE postId=@postId";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
@@ -79,17 +74,12 @@ namespace LFG.Controllers
 
             return new JsonResult(table);
         }
- 
+
         [HttpGet]
         [Route("GetPostsByProfile")]
-        public JsonResult GetPostsByProfile(int posterProfile)
+        public JsonResult GetPostsByProfile(int profileId)
         {
-            string query = @"
-                        SELECT *
-                        FROM
-                        Post
-                        WHERE posterProfile=@posterProfile
-            ";
+            string query = @"SELECT * FROM Post WHERE profileId=@profileId";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
@@ -99,7 +89,7 @@ namespace LFG.Controllers
                 mycon.Open();
                 using (MySqlCommand myCommand = new MySqlCommand(query, mycon))
                 {
-                    myCommand.Parameters.AddWithValue("@posterProfile", posterProfile);
+                    myCommand.Parameters.AddWithValue("@profileId", profileId);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
 
@@ -111,15 +101,12 @@ namespace LFG.Controllers
             return new JsonResult(table);
         }
 
+        [Authorize]
         [HttpPost]
-        public JsonResult Post(Post post)
+        public JsonResult Post(PostDto post)
         {
-            string query = @"
-                        INSERT INTO Post 
-                        (title, createDate, content, posterProfile, photoFileName, likepost, dislikepost) 
-                        VALUES 
-                        (@title, @createDate, @content, @posterProfile, @photoFileName, @likepost, @dislikepost);
-        ";
+            string query =
+                @"INSERT INTO Post (title, content, profileId, photoFileName, likepost, dislikepost, numberOfComments) VALUES (@title, @content, @profileId, @photoFileName, @likepost, @dislikepost, @numberOfComments);";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
@@ -130,12 +117,14 @@ namespace LFG.Controllers
                 using (MySqlCommand myCommand = new MySqlCommand(query, mycon))
                 {
                     myCommand.Parameters.AddWithValue("@title", post.title);
-                    myCommand.Parameters.AddWithValue("@createDate", post.createDate);
                     myCommand.Parameters.AddWithValue("@content", post.content);
-                    myCommand.Parameters.AddWithValue("@posterProfile", post.posterProfile);
                     myCommand.Parameters.AddWithValue("@photoFileName", post.photoFileName);
                     myCommand.Parameters.AddWithValue("@likepost", post.likepost);
                     myCommand.Parameters.AddWithValue("@dislikepost", post.dislikepost);
+                    myCommand.Parameters.AddWithValue("@numberOfComments", post.numberOfComments);
+
+                    var id = HttpContext.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+                    myCommand.Parameters.AddWithValue("@profileId", id);
 
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
@@ -144,26 +133,16 @@ namespace LFG.Controllers
                     mycon.Close();
                 }
             }
-    
+
             return new JsonResult("Added Succesfully");
         }
 
-        [HttpPut]
-
-        public JsonResult Put(Post post)
+        [Authorize]
+        [HttpPut("{id}")]
+        public JsonResult Put(int id, PostDto post)
         {
-            string query = @"
-                        UPDATE Post SET
-                        title =@title,
-                        createDate =@createDate,
-                        content =@content,
-                        posterProfile =@posterProfile,
-                        photoFileName =@photoFileName,
-                        likepost =@likepost,
-                        dislikepost =@dislikepost
-
-                        WHERE postId=@postId;
-            ";
+            string query =
+                @"UPDATE Post SET title=@title, content=@content, photoFileName=@photoFileName, likepost=@likepost, dislikepost=@dislikepost numberOfComments=@numberOfComments WHERE postId=@postId AND profileId=@profileId;";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
@@ -173,14 +152,16 @@ namespace LFG.Controllers
                 mycon.Open();
                 using (MySqlCommand myCommand = new MySqlCommand(query, mycon))
                 {
-                    myCommand.Parameters.AddWithValue("@postId", post.postId);
+                    myCommand.Parameters.AddWithValue("@postId", id);
                     myCommand.Parameters.AddWithValue("@title", post.title);
-                    myCommand.Parameters.AddWithValue("@createDate", post.createDate);
                     myCommand.Parameters.AddWithValue("@content", post.content);
-                    myCommand.Parameters.AddWithValue("@posterProfile", post.posterProfile);
                     myCommand.Parameters.AddWithValue("@photoFileName", post.photoFileName);
                     myCommand.Parameters.AddWithValue("@likepost", post.likepost);
                     myCommand.Parameters.AddWithValue("@dislikepost", post.dislikepost);
+                    myCommand.Parameters.AddWithValue("@numberOfComments", post.numberOfComments);
+
+                    var profileId = HttpContext.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+                    myCommand.Parameters.AddWithValue("@profileId", profileId);
 
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
@@ -193,15 +174,11 @@ namespace LFG.Controllers
             return new JsonResult("Updated Successfully!");
         }
 
+        [Authorize]
         [HttpDelete("{id}")]
-
         public JsonResult Delete(int id)
         {
-            string query = @"
-                        DELETE FROM Post    
-                        WHERE postId=@postId;
-
-            ";
+            string query = @"DELETE FROM Post WHERE postId=@postId AND profileId=@profileId;";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
@@ -212,6 +189,9 @@ namespace LFG.Controllers
                 using (MySqlCommand myCommand = new MySqlCommand(query, mycon))
                 {
                     myCommand.Parameters.AddWithValue("@postId", id);
+
+                    var profileId = HttpContext.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+                    myCommand.Parameters.AddWithValue("@profileId", profileId);
 
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
@@ -224,6 +204,7 @@ namespace LFG.Controllers
             return new JsonResult("Deleted Successfully!");
         }
 
+        [Authorize]
         [Route("SaveFile")]
         [HttpPost]
         public JsonResult SaveFile()

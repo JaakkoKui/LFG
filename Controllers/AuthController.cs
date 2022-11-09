@@ -1,58 +1,24 @@
-﻿using LFG.DataAccesslayer;
-using LFG.Model;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Threading.Tasks;
-
-
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LFG.Controllers
 {
-    [Route("api/[controller]/[Action]")]
-    [ApiController]
+    [Route("[controller]/[action]")]
     public class AuthController : ControllerBase
     {
-        public readonly IAuthDL _authDL;
-        public AuthController(IAuthDL authDL)
+        [HttpGet]
+        public ActionResult Login()
         {
-            _authDL = authDL; 
+            return Challenge(new AuthenticationProperties() { RedirectUri = "/" }, "Discord");
         }
 
-        [HttpPost]
-        public async Task<IActionResult> SignUp(SignUpRequest request)
+        
+        [HttpGet]
+        public async Task<IActionResult> Logout()
         {
-            SignUpResponse response = new SignUpResponse();
-            try
-            {
-
-                response = await _authDL.SignUp(request);
-
-            } 
-            catch(Exception ex)
-            {
-                response.isSuccess = false;
-                response.message = ex.Message;
-            }
-
-            return Ok(response);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> SignIn(SignInRequest request)
-        {
-            SignInResponse response = new SignInResponse();
-            try
-            {
-                response= await _authDL.SignIn(request);
-            }
-            catch (Exception ex)
-            {
-                response.isSuccess = false;
-                response.message = ex.Message;
-            }
-
-            return Ok(response);
+            await HttpContext.SignOutAsync();
+            return Redirect(Url.Content("/"));
         }
     }
 }

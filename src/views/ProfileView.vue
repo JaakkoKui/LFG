@@ -20,10 +20,10 @@
           :gameId="game.gameId"
           :gameName="game.gameName"
           :hoursPlayed="game.hoursPlayed"
-          :profile-name="profile.Nickname"
+          :profile-name="profile.nickname"
       />
       <div v-if="isTheProfileOwner" class="ring-4 rounded-lg ring-darkBackground flex flex-col h-96 w-60 mx-2 relative text-white bg-darkBackground transition ease-in-out hover:scale-105 duration-200 hover:bg-primary hover:ring-primary">
-        <router-link :to="'/profile/' + profile.Nickname + '/games/new'" class="rounded-lg w-full h-full font-bold text-7xl bg-darkBackground text-white hover:bg-primary flex justify-center"><span class="my-auto block h-fit">+</span></router-link>
+        <router-link :to="'/profile/' + profile.nickname + '/games/new'" class="rounded-lg w-full h-full font-bold text-7xl bg-darkBackground text-white hover:bg-primary flex justify-center"><span class="my-auto block h-fit">+</span></router-link>
       </div>
     </div>
   </div>
@@ -49,7 +49,7 @@
         <div class="w-[calc(100%-200px)]">
           <!-- Post header -->
           <div class="flex h-[50px]">
-            <router-link v-if="profile" class="text-md font-bold hover:text-white" :to="'/profile/' + profile.Nickname">{{profile.Nickname}} (You)</router-link>
+            <router-link v-if="profile" class="text-md font-bold hover:text-white" :to="'/profile/' + profile.nickname">{{profile.nickname}} (You)</router-link>
           </div>
 
           <!-- Post content -->
@@ -73,16 +73,11 @@
 </template>
 
 <script>
-import ProfileInfoComponent from "@/components/ProfileInfoComponent";
-import GameComponent from "@/components/GameComponent";
-import PostFlexComponent from "@/components/PostFlexComponent";
-import ButtonSubComponent from "@/components/subcomponents/ButtonSubComponent";
-import AvatarComponent from "@/components/subcomponents/AvatarComponent";
 import axios from "axios";
 
 export default {
   name: "ProfileView",
-  components: {ButtonSubComponent, PostFlexComponent, GameComponent, ProfileInfoComponent, AvatarComponent},
+  components: {},
   
   props: {
     states: Object,
@@ -108,17 +103,17 @@ export default {
   
   computed: {
     profile(){
-      return this.states.profiles.find(profile => profile.Nickname === this.$route.params.userNick)
+      return this.states.profiles.find(profile => profile.nickname === this.$route.params.userNick)
     },
     
     isTheProfileOwner(){
-      return this.profile.Email === this.email
+      return this.profile.email === this.email
     },
 
     posts(){
       let posts = []
       this.states.posts.forEach( (currentPost) => {
-        if(currentPost.PosterProfile == this.profile.ProfileId){
+        if(currentPost.posterProfile == this.profile.profileId){
           posts.push(currentPost)
         }
       })
@@ -133,7 +128,7 @@ export default {
         
         const today = new Date()
         this.postInfo.createDate = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()+'T'+String(today.getHours()).padStart(2, '0')+':'+String(today.getMinutes()).padStart(2, '0')+':'+String(today.getSeconds()).padStart(2, '0')
-        this.postInfo.posterProfile = this.profile.ProfileId
+        this.postInfo.posterProfile = this.profile.profileId
         
         if(this.postInfo.posterProfile){
           axios
@@ -153,7 +148,7 @@ export default {
     
     getGames(){
       this.states.games.forEach( (currentGame) => {
-        if(currentGame.profileId == this.profile.ProfileId){
+        if(currentGame.profileId == this.profile.profileId){
           this.games.push(currentGame)
         }
       })

@@ -1,12 +1,9 @@
 ﻿namespace LFG.Model
 {
-    public class Post
-    {        
-        public int postId { get; set; }
+    public class PostDto
+    {
         public string title { get; set; }
-        public string createDate { get; set; }
         public string content { get; set; }
-        public ulong profileId { get; set; }
         public string photoFileName { get; set; }
         public int likepost { get; set; }
         public int dislikepost { get; set; }

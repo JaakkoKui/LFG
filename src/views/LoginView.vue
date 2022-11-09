@@ -117,11 +117,10 @@
 </template>
 
 <script>
-import ButtonSubComponent from "@/components/subcomponents/ButtonSubComponent";
 import axios from "axios";
 export default {
   name: "LoginView",
-  components: {ButtonSubComponent},
+  components: {},
   
   data() {
     return {

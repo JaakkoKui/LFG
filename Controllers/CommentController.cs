@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
 using System.Data;
+using System.Linq;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LFG.Controllers
 {
@@ -12,6 +15,7 @@ namespace LFG.Controllers
     public class CommentController : ControllerBase
     {
         private readonly IConfiguration _configuration;
+
         public CommentController(IConfiguration configuration)
         {
             _configuration = configuration;
@@ -20,11 +24,7 @@ namespace LFG.Controllers
         [HttpGet]
         public JsonResult Get()
         {
-            string query = @"
-                        SELECT *
-                        FROM
-                        Comment
-        ";
+            string query = @"SELECT * FROM Comment";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
@@ -48,12 +48,7 @@ namespace LFG.Controllers
         [HttpGet("{id}")]
         public JsonResult Get(int id)
         {
-            string query = @"
-                        SELECT *
-                        FROM
-                        Comment
-                        WHERE postId=@postId
-            ";
+            string query = @"SELECT * FROM Comment WHERE postId=@postId";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
@@ -75,16 +70,12 @@ namespace LFG.Controllers
             return new JsonResult(table);
         }
 
+        [Authorize]
         [HttpPost]
-
-        public JsonResult Post(Comment comment)
+        public JsonResult Post(CommentDto comment)
         {
-            string query = @"
-                        INSERT INTO Comment 
-                        (commentContent, date, commentingProfile, postId)
-                        VALUES 
-                        (@commentContent, @date, @commentingProfile, @postId);
-            ";
+            string query =
+                @"INSERT INTO Comment (commentContent, profileId, postId)VALUES (@commentContent, @profileId, @postId);";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
@@ -95,9 +86,10 @@ namespace LFG.Controllers
                 using (MySqlCommand myCommand = new MySqlCommand(query, mycon))
                 {
                     myCommand.Parameters.AddWithValue("@commentContent", comment.commentContent);
-                    myCommand.Parameters.AddWithValue("@date", comment.date);
-                    myCommand.Parameters.AddWithValue("@commentingProfile", comment.commentingProfile);
                     myCommand.Parameters.AddWithValue("@postId", comment.postId);
+
+                    var profileId = HttpContext.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+                    myCommand.Parameters.AddWithValue("@commentingProfile", profileId);
 
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
@@ -110,19 +102,12 @@ namespace LFG.Controllers
             return new JsonResult("Added Successfully!");
         }
 
-        [HttpPut]
-
-        public JsonResult Put(Comment comment)
+        [Authorize]
+        [HttpPut("{id}")]
+        public JsonResult Put(int id, CommentDto comment)
         {
-            string query = @"
-                        UPDATE Comment SET
-                        commentContent =@commentContent,
-                        date =@date,
-                        commentingProfile =@commentingProfile
-                        postId =@postId
-                        WHERE Id=@id;
-
-            ";
+            string query =
+                @"UPDATE Comment SET commentContent=@commentContent, postId=@postId WHERE commentId=@commentId AND profileId=@profileId;";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
@@ -132,11 +117,12 @@ namespace LFG.Controllers
                 mycon.Open();
                 using (MySqlCommand myCommand = new MySqlCommand(query, mycon))
                 {
-                    myCommand.Parameters.AddWithValue("@id", comment.id);
+                    myCommand.Parameters.AddWithValue("@commentId", id);
                     myCommand.Parameters.AddWithValue("@commentContent", comment.commentContent);
-                    myCommand.Parameters.AddWithValue("@date", comment.date);
-                    myCommand.Parameters.AddWithValue("@commentingProfile", comment.commentingProfile);
                     myCommand.Parameters.AddWithValue("@postId", comment.postId);
+
+                    var profileId = HttpContext.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+                    myCommand.Parameters.AddWithValue("@profileId", profileId);
 
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
@@ -149,15 +135,11 @@ namespace LFG.Controllers
             return new JsonResult("Updated Successfully!");
         }
 
+        [Authorize]
         [HttpDelete("{id}")]
-
         public JsonResult Delete(int id)
         {
-            string query = @"
-                        DELETE FROM Comment    
-                        WHERE id=@id;
-
-            ";
+            string query = @"DELETE FROM Comment WHERE commentId=@commentId AND profileId=@profileId;";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
@@ -167,7 +149,10 @@ namespace LFG.Controllers
                 mycon.Open();
                 using (MySqlCommand myCommand = new MySqlCommand(query, mycon))
                 {
-                    myCommand.Parameters.AddWithValue("@id", id);
+                    myCommand.Parameters.AddWithValue("@commentId", id);
+
+                    var profileId = HttpContext.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+                    myCommand.Parameters.AddWithValue("@profileId", profileId);
 
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);

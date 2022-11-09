@@ -51,16 +51,14 @@
 </template>
 
 <script>
-import ButtonSubComponent from "@/components/subcomponents/ButtonSubComponent";
 import axios from "axios";
-import router from "@/router";
+
 export default {
   name: "EditProfileView",
-  components: {ButtonSubComponent},
+  components: {},
   
   props: {
     email: String,
-    states: Object,
   },
   
   data(){
@@ -83,7 +81,7 @@ export default {
     updateProfile(){
       axios
           .put("https://localhost:44372/api/Profile", this.profileUpdateData)
-          .then(response => (router.push('/profile/' + this.profileUpdateData.Nickname)))
+          .then()
           .catch()
     },
     

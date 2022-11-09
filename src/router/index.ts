@@ -29,6 +29,11 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
   {
+    path: '/auth/discord',
+    name: 'auth2',
+    component: () => import('../views/oAuth.vue')
+  },
+  {
     path: '/login',
     name: 'login',
     component: () => import('../views/LoginView.vue')
