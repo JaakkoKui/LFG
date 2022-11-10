@@ -6,8 +6,10 @@
     </div>
     
     <div class="absolute right-0 h-[65px] flex">
-      
-      <a href="https://discord.com/api/oauth2/authorize?client_id=1039545516142379139&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fauth%2Fdiscord&response_type=code&scope=identify"><button class="h-full px-5 hover:bg-gray-300 hover:text-gray-900">Login</button></a>
+
+      <a href="https://localhost:5001/Auth/Login">
+        <button class="h-full px-5 hover:bg-gray-300 hover:text-gray-900">Login</button>
+      </a>
       
       <router-link to="/profile">
         <button class="h-full px-5 hover:bg-gray-300 hover:text-gray-900 flex">
@@ -16,7 +18,9 @@
         </button>
       </router-link>
       
-      <button class="px-5 bg-red-600 h-full text-white hover:bg-red-400" @click="logout">Logout</button>
+      <a>
+        <button @click="logout" class="px-5 bg-red-600 h-full text-white hover:bg-red-400">Logout</button>
+      </a>
     </div>
     
   </nav>
@@ -30,7 +34,6 @@
 <script>
 
 import axios from "axios";
-import router from "@/router";
 import AvatarHelper from "@/helpers/AvatarHelper";
 
 export default {
@@ -45,21 +48,9 @@ export default {
         { navName: "About", to: "/about" } 
       ],
       
-      api : 'https://localhost:44372/api',
+      api : 'https://localhost:5001/',
       
     }
-  },
-  
-  methods: {
-    
-    logout(){
-      router.push('/login')
-    },
-
-    login(){
-      router.push('/login')
-    },
-    
   },
   
 }

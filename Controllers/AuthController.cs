@@ -10,15 +10,14 @@ namespace LFG.Controllers
         [HttpGet]
         public ActionResult Login()
         {
-            return Challenge(new AuthenticationProperties() { RedirectUri = "/" }, "Discord");
+            return Challenge(new AuthenticationProperties() { RedirectUri = "http://localhost:8080" }, "Discord");
         }
 
-        
         [HttpGet]
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync();
-            return Redirect(Url.Content("/"));
+            return Redirect(Url.Content("http://localhost:8080"));
         }
     }
 }
