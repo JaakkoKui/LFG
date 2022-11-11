@@ -48,6 +48,35 @@ namespace LFG.Controllers
             return new JsonResult(table);
         }
 
+        [HttpGet("@me")]
+        public JsonResult GetMe()
+        {
+            string query =
+                @"SELECT profileId,discordName,nickname,firstName,lastName,age,avatar, DATE_FORMAT(joiningDate,'%y-%m-%d') as joiningDate FROM Profile WHERE profileId=@profileId";
+
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
+            MySqlDataReader reader;
+            using (MySqlConnection connection = new MySqlConnection(sqlDataSource))
+            {
+                connection.Open();
+                using (MySqlCommand cmd = new MySqlCommand(query, connection))
+                {
+                    Console.WriteLine("-- Testi --");
+                    Console.WriteLine("-- Testi --");
+                    Console.WriteLine("-- Testi --" + HttpContext.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
+                    cmd.Parameters.AddWithValue("@profileId", HttpContext.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
+                    reader = cmd.ExecuteReader();
+                    table.Load(reader);
+
+                    reader.Close();
+                    connection.Close();
+                }
+            }
+
+            return new JsonResult(table);
+        }
+
         [HttpGet("{id}")]
         public JsonResult Get(ulong id)
         {

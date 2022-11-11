@@ -3,7 +3,7 @@
 
     <!-- Poster Avatar -->
     <div class="mx-5 w-[50px]">
-      <AvatarComponent/>
+      <AvatarHelper/>
     </div>
 
     <!-- Post body -->
@@ -28,7 +28,7 @@
         
         <div v-if="editable" class="w-fit ml-auto mr-2 mt-2">
           <button class="px-4 py-2 font-semibold hover:text-white" @click="handlePostEditCancel">Cancel</button>
-          <ButtonSubComponent name="Edit" @buttonClick="editPost"/>
+          <ButtonHelper name="Edit" @buttonClick="editPost"/>
         </div>
       </div>
 
@@ -38,35 +38,6 @@
       
       <button v-if="commentsOpen" @click="commentsOpen = false" class="font-semibold text-gray-400 mb-1.5">Hide Comments</button>
       
-      <div v-if="commentsOpen">
-        
-        <!-- New comment -->
-        <div v-if="isOwner" class="my-5 w-1/2 flex ml-10">
-          <div class="w-[35px] h-[35px]">
-            <AvatarComponent/>
-          </div>
-
-          <div class="w-full">
-            <div class="flex">
-              <h4 class="font-bold h-fit ml-[7px]">{{profile.nickname}}</h4>
-            </div>
-            <div class="w-full px-2">
-              <textarea class="bg-lightBackground rounded-md px-2 py-1 w-full mt-1" id="commentText" :rows="commentRows" @click="openNewComment" maxlength="50" placeholder="Comment" v-model="commentInfo.commentContent"/>
-            </div>
-            <div v-show="newCommentOpen" class="mt-2 ml-auto w-fit px-2">
-              <button class="py-2 px-5 uppercase font-semibold" @click="handleCommentCancel">Cancel</button>
-              <ButtonSubComponent class="disabled:bg-lightBackground transition duration-300 ease-in-out" :disabled="!commentInfo.commentContent" name="Comment" @buttonClick="postComment"/>
-            </div>
-            
-          </div>
-        </div>
-        
-        <div v-for="(comment, key) in comments" :key="key">
-          <CommentComponent :comment="comment"/>
-        </div>
-        
-      </div>
-      
       <div class="flex mt-auto text-gray-400">
         <p class="border-r pr-2.5 border-gray-400">{{post.likepost}} likes</p>
         <p class="pl-2.5">{{post.dislikepost}} dislikes</p>
@@ -75,7 +46,7 @@
     </div>
 
     <!-- Post aside -->
-    <div class="flex flex-col justify-between h-16 px-5 pt-2 text-gray-400">
+    <aside class="flex flex-col justify-between h-16 px-5 pt-2 text-gray-400">
 
       <!-- Edit and delete buttons (shown within profile view) -->
       <button v-if="isOwner && !editable" @click="handlePostEditable" class="w-[50px] hover:text-white">Edit</button>
@@ -85,28 +56,29 @@
       <button v-if="!isOwner" class="w-[50px] hover:text-white" @click="like"><span class="material-symbols-outlined">thumb_up</span></button>
       <button v-if="!isOwner" class="w-[50px] hover:text-white" @click="dislike"><span class="material-symbols-outlined">thumb_down</span></button>
       
-    </div>
+    </aside>
   </div>
 </template>
 
 <script>
-import AvatarComponent from "@/components/subcomponents/AvatarComponent";
-import CommentComponent from "@/components/subcomponents/CommentComponent";
+import AvatarHelper from "@/helpers/AvatarHelper";
+import CommentComponent from "@/components/CommentComponent";
 import axios from "axios";
-import ButtonSubComponent from "@/components/subcomponents/ButtonSubComponent";
+import ButtonHelper from "@/helpers/ButtonHelper";
 
 export default {
   name: "PostComponent",
-  components: {ButtonSubComponent, CommentComponent, AvatarComponent},
+  components: {ButtonHelper, AvatarHelper},
   
   props: {
     post: Object,
-    profile: Object,
-    isOwner: Boolean
   },
   
   data(){
     return{
+      
+      isOwner: true,
+      
       editable: false, //Change in order to edit this post
       
       commentRows: 1, //Amount of rows in the comment textarea
@@ -182,32 +154,6 @@ export default {
           .then()
           .catch()
     },
-
-    openNewComment(){
-      this.commentRows = 4
-      this.newCommentOpen = true
-    },
-    
-    handleCommentCancel(){
-      this.commentRows = 1
-      this.newCommentOpen = false
-      this.commentInfo.commentContent = ''
-    },
-    
-    postComment(){
-      this.commentInfo.postId = this.postId
-      this.commentInfo.commentingProfile = this.searchedProfile.profileId
-
-      const today = new Date()
-      this.commentInfo.date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()+'T'+String(today.getHours()).padStart(2, '0')+':'+String(today.getMinutes()).padStart(2, '0')+':'+String(today.getSeconds()).padStart(2, '0')
-
-      if(this.commentInfo.commentContent){
-        axios
-            .post("https://localhost:44372/api/Comment", this.commentInfo)
-            .then(() => {this.handleCommentCancel(); this.$emit('refreshPosts')})
-            .catch()
-      }
-    }
   },
 }
 </script>
