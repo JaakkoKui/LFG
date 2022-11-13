@@ -1,47 +1,34 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import ProfileView from '../views/ProfileView.vue'
+
+import type { RouteRecordRaw } from 'vue-router'
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    name: 'feed',
+    name: 'Feed',
     component: HomeView
   },
   {
     path: '/about',
-    name: 'about',
+    name: 'About',
     component: () => import('../views/AboutView.vue')
   },
   {
-    path: '/profile/:userNick',
-    name: 'profile',
-    component: () => import('../views/ProfileView.vue')
+    path: '/profile/:profileId',
+    name: 'Profile',
+    component: ProfileView
   },
   {
-    path: '/profile/:userNick/games/',
-    name: 'game',
-    children: [
-      {
-        path: '/profile/:userNick/games/:game',
-        name: 'game',
-        component: () => import('../views/GameView.vue')
-      },
-    ]
-  },
-  {
-    path: '/login',
-    name: 'login',
-    component: () => import('../views/LoginView.vue')
-  },
-  {
-    path: '/profile/edit/:userNick',
+    path: '/profile/edit/:profileId',
     name: 'profile-edit',
     component: () => import('../views/EditProfileView.vue')
   }
 ]
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes
 })
 

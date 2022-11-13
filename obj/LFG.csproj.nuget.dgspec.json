@@ -56,6 +56,10 @@
               "target": "Package",
               "version": "[3.1.16, )"
             },
+            "Microsoft.AspNetCore.SpaServices.Extensions": {
+              "target": "Package",
+              "version": "[3.1.31, )"
+            },
             "MySql.Data": {
               "target": "Package",
               "version": "[8.0.30, )"
@@ -67,6 +71,10 @@
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[5.6.3, )"
+            },
+            "VueCliMiddleware": {
+              "target": "Package",
+              "version": "[6.0.0, )"
             }
           },
           "imports": [

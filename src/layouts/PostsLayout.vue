@@ -3,25 +3,24 @@
   <div class="w-full flex flex-col gap-y-5 p-10">
     <!-- Post list render -->
     <div v-for="post in posts" :key="post.postId">
-      <PostComponent  :post="post"/>
-      <hr class="w-full border-gray-700">
+      <PostComponent :post="post" />
+      <hr class="w-full border-gray-700" />
     </div>
   </div>
 </template>
 
 <script>
-import PostComponent from "@/components/PostComponent";
+import PostComponent from '@/components/PostComponent.vue'
 
-export default({
-  name: "PostsLayout",
+export default {
+  name: 'PostsLayout',
 
   components: {
-    PostComponent,
+    PostComponent
   },
-  
+
   props: {
-    posts: Array,
-  },
-  
-})
+    posts: Array
+  }
+}
 </script>

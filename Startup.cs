@@ -23,7 +23,10 @@ using System.Text.Json;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OAuth;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Net.Http.Headers;
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -43,9 +46,16 @@ namespace LFG
         public void ConfigureServices(IServiceCollection services)
         {
             // Enable CORS
-            services.AddCors(c =>
+            services.AddCors(options =>
             {
-                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+                options.AddDefaultPolicy(builder =>
+                {
+                    builder
+                        .WithOrigins("http://localhost:5000", "https://localhost:5001")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials();
+                });
             });
 
             //JSON Serializer
@@ -69,6 +79,8 @@ namespace LFG
                     options.ClientId = configuration.GetValue<string>("Discord:ClientId");
                     options.ClientSecret = configuration.GetValue<string>("Discord:ClientSecret");
                     options.CallbackPath = new PathString("/Auth/Callback");
+
+                    options.SaveTokens = true;
 
                     options.AuthorizationEndpoint = $"{DISCORD_URL}/oauth2/authorize";
                     options.TokenEndpoint = $"{DISCORD_API_URL}/oauth2/token";
@@ -116,6 +128,8 @@ namespace LFG
             services.AddControllers();
 
             services.AddSwaggerGen();
+
+            services.AddSpaStaticFiles(configuration => { configuration.RootPath = "dist"; });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -133,12 +147,22 @@ namespace LFG
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseCors(builder => { builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader(); });
+            app.UseCors();
 
             app.UseSwagger();
             app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1"); });
 
-            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            app.UseStaticFiles();
+            if (!env.IsDevelopment())
+            {
+                app.UseSpaStaticFiles();
+            }
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute("default", "{controller}/{action=Index}/{id?}");
+                endpoints.MapControllers();
+            });
 
             app.Use(async (context, next) =>
             {
@@ -162,6 +186,7 @@ namespace LFG
                         cmd.Parameters.AddWithValue("@profileId", id);
 
                         var reader = await cmd.ExecuteReaderAsync();
+                        table.Load(reader);
                         await reader.CloseAsync();
                     }
 
@@ -209,6 +234,16 @@ namespace LFG
                 FileProvider = new PhysicalFileProvider(
                     Path.Combine(Directory.GetCurrentDirectory(), "Photos")),
                 RequestPath = "/Photos"
+            });
+
+            app.UseSpa(builder =>
+            {
+                builder.Options.SourcePath = ".";
+
+                if (env.IsDevelopment())
+                {
+                    builder.UseProxyToSpaDevelopmentServer("https://127.0.0.1:5173");
+                }
             });
         }
     }
