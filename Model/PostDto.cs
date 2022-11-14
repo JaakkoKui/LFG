@@ -1,12 +1,14 @@
-﻿namespace LFG.Model
+﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
+
+namespace LFG.Model;
+
+public class PostDto
 {
-    public class PostDto
-    {
-        public string title { get; set; }
-        public string content { get; set; }
-        public string photoFileName { get; set; }
-        public int likepost { get; set; }
-        public int dislikepost { get; set; }
-        public int numberOfComments { get; set; }
-    }
+	[NotNull] [Required] public string? title { get; set; }
+	[NotNull] [Required] public string? content { get; set; }
+	public string? photoFileName { get; set; }
+	[Required] public int numberOfLikes { get; set; }
+	[Required] public int numberOfDislikes { get; set; }
+	[Required] public int numberOfComments { get; set; }
 }

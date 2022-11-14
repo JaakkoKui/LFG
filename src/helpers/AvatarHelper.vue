@@ -1,19 +1,19 @@
 ﻿<template>
-  <img
-    class="aspect-square object-contain rounded-full bg-primary"
-    :alt="nickname"
-    src="@/assets/images/DefaultAvatars/Xermos.png"
-  />
+	<img
+		alt="avatar"
+		class="aspect-square object-contain rounded-full bg-primary"
+		:src="'https://cdn.discordapp.com/avatars/' + profileId + '/' + avatar + '.jpg'"
+	/>
 </template>
 
 <script>
 export default {
-  name: 'AvatarComponent',
+	name: 'AvatarComponent',
 
-  props: {
-    avatar: String,
-    nickname: String,
-  },
+	props: {
+		avatar: String,
+		profileId: String,
+	},
 }
 </script>
 

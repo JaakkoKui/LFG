@@ -1,170 +1,199 @@
-﻿using LFG.Model;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
-using System;
-using Microsoft.Extensions.Configuration;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading.Tasks;
+using LFG.Model;
+using LFG.Utils;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
 
-namespace LFG.Controllers
+namespace LFG.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class ProfileController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class ProfileController : ControllerBase
-    {
-        private readonly IConfiguration _configuration;
+	private readonly IConfiguration _configuration;
 
-        public ProfileController(IConfiguration configuration)
-        {
-            _configuration = configuration;
-        }
+	public ProfileController(IConfiguration configuration)
+	{
+		_configuration = configuration;
+	}
 
-        [HttpGet]
-        public JsonResult Get()
-        {
-            string query =
-                @"SELECT profileId,discordName,nickname,firstName,lastName,age,avatar, DATE_FORMAT(joiningDate,'%y-%m-%d') as joiningDate FROM Profile";
+	[HttpGet]
+	public async Task<List<Profile>> Get()
+	{
+		const string query =
+			@"SELECT profileId,discordName,nickname,firstName,lastName,age,avatar, DATE_FORMAT(joiningDate,'%Y-%m-%dT%TZ') as joiningDate FROM Profile";
 
-            DataTable table = new DataTable();
-            string sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
-            MySqlDataReader myReader;
-            using (MySqlConnection mycon = new MySqlConnection(sqlDataSource))
-            {
-                mycon.Open();
-                using (MySqlCommand myCommand = new MySqlCommand(query, mycon))
-                {
-                    myReader = myCommand.ExecuteReader();
-                    table.Load(myReader);
+		var sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
 
-                    myReader.Close();
-                    mycon.Close();
-                }
-            }
+		await using var conn = new MySqlConnection(sqlDataSource);
+		await conn.OpenAsync();
 
-            return new JsonResult(table);
-        }
+		var profiles = new List<Profile>();
 
-        [Authorize]
-        [HttpGet("@me")]
-        public JsonResult GetMe()
-        {
-            string query =
-                @"SELECT profileId,discordName,nickname,firstName,lastName,age,avatar, DATE_FORMAT(joiningDate,'%y-%m-%d') as joiningDate FROM Profile WHERE profileId=@profileId";
+		await using var cmd = new MySqlCommand(query, conn);
 
-            DataTable table = new DataTable();
-            string sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
-            MySqlDataReader reader;
+		var reader = cmd.ExecuteReader();
+		while (await reader.ReadAsync())
+			profiles.Add(new Profile
+			{
+				profileId = await reader.GetFieldValueAsync<string>(0),
+				discordName = await reader.GetFieldValueAsync<string>(1),
+				nickname = await reader.GetFieldValueAsync<string>(2),
+				firstName = await reader.GetFieldValueOrNullAsync<string>(3),
+				lastName = await reader.GetFieldValueOrNullAsync<string>(4),
+				age = await reader.GetFieldValueOrNullAsync<int>(5),
+				avatar = await reader.GetFieldValueOrNullAsync<string>(6),
+				joiningDate = DateTime.Parse(await reader.GetFieldValueAsync<string>(7))
+			});
 
-            using (MySqlConnection connection = new MySqlConnection(sqlDataSource))
-            {
-                connection.Open();
-                using (MySqlCommand cmd = new MySqlCommand(query, connection))
-                {
-                    cmd.Parameters.AddWithValue("@profileId",
-                        HttpContext.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
-                    reader = cmd.ExecuteReader();
-                    table.Load(reader);
+		await reader.CloseAsync();
+		await conn.CloseAsync();
 
-                    reader.Close();
-                    connection.Close();
-                }
-            }
+		return profiles;
+	}
 
-            return new JsonResult(table);
-        }
-        
-        [HttpGet("{profileId}")]
-        public JsonResult GetById(ulong profileId)
-        {
-            Console.WriteLine(profileId);
-            string query =
-                @"SELECT profileId,discordName,nickname,firstName,lastName,age,avatar, DATE_FORMAT(joiningDate,'%y-%m-%d') as joiningDate FROM Profile WHERE profileId=@profileId";
+	[Authorize]
+	[HttpGet("@me")]
+	public async Task<Profile> GetMe()
+	{
+		const string query =
+			@"SELECT profileId,discordName,nickname,firstName,lastName,age,avatar, DATE_FORMAT(joiningDate,'%Y-%m-%dT%TZ') as joiningDate FROM Profile WHERE profileId=@profileId";
 
-            DataTable table = new DataTable();
-            string sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
-            MySqlDataReader reader;
-            using (MySqlConnection connection = new MySqlConnection(sqlDataSource))
-            {
-                connection.Open();
-                using (MySqlCommand cmd = new MySqlCommand(query, connection))
-                {
-                    cmd.Parameters.AddWithValue("@profileId", profileId.ToString());
-                    reader = cmd.ExecuteReader();
-                    table.Load(reader);
+		var sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
 
-                    reader.Close();
-                    connection.Close();
-                }
-            }
-            Console.WriteLine(table.Rows[0].ItemArray.GetValue(0));
-            return new JsonResult(table);
-        }
+		await using var conn = new MySqlConnection(sqlDataSource);
+		await conn.OpenAsync();
 
-        [Authorize]
-        [HttpPut]
-        public JsonResult Put(ProfileDto profile)
-        {
-            string query =
-                @"UPDATE Profile SET nickname=@nickname, firstName=@firstName, lastName=@lastName, age=@age WHERE profileId=@profileId;";
+		var profiles = new List<Profile>();
 
-            DataTable table = new DataTable();
-            string sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
-            MySqlDataReader myReader;
-            using (MySqlConnection mycon = new MySqlConnection(sqlDataSource))
-            {
-                mycon.Open();
-                using (MySqlCommand myCommand = new MySqlCommand(query, mycon))
-                {
-                    myCommand.Parameters.AddWithValue("@nickname", profile.nickname);
-                    myCommand.Parameters.AddWithValue("@firstName", profile.firstName);
-                    myCommand.Parameters.AddWithValue("@lastName", profile.lastName);
-                    myCommand.Parameters.AddWithValue("@age", profile.age);
+		await using var cmd = new MySqlCommand(query, conn);
+		cmd.Parameters.AddWithValue("@profileId",
+			HttpContext.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
 
-                    var id = HttpContext.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
-                    myCommand.Parameters.AddWithValue("@profileId", id);
+		var reader = cmd.ExecuteReader();
 
-                    myReader = myCommand.ExecuteReader();
-                    table.Load(myReader);
+		while (await reader.ReadAsync())
+			profiles.Add(new Profile
+			{
+				profileId = await reader.GetFieldValueAsync<string>(0),
+				discordName = await reader.GetFieldValueAsync<string>(1),
+				nickname = await reader.GetFieldValueAsync<string>(2),
+				firstName = await reader.GetFieldValueOrNullAsync<string>(3),
+				lastName = await reader.GetFieldValueOrNullAsync<string>(4),
+				age = await reader.GetFieldValueOrNullAsync<int>(5),
+				avatar = await reader.GetFieldValueOrNullAsync<string>(6),
+				joiningDate = DateTime.Parse(await reader.GetFieldValueAsync<string>(7))
+			});
 
-                    myReader.Close();
-                    mycon.Close();
-                }
-            }
+		await reader.CloseAsync();
+		await conn.CloseAsync();
 
-            return new JsonResult(table);
-        }
+		return profiles[0];
+	}
 
-        [Authorize]
-        [HttpDelete]
-        public JsonResult Delete()
-        {
-            string query = @"DELETE FROM Profile WHERE profileId=@profileId;";
+	[HttpGet("{id}")]
+	public async Task<Profile> GetById(string id)
+	{
+		const string query =
+			@"SELECT profileId,discordName,nickname,firstName,lastName,age,avatar, DATE_FORMAT(joiningDate,'%Y-%m-%dT%TZ') as joiningDate FROM Profile WHERE profileId=@profileId";
 
-            DataTable table = new DataTable();
-            string sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
-            MySqlDataReader myReader;
-            using (MySqlConnection mycon = new MySqlConnection(sqlDataSource))
-            {
-                mycon.Open();
-                using (MySqlCommand myCommand = new MySqlCommand(query, mycon))
-                {
-                    var id = HttpContext.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
-                    myCommand.Parameters.AddWithValue("@profileId", id);
+		var sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
 
-                    myReader = myCommand.ExecuteReader();
-                    table.Load(myReader);
+		await using var conn = new MySqlConnection(sqlDataSource);
+		await conn.OpenAsync();
 
-                    myReader.Close();
-                    mycon.Close();
-                }
-            }
+		var profiles = new List<Profile>();
 
-            return new JsonResult(table);
-        }
-    }
+		await using var cmd = new MySqlCommand(query, conn);
+		cmd.Parameters.AddWithValue("@profileId", id);
+
+		var reader = cmd.ExecuteReader();
+
+		while (await reader.ReadAsync())
+			profiles.Add(new Profile
+			{
+				profileId = await reader.GetFieldValueAsync<string>(0),
+				discordName = await reader.GetFieldValueAsync<string>(1),
+				nickname = await reader.GetFieldValueAsync<string>(2),
+				firstName = await reader.GetFieldValueOrNullAsync<string>(3),
+				lastName = await reader.GetFieldValueOrNullAsync<string>(4),
+				age = await reader.GetFieldValueOrNullAsync<int>(5),
+				avatar = await reader.GetFieldValueOrNullAsync<string>(6),
+				joiningDate = DateTime.Parse(await reader.GetFieldValueAsync<string>(7))
+			});
+
+		await reader.CloseAsync();
+		await conn.CloseAsync();
+
+		return profiles[0];
+	}
+
+	[Authorize]
+	[HttpPut]
+	public JsonResult Put(ProfileDto profile)
+	{
+		const string query =
+			@"UPDATE Profile SET nickname=@nickname, firstName=@firstName, lastName=@lastName, age=@age WHERE profileId=@profileId;";
+
+		var table = new DataTable();
+		var sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
+		MySqlDataReader myReader;
+		using (var mycon = new MySqlConnection(sqlDataSource))
+		{
+			mycon.Open();
+			using (var myCommand = new MySqlCommand(query, mycon))
+			{
+				myCommand.Parameters.AddWithValue("@nickname", profile.nickname);
+				myCommand.Parameters.AddWithValue("@firstName", profile.firstName);
+				myCommand.Parameters.AddWithValue("@lastName", profile.lastName);
+				myCommand.Parameters.AddWithValue("@age", profile.age);
+
+				var id = HttpContext.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+				myCommand.Parameters.AddWithValue("@profileId", id);
+
+				myReader = myCommand.ExecuteReader();
+				table.Load(myReader);
+
+				myReader.Close();
+				mycon.Close();
+			}
+		}
+
+		return new JsonResult(table);
+	}
+
+	[Authorize]
+	[HttpDelete]
+	public JsonResult Delete()
+	{
+		const string query = @"DELETE FROM Profile WHERE profileId=@profileId;";
+
+		var table = new DataTable();
+		var sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
+		MySqlDataReader myReader;
+		using (var mycon = new MySqlConnection(sqlDataSource))
+		{
+			mycon.Open();
+			using (var myCommand = new MySqlCommand(query, mycon))
+			{
+				var id = HttpContext.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+				myCommand.Parameters.AddWithValue("@profileId", id);
+
+				myReader = myCommand.ExecuteReader();
+				table.Load(myReader);
+
+				myReader.Close();
+				mycon.Close();
+			}
+		}
+
+		return new JsonResult(table);
+	}
 }

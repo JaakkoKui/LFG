@@ -1,12 +1,15 @@
-﻿namespace LFG.Model
-{
-    public class Comment
-    {
-        public int id { get; set; }
-        public string commentContent { get; set; }
-        public string date { get; set; }
-        public ulong profileId { get; set; }
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
-        public int postId { get; set; }
-    }
+namespace LFG.Model;
+
+public class Comment
+{
+	[Required] public Guid commentId { get; set; }
+	[NotNull] [Required] public string content { get; set; }
+	[Required] public DateTime date { get; set; }
+	[NotNull] [Required] public string profileId { get; set; }
+
+	[Required] public int postId { get; set; }
 }

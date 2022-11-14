@@ -1,26 +1,26 @@
 ﻿<template>
-  <!-- Post flexbox -->
-  <div class="w-full flex flex-col gap-y-5 p-10">
-    <!-- Post list render -->
-    <div v-for="post in posts" :key="post.postId">
-      <PostComponent :post="post" />
-      <hr class="w-full border-gray-700" />
-    </div>
-  </div>
+	<!-- Post flexbox -->
+	<div class="w-full flex flex-col gap-y-5 px-10">
+		<!-- Post list render -->
+		<div v-for="post in posts" :key="post.postId">
+			<PostComponent :post="post" />
+			<hr class="w-full border-gray-700" />
+		</div>
+	</div>
 </template>
 
 <script>
-import PostComponent from '@/components/PostComponent.vue'
+import PostComponent from '@/components/posts/PostComponent.vue'
 
 export default {
-  name: 'PostsLayout',
+	name: 'PostsLayout',
 
-  components: {
-    PostComponent
-  },
+	components: {
+		PostComponent,
+	},
 
-  props: {
-    posts: Array
-  }
+	props: {
+		posts: Array,
+	},
 }
 </script>

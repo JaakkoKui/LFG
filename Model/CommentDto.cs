@@ -1,5 +1,10 @@
+using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
+
+namespace LFG.Model;
+
 public class CommentDto
 {
-    public string commentContent { get; set; }
-    public int postId { get; set; }
+	[NotNull] [Required] public string content { get; set; }
+	[Required] public string postId { get; set; }
 }

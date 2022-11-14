@@ -1,4 +1,3 @@
-using System;
-using System.Reflection;
+using Microsoft.Extensions.Configuration.UserSecrets;
 
-[assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsId("8201f79b-e887-45e2-aba7-cdfd1806cb62")]
+[assembly: UserSecretsId("8201f79b-e887-45e2-aba7-cdfd1806cb62")]

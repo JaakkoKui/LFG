@@ -1,176 +1,197 @@
-﻿using LFG.Model;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using MySql.Data.MySqlClient;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading.Tasks;
+using LFG.Model;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using MySql.Data.MySqlClient;
 
-namespace LFG.Controllers
+namespace LFG.Controllers;
+
+[ApiController]
+[Route("api/[controller]")]
+public class GameController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class GameController : ControllerBase
-    {
-        private readonly IConfiguration _configuration;
+	private readonly IConfiguration _configuration;
 
-        public GameController(IConfiguration configuration)
-        {
-            _configuration = configuration;
-        }
+	public GameController(IConfiguration configuration)
+	{
+		_configuration = configuration;
+	}
 
-        [HttpGet]
-        public JsonResult Get()
-        {
-            string query = @"SELECT * FROM Game;";
+	[HttpGet]
+	public async Task<List<Game>> Get()
+	{
+		const string query = @"SELECT * FROM Game;";
 
-            DataTable table = new DataTable();
-            string sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
-            MySqlDataReader myReader;
-            using (MySqlConnection mycon = new MySqlConnection(sqlDataSource))
-            {
-                mycon.Open();
-                using (MySqlCommand myCommand = new MySqlCommand(query, mycon))
-                {
-                    myReader = myCommand.ExecuteReader();
-                    table.Load(myReader);
+		var sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
 
-                    myReader.Close();
-                    mycon.Close();
-                }
-            }
+		await using var conn = new MySqlConnection(sqlDataSource);
+		await conn.OpenAsync();
 
-            return new JsonResult(table);
-        }
+		var games = new List<Game>();
 
-        [HttpGet("{id}")]
-        public JsonResult Get(int id)
-        {
-            string query = @"SELECT * FROM Game WHERE gameId=@gameId";
+		await using var cmd = new MySqlCommand(query, conn);
 
-            DataTable table = new DataTable();
-            string sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
-            MySqlDataReader myReader;
-            using (MySqlConnection mycon = new MySqlConnection(sqlDataSource))
-            {
-                mycon.Open();
-                using (MySqlCommand myCommand = new MySqlCommand(query, mycon))
-                {
-                    myCommand.Parameters.AddWithValue("@gameId", id);
-                    myReader = myCommand.ExecuteReader();
-                    table.Load(myReader);
+		var reader = cmd.ExecuteReader();
+		while (await reader.ReadAsync())
+			games.Add(new Game
+			{
+				gameId = await reader.GetFieldValueAsync<Guid>(0),
+				gameName = await reader.GetFieldValueAsync<string>(1),
+				nicknameInGame = await reader.GetFieldValueAsync<string?>(2),
+				hoursPlayed = await reader.GetFieldValueAsync<int?>(3),
+				rank = await reader.GetFieldValueAsync<string?>(4),
+				server = await reader.GetFieldValueAsync<string?>(5),
+				comments = await reader.GetFieldValueAsync<string?>(6),
+				profileId = await reader.GetFieldValueAsync<string>(7)
+			});
 
-                    myReader.Close();
-                    mycon.Close();
-                }
-            }
+		await reader.CloseAsync();
+		await conn.CloseAsync();
 
-            return new JsonResult(table);
-        }
+		return games;
+	}
 
-        [Authorize]
-        [HttpPost]
-        public JsonResult Post(GameDto game)
-        {
-            string query =
-                @"INSERT INTO Game (gameName, nicknameIngame, hoursPlayed, rank, server, comments, profileId) VALUES (@gameName, @nicknameIngame, @hoursPlayed, @rank, @server, @comments, @profileId);";
+	[HttpGet("{id}")]
+	public async Task<Game> Get(int id)
+	{
+		const string query = @"SELECT * FROM Game WHERE gameId=@gameId";
 
-            DataTable table = new DataTable();
-            string sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
-            MySqlDataReader myReader;
-            using (MySqlConnection mycon = new MySqlConnection(sqlDataSource))
-            {
-                mycon.Open();
-                using (MySqlCommand myCommand = new MySqlCommand(query, mycon))
-                {
-                    myCommand.Parameters.AddWithValue("@gameName", game.gameName);
-                    myCommand.Parameters.AddWithValue("@nicknameIngame", game.nicknameIngame);
-                    myCommand.Parameters.AddWithValue("@hoursPlayed", game.hoursPlayed);
-                    myCommand.Parameters.AddWithValue("@rank", game.rank);
-                    myCommand.Parameters.AddWithValue("@server", game.server);
-                    myCommand.Parameters.AddWithValue("@comments", game.comments);
+		var sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
 
-                    var id = HttpContext.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
-                    myCommand.Parameters.AddWithValue("@profileId", id);
+		await using var conn = new MySqlConnection(sqlDataSource);
+		await conn.OpenAsync();
 
-                    myReader = myCommand.ExecuteReader();
-                    table.Load(myReader);
+		var games = new List<Game>();
 
-                    myReader.Close();
-                    mycon.Close();
-                }
-            }
+		await using var cmd = new MySqlCommand(query, conn);
+		cmd.Parameters.AddWithValue("@gameId", id);
 
-            return new JsonResult("Added Successfully!");
-        }
+		var reader = cmd.ExecuteReader();
+		while (await reader.ReadAsync())
+			games.Add(new Game
+			{
+				gameId = await reader.GetFieldValueAsync<Guid>(0),
+				gameName = await reader.GetFieldValueAsync<string>(1),
+				nicknameInGame = await reader.GetFieldValueAsync<string?>(2),
+				hoursPlayed = await reader.GetFieldValueAsync<int?>(3),
+				rank = await reader.GetFieldValueAsync<string?>(4),
+				server = await reader.GetFieldValueAsync<string?>(5),
+				comments = await reader.GetFieldValueAsync<string?>(6),
+				profileId = await reader.GetFieldValueAsync<string>(7)
+			});
 
-        [Authorize]
-        [HttpPut("{id}")]
-        public JsonResult Put(int id, GameDto game)
-        {
-            string query =
-                @"UPDATE Game SET gameName=@gameName, nicknameIngame=@nicknameIngame, hoursPlayed=@hoursPlayed, rank=@rank, server=@server, comments=@comments WHERE gameId=@gameId AND profileId=@profileId;";
+		await reader.CloseAsync();
+		await conn.CloseAsync();
 
-            DataTable table = new DataTable();
-            string sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
-            MySqlDataReader myReader;
-            using (MySqlConnection mycon = new MySqlConnection(sqlDataSource))
-            {
-                mycon.Open();
-                using (MySqlCommand myCommand = new MySqlCommand(query, mycon))
-                {
-                    myCommand.Parameters.AddWithValue("@gameId", id);
-                    myCommand.Parameters.AddWithValue("@gameName", game.gameName);
-                    myCommand.Parameters.AddWithValue("@nicknameIngame", game.nicknameIngame);
-                    myCommand.Parameters.AddWithValue("@hoursPlayed", game.hoursPlayed);
-                    myCommand.Parameters.AddWithValue("@rank", game.rank);
-                    myCommand.Parameters.AddWithValue("@server", game.server);
-                    myCommand.Parameters.AddWithValue("@comments", game.comments);
+		return games[0];
+	}
 
-                    var profileId = HttpContext.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
-                    myCommand.Parameters.AddWithValue("@profileId", profileId);
+	[Authorize]
+	[HttpPost]
+	public JsonResult Post(GameDto game)
+	{
+		const string query =
+			@"INSERT INTO Game (gameName, nicknameInGame, hoursPlayed, 'rank', 'server', comments, profileId) VALUES (@gameName, @nicknameInGame, @hoursPlayed, @rank, @server, @comments, @profileId);";
 
-                    myReader = myCommand.ExecuteReader();
-                    table.Load(myReader);
+		var table = new DataTable();
+		var sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
+		MySqlDataReader myReader;
+		using (var mycon = new MySqlConnection(sqlDataSource))
+		{
+			mycon.Open();
+			using (var myCommand = new MySqlCommand(query, mycon))
+			{
+				myCommand.Parameters.AddWithValue("@gameName", game.gameName);
+				myCommand.Parameters.AddWithValue("@nicknameInGame", game.nicknameInGame);
+				myCommand.Parameters.AddWithValue("@hoursPlayed", game.hoursPlayed);
+				myCommand.Parameters.AddWithValue("@rank", game.rank);
+				myCommand.Parameters.AddWithValue("@server", game.server);
+				myCommand.Parameters.AddWithValue("@comments", game.comments);
 
-                    myReader.Close();
-                    mycon.Close();
-                }
-            }
+				var id = HttpContext.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+				myCommand.Parameters.AddWithValue("@profileId", id);
 
-            return new JsonResult("Updated Successfully!");
-        }
+				myReader = myCommand.ExecuteReader();
+				table.Load(myReader);
 
-        [Authorize]
-        [HttpDelete("{id}")]
-        public JsonResult Delete(int id)
-        {
-            string query = @"DELETE FROM Game WHERE gameId=@gameId AND profileId=@profileId;";
+				myReader.Close();
+				mycon.Close();
+			}
+		}
 
-            DataTable table = new DataTable();
-            string sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
-            MySqlDataReader myReader;
-            using (MySqlConnection mycon = new MySqlConnection(sqlDataSource))
-            {
-                mycon.Open();
-                using (MySqlCommand myCommand = new MySqlCommand(query, mycon))
-                {
-                    myCommand.Parameters.AddWithValue("@gameId", id);
+		return new JsonResult("Added Successfully!");
+	}
 
-                    var profileId = HttpContext.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
-                    myCommand.Parameters.AddWithValue("@profileId", profileId);
+	[Authorize]
+	[HttpPut("{id}")]
+	public JsonResult Put(int id, GameDto game)
+	{
+		const string query =
+			@"UPDATE Game SET gameName=@gameName, nicknameInGame=@nicknameInGame, hoursPlayed=@hoursPlayed, 'rank'=@rank, 'server'=@server, comments=@comments WHERE gameId=@gameId AND profileId=@profileId;";
 
-                    myReader = myCommand.ExecuteReader();
-                    table.Load(myReader);
+		var table = new DataTable();
+		var sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
+		MySqlDataReader myReader;
+		using (var mycon = new MySqlConnection(sqlDataSource))
+		{
+			mycon.Open();
+			using (var myCommand = new MySqlCommand(query, mycon))
+			{
+				myCommand.Parameters.AddWithValue("@gameId", id);
+				myCommand.Parameters.AddWithValue("@gameName", game.gameName);
+				myCommand.Parameters.AddWithValue("@nicknameInGame", game.nicknameInGame);
+				myCommand.Parameters.AddWithValue("@hoursPlayed", game.hoursPlayed);
+				myCommand.Parameters.AddWithValue("@rank", game.rank);
+				myCommand.Parameters.AddWithValue("@server", game.server);
+				myCommand.Parameters.AddWithValue("@comments", game.comments);
 
-                    myReader.Close();
-                    mycon.Close();
-                }
-            }
+				var profileId = HttpContext.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+				myCommand.Parameters.AddWithValue("@profileId", profileId);
 
-            return new JsonResult("Deleted Successfully!");
-        }
-    }
+				myReader = myCommand.ExecuteReader();
+				table.Load(myReader);
+
+				myReader.Close();
+				mycon.Close();
+			}
+		}
+
+		return new JsonResult("Updated Successfully!");
+	}
+
+	[Authorize]
+	[HttpDelete("{id}")]
+	public JsonResult Delete(int id)
+	{
+		const string query = @"DELETE FROM Game WHERE gameId=@gameId AND profileId=@profileId;";
+
+		var table = new DataTable();
+		var sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
+		MySqlDataReader myReader;
+		using (var mycon = new MySqlConnection(sqlDataSource))
+		{
+			mycon.Open();
+			using (var myCommand = new MySqlCommand(query, mycon))
+			{
+				myCommand.Parameters.AddWithValue("@gameId", id);
+
+				var profileId = HttpContext.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+				myCommand.Parameters.AddWithValue("@profileId", profileId);
+
+				myReader = myCommand.ExecuteReader();
+				table.Load(myReader);
+
+				myReader.Close();
+				mycon.Close();
+			}
+		}
+
+		return new JsonResult("Deleted Successfully!");
+	}
 }
