@@ -6,7 +6,7 @@ namespace LFG.Model;
 
 public class Post
 {
-	[Required] public int postId { get; set; }
+	[Required] public Guid postId { get; set; }
 	[NotNull] [Required] public string? title { get; set; }
 	[Required] public DateTime createDate { get; set; }
 	[NotNull] [Required] public string? content { get; set; }

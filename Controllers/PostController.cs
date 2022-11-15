@@ -47,7 +47,7 @@ public class PostController : ControllerBase
 		while (await reader.ReadAsync())
 			posts.Add(new Post
 			{
-				postId = await reader.GetFieldValueAsync<int>(0),
+				postId = await reader.GetFieldValueAsync<Guid>(0),
 				title = await reader.GetFieldValueAsync<string>(1),
 				createDate = DateTime.Parse(await reader.GetFieldValueAsync<string>(2)),
 				content = await reader.GetFieldValueAsync<string>(3),
@@ -84,7 +84,7 @@ public class PostController : ControllerBase
 		while (await reader.ReadAsync())
 			posts.Add(new Post
 			{
-				postId = await reader.GetFieldValueAsync<int>(0),
+				postId = await reader.GetFieldValueAsync<Guid>(0),
 				title = await reader.GetFieldValueAsync<string>(1),
 				createDate = DateTime.Parse(await reader.GetFieldValueAsync<string>(2)),
 				content = await reader.GetFieldValueAsync<string>(3),
@@ -121,7 +121,7 @@ public class PostController : ControllerBase
 		while (await reader.ReadAsync())
 			posts.Add(new Post
 			{
-				postId = await reader.GetFieldValueAsync<int>(0),
+				postId = await reader.GetFieldValueAsync<Guid>(0),
 				title = await reader.GetFieldValueAsync<string>(1),
 				createDate = DateTime.Parse(await reader.GetFieldValueAsync<string>(2)),
 				content = await reader.GetFieldValueAsync<string>(3),

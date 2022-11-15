@@ -44,7 +44,7 @@ export default {
 
 			text: '',
 
-			me: {},
+			me: null,
 		}
 	},
 

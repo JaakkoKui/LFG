@@ -2,7 +2,7 @@
 	<div
 		class="ring-4 rounded-lg ring-darkBackground flex flex-col h-96 w-60 mx-2 relative text-white bg-darkBackground transition ease-in-out hover:scale-105 duration-200 hover:bg-primary"
 	>
-		<router-link :to="'/profile/' + profileId + '/games/' + game.gameName">
+		<router-link :to="'/profile/' + profileId + '/game/' + game.gameId">
 			<!-- Game card image -->
 			<img :alt="game.gameName" class="object-contain rounded-t-lg" src="@/assets/images/DemoCovers/Foxhole.png" />
 
