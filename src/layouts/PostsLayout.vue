@@ -1,6 +1,6 @@
 ﻿<template>
 	<!-- Post flexbox -->
-	<div class="w-full flex flex-col gap-y-4 px-8">
+	<div class="w-full flex flex-col gap-y-4 px-2 sm:px-4 lg:px-8">
 		<!-- Post list render -->
 		<PostComponent v-for="post in posts" :key="post.postId" :post="post" />
 	</div>

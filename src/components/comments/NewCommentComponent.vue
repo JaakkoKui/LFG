@@ -1,6 +1,6 @@
 ﻿<template>
 	<!-- New comment -->
-	<div v-if="me" class="my-4 w-1/2 flex">
+	<div v-if="me" class="my-4 flex">
 		<div class="min-w-[35px] w-[35px] h-[35px] mr-2">
 			<AvatarHelper :avatar="me.avatar" :profile-id="me.profileId" />
 		</div>

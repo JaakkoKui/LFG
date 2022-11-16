@@ -1,12 +1,12 @@
 ﻿<template>
-	<div class="bg-background-default mb-8 p-2">
+	<div class="bg-background-default mb-4 sm:mb-8">
 		<!-- Profile header -->
-		<ProfileInfoComponent v-if="profile && tab === 1" :profile="profile" />
+		<ProfileInfoComponent class="mt-2 mx-2" v-if="profile && tab === 1" :profile="profile" />
 
 		<!-- Posts header -->
 		<header
 			v-if="tab === 2"
-			class="bg-gradient-to-r from-primaryVariant via-primary to-pink-600 py-16 rounded-xl text-center text-text-white"
+			class="bg-gradient-to-r from-primaryVariant via-primary to-pink-600 py-16 rounded-xl text-center text-text-white mt-2 mx-2"
 		>
 			<div>
 				<h1 class="text-5xl font-semibold">Your Posts</h1>
@@ -16,7 +16,7 @@
 
 		<header
 			v-if="tab === 3"
-			class="bg-gradient-to-r from-teal-500 via-blue-600 to-sky-500 py-16 rounded-xl text-center text-text-white"
+			class="bg-gradient-to-r from-teal-500 via-blue-600 to-sky-500 py-16 rounded-xl text-center text-text-white mt-2 mx-2"
 		>
 			<div>
 				<h1 class="text-5xl font-semibold">Your Comments</h1>
@@ -31,7 +31,7 @@
 		</div>
 
 		<!-- Games container -->
-		<GamesLayout v-if="games && tab === 1" :games="games" :profile-id="profile.profileId" />
+		<GamesLayout class="mb-2 mx-2" v-if="games && tab === 1" :games="games" :profile-id="profile.profileId" />
 
 		<!-- New Post -->
 		<!-- Posts -->

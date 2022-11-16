@@ -1,5 +1,5 @@
 ﻿<template>
-	<article v-if="profile" class="w-1/2 flex">
+	<article v-if="profile" class="flex">
 		<div class="min-w-[35px] w-[35px] h-[35px]">
 			<AvatarHelper :avatar="profile.avatar" :profile-id="profile.profileId" />
 		</div>
