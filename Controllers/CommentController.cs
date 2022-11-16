@@ -46,7 +46,7 @@ public class CommentController : ControllerBase
 				content = await reader.GetFieldValueAsync<string>(1),
 				date = DateTime.Parse(await reader.GetFieldValueAsync<string>(2)),
 				profileId = await reader.GetFieldValueAsync<string>(3),
-				postId = await reader.GetFieldValueAsync<int>(4)
+				postId = await reader.GetFieldValueAsync<Guid>(4)
 			});
 
 		await reader.CloseAsync();
@@ -79,7 +79,7 @@ public class CommentController : ControllerBase
 				content = await reader.GetFieldValueAsync<string>(1),
 				date = DateTime.Parse(await reader.GetFieldValueAsync<string>(2)),
 				profileId = await reader.GetFieldValueAsync<string>(3),
-				postId = await reader.GetFieldValueAsync<int>(4)
+				postId = await reader.GetFieldValueAsync<Guid>(4)
 			});
 
 		await reader.CloseAsync();

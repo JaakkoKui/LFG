@@ -1,21 +1,22 @@
 ﻿<template>
 	<!-- New comment -->
-	<div v-if="me" class="my-5 w-1/2 flex ml-10">
-		<div class="w-[35px] h-[35px] mr-2.5">
+	<div v-if="me" class="my-4 w-1/2 flex">
+		<div class="min-w-[35px] w-[35px] h-[35px] mr-2">
 			<AvatarHelper :avatar="me.avatar" :profile-id="me.profileId" />
 		</div>
 		<div class="w-full">
 			<textarea
 				v-model="text"
-				@input="textAreaChange"
-				class="w-full rounded-md bg-lightBackground text-gray-300 px-2"
+				@focus="showButtons"
+				@input="checkValidComment"
+				class="w-full bg-background-darker border-b border-background-lightest text-text-default px-2"
 				:maxlength="maxLenght"
 				:rows="rows"
 			></textarea>
 			<transition>
-				<div v-if="active" class="w-fit ml-auto">
+				<div v-if="active" class="w-fit ml-auto mt-2">
 					<CancelButtonHelper @click="handleCancel" />
-					<ButtonHelper name="comment" />
+					<ButtonHelper :disabled="!ready" name="comment" />
 				</div>
 			</transition>
 		</div>
@@ -38,9 +39,10 @@ export default {
 
 	data() {
 		return {
-			rows: 2,
+			rows: 1,
 			maxLenght: 250,
 			active: false,
+			ready: false,
 
 			text: '',
 
@@ -51,16 +53,15 @@ export default {
 	methods: {
 		handleCancel() {
 			this.text = ''
-			this.textAreaChange()
+			this.active = false
 		},
 
-		textAreaChange() {
-			this.active = this.text.length > 0
-			if (this.active) {
-				this.rows = 3
-			} else {
-				this.rows = 2
-			}
+		checkValidComment() {
+			this.ready = !!this.text.length
+		},
+
+		showButtons() {
+			this.active = true
 		},
 
 		getMe() {

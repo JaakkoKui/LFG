@@ -11,5 +11,5 @@ public class Comment
 	[Required] public DateTime date { get; set; }
 	[NotNull] [Required] public string profileId { get; set; }
 
-	[Required] public int postId { get; set; }
+	[Required] public Guid postId { get; set; }
 }

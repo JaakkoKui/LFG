@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using LFG.Model;
+using LFG.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -43,12 +44,12 @@ public class GameController : ControllerBase
 			{
 				gameId = await reader.GetFieldValueAsync<Guid>(0),
 				gameName = await reader.GetFieldValueAsync<string>(1),
-				nicknameInGame = await reader.GetFieldValueAsync<string>(2),
-				hoursPlayed = await reader.GetFieldValueAsync<int>(3),
-				rank = await reader.GetFieldValueAsync<string>(4),
-				server = await reader.GetFieldValueAsync<string>(5),
-				comments = await reader.GetFieldValueAsync<string>(6),
-				profileId = await reader.GetFieldValueAsync<string>(7)
+				nicknameInGame = await reader.GetFieldValueOrNullAsync<string>(2),
+				hoursPlayed = await reader.GetFieldValueOrNullAsync<int>(3),
+				rank = await reader.GetFieldValueOrNullAsync<string>(4),
+				server = await reader.GetFieldValueOrNullAsync<string>(5),
+				comments = await reader.GetFieldValueOrNullAsync<string>(6),
+				profileId = await reader.GetFieldValueOrNullAsync<string>(7)
 			});
 
 		await reader.CloseAsync();
@@ -78,12 +79,12 @@ public class GameController : ControllerBase
 			{
 				gameId = await reader.GetFieldValueAsync<Guid>(0),
 				gameName = await reader.GetFieldValueAsync<string>(1),
-				nicknameInGame = await reader.GetFieldValueAsync<string>(2),
-				hoursPlayed = await reader.GetFieldValueAsync<int>(3),
-				rank = await reader.GetFieldValueAsync<string>(4),
-				server = await reader.GetFieldValueAsync<string>(5),
-				comments = await reader.GetFieldValueAsync<string>(6),
-				profileId = await reader.GetFieldValueAsync<string>(7)
+				nicknameInGame = await reader.GetFieldValueOrNullAsync<string>(2),
+				hoursPlayed = await reader.GetFieldValueOrNullAsync<int>(3),
+				rank = await reader.GetFieldValueOrNullAsync<string>(4),
+				server = await reader.GetFieldValueOrNullAsync<string>(5),
+				comments = await reader.GetFieldValueOrNullAsync<string>(6),
+				profileId = await reader.GetFieldValueOrNullAsync<string>(7)
 			});
 
 		await reader.CloseAsync();

@@ -1,19 +1,23 @@
 ﻿<template>
-	<div v-if="profile" class="my-5 w-1/2 flex ml-10">
-		<div class="w-[35px] h-[35px]">
+	<article v-if="profile" class="w-1/2 flex">
+		<div class="min-w-[35px] w-[35px] h-[35px]">
 			<AvatarHelper :avatar="profile.avatar" :profile-id="profile.profileId" />
 		</div>
 
 		<div>
 			<div class="flex">
-				<h4 class="font-bold h-fit ml-[7px]">{{ profile.nickname }}</h4>
-				<h6 class="italic text-xs font-semobold mt-1 ml-2">({{ comment.date }})</h6>
+				<router-link
+					:to="'/profile/' + profile.profileId"
+					class="hover:bg-background-default rounded-full font-semibold h-fit px-2"
+					>{{ profile.nickname }}</router-link
+				>
+				<h6 class="italic text-xs mt-1 opacity-70">{{ comment.date }}</h6>
 			</div>
 			<div>
 				<p class="ml-[7px]">{{ comment.content }}</p>
 			</div>
 		</div>
-	</div>
+	</article>
 </template>
 
 <script>

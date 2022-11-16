@@ -1,11 +1,11 @@
 <template>
-	<nav class="h-[65px] flex relative font-semibold text-gray-600 bg-white drop-shadow-lg z-20">
+	<nav class="h-[65px] flex relative font-semibold text-text-default bg-background-lighter drop-shadow-lg z-20">
 		<div class="flex h-full mx-auto w-fit justify-around">
 			<RouterLink
 				v-for="navItem in navLinks"
 				:key="navItem.navName"
 				:to="navItem.to"
-				class="px-5 hover:bg-gray-300 h-full hover:text-gray-900"
+				class="px-4 h-full hover:text-text-white"
 			>
 				<button class="h-full">{{ navItem.navName }}</button>
 			</RouterLink>
@@ -13,18 +13,20 @@
 
 		<div class="absolute right-0 h-[65px] flex">
 			<a v-if="!profile" href="https://localhost:5001/Auth/Login">
-				<button class="h-full px-5 hover:bg-gray-300 hover:text-gray-900">Login</button>
+				<button class="h-full px-4 h-full hover:text-text-white">Login</button>
 			</a>
 
-			<RouterLink v-if="profile" :to="'/profile/' + profile.profileId">
-				<button class="h-full px-5 hover:bg-gray-300 hover:text-gray-900 flex">
-					<AvatarHelper class="h-[40px] my-auto" :avatar="profile.avatar" :profile-id="profile.profileId" />
-					<span class="text-regular my-auto ml-2">{{ profile.nickname }}</span>
-				</button>
+			<RouterLink
+				v-if="profile"
+				:to="'/profile/' + profile.profileId"
+				class="flex pr-4 rounded-full h-fit my-auto bg-background-default hover:scale-105 transition duration-100 ease-out mr-4"
+			>
+				<AvatarHelper class="h-[40px] my-auto" :avatar="profile.avatar" :profile-id="profile.profileId" />
+				<span class="text-regular my-auto ml-2">{{ profile.nickname }}</span>
 			</RouterLink>
 
 			<a href="https://localhost:5001/Auth/Logout">
-				<button v-if="profile" class="px-5 bg-red-600 h-full text-white hover:bg-red-400">Logout</button>
+				<button v-if="profile" class="px-4 bg-red-600 h-full text-text-white hover:bg-red-400">Logout</button>
 			</a>
 		</div>
 	</nav>

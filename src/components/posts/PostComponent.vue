@@ -1,63 +1,47 @@
 ﻿<template>
-	<div class="flex w-full py-5">
-		<!-- Poster Avatar -->
-		<div class="mx-5 w-[50px]">
-			<AvatarHelper :avatar="profile.avatar" :profile-id="profile.profileId" />
-		</div>
-
-		<!-- Post body -->
-		<div class="w-[calc(100%-200px)]">
-			<!-- Post header -->
-			<div v-if="profile" class="flex h-[50px]">
-				<router-link :to="'/profile/' + profile.profileId" class="text-md font-bold hover:text-white">
-					{{ profile.nickname }}
-				</router-link>
-				<h4 class="text-sm italic font-semibold text-gray-400 pt-0.5 ml-3">
-					{{ post.createDate }}
-				</h4>
-			</div>
-
-			<!-- Post content -->
-			<div class="mb-5">
-				<h1 class="break-words text-xl font-bold mb-2">{{ post.title }}</h1>
-				<p>{{ post.content }}</p>
-			</div>
-
-			<!-- Post footter -->
-			<div>
-				<button v-if="!commentsOpen" class="font-semibold text-gray-400 mb-1.5" @click="handleCommentsOpen">
-					<p v-if="post.numberOfComments > 0">Show {{ post.numberOfComments }} Comments</p>
-					<p v-else>Be First To Comment</p>
-				</button>
-
-				<button v-if="commentsOpen" class="font-semibold text-gray-400 mb-1.5" @click="commentsOpen = false">
-					Hide Comments
-				</button>
-
-				<div class="flex mt-auto text-gray-400">
-					<p class="border-r pr-2.5 border-gray-400">{{ post.numberOfComments }} likes</p>
-					<p class="pl-2.5">{{ post.numberOfDislikes }} dislikes</p>
+	<article class="w-full rounded-xl bg-background-darker p-8 shadow-md">
+		<header>
+			<router-link
+				:to="'/profile/' + profile.profileId"
+				v-if="profile"
+				class="flex text-left mb-4 rounded-full w-fit hover:bg-background-default"
+			>
+				<AvatarHelper class="h-12" :avatar="profile.avatar" :profile-id="profile.profileId" />
+				<div class="mx-4 flex flex-col justify-around">
+					<h4 class="font-semibold">{{ profile.nickname }}</h4>
+					<p class="opacity-50 text-sm">{{ post.createDate }}</p>
 				</div>
+			</router-link>
+		</header>
+		<section class="my-8">
+			<h2 class="font-semibold text-2xl capitalize mb-4">{{ post.title }}</h2>
+			<p>{{ post.content }}</p>
+		</section>
+		<footer class="flex">
+			<div id="reactButtons" class="flex bg-background-default w-fit h-fit rounded-full py-2">
+				<button class="font-semibold flex border-r-2 border-background-lightest opacity-75 hover:opacity-100">
+					<span class="material-symbols-outlined ml-2">thumb_up</span>
+					<span class="my-auto block mx-2">{{ post.numberOfLikes }}</span>
+				</button>
+				<button class="font-semibold flex opacity-75 hover:opacity-100">
+					<span class="my-auto block mx-2">{{ post.numberOfDislikes }}</span>
+					<span class="material-symbols-outlined mr-2">thumb_down</span>
+				</button>
 			</div>
-
-			<CommentsLayout v-if="commentsOpen" :comments="comments" />
-		</div>
-
-		<!-- Post aside -->
-		<aside class="flex flex-col justify-between h-16 px-5 pt-2 text-gray-400">
-			<!-- Edit and delete buttons (shown within profile view) -->
-			<button v-if="isOwner" class="w-[50px] hover:text-white">Edit</button>
-			<button v-if="isOwner" class="w-[50px] text-red-500 hover:text-red-700">Delete</button>
-
-			<!-- Like buttons (disabled if viewer owns the post or is not logged in) -->
-			<button v-if="!isOwner" class="w-[50px] hover:text-white" @click="like">
-				<span class="material-symbols-outlined">thumb_up</span>
+			<button @click="handleCommentsButton" class="mx-4 font-semibold border-2 rounded-xl border-background-default">
+				<span v-if="!commentsOpen" class="px-4 opacity-75 hover:opacity-100"
+					>Show {{ post.numberOfComments }} Comments</span
+				>
+				<span v-if="commentsOpen" class="px-4 opacity-75 hover:opacity-100">Hide Comments</span>
 			</button>
-			<button v-if="!isOwner" class="w-[50px] hover:text-white" @click="dislike">
-				<span class="material-symbols-outlined">thumb_down</span>
-			</button>
-		</aside>
-	</div>
+		</footer>
+		<hr v-if="commentsOpen" class="mt-8 mb-4 border-[1px] border-background-lighter" />
+		<section v-if="commentsOpen">
+			<h4 class="font-semibold mb-4">{{ post.numberOfComments }} Comments</h4>
+			<CommentsLayout :comments="comments" />
+		</section>
+	</article>
+	<!-- <CommentsLayout /> -->
 </template>
 
 <script>
@@ -89,9 +73,13 @@ export default {
 	},
 
 	methods: {
-		handleCommentsOpen() {
-			this.getComments()
-			this.commentsOpen = true
+		handleCommentsButton() {
+			if (this.commentsOpen) {
+				this.commentsOpen = false
+			} else {
+				this.getComments()
+				this.commentsOpen = true
+			}
 		},
 
 		getProfile() {

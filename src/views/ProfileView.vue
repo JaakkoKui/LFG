@@ -1,22 +1,42 @@
 ﻿<template>
-	<!-- Profile header -->
-	<ProfileInfoComponent v-if="profile" :profile="profile" />
+	<div class="bg-background-default mb-8 p-2">
+		<!-- Profile header -->
+		<ProfileInfoComponent v-if="profile && tab === 1" :profile="profile" />
 
-	<!-- Games container -->
-	<GamesLayout v-if="games" :games="games" :profile-id="profile.profileId" />
+		<!-- Posts header -->
+		<header
+			v-if="tab === 2"
+			class="bg-gradient-to-r from-primaryVariant via-primary to-pink-600 py-16 rounded-xl text-center text-text-white"
+		>
+			<div>
+				<h1 class="text-5xl font-semibold">Your Posts</h1>
+				<p class="font-semibold text-sm mt-2 italic">All the posts you have published.</p>
+			</div>
+		</header>
 
-	<!-- Posts container -->
-	<div class="flex font-bold ml-10 my-5 border-b-4 border-gray-300 text-3xl w-[calc(100%-100px)]">
-		<h1 class="bg-darkBackground pr-5 -mb-4 w-fit">Posts</h1>
-		<div class="bg-darkBackground text-base px-5 -mb-5 -mr-10 w-fit ml-auto">
-			<ButtonHelper name="new post" />
+		<header
+			v-if="tab === 3"
+			class="bg-gradient-to-r from-teal-500 via-blue-600 to-sky-500 py-16 rounded-xl text-center text-text-white"
+		>
+			<div>
+				<h1 class="text-5xl font-semibold">Your Comments</h1>
+				<p class="font-semibold text-sm mt-2 italic">All your comments.</p>
+			</div>
+		</header>
+
+		<div class="h-16 flex w-fit mx-auto">
+			<button @click="tab = 1" class="px-4 h-full opacity-75 hover:opacity-100">Games</button>
+			<button @click="tab = 2" class="px-4 h-full opacity-75 hover:opacity-100">Posts</button>
+			<button @click="tab = 3" class="px-4 h-full opacity-75 hover:opacity-100">Comments</button>
 		</div>
+
+		<!-- Games container -->
+		<GamesLayout v-if="games && tab === 1" :games="games" :profile-id="profile.profileId" />
+
+		<!-- New Post -->
+		<!-- Posts -->
+		<PostsLayout v-if="posts && tab === 2" :posts="posts" />
 	</div>
-
-	<!-- New Post -->
-
-	<!-- Posts -->
-	<PostsLayout :posts="posts" />
 </template>
 
 <script>
@@ -40,6 +60,8 @@ export default {
 			profile: {},
 			games: [],
 			posts: [],
+
+			tab: 1,
 		}
 	},
 
