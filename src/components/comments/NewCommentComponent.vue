@@ -16,7 +16,7 @@
 			<transition>
 				<div v-if="active" class="w-fit ml-auto mt-2">
 					<CancelButtonHelper @click="handleCancel" />
-					<ButtonHelper :disabled="!ready" name="comment" />
+					<ButtonHelper @click="postComment" :disabled="!ready" name="comment" />
 				</div>
 			</transition>
 		</div>
@@ -35,6 +35,10 @@ export default {
 		CancelButtonHelper,
 		AvatarHelper,
 		ButtonHelper,
+	},
+
+	props: {
+		postId: String,
 	},
 
 	data() {
@@ -62,6 +66,27 @@ export default {
 
 		showButtons() {
 			this.active = true
+		},
+
+		postComment() {
+			if (this.ready && this.postId) {
+				const commentDto = {
+					content: this.text,
+					postId: this.postId,
+				}
+
+				axios
+					.post('https://localhost:5001/api/Comment', commentDto)
+					.then(() => {
+						this.handleCancel()
+						this.$emit('newComment')
+					})
+					.catch((error) => {
+						console.log(error)
+					})
+			} else {
+				console.error('Failed to send comment')
+			}
 		},
 
 		getMe() {

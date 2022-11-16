@@ -44,7 +44,6 @@ import axios from 'axios'
 import ProfileInfoComponent from '@/components/profile/ProfileInfoComponent.vue'
 import GamesLayout from '@/layouts/GamesLayout.vue'
 import PostsLayout from '@/layouts/PostsLayout.vue'
-import ButtonHelper from '@/helpers/ButtonHelper.vue'
 
 export default {
 	name: 'ProfileView',
@@ -52,7 +51,6 @@ export default {
 		PostsLayout,
 		GamesLayout,
 		ProfileInfoComponent,
-		ButtonHelper,
 	},
 
 	data() {

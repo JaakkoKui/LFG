@@ -1,6 +1,6 @@
 <template>
 	<header
-		class="bg-gradient-to-r from-blue-400 via-violet-800 to-fuchsia-800 m-2 rounded-xl py-16 text-center text-text-white"
+		class="bg-gradient-to-r from-blue-400 to-fuchsia-800 sm:via-violet-800 sm:to-fuchsia-800 m-2 rounded-xl py-16 text-center text-text-white"
 	>
 		<h1 class="text-6xl font-semibold">About Us</h1>
 		<p class="font-semibold text-sm mt-2 italic">The social platform for gamers!</p>

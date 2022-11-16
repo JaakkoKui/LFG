@@ -5,7 +5,7 @@
 		<h1 class="text-6xl font-semibold">Posts</h1>
 		<p class="font-semibold text-sm mt-2 italic">Cool posts from all users!</p>
 	</header>
-	<div class="flex flex-row my-4">
+	<div class="flex flex-row my-8">
 		<section class="flex-1">
 			<PostsLayout :posts="posts" />
 		</section>

@@ -12,8 +12,16 @@
 		</div>
 
 		<div class="absolute right-0 h-[65px] flex">
-			<a v-if="!profile" href="https://localhost:5001/Auth/Login">
-				<button class="h-full px-4 h-full hover:text-text-white">Login</button>
+			<a
+				v-if="!profile"
+				href="https://localhost:5001/Auth/Login"
+				class="px-4 bg-sky-600 w-[68px] text-text-white rounded-l-xl hover:bg-sky-800 transition duration-200 ease-out"
+			>
+				<button
+					class="material-symbols-outlined w-full h-full font-bold hover:scale-125 transition duration-300 ease-out"
+				>
+					login
+				</button>
 			</a>
 
 			<RouterLink
@@ -25,13 +33,21 @@
 				<span class="text-regular my-auto ml-2">{{ profile.nickname }}</span>
 			</RouterLink>
 
-			<a href="https://localhost:5001/Auth/Logout">
-				<button v-if="profile" class="px-4 bg-red-600 h-full text-text-white hover:bg-red-400">Logout</button>
+			<a
+				v-if="profile"
+				href="https://localhost:5001/Auth/Logout"
+				class="px-4 bg-red-500 w-[68px] text-text-white rounded-l-xl hover:bg-red-600 transition duration-200 ease-out"
+			>
+				<button
+					class="material-symbols-outlined w-full h-full font-bold hover:scale-125 transition duration-300 ease-out"
+				>
+					logout
+				</button>
 			</a>
 		</div>
 	</nav>
 
-	<div class="text-gray-300">
+	<div class="text-text-default">
 		<RouterView />
 	</div>
 </template>

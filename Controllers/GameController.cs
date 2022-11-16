@@ -98,7 +98,7 @@ public class GameController : ControllerBase
 	public JsonResult Post(GameDto game)
 	{
 		const string query =
-			@"INSERT INTO Game (gameName, nicknameInGame, hoursPlayed, 'rank', 'server', comments, profileId) VALUES (@gameName, @nicknameInGame, @hoursPlayed, @rank, @server, @comments, @profileId);";
+			@"INSERT INTO Game (gameId, gameName, nicknameInGame, hoursPlayed, 'rank', 'server', comments, profileId) VALUES (NULL, @gameName, @nicknameInGame, @hoursPlayed, @rank, @server, @comments, @profileId);";
 
 		var table = new DataTable();
 		var sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");

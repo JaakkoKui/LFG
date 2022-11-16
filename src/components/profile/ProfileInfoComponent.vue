@@ -14,12 +14,15 @@
 					<!-- Nickname -->
 					<h1 class="text-2xl font-semibold">{{ profile.nickname }}</h1>
 					<!-- Full name -->
-					<p class="opacity-70 text-xs sm:text-sm font-semibold h-fit my-auto sm:ml-2">
+					<p
+						v-if="profile.firstName || profile.lastName"
+						class="opacity-70 text-xs sm:text-sm font-semibold h-fit my-auto sm:ml-2"
+					>
 						({{ profile.firstName }} {{ profile.lastName }})
 					</p>
 				</div>
 				<!-- Age -->
-				<p class="text-xs sm:text-sm font-semibold opacity-70">Age: {{ profile.age }}</p>
+				<p v-if="profile.age" class="text-xs sm:text-sm font-semibold opacity-70">Age: {{ profile.age }}</p>
 
 				<!-- Discord -->
 				<div class="flex mt-2 w-fit mx-auto sm:mx-0">

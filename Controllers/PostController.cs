@@ -143,7 +143,7 @@ public class PostController : ControllerBase
 	public JsonResult Post(PostDto post)
 	{
 		const string query =
-			@"INSERT INTO Post (title, content, profileId, photoFileName, numberOfLikes, numberOfDislikes, numberOfComments) VALUES (@title, @content, @profileId, @photoFileName, @numberOfLikes, @numberOfDislikes, @numberOfComments);";
+			@"INSERT INTO Post (postId, title, content, profileId, photoFileName, numberOfLikes, numberOfDislikes, numberOfComments) VALUES (NULL, @title, @content, @profileId, @photoFileName, @numberOfLikes, @numberOfDislikes, @numberOfComments);";
 
 		var table = new DataTable();
 		var sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");

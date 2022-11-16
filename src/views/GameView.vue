@@ -1,22 +1,27 @@
 ﻿<template>
-	<div class="justify-center sm:p-2.5 md:p-5 lg:p-10 2xl:p-20">
-		<div v-if="!notFound" class="w-full 2xl:mx-auto 2xl:w-5/6 bg-lightBackground rounded-lg md:flex relative">
-			<GameImageComponent />
-			<!-- View game -->
-			<GameContentComponent v-if="game && !isNew" :game="game" />
-			<!-- New game -->
-			<NewGameContentComponent v-if="isNew" />
-		</div>
-		<div v-else>
-			<div class="text-white w-full text-center mt-5 md:mt-0 px-5">
-				<h1 class="font-bold text-7xl md:text-9xl">Oops!</h1>
-				<h2 class="mt-10 font-bold text-xl">The game you were looking for could not be found!</h2>
+	<div v-if="!notFound" class="p-2 sm:p-4 lg:p-8 max-h-[calc(100vh-65px)] flex justify-center">
+		<div class="md:flex h-fit md:h-full min-h-full gap-x-2">
+			<div class="w-fit h-fit border border-background-darker max-w-1/2 bg-background-darker rounded-xl">
+				<GameImageComponent />
+			</div>
+			<div class="flex flex-col bg-background-darker rounded-xl my-2 md:mb-0 md:mt-0 sm:min-w-[300px] lg:min-w-[500px]">
+				<!-- View game -->
+				<GameContentComponent v-if="game && !isNew" :game="game" />
+				<!-- <NewGameContentComponent v-if="isNew" /> -->
 
-				<img
-					class="object-contain 2/3 md:w-1/2 2xl:w-[700px] mx-auto mt-24"
-					src="@/assets/images/ExceptionGraphics/404.svg"
-					alt="404"
-				/>
+				<div class="w-full p-2 mt-auto">
+					<button
+						class="w-full relative flex justify-center py-16 rounded-xl text-2xl font-semibold transition duration-300 ease-out text-text-white overflow-clip"
+					>
+						<img
+							class="absolute -top-[10%] transition duration-500 ease-out hover:scale-125 z-0 rounded-xl"
+							src="@/assets/images/game.jpeg"
+							alt="communit-background"
+						/>
+						<span class="z-10 pointer-events-none">Go to the Community</span>
+						<span class="material-symbols-outlined font-bold ml-2 mt-1.5 z-10 pointer-events-none">arrow_forward</span>
+					</button>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -24,16 +29,14 @@
 
 <script>
 import axios from 'axios'
-import GameImageComponent from '@/components/Game/GameImageComponent.vue'
-import GameContentComponent from '@/components/Game/GameContentComponent.vue'
-import NewGameContentComponent from '@/components/Game/NewGameContentComponent.vue'
+import GameImageComponent from '@/components/game/GameImageComponent.vue'
+import GameContentComponent from '@/components/game/GameContentComponent.vue'
 
 export default {
 	name: 'GameView',
 	components: {
 		GameContentComponent,
 		GameImageComponent,
-		NewGameContentComponent,
 	},
 
 	data() {
