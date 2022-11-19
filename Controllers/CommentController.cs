@@ -46,7 +46,7 @@ public class CommentController : ControllerBase
 				content = await reader.GetFieldValueAsync<string>(1),
 				date = DateTime.Parse(await reader.GetFieldValueAsync<string>(2)),
 				profileId = await reader.GetFieldValueAsync<string>(3),
-				postId = await reader.GetFieldValueAsync<int>(4)
+				postId = await reader.GetFieldValueAsync<Guid>(4)
 			});
 
 		await reader.CloseAsync();
@@ -79,7 +79,7 @@ public class CommentController : ControllerBase
 				content = await reader.GetFieldValueAsync<string>(1),
 				date = DateTime.Parse(await reader.GetFieldValueAsync<string>(2)),
 				profileId = await reader.GetFieldValueAsync<string>(3),
-				postId = await reader.GetFieldValueAsync<int>(4)
+				postId = await reader.GetFieldValueAsync<Guid>(4)
 			});
 
 		await reader.CloseAsync();
@@ -93,7 +93,7 @@ public class CommentController : ControllerBase
 	public JsonResult Post(CommentDto comment)
 	{
 		const string query =
-			@"INSERT INTO Comment (content, profileId, postId) VALUES (@content, @profileId, @postId);";
+			@"INSERT INTO Comment (commentId, content, profileId, postId) VALUES (NULL, @content, @profileId, @postId);";
 
 		var table = new DataTable();
 		var sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
@@ -107,7 +107,7 @@ public class CommentController : ControllerBase
 				myCommand.Parameters.AddWithValue("@postId", comment.postId);
 
 				var profileId = HttpContext.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
-				myCommand.Parameters.AddWithValue("@commentingProfile", profileId);
+				myCommand.Parameters.AddWithValue("@profileId", profileId);
 
 				myReader = myCommand.ExecuteReader();
 				table.Load(myReader);

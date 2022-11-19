@@ -1,62 +1,70 @@
 ﻿<template>
-	<div class="flex w-full py-5">
-		<!-- Poster Avatar -->
-		<div class="mx-5 w-[50px]">
-			<AvatarHelper :avatar="profile.avatar" :profile-id="profile.profileId" />
-		</div>
-
-		<!-- Post body -->
-		<div class="w-[calc(100%-200px)]">
-			<!-- Post header -->
-			<div v-if="profile" class="flex h-[50px]">
-				<router-link :to="'/profile/' + profile.profileId" class="text-md font-bold hover:text-white">
-					{{ profile.nickname }}
+	<div class="md:flex">
+		<article class="w-full rounded-xl bg-background-darker p-8 shadow-m">
+			<!-- Post profile header -->
+			<header>
+				<router-link
+					:to="'/profile/' + profile.profileId"
+					v-if="profile"
+					class="flex text-left mb-4 rounded-full w-fit hover:bg-background-default transition duration-150 ease-out"
+				>
+					<AvatarHelper class="h-12" :avatar="profile.avatar" :profile-id="profile.profileId" />
+					<div class="mx-4 flex flex-col justify-around">
+						<h4 class="font-semibold">{{ profile.nickname }}</h4>
+						<p class="opacity-50 text-sm">{{ post.createDate }}</p>
+					</div>
 				</router-link>
-				<h4 class="text-sm italic font-semibold text-gray-400 pt-0.5 ml-3">
-					{{ post.createDate }}
-				</h4>
-			</div>
-
-			<!-- Post content -->
-			<div class="mb-5">
-				<h1 class="break-words text-xl font-bold mb-2">{{ post.title }}</h1>
+			</header>
+			<!-- Post body -->
+			<section class="my-8">
+				<h2 class="font-semibold text-2xl capitalize mb-4">{{ post.title }}</h2>
 				<p>{{ post.content }}</p>
-			</div>
-
-			<!-- Post footter -->
-			<div>
-				<button v-if="!commentsOpen" class="font-semibold text-gray-400 mb-1.5" @click="handleCommentsOpen">
-					<p v-if="post.numberOfComments > 0">Show {{ post.numberOfComments }} Comments</p>
-					<p v-else>Be First To Comment</p>
-				</button>
-
-				<button v-if="commentsOpen" class="font-semibold text-gray-400 mb-1.5" @click="commentsOpen = false">
-					Hide Comments
-				</button>
-
-				<div class="flex mt-auto text-gray-400">
-					<p class="border-r pr-2.5 border-gray-400">{{ post.numberOfComments }} likes</p>
-					<p class="pl-2.5">{{ post.numberOfDislikes }} dislikes</p>
+			</section>
+			<!-- Post footer -->
+			<footer class="flex flex-row-reverse sm:flex-row">
+				<div id="reactButtons" class="flex bg-background-default w-fit h-fit rounded-full py-2">
+					<button class="font-semibold flex border-r-2 border-background-lightest opacity-75 hover:opacity-100">
+						<span class="material-symbols-outlined ml-2">thumb_up</span>
+						<span class="my-auto block mx-2">{{ post.numberOfLikes }}</span>
+					</button>
+					<button class="font-semibold flex opacity-75 hover:opacity-100">
+						<span class="my-auto block mx-2">{{ post.numberOfDislikes }}</span>
+						<span class="material-symbols-outlined mr-2">thumb_down</span>
+					</button>
 				</div>
-			</div>
+				<button
+					@click="handleCommentsButton"
+					class="py-1 sm:py-0 mr-auto text-sm sm:text-base sm:mx-4 font-semibold border-2 rounded-xl border-background-default"
+				>
+					<span v-if="!commentsOpen" class="px-4 opacity-75 hover:opacity-100"
+						>Show {{ post.numberOfComments }} Comments</span
+					>
+					<span v-if="commentsOpen" class="px-4 opacity-75 hover:opacity-100">Hide Comments</span>
+				</button>
+			</footer>
+			<hr v-if="commentsOpen" class="mt-8 mb-4 border-[1px] border-background-lighter" />
+			<!-- Post comments -->
+			<section v-if="commentsOpen">
+				<h4 class="font-semibold mb-4">{{ post.numberOfComments }} Comments</h4>
+				<CommentsLayout @newComment="getComments" :post-id="post.postId" :comments="comments" />
+			</section>
+		</article>
 
-			<CommentsLayout v-if="commentsOpen" :comments="comments" />
+		<div
+			v-if="isOwner"
+			class="shadow-lg rounded-xl bg-background-darker mt-2 md:mt-0 md:ml-2 flex md:flex-col gap-2 p-4"
+		>
+			<button
+				class="p-2 md:p-4 w-fit rounded-xl bg-red-500 material-symbols-outlined transition hover:scale-110 hover:bg-red-600 duration-200 ease-out"
+			>
+				delete
+			</button>
+			<button
+				class="p-2 md:p-4 w-fit rounded-xl bg-sky-700 material-symbols-outlined transition hover:scale-110 hover:bg-sky-800 duration-200 ease-out"
+			>
+				edit
+			</button>
 		</div>
-
-		<!-- Post aside -->
-		<aside class="flex flex-col justify-between h-16 px-5 pt-2 text-gray-400">
-			<!-- Edit and delete buttons (shown within profile view) -->
-			<button v-if="isOwner" class="w-[50px] hover:text-white">Edit</button>
-			<button v-if="isOwner" class="w-[50px] text-red-500 hover:text-red-700">Delete</button>
-
-			<!-- Like buttons (disabled if viewer owns the post or is not logged in) -->
-			<button v-if="!isOwner" class="w-[50px] hover:text-white" @click="like">
-				<span class="material-symbols-outlined">thumb_up</span>
-			</button>
-			<button v-if="!isOwner" class="w-[50px] hover:text-white" @click="dislike">
-				<span class="material-symbols-outlined">thumb_down</span>
-			</button>
-		</aside>
 	</div>
 </template>
 
@@ -89,26 +97,66 @@ export default {
 	},
 
 	methods: {
-		handleCommentsOpen() {
-			this.getComments()
-			this.commentsOpen = true
+		handleCommentsButton() {
+			if (this.commentsOpen) {
+				this.commentsOpen = false
+			} else {
+				this.getComments()
+				this.commentsOpen = true
+			}
 		},
 
 		getProfile() {
-			axios.get('https://localhost:5001/api/Profile/' + this.post.profileId).then((response) => {
-				this.profile = response.data
-			})
+			axios
+				.get('https://localhost:5001/api/Profile/' + this.post.profileId)
+				.then((response) => {
+					this.profile = response.data
+				})
+				.catch((error) => {
+					console.log(error)
+				})
 		},
 
 		getComments() {
-			axios.get('https://localhost:5001/api/Comment/GetByPostId/' + this.post.postId).then((response) => {
-				this.comments = response.data
-			})
+			axios
+				.get('https://localhost:5001/api/Comment/GetByPostId/' + this.post.postId)
+				.then((response) => {
+					this.comments = response.data
+				})
+				.catch((error) => {
+					console.log(error)
+				})
+		},
+
+		//Demo!!!!
+		checkOwnerShip() {
+			axios
+				.get('https://localhost:5001/api/Profile/@me')
+				.then((response) => {
+					this.isOwner = this.profile.profileId === response.data.profileId
+				})
+				.catch((error) => {
+					console.log(error)
+				})
+		},
+
+		delete() {
+			console.log('delete')
+		},
+
+		edit() {
+			console.log('edit')
 		},
 	},
 
 	mounted() {
 		this.getProfile()
+	},
+
+	watch: {
+		profile() {
+			this.checkOwnerShip()
+		},
 	},
 }
 </script>

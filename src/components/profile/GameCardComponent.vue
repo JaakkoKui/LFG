@@ -1,24 +1,21 @@
 ﻿<template>
-	<div
-		class="ring-4 rounded-lg ring-darkBackground flex flex-col h-96 w-60 mx-2 relative text-white bg-darkBackground transition ease-in-out hover:scale-105 duration-200 hover:bg-primary"
+	<router-link
+		:to="'/profile/' + profileId + '/game/' + game.gameId"
+		class="rounded-xl aspect-[1.4142] w-full sm:min-w-[200px] sm:max-w-[300px] border-x-4 border-t-4 border-background-default bg-background-default hover:scale-105 transition duration-200 ease-out"
 	>
-		<router-link :to="'/profile/' + profileId + '/games/' + game.gameName">
-			<!-- Game card image -->
-			<img :alt="game.gameName" class="object-contain rounded-t-lg" src="@/assets/images/DemoCovers/Foxhole.png" />
+		<!-- Game card image -->
+		<img :alt="game.gameName" class="object-contain rounded-xl w-full" src="@/assets/images/DemoCovers/Hades.png" />
 
-			<!-- Game card info-body -->
-			<div
-				class="pb-2 h-[140px] w-full absolute bottom-0 bg-gradient-to-t from-darkBackground via-darkBackground rounded-b-lg"
-			>
-				<div class="mt-auto absolute bottom-0 w-[90%] mx-[5%] mb-2">
-					<h1 class="text-xl font-semibold border-b pb-1 text-center">
-						{{ game.gameName }}
-					</h1>
-					<h2 class="text-lg italic font-semibold text-center">{{ game.hoursPlayed }} Hours</h2>
-				</div>
-			</div>
-		</router-link>
-	</div>
+		<!-- Game card info-body -->
+		<div class="mx-8 my-4 flex">
+			<h1 class="text-lg font-semibold text-center">
+				{{ game.gameName }}
+			</h1>
+			<h2 class="italic font-semibold text-center opacity-75 block h-fit my-auto ml-auto">
+				{{ game.hoursPlayed }} Hours
+			</h2>
+		</div>
+	</router-link>
 </template>
 
 <script>

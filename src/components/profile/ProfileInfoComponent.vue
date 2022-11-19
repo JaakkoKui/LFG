@@ -1,36 +1,39 @@
 ﻿<template>
-	<div v-if="profile" class="w-full flex p-10">
-		<div class="w-[100px] h-[100px] mr-5">
-			<AvatarHelper :avatar="profile.avatar" :profile-id="profile.profileId" />
-		</div>
-		<div class="flex justify-between w-full">
-			<div>
-				<div class="flex">
-					<h1 class="text-3xl font-bold h-fit">{{ profile.nickname }}</h1>
-					<h4
+	<section
+		v-if="profile"
+		class="flex sm:justify-between px-8 sm:px-8 py-4 sm:py-16 bg-background-darker rounded-xl h-[204px] relative"
+	>
+		<div class="flex flex-col sm:flex-row w-fit mx-auto sm:m-0 sm:w-full text-center sm:text-left">
+			<AvatarHelper
+				class="max-w-[76px] max-h-[76px] w-[76px] mx-auto sm:m-0"
+				:avatar="profile.avatar"
+				:profile-id="profile.profileId"
+			/>
+			<div class="sm:mx-4 my-2 sm:my-0">
+				<div class="sm:flex">
+					<!-- Nickname -->
+					<h1 class="text-2xl font-semibold">{{ profile.nickname }}</h1>
+					<!-- Full name -->
+					<p
 						v-if="profile.firstName || profile.lastName"
-						class="text-md capitalize font-semibold italic ml-2 h-fit my-auto"
+						class="opacity-70 text-xs sm:text-sm font-semibold h-fit my-auto sm:ml-2"
 					>
-						( {{ profile.firstName }} {{ profile.lastName }} )
-					</h4>
+						({{ profile.firstName }} {{ profile.lastName }})
+					</p>
 				</div>
-				<p v-if="profile.age">Age: {{ profile.age }}</p>
-			</div>
-			<div class="font-semibold flex flex-col justify-around">
-				<p class="w-fit ml-auto mb-auto">Join date: {{ profile.joiningDate }}</p>
-				<RouterLink
-					v-if="isProfileOwner"
-					:to="'/profile/edit/' + profile.nickname"
-					class="uppercase font-semibold w-fit ml-auto text-gray-400"
-					>Edit
-				</RouterLink>
-				<div v-if="profile.discordNick" class="flex w-fit ml-auto mt-auto">
-					<img alt="discord" class="h-[15px] object-contain my-auto mr-1.5" src="@/assets/images/discord-icon.png" />
-					<p>{{ profile.discordNick }}</p>
+				<!-- Age -->
+				<p v-if="profile.age" class="text-xs sm:text-sm font-semibold opacity-70">Age: {{ profile.age }}</p>
+
+				<!-- Discord -->
+				<div class="flex mt-2 w-fit mx-auto sm:mx-0">
+					<img class="object-contain w-4 mr-2" src="@/assets/images/discord-icon.png" alt="Discord" />
+					<h4 class="text-sm font-semibold">{{ profile.discordName }}</h4>
 				</div>
 			</div>
 		</div>
-	</div>
+
+		<p class="text-sm absolute mr-4 left-0 w-20 sm:static font-semibold opacity-70">{{ profile.joiningDate }}</p>
+	</section>
 </template>
 
 <script>

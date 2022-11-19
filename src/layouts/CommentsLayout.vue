@@ -1,8 +1,10 @@
 ﻿<template>
-	<NewCommentComponent />
-	<div v-for="(comment, key) in comments" :key="key">
-		<CommentComponent :comment="comment" :profile-id="comment.profileId" />
-	</div>
+	<section class="mx-4 sm:mx-8 lg:mr-0 lg:w-1/2">
+		<NewCommentComponent @newComment="this.$emit('newComment')" :post-id="postId" />
+		<div v-for="(comment, key) in comments" :key="key" class="flex flex-col gap-y-8 mt-4">
+			<CommentComponent :comment="comment" :profile-id="comment.profileId" />
+		</div>
+	</section>
 </template>
 
 <script>
@@ -19,6 +21,7 @@ export default {
 
 	props: {
 		comments: Array,
+		postId: String,
 	},
 }
 </script>

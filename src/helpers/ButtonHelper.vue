@@ -1,8 +1,7 @@
 ﻿<template>
 	<button
 		:id="name + '-button'"
-		class="rounded-full bg-primary py-2 px-5 w-fit text-white uppercase font-semibold subpixel-antialiased font-sm hover:drop-shadow-xl disabled:hover:drop-shadow-none disabled:text-gray-400 hover:bg-primaryDark transition duration-200"
-		@click="$emit('buttonClick')"
+		class="rounded-full bg-primary py-2 px-4 w-fit text-text-white capitalize font-semibold disabled:text-text-darker disabled:bg-background-lighter hover:bg-primaryVariant transition ease-out duration-200"
 	>
 		{{ name }}
 	</button>

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using LFG.Model;
+using LFG.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -43,12 +44,12 @@ public class GameController : ControllerBase
 			{
 				gameId = await reader.GetFieldValueAsync<Guid>(0),
 				gameName = await reader.GetFieldValueAsync<string>(1),
-				nicknameInGame = await reader.GetFieldValueAsync<string?>(2),
-				hoursPlayed = await reader.GetFieldValueAsync<int?>(3),
-				rank = await reader.GetFieldValueAsync<string?>(4),
-				server = await reader.GetFieldValueAsync<string?>(5),
-				comments = await reader.GetFieldValueAsync<string?>(6),
-				profileId = await reader.GetFieldValueAsync<string>(7)
+				nicknameInGame = await reader.GetFieldValueOrNullAsync<string>(2),
+				hoursPlayed = await reader.GetFieldValueOrNullAsync<int>(3),
+				rank = await reader.GetFieldValueOrNullAsync<string>(4),
+				server = await reader.GetFieldValueOrNullAsync<string>(5),
+				comments = await reader.GetFieldValueOrNullAsync<string>(6),
+				profileId = await reader.GetFieldValueOrNullAsync<string>(7)
 			});
 
 		await reader.CloseAsync();
@@ -58,7 +59,7 @@ public class GameController : ControllerBase
 	}
 
 	[HttpGet("{id}")]
-	public async Task<Game> Get(int id)
+	public async Task<Game> Get(string id)
 	{
 		const string query = @"SELECT * FROM Game WHERE gameId=@gameId";
 
@@ -78,12 +79,12 @@ public class GameController : ControllerBase
 			{
 				gameId = await reader.GetFieldValueAsync<Guid>(0),
 				gameName = await reader.GetFieldValueAsync<string>(1),
-				nicknameInGame = await reader.GetFieldValueAsync<string?>(2),
-				hoursPlayed = await reader.GetFieldValueAsync<int?>(3),
-				rank = await reader.GetFieldValueAsync<string?>(4),
-				server = await reader.GetFieldValueAsync<string?>(5),
-				comments = await reader.GetFieldValueAsync<string?>(6),
-				profileId = await reader.GetFieldValueAsync<string>(7)
+				nicknameInGame = await reader.GetFieldValueOrNullAsync<string>(2),
+				hoursPlayed = await reader.GetFieldValueOrNullAsync<int>(3),
+				rank = await reader.GetFieldValueOrNullAsync<string>(4),
+				server = await reader.GetFieldValueOrNullAsync<string>(5),
+				comments = await reader.GetFieldValueOrNullAsync<string>(6),
+				profileId = await reader.GetFieldValueOrNullAsync<string>(7)
 			});
 
 		await reader.CloseAsync();
@@ -97,7 +98,7 @@ public class GameController : ControllerBase
 	public JsonResult Post(GameDto game)
 	{
 		const string query =
-			@"INSERT INTO Game (gameName, nicknameInGame, hoursPlayed, 'rank', 'server', comments, profileId) VALUES (@gameName, @nicknameInGame, @hoursPlayed, @rank, @server, @comments, @profileId);";
+			@"INSERT INTO Game (gameId, gameName, nicknameInGame, hoursPlayed, 'rank', 'server', comments, profileId) VALUES (NULL, @gameName, @nicknameInGame, @hoursPlayed, @rank, @server, @comments, @profileId);";
 
 		var table = new DataTable();
 		var sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");

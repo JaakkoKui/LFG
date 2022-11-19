@@ -5,11 +5,31 @@ module.exports = {
 	theme: {
 		extend: {
 			colors: {
-				darkBackground: '#1a2837',
-				lightBackground: '#223548',
-				primary: '#522bc2',
-				primaryDark: '#4926AE',
+				background: {
+					darker: '#1f1f1f',
+					default: '#2c2c2c',
+					lighter: '#464646',
+					lightest: '#606060'
+				},
+				text: {
+					darker: '#78716c',
+					default: '#d6d3d1',
+					lighter: '#e7e5e4',
+					white: '#FFFFFF'
+				},
+
+				primary: '#86198f',
+				primaryVariant: '#55105B',
 			},
+			animation: {
+				'wiggle': 'wiggle 1s ease-in-out infinite',
+			},
+			keyframes: {
+				wiggle: {
+					'0%, 100%': { transform: 'rotate(0deg)' },
+					'50%': { transform: 'rotate(1deg)' },
+				}
+			}
 		},
 	},
 	plugins: [],
