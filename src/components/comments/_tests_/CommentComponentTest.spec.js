@@ -55,8 +55,6 @@ describe('Tests for the Comment Component', () => {
     expect(axios.get).toBeCalledWith(expect.stringMatching(/Jepsu/))
 
     expect(wrapper.vm.profileId).toMatch('Jepsu')
-    expect(wrapper.find('#comment').exists()).toBeTruthy();
-
 
     const h4 = wrapper.find('#nickname')
     expect(h4.text()).toMatch('Xermos')
@@ -78,7 +76,7 @@ describe('Tests for the Comment Component', () => {
   it('Check if date showed right', async () => {
 
     wrapper.setData({ profile: { nickname: "Xermos", id: "Jepsu" } })
-    
+
     await flushPromises()
 
     expect(axios.get).toHaveBeenCalledTimes(1)

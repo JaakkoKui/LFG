@@ -39,7 +39,8 @@ describe('Tests for the New Comment Component', () => {
             stubs: {
                 // Stub out the transition:
                 transition: transitionStub()
-            }
+            },
+            attachTo: document.body
         })
 
 
@@ -69,11 +70,9 @@ describe('Tests for the New Comment Component', () => {
         expect(textArea.attributes().maxlength).toBe('250')
         expect(textArea.attributes().placeholder).toMatch('Comment')
 
+
         await textArea.setValue('Testing testing')
-
         expect(textArea.element.value).toMatch('Testing testing')
-        expect(wrapper.vm.active).toBeTruthy()
-
     })
 
     it('Buttons show when textarea is active', async () => {
@@ -91,7 +90,7 @@ describe('Tests for the New Comment Component', () => {
         expect(axios.get).toBeCalledWith(expect.stringMatching(/me/))
 
         const textArea = wrapper.find('#newComment')
-
+        await textArea.trigger('focus')
         await textArea.setValue('Testing testing')
 
         expect(textArea.element.value).toMatch('Testing testing')
@@ -117,6 +116,7 @@ describe('Tests for the New Comment Component', () => {
 
         const textArea = wrapper.find('#newComment')
 
+        await textArea.trigger('focus')
         await textArea.setValue('Testing testing')
 
         expect(textArea.element.value).toMatch('Testing testing')

@@ -2,7 +2,6 @@ import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { flushPromises, mount } from '@vue/test-utils'
 import axios from 'axios'
 import PostComponent from 'src/components/posts/PostComponent.vue'
-import exp from 'constants';
 
 vi.mock("axios", () => {
     return {
@@ -83,15 +82,15 @@ describe('Tests for the Post Component', () => {
 
         await flushPromises()
 
-        expect(axios.get).toHaveBeenCalledTimes(1)
+        expect(axios.get).toHaveBeenCalledTimes(3)
         expect(axios.get).toBeCalledWith(expect.stringMatching(/Jepsu/))
 
         expect(wrapper.vm.profile.avatar).toMatch('avatar')
 
         expect(wrapper.vm.commentsOpen).toBeFalsy()
 
-        const beFirst = wrapper.find('#beFirst')
-        expect(beFirst.text()).toMatch("Be First To Comment")
+        const beFirst = wrapper.find('#comments')
+        expect(beFirst.text()).toMatch("Show 0 Comments")
     })
 
     it('Posters nickname and post date shows', async () => {
@@ -99,13 +98,13 @@ describe('Tests for the Post Component', () => {
 
         await flushPromises()
 
-        expect(axios.get).toHaveBeenCalledTimes(1)
+        expect(axios.get).toHaveBeenCalledTimes(3)
         expect(axios.get).toBeCalledWith(expect.stringMatching(/Jepsu/))
 
-        const link = wrapper.find({ ref: "profileLink" })
+        const link = wrapper.find('#nickname')
         expect(link.text()).toMatch("Xermos")
 
-        const date = wrapper.find('h4')
+        const date = wrapper.find('#date')
         expect(date.text()).toMatch('12.12.12')
     })
 
@@ -114,10 +113,10 @@ describe('Tests for the Post Component', () => {
 
         await flushPromises()
 
-        expect(axios.get).toHaveBeenCalledTimes(1)
+        expect(axios.get).toHaveBeenCalledTimes(3)
         expect(axios.get).toBeCalledWith(expect.stringMatching(/Jepsu/))
 
-        const title = wrapper.find('h1')
+        const title = wrapper.find('h2')
         expect(title.text()).toMatch('Title for testing')
 
         const content = wrapper.find('#content')
@@ -141,7 +140,7 @@ describe('Tests for the Post Component', () => {
 
         await flushPromises()
 
-        expect(axios.get).toHaveBeenCalledTimes(1)
+        expect(axios.get).toHaveBeenCalledTimes(3)
         expect(axios.get).toBeCalledWith(expect.stringMatching(/Jepsu/))
 
         expect(wrapper.vm.commentsOpen).toBeFalsy()
@@ -156,12 +155,12 @@ describe('Tests for the Post Component', () => {
 
         await flushPromises()
 
-        expect(axios.get).toHaveBeenCalledTimes(1)
+        expect(axios.get).toHaveBeenCalledTimes(3)
         expect(axios.get).toBeCalledWith(expect.stringMatching(/Jepsu/))
 
         expect(wrapper.vm.isOwner).toBeFalsy()
 
-        const aside = wrapper.find('#aside')
+        const aside = wrapper.find('#reactButtons')
         expect(aside.exists()).toBeTruthy()
 
         const likeButton = wrapper.find('#thumbUp')
@@ -184,19 +183,19 @@ describe('Tests for the Post Component', () => {
 
         await flushPromises()
 
-        expect(axios.get).toHaveBeenCalledTimes(1)
+        expect(axios.get).toHaveBeenCalledTimes(3)
         expect(axios.get).toBeCalledWith(expect.stringMatching(/Jepsu/))
 
         expect(wrapper.vm.isOwner).toBeTruthy()
 
-        const aside = wrapper.find('#aside')
+        const aside = wrapper.find('#ownerButtons')
         expect(aside.exists()).toBeTruthy()
 
         const edit = wrapper.find('#editButton')
-        expect(edit.text()).toMatch('Edit')
+        expect(edit.text()).toMatch('edit')
 
         const deleteButton = wrapper.find('#deleteButton')
-        expect(deleteButton.text()).toMatch('Delete')
+        expect(deleteButton.text()).toMatch('delete')
     })
 
     it('Show comments button works', async () => {
@@ -210,7 +209,7 @@ describe('Tests for the Post Component', () => {
 
         await flushPromises()
 
-        expect(axios.get).toHaveBeenCalledTimes(1)
+        expect(axios.get).toHaveBeenCalledTimes(3)
         expect(axios.get).toBeCalledWith(expect.stringMatching(/Jepsu/))
 
         expect(wrapper.vm.commentsOpen).toBeFalsy()
@@ -223,7 +222,7 @@ describe('Tests for the Post Component', () => {
 
         await flushPromises()
 
-        expect(axios.get).toHaveBeenCalledTimes(3)
+        expect(axios.get).toHaveBeenCalledTimes(5)
         expect(axios.get).toBeCalledWith(expect.stringMatching(/GetByPostId/))
 
         expect(wrapper.vm.commentsOpen).toBeTruthy()

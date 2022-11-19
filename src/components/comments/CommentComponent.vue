@@ -1,5 +1,5 @@
 ﻿<template>
-	<article v-if="profile" class="flex">
+	<article v-if="profile" class="flex" id="comment">
 		<div class="min-w-[35px] w-[35px] h-[35px]">
 			<AvatarHelper :avatar="profile.avatar" :profile-id="profile.profileId" />
 		</div>
@@ -9,9 +9,9 @@
 				<router-link
 					:to="'/profile/' + profile.profileId"
 					class="hover:bg-background-default rounded-full font-semibold h-fit px-2"
-					>{{ profile.nickname }}</router-link
+					id="nickname">{{ profile.nickname }}</router-link
 				>
-				<h6 class="italic text-xs mt-1 opacity-70">{{ comment.date }}</h6>
+				<h6 class="italic text-xs mt-1 opacity-70" id="date">{{ comment.date }}</h6>
 			</div>
 			<div>
 				<p class="ml-[7px]">{{ comment.content }}</p>
