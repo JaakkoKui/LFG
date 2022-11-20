@@ -93,6 +93,41 @@ public class GameController : ControllerBase
 		return games[0];
 	}
 
+	[HttpGet("ByUser/{profileId}")]
+	public async Task<List<Game>> GetByProfile(string profileId)
+	{
+		const string query = @"SELECT * FROM Game WHERE profileId=@profileId";
+
+		var sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
+
+		await using var conn = new MySqlConnection(sqlDataSource);
+		await conn.OpenAsync();
+
+		var games = new List<Game>();
+
+		await using var cmd = new MySqlCommand(query, conn);
+		cmd.Parameters.AddWithValue("@profileId", profileId);
+
+		var reader = cmd.ExecuteReader();
+		while (await reader.ReadAsync())
+			games.Add(new Game
+			{
+				gameId = await reader.GetFieldValueAsync<Guid>(0),
+				gameName = await reader.GetFieldValueAsync<string>(1),
+				nicknameInGame = await reader.GetFieldValueOrNullAsync<string>(2),
+				hoursPlayed = await reader.GetFieldValueOrNullAsync<int>(3),
+				rank = await reader.GetFieldValueOrNullAsync<string>(4),
+				server = await reader.GetFieldValueOrNullAsync<string>(5),
+				comments = await reader.GetFieldValueOrNullAsync<string>(6),
+				profileId = await reader.GetFieldValueOrNullAsync<string>(7)
+			});
+
+		await reader.CloseAsync();
+		await conn.CloseAsync();
+
+		return games;
+	}
+
 	[Authorize]
 	[HttpPost]
 	public JsonResult Post(GameDto game)

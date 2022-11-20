@@ -32,7 +32,16 @@
 			</div>
 		</div>
 
-		<p class="text-sm absolute mr-4 left-0 w-20 sm:static font-semibold opacity-70">{{ profile.joiningDate }}</p>
+		<div class="flex absolute right-0 top-0 h-full">
+			<p class="font-semibold opacity-70 mr-4 my-auto">{{ simplifiedDate }}</p>
+			<div v-if="isOwner" class="flex m-2 rounded-xl bg-background-default p-2">
+				<div class="flex flex-col justify-between">
+					<button class="p-4 bg-red-500 rounded-xl material-symbols-outlined font-bold">Delete</button>
+					<button class="p-4 bg-sky-700 rounded-xl material-symbols-outlined font-bold">Edit</button>
+					<button class="p-4 bg-primary rounded-xl material-symbols-outlined font-bold">Link</button>
+				</div>
+			</div>
+		</div>
 	</section>
 </template>
 
@@ -51,6 +60,19 @@ export default {
 		return {
 			isOwner: true,
 		}
+	},
+
+	computed: {
+		simplifiedDate() {
+			try {
+				const jDate = this.profile.joiningDate.split('T')
+				const seperatedDates = jDate[0].split('-')
+				return seperatedDates[2] + '.' + seperatedDates[1] + '.' + seperatedDates[0]
+			} catch (e) {
+				console.log(e)
+				return null
+			}
+		},
 	},
 }
 </script>

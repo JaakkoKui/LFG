@@ -31,7 +31,7 @@
 		</div>
 
 		<!-- Games container -->
-		<GamesLayout class="mb-2 mx-2" v-if="games && tab === 1" :games="games" :profile-id="profile.profileId" />
+		<GamesLayout class="mb-2 mx-2" v-if="tab === 1" :games="games" :profile-id="profile.profileId" />
 
 		<!-- New Post -->
 		<!-- Posts -->
@@ -80,7 +80,7 @@ export default {
 		getGames(id) {
 			if (id) {
 				axios
-					.get('https://localhost:5001/api/Game')
+					.get('https://localhost:5001/api/Game/ByUser/' + id)
 					.then((response) => {
 						this.games = response.data
 					})

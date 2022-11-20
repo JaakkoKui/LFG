@@ -7,7 +7,7 @@
 		<img :alt="game.gameName" class="object-contain rounded-xl w-full" src="@/assets/images/DemoCovers/Hades.png" />
 
 		<!-- Game card info-body -->
-		<div class="mx-8 my-4 flex">
+		<div class="px-8 py-4 flex">
 			<h1 class="text-lg font-semibold text-center">
 				{{ game.gameName }}
 			</h1>
