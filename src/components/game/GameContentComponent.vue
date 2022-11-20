@@ -1,6 +1,7 @@
 ﻿<template>
 	<div class="w-full mb-4">
 		<div
+			id="gameName"
 			class="text-4xl font-bold p-8 text-center bg-gradient-to-r from-purple-700 to-fuchsia-700 text-text-white rounded-xl mt-2 mx-2"
 		>
 			{{ game.gameName }}
@@ -13,16 +14,16 @@
 				<h4 class="my-auto">Server</h4>
 			</div>
 			<div class="flex flex-col gap-y-2 w-fit">
-				<span class="ml-auto px-4 py-0.5 bg-primary rounded-full text-text-lighter">{{ game.nicknameInGame }}</span>
-				<span class="ml-auto px-4 py-0.5 bg-primary rounded-full text-text-lighter">{{ game.hoursPlayed }}</span>
-				<span class="ml-auto px-4 py-0.5 bg-primary rounded-full text-text-lighter">{{ game.rank }}</span>
-				<span class="ml-auto px-4 py-0.5 bg-primary rounded-full text-text-lighter">{{ game.server }}</span>
+				<span class="ml-auto px-4 py-0.5 bg-primary rounded-full text-text-lighter" id="nickname">{{ game.nicknameInGame }}</span>
+				<span class="ml-auto px-4 py-0.5 bg-primary rounded-full text-text-lighter" id="hours">{{ game.hoursPlayed }}</span>
+				<span class="ml-auto px-4 py-0.5 bg-primary rounded-full text-text-lighter" id="rank">{{ game.rank }}</span>
+				<span class="ml-auto px-4 py-0.5 bg-primary rounded-full text-text-lighter" id="server">{{ game.server }}</span>
 			</div>
 		</div>
 
 		<div class="px-8 lg:px-16">
 			<h4 class="font-bold">Comment</h4>
-			<p>{{ game.comments }}</p>
+			<p id="comments">{{ game.comments }}</p>
 		</div>
 	</div>
 </template>

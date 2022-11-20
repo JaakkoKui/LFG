@@ -5,6 +5,7 @@
 				v-model="gameDto.gameName"
 				class="w-full rounded-lg bg-darkBackground mt-1 px-1"
 				placeholder="Game Name*"
+				id="gameName"
 			/>
 		</h1>
 		<div class="flex my-5">
@@ -15,18 +16,18 @@
 				<h4>Server</h4>
 			</div>
 			<div class="flex flex-col gap-y-1">
-				<input v-model="gameDto.nicknameInGame" class="w-full rounded-lg bg-darkBackground px-1" />
-				<input v-model="gameDto.hoursPlayed" type="number" class="w-full rounded-lg bg-darkBackground px-1" />
-				<input v-model="gameDto.rank" class="w-full rounded-lg bg-darkBackground px-1" />
-				<input v-model="gameDto.server" class="w-full rounded-lg bg-darkBackground px-1" />
+				<input v-model="gameDto.nicknameInGame" class="w-full rounded-lg bg-darkBackground px-1" id="nickname"/>
+				<input v-model="gameDto.hoursPlayed" type="number" class="w-full rounded-lg bg-darkBackground px-1" id="hours"/>
+				<input v-model="gameDto.rank" class="w-full rounded-lg bg-darkBackground px-1" id="rank"/>
+				<input v-model="gameDto.server" class="w-full rounded-lg bg-darkBackground px-1" id="server"/>
 			</div>
 		</div>
 		<h4 class="font-bold">Comment</h4>
-		<textarea v-model="gameDto.comments" class="w-full rounded-lg bg-darkBackground mt-1 px-1" rows="5"></textarea>
+		<textarea v-model="gameDto.comments" class="w-full rounded-lg bg-darkBackground mt-1 px-1" rows="5" id="comments"></textarea>
 
 		<div class="flex absolute right-0 bottom-0 m-5">
-			<CancelButtonHelper @click="cancelNew" />
-			<ButtonHelper name="Add" @click="postNewGame" />
+			<CancelButtonHelper @click="cancelNew" ref="cancelNew"/>
+			<ButtonHelper name="Add" @click="postNewGame" ref="addGame"/>
 		</div>
 	</div>
 </template>

@@ -12,10 +12,12 @@
 				class="w-full bg-background-darker border-b border-background-lightest text-text-default px-2"
 				:maxlength="maxLenght"
 				:rows="rows"
+				placeholder="Comment"
+				id="newComment"
 			></textarea>
 			<transition>
-				<div v-if="active" class="w-fit ml-auto mt-2">
-					<CancelButtonHelper @click="handleCancel" />
+				<div v-if="active" class="w-fit ml-auto mt-2" id="buttons">
+					<CancelButtonHelper @click="handleCancel" ref="cancelButton"/>
 					<ButtonHelper @click="postComment" :disabled="!ready" name="comment" />
 				</div>
 			</transition>
