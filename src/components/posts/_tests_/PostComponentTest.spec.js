@@ -150,7 +150,7 @@ describe('Tests for the Post Component', () => {
 
     })
 
-    it('Side buttons show correctly when you are not owner', async () => {
+    it('Like and Dislike buttons are shown right', async () => {
         startTest()
 
         await flushPromises()
@@ -170,7 +170,7 @@ describe('Tests for the Post Component', () => {
         expect(dislikeButton.text()).toMatch('thumb_down')
     })
 
-    it('Side buttons show correctly when you are owner', async () => {
+    it('Owner buttons, Edit and Delete, are shown when owner', async () => {
         wrapper.setData({
             isOwner: true,
             profile: {
@@ -240,4 +240,3 @@ describe('Tests for the Post Component', () => {
         expect(wrapper.vm.commentsOpen).toBeFalsy()
     })
 })
-
