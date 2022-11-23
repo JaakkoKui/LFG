@@ -1,7 +1,11 @@
 ﻿<template>
-	<div class="bg-background-darker rounded-xl p-8 xl:p-16">
-		<h1 class="text-6xl font-semibold capitalize">Such empty...</h1>
-		<h4 class="mt-1 italic font-semibold text-sm">Seems like there is nothing here...</h4>
+	<div id="empty-exception" class="bg-background-darker rounded-xl p-8 xl:p-16 relative">
+		<div class="xl:absolute top-0 xl:h-full mb-4 flex">
+			<div class="xl:h-fit mx-auto xl:my-auto">
+				<h1 class="text-3xl sm:text-6xl font-semibold capitalize">Such empty...</h1>
+				<h4 class="mt-1 italic font-semibold text-sm">Seems like there is nothing here...</h4>
+			</div>
+		</div>
 		<div class="relative">
 			<img
 				class="w-full sm:w-1/2 xl:w-1/3 max-h-[300px] mx-auto"
