@@ -39,8 +39,8 @@
 		</div>
 
 		<!-- Games container -->
-		<section class="flex flex-col mb-2 mx-2">
-			<div class="sm:px-8 sm:py-4 sm:mb-4 bg-background-darker rounded-xl max-w-[1600px] mx-auto w-full">
+		<section v-if="tab === 1" class="flex flex-col max-w-[1600px] mx-auto w-full px-2 sm:px-4 lg:px-8">
+			<div class="sm:px-8 sm:py-4 sm:mb-4 bg-background-darker rounded-xl">
 				<RouterLink :to="profile.profileId + '/game/new'">
 					<button
 						class="flex text-lg z-20 sm:text-xl max-sm:fixed max-sm:p-4 sm:py-2 sm:px-4 bottom-0 right-0 font-semibold capitalize rounded-2xl bg-primary max-sm:m-4 shadow-xl transition duration-150 ease-out hover:bg-primaryVariant hover:scale-110"
@@ -53,7 +53,6 @@
 			<GamesLayout v-if="tab === 1" :games="games" :profile-id="profile.profileId" />
 		</section>
 
-		<!-- New Post -->
 		<!-- Posts -->
 		<section v-if="posts && tab === 2" class="max-w-[1600px] mx-auto">
 			<NewPostComponent v-if="addingNew" @updatePost="getPosts" @cancel="addingNew = false" />
