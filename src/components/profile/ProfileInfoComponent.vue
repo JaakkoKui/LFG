@@ -46,11 +46,13 @@
 					>
 						Edit
 					</button>
-					<button
-						class="p-4 bg-primary rounded-xl material-symbols-outlined font-bold transition duration-150 hover:scale-110 hover:bg-primaryVariant"
-					>
-						Link
-					</button>
+					<RouterLink :to="'/profile/' + profile.profileId + '/edit'">
+						<button
+							class="p-4 bg-primary rounded-xl material-symbols-outlined font-bold transition duration-150 hover:scale-110 hover:bg-primaryVariant"
+						>
+							Settings
+						</button>
+					</RouterLink>
 				</div>
 			</div>
 		</aside>

@@ -133,7 +133,7 @@ public class GameController : ControllerBase
 	public JsonResult Post(GameDto game)
 	{
 		const string query =
-			@"INSERT INTO Game (gameId, gameName, nicknameInGame, hoursPlayed, 'rank', 'server', comments, profileId) VALUES (NULL, @gameName, @nicknameInGame, @hoursPlayed, @rank, @server, @comments, @profileId);";
+			@"INSERT INTO Game (gameId, gameName, nicknameInGame, hoursPlayed, rank, server, comments, profileId) VALUES (NULL, @gameName, @nicknameInGame, @hoursPlayed, @rank, @server, @comments, @profileId);";
 
 		var table = new DataTable();
 		var sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
@@ -166,10 +166,10 @@ public class GameController : ControllerBase
 
 	[Authorize]
 	[HttpPut("{id}")]
-	public JsonResult Put(int id, GameDto game)
+	public JsonResult Put(string id, GameDto game)
 	{
 		const string query =
-			@"UPDATE Game SET gameName=@gameName, nicknameInGame=@nicknameInGame, hoursPlayed=@hoursPlayed, 'rank'=@rank, 'server'=@server, comments=@comments WHERE gameId=@gameId AND profileId=@profileId;";
+			@"UPDATE Game SET gameName=@gameName, nicknameInGame=@nicknameInGame, hoursPlayed=@hoursPlayed, rank=@rank, server=@server, comments=@comments WHERE gameId=@gameId AND profileId=@profileId;";
 
 		var table = new DataTable();
 		var sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
@@ -203,7 +203,7 @@ public class GameController : ControllerBase
 
 	[Authorize]
 	[HttpDelete("{id}")]
-	public JsonResult Delete(int id)
+	public JsonResult Delete(string id)
 	{
 		const string query = @"DELETE FROM Game WHERE gameId=@gameId AND profileId=@profileId;";
 

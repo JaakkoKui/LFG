@@ -20,7 +20,7 @@ const routes: Array<RouteRecordRaw> = [
 		component: ProfileView,
 	},
 	{
-		path: '/profile/edit/:profileId',
+		path: '/profile/:profileId/edit',
 		name: 'profile-edit',
 		component: () => import('../views/EditProfileView.vue'),
 	},

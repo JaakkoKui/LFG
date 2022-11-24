@@ -25,14 +25,33 @@
 			</div>
 		</header>
 
+		<!-- In profile navigation -->
 		<div class="h-16 flex w-fit mx-auto">
-			<button @click="tab = 1" class="px-4 h-full opacity-75 hover:opacity-100">Games</button>
-			<button @click="tab = 2" class="px-4 h-full opacity-75 hover:opacity-100">Posts</button>
-			<button @click="tab = 3" class="px-4 h-full opacity-75 hover:opacity-100">Comments</button>
+			<button @click="tab = 1" class="px-4 h-full opacity-75 hover:opacity-100" :class="{ 'border-b': tab === 1 }">
+				Games
+			</button>
+			<button @click="tab = 2" class="px-4 h-full opacity-75 hover:opacity-100" :class="{ 'border-b': tab === 2 }">
+				Posts
+			</button>
+			<button @click="tab = 3" class="px-4 h-full opacity-75 hover:opacity-100" :class="{ 'border-b': tab === 3 }">
+				Comments
+			</button>
 		</div>
 
 		<!-- Games container -->
-		<GamesLayout class="mb-2 mx-2" v-if="tab === 1" :games="games" :profile-id="profile.profileId" />
+		<section class="flex flex-col mb-2 mx-2">
+			<div class="sm:px-8 sm:py-4 sm:mb-4 bg-background-darker rounded-xl max-w-[1600px] mx-auto w-full">
+				<RouterLink :to="profile.profileId + '/game/new'">
+					<button
+						class="flex text-lg z-20 sm:text-xl max-sm:fixed max-sm:p-4 sm:py-2 sm:px-4 bottom-0 right-0 font-semibold capitalize rounded-2xl bg-primary max-sm:m-4 shadow-xl transition duration-150 ease-out hover:bg-primaryVariant hover:scale-110"
+					>
+						<span class="h-[24px] mr-2 my-auto material-symbols-outlined font-bold">add</span>
+						<span class="mr-2">New</span>
+					</button>
+				</RouterLink>
+			</div>
+			<GamesLayout v-if="tab === 1" :games="games" :profile-id="profile.profileId" />
+		</section>
 
 		<!-- New Post -->
 		<!-- Posts -->
