@@ -2,9 +2,15 @@
 	<div class="md:flex">
 		<article class="w-full rounded-xl bg-background-darker p-8 shadow-m relative" :id="post.postId">
 			<!-- Post profile header -->
-			<PostHeader v-if="profile" :profile="profile" :create-date="post.createDate" :class="{ blur: checkForDelete }" />
+			<PostHeader
+				v-if="profile"
+				:id="post.postId + '-header'"
+				:profile="profile"
+				:create-date="post.createDate"
+				:class="{ blur: checkForDelete }"
+			/>
 			<!-- Post body -->
-			<section v-if="!isEditing" class="my-8" :class="{ blur: checkForDelete }">
+			<section v-if="!isEditing" :id="post.postId + '-content'" class="my-8" :class="{ blur: checkForDelete }">
 				<h2 class="font-semibold text-2xl mb-4">{{ post.title }}</h2>
 				<p id="content">{{ post.content }}</p>
 			</section>
@@ -182,9 +188,10 @@ export default {
 		},
 
 		confirmDelete() {
+			this.commentsOpen = false
 			this.checkForDelete = !this.checkForDelete
 
-			document.getElementById(this.post.postId).scrollIntoView({
+			document.getElementById(this.post.postId + '-content').scrollIntoView({
 				behavior: 'smooth',
 				block: 'center',
 			})

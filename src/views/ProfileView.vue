@@ -1,7 +1,12 @@
 ﻿<template>
 	<div class="bg-background-default mb-4 sm:mb-8">
 		<!-- Profile header -->
-		<ProfileInfoComponent class="mt-2 mx-2" v-if="profile && tab === 1" :profile="profile" />
+		<ProfileInfoComponent
+			@updateProfile="getProfile"
+			class="mt-2 mx-2"
+			v-if="profile && tab === 1"
+			:profile="profile"
+		/>
 
 		<!-- Posts header -->
 		<header
@@ -82,8 +87,8 @@ export default {
 	components: {
 		PostsLayout,
 		GamesLayout,
-		ProfileInfoComponent,
 		NewPostComponent,
+		ProfileInfoComponent,
 	},
 
 	data() {
