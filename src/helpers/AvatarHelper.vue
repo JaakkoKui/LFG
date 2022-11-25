@@ -4,8 +4,9 @@
 		alt="avatar"
 		class="aspect-square object-contain rounded-full bg-primary"
 		:src="'https://cdn.discordapp.com/avatars/' + this.profileId + '/' + this.avatar + '.jpg'"
+		id="avatar"
 	/>
-	<div v-else class="w-full aspect-square rounded-full bg-gray-700 animate-pulse"></div>
+	<div v-else class="w-full aspect-square rounded-full bg-gray-700 animate-pulse" id="noProfileId"></div>
 </template>
 
 <script>
