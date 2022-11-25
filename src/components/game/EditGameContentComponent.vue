@@ -19,15 +19,31 @@
 				<h4 class="my-auto">Server</h4>
 			</div>
 			<div class="flex flex-col gap-y-2 w-fit">
-				<input v-model="gameDto.nicknameInGame" class="w-full rounded-full bg-accent px-1 text-center" id="nickname" />
+				<input
+					v-model="gameDto.nicknameInGame"
+					:placeholder="game.nicknameInGame"
+					class="w-full rounded-full bg-accent px-1 text-center"
+					id="nickname"
+				/>
 				<input
 					v-model="gameDto.hoursPlayed"
+					:placeholder="game.hoursPlayed"
 					type="number"
 					class="w-full rounded-full bg-accent px-1 text-center"
 					id="hoursPlayed"
 				/>
-				<input v-model="gameDto.rank" class="w-full rounded-full bg-accent px-1 text-center" id="rank" />
-				<input v-model="gameDto.server" class="w-full rounded-full bg-accent px-1 text-center" id="server" />
+				<input
+					v-model="gameDto.rank"
+					:placeholder="game.rank"
+					class="w-full rounded-full bg-accent px-1 text-center"
+					id="rank"
+				/>
+				<input
+					v-model="gameDto.server"
+					:placeholder="game.server"
+					class="w-full rounded-full bg-accent px-1 text-center"
+					id="server"
+				/>
 			</div>
 		</div>
 
@@ -35,7 +51,7 @@
 			<h4 class="font-bold">Comment</h4>
 			<textarea
 				v-model="gameDto.comments"
-				placeholder="Write your comment here!"
+				:placeholder="game.comments"
 				class="bg-background-darker placeholder:text-text-darker outline-0 resize-none overflow-hidden w-full border-b border-background-lighter focus:border-white mt-1"
 				rows="1"
 				@input="autoGrow"
@@ -44,51 +60,48 @@
 		</div>
 
 		<div class="flex absolute right-0 bottom-0 mx-8">
-			<CancelButtonHelper @click="cancelNew" />
-			<ButtonHelper name="Add" @click="postNewGame" />
+			<CancelButtonHelper @click="cancelEdit" />
+			<ButtonHelper name="Edit" @click="editGame" />
 		</div>
 	</div>
 </template>
 
 <script>
-import CancelButtonHelper from '@/helpers/CancelButtonHelper.vue'
-import ButtonHelper from '@/helpers/ButtonHelper.vue'
+import CancelButtonHelper from '../../helpers/CancelButtonHelper.vue'
+import ButtonHelper from '../../helpers/ButtonHelper.vue'
 import axios from 'axios'
-import router from '@/router'
 
 export default {
-	name: 'NewGameContentComponent',
+	name: 'EditGameContentComponent',
 	components: {
 		CancelButtonHelper,
 		ButtonHelper,
+	},
+
+	props: {
+		game: Object,
 	},
 
 	data() {
 		return {
 			faulty: false,
 
-			gameDto: {
-				gameName: '',
-				nicknameInGame: '',
-				hoursPlayed: null,
-				rank: '',
-				server: '',
-				comments: '',
-			},
+			gameDto: {},
 		}
 	},
 
 	methods: {
-		cancelNew() {
-			router.push('/profile/' + this.$route.params.profileId)
+		cancelEdit() {
+			this.$emit('cancel')
 		},
 
-		postNewGame() {
+		editGame() {
 			if (this.gameDto.gameName.length > 0 && this.gameDto.nicknameInGame.length > 0) {
 				axios
-					.post('/api/Game', this.gameDto)
+					.put('/api/Game/' + this.game.gameId, this.gameDto)
 					.then(() => {
-						router.push('/profile/' + this.$route.params.profileId)
+						this.$emit('updateGame')
+						this.cancelEdit()
 					})
 					.catch()
 			} else {
@@ -101,6 +114,21 @@ export default {
 			element.style.height = '5px'
 			element.style.height = element.scrollHeight + 4 + 'px'
 		},
+	},
+
+	mounted() {
+		let gameCopy = Object.assign({}, this.game)
+
+		this.gameDto = {
+			gameName: gameCopy.gameName,
+			nicknameInGame: gameCopy.nicknameInGame,
+			hoursPlayed: gameCopy.hoursPlayed,
+			rank: gameCopy.rank,
+			server: gameCopy.server,
+			comments: gameCopy.comments,
+		}
+
+		this.autoGrow()
 	},
 }
 </script>

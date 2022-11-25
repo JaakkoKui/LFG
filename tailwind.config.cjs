@@ -18,18 +18,14 @@ module.exports = {
 					white: '#FFFFFF'
 				},
 
+				accent: '#a91079',
+
+				secondary: '#2e0249',
+				secondaryVariant: '#570a57',
+
 				primary: '#86198f',
 				primaryVariant: '#55105B',
 			},
-			animation: {
-				'wiggle': 'wiggle 1s ease-in-out infinite',
-			},
-			keyframes: {
-				wiggle: {
-					'0%, 100%': { transform: 'rotate(0deg)' },
-					'50%': { transform: 'rotate(1deg)' },
-				}
-			}
 		},
 	},
 	plugins: [],

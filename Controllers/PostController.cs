@@ -65,7 +65,7 @@ public class PostController : ControllerBase
 	}
 
 	[HttpGet("{id}")]
-	public async Task<Post> Get(int id)
+	public async Task<Post> Get(string id)
 	{
 		const string query =
 			@"SELECT postId, title, DATE_FORMAT(createDate,'%Y-%m-%dT%TZ') as createDate, content, profileId, photoFileName, numberOfLikes, numberOfDislikes, numberOfComments FROM Post WHERE postId=@postId";
@@ -176,7 +176,7 @@ public class PostController : ControllerBase
 
 	[Authorize]
 	[HttpPut("{id}")]
-	public JsonResult Put(int id, PostDto post)
+	public JsonResult Put(string id, PostDto post)
 	{
 		const string query =
 			@"UPDATE Post SET title=@title, content=@content, photoFileName=@photoFileName, numberOfLikes=@numberOfLikes, numberOfDislikes=@numberOfDislikes, numberOfComments=@numberOfComments WHERE postId=@postId AND profileId=@profileId;";
@@ -213,7 +213,7 @@ public class PostController : ControllerBase
 
 	[Authorize]
 	[HttpDelete("{id}")]
-	public JsonResult Delete(int id)
+	public JsonResult Delete(string id)
 	{
 		const string query = @"DELETE FROM Post WHERE postId=@postId AND profileId=@profileId;";
 

@@ -9,7 +9,7 @@
 				v-model="text"
 				@focus="showButtons"
 				@input="checkValidComment"
-				class="w-full bg-background-darker border-b border-background-lightest text-text-default px-2"
+				class="w-full bg-background-darker border-b border-background-lightest text-text-default px-2 placeholder:text-text-darker outline-0 focus:border-text-white"
 				:maxlength="maxLenght"
 				:rows="rows"
 				placeholder="Comment"
@@ -17,7 +17,7 @@
 			></textarea>
 			<transition>
 				<div v-if="active" class="w-fit ml-auto mt-2" id="buttons">
-					<CancelButtonHelper @click="handleCancel" ref="cancelButton"/>
+					<CancelButtonHelper @click="handleCancel" ref="cancelButton" />
 					<ButtonHelper @click="postComment" :disabled="!ready" name="comment" />
 				</div>
 			</transition>
@@ -63,6 +63,7 @@ export default {
 		},
 
 		checkValidComment() {
+			this.autoGrow()
 			this.ready = !!this.text.length
 		},
 
@@ -100,6 +101,12 @@ export default {
 				.catch((error) => {
 					console.log(error)
 				})
+		},
+
+		autoGrow() {
+			let element = document.getElementById('newComment')
+			element.style.height = '5px'
+			element.style.height = element.scrollHeight + 4 + 'px'
 		},
 	},
 

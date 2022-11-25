@@ -9,12 +9,13 @@
 				<router-link
 					:to="'/profile/' + profile.profileId"
 					class="hover:bg-background-default rounded-full font-semibold h-fit px-2"
-					id="nickname">{{ profile.nickname }}</router-link
+					id="nickname"
+					>{{ profile.nickname }}</router-link
 				>
 				<h6 class="italic text-xs mt-1 opacity-70" id="date">{{ comment.date }}</h6>
 			</div>
 			<div>
-				<p class="ml-[7px]">{{ comment.content }}</p>
+				<p class="ml-[7px]" style="display: inline-block; word-break: break-word">{{ comment.content }}</p>
 			</div>
 		</div>
 	</article>

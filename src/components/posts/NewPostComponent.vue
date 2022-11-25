@@ -1,83 +1,113 @@
 ﻿<template>
-  <div
-      v-if="isTheProfileOwner && !isAddingNewPost"
-      class="text-base -mb-5 ml-auto bg-darkBackground z-10 px-5"
-  >
-    <ButtonSubComponent
-        class="-mr-10"
-        name="New Post"
-        @buttonClick="isAddingNewPost = true"
-    />
-  </div>
-  <div class="pt-10">
-    <div
-        v-if="isTheProfileOwner && isAddingNewPost"
-        class="px-10 pt-[60px] -mb-10 z-10"
-    >
-      <div class="flex w-full">
-        <!-- Poster Avatar -->
-        <div class="mx-5 w-[50px]">
-          <AvatarComponent/>
-        </div>
-
-        <!-- Post body -->
-        <div class="w-[calc(100%-200px)]">
-          <!-- Post header -->
-          <div class="flex h-[50px]">
-            <router-link
-                v-if="profile"
-                :to="'/profile/' + profile.nickname"
-                class="text-md font-bold hover:text-white"
-            >{{ profile.nickname }} (You)
-            </router-link
-            >
-          </div>
-
-          <!-- Post content -->
-          <div class="mb-5">
-            <h1 class="break-words text-xl font-bold mb-2">
-              <input
-                  v-model="postInfo.title"
-                  class="-ml-2 rounded-lg bg-lightBackground text-white px-2 w-[400px]"
-                  maxlength="50"
-                  placeholder="Title"
-              />
-            </h1>
-            <textarea
-                v-model="postInfo.content"
-                class="-ml-2 rounded-lg bg-lightBackground text-white px-2 w-full"
-                maxlength="512"
-                placeholder="Content"
-                rows="5"
-            />
-          </div>
-        </div>
-      </div>
-
-      <div class="w-fit ml-auto flex mr-[120px]">
-        <button
-            class="font-semibold py-2 px-5 w-fit uppercase"
-            @click="cancelNewPost"
-        >
-          Cancel
-        </button>
-        <ButtonSubComponent
-            :disabled="!postInfo.title || !postInfo.content"
-            class="disabled:bg-lightBackground transition ease-in-out duration-300"
-            name="Post"
-            @buttonClick="postNewPost"
-        />
-      </div>
-    </div>
-  </div>
+	<div class="border-background-lighter pt-8 pb-4 mb-4 px-8 mx-2 sm:mx-4 lg:mx-8 bg-background-darker rounded-xl">
+		<PostHeader :profile="profile" />
+		<div class="flex">
+			<input
+				id="newPostTitle"
+				v-model="postDto.title"
+				type="text"
+				class="bg-background-darker placeholder:text-text-darker w-full md:w-1/2 xl:w-1/3 outline-0 resize-none overflow-hidden text-xl font-semibold mb-4 border-b border-background-lighter focus:border-white pb-1"
+				placeholder="Title your post"
+			/>
+			<!-- <p class="text-sm opacity-70 mt-auto ml-4">{{ title.length }}/{{ titleMax }}</p> -->
+		</div>
+		<div class="flex">
+			<textarea
+				id="newPostContent"
+				v-model="postDto.content"
+				@input="autoGrow"
+				rows="1"
+				class="bg-background-darker placeholder:text-text-darker outline-0 resize-none overflow-hidden w-full border-b border-background-lighter focus:border-white"
+				placeholder="Write some content to your post"
+			></textarea>
+			<!--<p class="text-sm opacity-70 mt-auto ml-4">{{ content.length }}/{{ contentMax }}</p>-->
+		</div>
+		<div id="newPostButtons" class="ml-auto mt-4 w-fit">
+			<CancelButtonHelper @click="cancelNew" />
+			<ButtonHelper @click="postPost" name="Post" :disabled="!postDto.title || !postDto.content" />
+		</div>
+	</div>
 </template>
 
 <script>
+import ButtonHelper from '@/helpers/ButtonHelper.vue'
+import CancelButtonHelper from '@/helpers/CancelButtonHelper.vue'
+import PostHeader from '@/components/posts/PostHeader.vue'
+import axios from 'axios'
+
 export default {
-  name: 'NewPostComponent'
+	name: 'NewPostComponent',
+
+	props: {
+		addingNew: Boolean,
+	},
+
+	components: {
+		ButtonHelper,
+		CancelButtonHelper,
+		PostHeader,
+	},
+
+	data() {
+		return {
+			titleMax: 32,
+			contentMax: 1024,
+			textBoxRows: 1,
+
+			postDto: {
+				title: '',
+				content: '',
+				photoFileName: null,
+				numberOfLikes: 0,
+				numberOfDislikes: 0,
+				numberOfComments: 0,
+			},
+			profile: {},
+		}
+	},
+
+	methods: {
+		cancelNew() {
+			this.$emit('cancel')
+		},
+
+		autoGrow() {
+			let element = document.getElementById('newPostContent')
+			element.style.height = '5px'
+			element.style.height = element.scrollHeight + 4 + 'px'
+		},
+
+		//Demo!!!!
+		getMe() {
+			axios
+				.get('https://localhost:5001/api/Profile/@me')
+				.then((response) => {
+					this.profile = response.data
+				})
+				.catch((error) => {
+					console.log(error)
+				})
+		},
+
+		postPost() {
+			if (this.postDto.content && this.postDto.title) {
+				axios
+					.post('https://localhost:5001/api/Post', this.postDto)
+					.then(() => {
+						this.$emit('updatePost')
+						this.cancelNew()
+					})
+					.catch((error) => {
+						console.log(error)
+					})
+			}
+		},
+	},
+
+	mounted() {
+		this.getMe()
+	},
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -93,12 +93,47 @@ public class GameController : ControllerBase
 		return games[0];
 	}
 
+	[HttpGet("ByUser/{profileId}")]
+	public async Task<List<Game>> GetByProfile(string profileId)
+	{
+		const string query = @"SELECT * FROM Game WHERE profileId=@profileId";
+
+		var sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
+
+		await using var conn = new MySqlConnection(sqlDataSource);
+		await conn.OpenAsync();
+
+		var games = new List<Game>();
+
+		await using var cmd = new MySqlCommand(query, conn);
+		cmd.Parameters.AddWithValue("@profileId", profileId);
+
+		var reader = cmd.ExecuteReader();
+		while (await reader.ReadAsync())
+			games.Add(new Game
+			{
+				gameId = await reader.GetFieldValueAsync<Guid>(0),
+				gameName = await reader.GetFieldValueAsync<string>(1),
+				nicknameInGame = await reader.GetFieldValueOrNullAsync<string>(2),
+				hoursPlayed = await reader.GetFieldValueOrNullAsync<int>(3),
+				rank = await reader.GetFieldValueOrNullAsync<string>(4),
+				server = await reader.GetFieldValueOrNullAsync<string>(5),
+				comments = await reader.GetFieldValueOrNullAsync<string>(6),
+				profileId = await reader.GetFieldValueOrNullAsync<string>(7)
+			});
+
+		await reader.CloseAsync();
+		await conn.CloseAsync();
+
+		return games;
+	}
+
 	[Authorize]
 	[HttpPost]
 	public JsonResult Post(GameDto game)
 	{
 		const string query =
-			@"INSERT INTO Game (gameId, gameName, nicknameInGame, hoursPlayed, 'rank', 'server', comments, profileId) VALUES (NULL, @gameName, @nicknameInGame, @hoursPlayed, @rank, @server, @comments, @profileId);";
+			@"INSERT INTO Game (gameId, gameName, nicknameInGame, hoursPlayed, rank, server, comments, profileId) VALUES (NULL, @gameName, @nicknameInGame, @hoursPlayed, @rank, @server, @comments, @profileId);";
 
 		var table = new DataTable();
 		var sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
@@ -131,10 +166,10 @@ public class GameController : ControllerBase
 
 	[Authorize]
 	[HttpPut("{id}")]
-	public JsonResult Put(int id, GameDto game)
+	public JsonResult Put(string id, GameDto game)
 	{
 		const string query =
-			@"UPDATE Game SET gameName=@gameName, nicknameInGame=@nicknameInGame, hoursPlayed=@hoursPlayed, 'rank'=@rank, 'server'=@server, comments=@comments WHERE gameId=@gameId AND profileId=@profileId;";
+			@"UPDATE Game SET gameName=@gameName, nicknameInGame=@nicknameInGame, hoursPlayed=@hoursPlayed, rank=@rank, server=@server, comments=@comments WHERE gameId=@gameId AND profileId=@profileId;";
 
 		var table = new DataTable();
 		var sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
@@ -168,7 +203,7 @@ public class GameController : ControllerBase
 
 	[Authorize]
 	[HttpDelete("{id}")]
-	public JsonResult Delete(int id)
+	public JsonResult Delete(string id)
 	{
 		const string query = @"DELETE FROM Game WHERE gameId=@gameId AND profileId=@profileId;";
 

@@ -2,6 +2,8 @@ import type { RouteRecordRaw } from 'vue-router'
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import ProfileView from '../views/ProfileView.vue'
+import AboutView from '../views/AboutView.vue'
+import GameView from '../views/GameView.vue'
 
 const routes: Array<RouteRecordRaw> = [
 	{
@@ -12,7 +14,7 @@ const routes: Array<RouteRecordRaw> = [
 	{
 		path: '/about',
 		name: 'About',
-		component: () => import('../views/AboutView.vue'),
+		component: AboutView,
 	},
 	{
 		path: '/profile/:profileId',
@@ -20,14 +22,9 @@ const routes: Array<RouteRecordRaw> = [
 		component: ProfileView,
 	},
 	{
-		path: '/profile/edit/:profileId',
-		name: 'profile-edit',
-		component: () => import('../views/EditProfileView.vue'),
-	},
-	{
 		path: '/profile/:profileId/game/:gameId',
 		name: 'game-view',
-		component: () => import('../views/GameView.vue'),
+		component: GameView,
 	},
 ]
 
