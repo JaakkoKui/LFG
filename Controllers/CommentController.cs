@@ -88,6 +88,39 @@ public class CommentController : ControllerBase
 		return comments;
 	}
 
+	[HttpGet("GetByProfileId/{profileId}")]
+	public async Task<List<Comment>> GetByProfileId(String profileId)
+	{
+		const string query =
+			@"SELECT commentId, content, DATE_FORMAT(date,'%Y-%m-%dT%TZ') as date, profileId, postId FROM Comment WHERE profileId=@profileId";
+
+		var sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
+
+		await using var conn = new MySqlConnection(sqlDataSource);
+		await conn.OpenAsync();
+
+		var comments = new List<Comment>();
+
+		await using var cmd = new MySqlCommand(query, conn);
+		cmd.Parameters.AddWithValue("@profileId", profileId);
+
+		var reader = cmd.ExecuteReader();
+		while (await reader.ReadAsync())
+			comments.Add(new Comment
+			{
+				commentId = await reader.GetFieldValueAsync<Guid>(0),
+				content = await reader.GetFieldValueAsync<string>(1),
+				date = DateTime.Parse(await reader.GetFieldValueAsync<string>(2)),
+				profileId = await reader.GetFieldValueAsync<string>(3),
+				postId = await reader.GetFieldValueAsync<Guid>(4)
+			});
+
+		await reader.CloseAsync();
+		await conn.CloseAsync();
+
+		return comments;
+	}
+
 	[Authorize]
 	[HttpPost]
 	public JsonResult Post(CommentDto comment)
