@@ -45,7 +45,7 @@
 
 		<div class="flex absolute right-0 bottom-0 mx-8">
 			<CancelButtonHelper @click="cancelNew" />
-			<ButtonHelper name="Add" @click="postNewGame" />
+			<ButtonHelper name="Add" @click="postNewGame"  ref="addGame"/>
 		</div>
 	</div>
 </template>

@@ -1,6 +1,6 @@
 ﻿<template>
 	<div class="border-background-lighter pt-8 pb-4 mb-4 px-8 mx-2 sm:mx-4 lg:mx-8 bg-background-darker rounded-xl">
-		<PostHeader :profile="profile" />
+		<PostHeader :profile="profile" ref="postHeader"/>
 		<div class="flex">
 			<input
 				id="newPostTitle"
@@ -23,8 +23,8 @@
 			<!--<p class="text-sm opacity-70 mt-auto ml-4">{{ content.length }}/{{ contentMax }}</p>-->
 		</div>
 		<div id="newPostButtons" class="ml-auto mt-4 w-fit">
-			<CancelButtonHelper @click="cancelNew" />
-			<ButtonHelper @click="postPost" name="Post" :disabled="!postDto.title || !postDto.content" />
+			<CancelButtonHelper @click="cancelNew" ref="cancelButton"/>
+			<ButtonHelper @click="postPost" name="Post" :disabled="!postDto.title || !postDto.content" ref="postButton"/>
 		</div>
 	</div>
 </template>

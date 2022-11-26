@@ -35,7 +35,7 @@ describe('Tests for the Game Card Component', () => {
         expect(name.text()).toMatch('Hades')
 
         const hours = wrapper.find('#hoursPlayed')
-        expect(hours.text()).toMatch('123')
+        expect(hours.text()).toMatch('123 Hours')
     })
 
     it("Game Card Links to right place", () => {

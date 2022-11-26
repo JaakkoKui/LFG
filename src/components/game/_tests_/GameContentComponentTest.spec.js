@@ -63,16 +63,16 @@ describe('Tests for the Game Content Component', () => {
         expect(nickname.text()).toMatch('')
 
         const hours = wrapper.find('#hours')
-        expect(hours.text()).toMatch('')
+        expect(hours.exists()).toBeFalsy()
 
         const rank = wrapper.find('#rank')
-        expect(rank.text()).toMatch('')
+        expect(rank.exists()).toBeFalsy()
 
         const server = wrapper.find('#server')
-        expect(server.text()).toMatch('')
+        expect(server.exists()).toBeFalsy()
 
         const comments = wrapper.find('#comments')
-        expect(comments.text()).toBe('')
+        expect(comments.exists()).toBeFalsy()
     })
 
     it('Game comments shows correctly', () => {

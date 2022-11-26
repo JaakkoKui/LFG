@@ -69,17 +69,17 @@ describe('Tests for the New Game Content Component', () => {
         await flushPromises()
 
         expect(axios.post).toHaveBeenCalledTimes(1)
-        expect(axios.post).toBeCalledWith("https://localhost:5001/api/Game", wrapper.vm.gameDto)
+        expect(axios.post).toBeCalledWith("/api/Game", wrapper.vm.gameDto)
     })
 
     it('Writing on imput fields update data', async () => {
 
-        const gameName = wrapper.find('#gameName')
+        const gameName = wrapper.find('input#gameName')
         await gameName.setValue('Path Of Exile')
         expect(gameName.element.value).toMatch('Path Of Exile')
         expect(wrapper.vm.gameDto.gameName).toMatch('Path Of Exile')
 
-        const hours = wrapper.find('#hours')
+        const hours = wrapper.find('#hoursPlayed')
         await hours.setValue(333)
         expect(hours.element.value).toBe('333')
         expect(wrapper.vm.gameDto.hoursPlayed).toBe(333)

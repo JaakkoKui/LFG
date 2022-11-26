@@ -1,13 +1,13 @@
 ﻿<template>
 	<div class="w-full mb-4 relative h-full">
 		<div
-			id="gameName"
+			id="game"
 			class="text-4xl font-bold p-8 text-center bg-gradient-to-r from-secondary to-secondaryVariant text-text-white rounded-xl mt-2 mx-2"
 		>
 			<input
 				v-model="gameDto.gameName"
 				class="w-full bg-transparent px-1 outline-0 font-bold border-b-2 border-text-darker focus:border-white placeholder:text-text-darker text-center"
-				placeholder="Game Name*"
+				:placeholder="game.gameName"
 				id="gameName"
 			/>
 		</div>
@@ -60,8 +60,8 @@
 		</div>
 
 		<div class="flex absolute right-0 bottom-0 mx-8">
-			<CancelButtonHelper @click="cancelEdit" />
-			<ButtonHelper name="Edit" @click="editGame" />
+			<CancelButtonHelper @click="cancelEdit" ref="cancelButton"/>
+			<ButtonHelper name="Edit" @click="editGame" ref="editButton"/>
 		</div>
 	</div>
 </template>

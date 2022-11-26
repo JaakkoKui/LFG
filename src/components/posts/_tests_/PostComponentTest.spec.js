@@ -47,7 +47,8 @@ describe('Tests for the Post Component', () => {
                     createDate: "12.12.12",
                     numberOfComments: 0,
                     numberOfLikes: 1,
-                    numberOfDislikes: 2
+                    numberOfDislikes: 2,
+                    postId: "POST"
                 }
             }
         })
@@ -188,7 +189,7 @@ describe('Tests for the Post Component', () => {
 
         expect(wrapper.vm.isOwner).toBeTruthy()
 
-        const aside = wrapper.find('#ownerButtons')
+        const aside = wrapper.find(`#${wrapper.props().post.postId}-controls`)
         expect(aside.exists()).toBeTruthy()
 
         const edit = wrapper.find('#editButton')
