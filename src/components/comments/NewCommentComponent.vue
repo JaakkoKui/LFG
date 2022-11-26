@@ -11,7 +11,7 @@
 				@input="checkValidComment"
 				class="w-full bg-background-darker border-b border-background-lightest text-text-default px-2 placeholder:text-text-darker outline-0 focus:border-text-white"
 				:maxlength="maxLenght"
-				:rows="rows"
+				rows="1"
 				placeholder="Comment"
 				id="newComment"
 			></textarea>
@@ -45,7 +45,6 @@ export default {
 
 	data() {
 		return {
-			rows: 1,
 			maxLenght: 250,
 			active: false,
 			ready: false,
@@ -82,7 +81,7 @@ export default {
 					.post('https://localhost:5001/api/Comment', commentDto)
 					.then(() => {
 						this.handleCancel()
-						this.$emit('newComment')
+						this.$emit('updateComments')
 					})
 					.catch((error) => {
 						console.log(error)

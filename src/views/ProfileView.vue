@@ -55,7 +55,7 @@
 					</button>
 				</RouterLink>
 			</div>
-			<GamesLayout v-if="tab === 1" :games="games" :profile-id="profile.profileId" />
+			<GamesLayout :games="games" :profile-id="profile.profileId" />
 		</section>
 
 		<!-- Posts -->
@@ -72,6 +72,12 @@
 			</div>
 			<PostsLayout :posts="posts" @updatePost="getPosts" />
 		</section>
+
+		<section v-if="comments && tab === 3" class="max-w-[1600px] mx-auto">
+			<div class="mx-4 w-full sm:mx-4 lg:mx-8 bg-background-darker rounded-xl py-4">
+				<CommentsLayout @updateComments="getComments" :comments="comments" />
+			</div>
+		</section>
 	</div>
 </template>
 
@@ -81,6 +87,7 @@ import ProfileInfoComponent from '@/components/profile/ProfileInfoComponent.vue'
 import NewPostComponent from '@/components/posts/NewPostComponent.vue'
 import GamesLayout from '@/layouts/GamesLayout.vue'
 import PostsLayout from '@/layouts/PostsLayout.vue'
+import CommentsLayout from '@/layouts/CommentsLayout.vue'
 
 export default {
 	name: 'ProfileView',
@@ -89,6 +96,7 @@ export default {
 		GamesLayout,
 		NewPostComponent,
 		ProfileInfoComponent,
+		CommentsLayout,
 	},
 
 	data() {
@@ -97,6 +105,7 @@ export default {
 			profile: {},
 			games: [],
 			posts: [],
+			comments: [],
 
 			tab: 1,
 			addingNew: false,
@@ -120,7 +129,7 @@ export default {
 		getGames() {
 			if (this.paramProfileId) {
 				axios
-					.get('https://localhost:5001/api/Game/ByUser/' + this.paramProfileId)
+					.get('/api/Game/ByUser/' + this.paramProfileId)
 					.then((response) => {
 						this.games = response.data
 					})
@@ -133,9 +142,22 @@ export default {
 		getPosts() {
 			if (this.paramProfileId) {
 				axios
-					.get('https://localhost:5001/api/Post/GetByProfileId/' + this.paramProfileId)
+					.get('/api/Post/GetByProfileId/' + this.paramProfileId)
 					.then((response) => {
 						this.posts = response.data
+					})
+					.catch((error) => {
+						console.log(error)
+					})
+			}
+		},
+
+		getComments() {
+			if (this.paramProfileId) {
+				axios
+					.get('/api/Comment/GetByProfileId/' + this.paramProfileId)
+					.then((response) => {
+						this.comments = response.data
 					})
 					.catch((error) => {
 						console.log(error)
@@ -149,6 +171,7 @@ export default {
 		this.getProfile()
 		this.getGames()
 		this.getPosts()
+		this.getComments()
 	},
 }
 </script>

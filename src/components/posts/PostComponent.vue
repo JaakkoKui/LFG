@@ -57,7 +57,12 @@
 			<!-- Post comments -->
 			<section v-if="commentsOpen">
 				<h4 class="font-semibold mb-4">{{ post.numberOfComments }} Comments</h4>
-				<CommentsLayout @newComment="getComments" :post-id="post.postId" :comments="comments" ref="commentsLayout" />
+				<CommentsLayout
+					@updateComments="getComments"
+					:post-id="post.postId"
+					:comments="comments"
+					ref="commentsLayout"
+				/>
 			</section>
 			<!-- Confirm delete -->
 			<div v-if="checkForDelete" class="absolute w-full h-full left-0 max-sm:p-8 top-0 flex">

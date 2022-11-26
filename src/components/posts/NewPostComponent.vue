@@ -94,7 +94,7 @@ export default {
 				axios
 					.post('https://localhost:5001/api/Post', this.postDto)
 					.then(() => {
-						this.$emit('updatePost')
+						this.$emit('updateComments')
 						this.cancelNew()
 					})
 					.catch((error) => {
