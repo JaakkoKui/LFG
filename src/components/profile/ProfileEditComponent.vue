@@ -9,26 +9,30 @@
 		</div>
 		<div class="flex flex-col justify-between ml-8">
 			<input
+				id="nickname"
 				v-model="profileDto.nickname"
 				class="w-full bg-transparent border-b border-background-lightest text-text-default placeholder:text-text-darker outline-0 focus:border-text-white px-2"
 			/>
 			<input
+				id="firstName"
 				v-model="profileDto.firstName"
 				class="w-full bg-transparent border-b border-background-lightest text-text-default placeholder:text-text-darker outline-0 focus:border-text-white px-2"
 			/>
 			<input
+				id="lastName"
 				v-model="profileDto.lastName"
 				class="w-full bg-transparent border-b border-background-lightest text-text-default placeholder:text-text-darker outline-0 focus:border-text-white px-2"
 			/>
 			<input
+				id="age"
 				v-model="profileDto.age"
 				type="number"
 				class="w-full bg-transparent border-b border-background-lightest text-text-default placeholder:text-text-darker outline-0 focus:border-text-white px-2"
 			/>
 		</div>
 		<div id="profileEditControls" class="absolute bottom-0 right-0 my-2 mx-4">
-			<CancelButtonHelper @click="$emit('cancel')" />
-			<ButtonHelper name="edit" @click="putEdit" />
+			<CancelButtonHelper @click="$emit('cancel')" ref="cancelButton"/>
+			<ButtonHelper name="edit" @click="putEdit" ref="editButton"/>
 		</div>
 	</fieldset>
 </template>

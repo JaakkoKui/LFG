@@ -1,10 +1,11 @@
 ﻿<template>
 	<header>
 		<router-link
+			id="link"
 			:to="'/profile/' + profile.profileId"
 			class="flex text-left mb-4 rounded-full w-fit hover:bg-background-default transition duration-150 ease-out"
 		>
-			<AvatarHelper class="h-12" :avatar="profile.avatar" :profile-id="profile.profileId" />
+			<AvatarHelper class="h-12" :avatar="profile.avatar" :profile-id="profile.profileId" ref="avatarHelper"/>
 			<div class="mx-4 flex flex-col justify-around">
 				<h4 class="font-semibold" id="nickname">{{ profile.nickname }}</h4>
 				<p v-if="createDate" class="opacity-50 text-sm" id="date">{{ createDate }}</p>
