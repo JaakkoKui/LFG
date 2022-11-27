@@ -176,7 +176,7 @@ describe('Tests for the New Post Component', () => {
         expect(axios.post).toHaveBeenCalledTimes(1)
         expect(axios.post).toBeCalledWith('https://localhost:5001/api/Post', wrapper.vm.postDto)
 
-        expect(wrapper.emitted().updatePost).toBeTruthy()
+        expect(wrapper.emitted().updateComments).toBeTruthy()
         expect(wrapper.emitted().cancel).toBeTruthy()
     })
 })

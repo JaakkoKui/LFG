@@ -66,7 +66,7 @@ describe('Tests for the New Comment Component', () => {
         expect(axios.get).toBeCalledWith(expect.stringMatching(/me/))
 
         const textArea = wrapper.find('#newComment')
-        expect(textArea.attributes().rows).toEqual('2')
+        expect(textArea.attributes().rows).toEqual('1')
         expect(textArea.attributes().maxlength).toBe('250')
         expect(textArea.attributes().placeholder).toMatch('Comment')
 

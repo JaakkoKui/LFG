@@ -223,7 +223,7 @@ describe('Tests for the Post Component', () => {
 
         await flushPromises()
 
-        expect(axios.get).toHaveBeenCalledTimes(5)
+        expect(axios.get).toHaveBeenCalledTimes(4)
         expect(axios.get).toBeCalledWith(expect.stringMatching(/GetByPostId/))
 
         expect(wrapper.vm.commentsOpen).toBeTruthy()
