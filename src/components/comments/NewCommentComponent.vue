@@ -30,6 +30,7 @@ import AvatarHelper from '../../helpers/AvatarHelper.vue'
 import ButtonHelper from '@/helpers/ButtonHelper.vue'
 import CancelButtonHelper from '@/helpers/CancelButtonHelper.vue'
 import axios from 'axios'
+import { useMeStore } from '@/stores/me'
 
 export default {
 	name: 'NewCommentComponent',
@@ -41,6 +42,12 @@ export default {
 
 	props: {
 		postId: String,
+	},
+
+	setup() {
+		const meStore = useMeStore()
+
+		return { meStore }
 	},
 
 	data() {
@@ -61,16 +68,16 @@ export default {
 			this.active = false
 		},
 
-		checkValidComment() {
+		async checkValidComment() {
 			this.autoGrow()
 			this.ready = !!this.text.length
 		},
 
-		showButtons() {
+		async showButtons() {
 			this.active = true
 		},
 
-		postComment() {
+		async postComment() {
 			if (this.ready && this.postId) {
 				const commentDto = {
 					content: this.text,
@@ -78,7 +85,7 @@ export default {
 				}
 
 				axios
-					.post('https://localhost:5001/api/Comment', commentDto)
+					.post('/api/Comment', commentDto)
 					.then(() => {
 						this.handleCancel()
 						this.$emit('updateComments')
@@ -91,15 +98,8 @@ export default {
 			}
 		},
 
-		getMe() {
-			axios
-				.get('https://localhost:5001/api/Profile/@me')
-				.then((response) => {
-					this.me = response.data
-				})
-				.catch((error) => {
-					console.log(error)
-				})
+		async getMe() {
+			this.me = this.meStore.$state
 		},
 
 		autoGrow() {

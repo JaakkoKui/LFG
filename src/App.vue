@@ -13,7 +13,7 @@
 
 		<div class="absolute right-0 h-[65px] flex">
 			<a
-				v-if="!profile"
+				v-if="!loggedIn"
 				href="https://localhost:5001/Auth/Login"
 				class="px-4 bg-sky-600 w-[68px] text-text-white rounded-l-xl hover:bg-sky-800 transition duration-200 ease-out"
 			>
@@ -25,7 +25,7 @@
 			</a>
 
 			<RouterLink
-				v-if="profile"
+				v-if="loggedIn"
 				:to="'/profile/' + profile.profileId"
 				class="flex pr-4 rounded-full h-fit my-auto bg-background-default hover:scale-105 transition duration-100 ease-out mr-4"
 			>
@@ -34,7 +34,7 @@
 			</RouterLink>
 
 			<a
-				v-if="profile"
+				v-if="loggedIn"
 				href="https://localhost:5001/Auth/Logout"
 				class="px-4 bg-red-500 w-[68px] text-text-white rounded-l-xl hover:bg-red-600 transition duration-200 ease-out"
 			>
@@ -55,10 +55,17 @@
 <script>
 import { RouterLink, RouterView } from 'vue-router'
 import AvatarHelper from '@/helpers/AvatarHelper.vue'
-import axios from 'axios'
+import { useMeStore } from '@/stores/me.ts'
 
 export default {
 	components: { AvatarHelper, RouterLink, RouterView },
+
+	setup() {
+		const meStore = useMeStore()
+
+		return { meStore }
+	},
+
 	data() {
 		return {
 			navLinks: [
@@ -66,23 +73,33 @@ export default {
 				{ navName: 'About', to: '/about' },
 			],
 
-			profile: null,
-
-			api: 'https://localhost:5001/api/',
+			profile: {},
+			loggedIn: false,
 		}
 	},
-	mounted() {
-		axios
-			.get(this.api + 'Profile/@me')
-			.then((response) => {
-				this.profile = response.data
-			})
-			.catch((error) => {
-				console.log(
-					error +
-						' : Getting @me profile was not successful! This may be intentional, if you are not logged in and the website tried to use a resource that it could not.'
-				)
-			})
+
+	methods: {
+		async setMe() {
+			await this.meStore.setMe()
+			this.profile = this.meStore.$state
+		},
+
+		async checkLogin() {
+			this.loggedIn = this.profile.profileId !== undefined
+		},
+	},
+
+	created() {
+		this.setMe()
+	},
+
+	watch: {
+		profile: {
+			handler() {
+				this.checkLogin()
+			},
+			deep: true,
+		},
 	},
 }
 </script>

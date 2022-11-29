@@ -6,6 +6,7 @@
 			class="mt-2 mx-2"
 			v-if="profile && tab === 1"
 			:profile="profile"
+			:isOwner="isOwner"
 		/>
 
 		<!-- Posts header -->
@@ -13,9 +14,13 @@
 			v-if="tab === 2"
 			class="bg-gradient-to-r from-primaryVariant via-primary to-pink-600 py-16 rounded-xl text-center text-text-white mt-2 mx-2 h-[212px]"
 		>
-			<div>
+			<div v-if="isOwner">
 				<h1 class="text-5xl font-semibold">Your Posts</h1>
-				<p class="font-semibold text-sm mt-2 italic">All the posts you have published.</p>
+				<p class="font-semibold text-sm mt-2 italic">All your posts.</p>
+			</div>
+			<div v-else>
+				<h1 class="text-5xl font-semibold">{{ profile.nickname }}'s Posts</h1>
+				<p class="font-semibold text-sm mt-2 italic">All {{ profile.nickname }}'s posts.</p>
 			</div>
 		</header>
 
@@ -24,9 +29,13 @@
 			v-if="tab === 3"
 			class="bg-gradient-to-r from-teal-500 via-blue-600 to-sky-500 py-16 rounded-xl text-center text-text-white mt-2 mx-2 h-[212px]"
 		>
-			<div>
+			<div v-if="isOwner">
 				<h1 class="text-5xl font-semibold">Your Comments</h1>
 				<p class="font-semibold text-sm mt-2 italic">All your comments.</p>
+			</div>
+			<div v-else>
+				<h1 class="text-5xl font-semibold">{{ profile.nickname }}'s Comments</h1>
+				<p class="font-semibold text-sm mt-2 italic">All {{ profile.nickname }}'s comments.</p>
 			</div>
 		</header>
 
@@ -45,7 +54,7 @@
 
 		<!-- Games container -->
 		<section v-if="tab === 1" class="flex flex-col max-w-[1600px] mx-auto w-full px-2 sm:px-4 lg:px-8">
-			<div class="sm:px-8 sm:py-4 sm:mb-4 bg-background-darker rounded-xl">
+			<div v-if="isOwner" class="sm:px-8 sm:py-4 sm:mb-4 bg-background-darker rounded-xl">
 				<RouterLink :to="profile.profileId + '/game/new'">
 					<button
 						class="flex text-lg z-20 sm:text-xl max-sm:fixed max-sm:p-4 sm:py-2 sm:px-4 bottom-0 right-0 font-semibold capitalize rounded-2xl bg-primary max-sm:m-4 shadow-xl transition duration-150 ease-out hover:bg-primaryVariant hover:scale-110"
@@ -61,7 +70,7 @@
 		<!-- Posts -->
 		<section v-if="posts && tab === 2" class="max-w-[1600px] mx-auto">
 			<NewPostComponent v-if="addingNew" @updatePost="getPosts" @cancel="addingNew = false" />
-			<div v-if="!addingNew" class="sm:px-8 sm:py-4 sm:mb-4 sm:mx-4 lg:mx-8 bg-background-darker rounded-xl">
+			<div v-if="!addingNew && isOwner" class="sm:px-8 sm:py-4 sm:mb-4 sm:mx-4 lg:mx-8 bg-background-darker rounded-xl">
 				<button
 					@click="addingNew = true"
 					class="flex text-lg z-20 sm:text-xl max-sm:fixed max-sm:p-4 sm:py-2 sm:px-4 bottom-0 right-0 font-semibold capitalize rounded-2xl bg-primary max-sm:m-4 shadow-xl transition duration-150 ease-out hover:bg-primaryVariant hover:scale-110"
@@ -73,8 +82,9 @@
 			<PostsLayout :posts="posts" @updatePost="getPosts" />
 		</section>
 
+		<!-- Comments -->
 		<section v-if="comments && tab === 3" class="max-w-[1600px] mx-auto">
-			<div class="mx-4 w-full sm:mx-4 lg:mx-8 bg-background-darker rounded-xl py-4">
+			<div class="mx-4 sm:mx-4 lg:mx-8 bg-background-darker rounded-xl py-4">
 				<CommentsLayout @updateComments="getComments" :comments="comments" />
 			</div>
 		</section>
@@ -88,6 +98,7 @@ import NewPostComponent from '@/components/posts/NewPostComponent.vue'
 import GamesLayout from '@/layouts/GamesLayout.vue'
 import PostsLayout from '@/layouts/PostsLayout.vue'
 import CommentsLayout from '@/layouts/CommentsLayout.vue'
+import { useMeStore } from '@/stores/me'
 
 export default {
 	name: 'ProfileView',
@@ -97,6 +108,12 @@ export default {
 		NewPostComponent,
 		ProfileInfoComponent,
 		CommentsLayout,
+	},
+
+	setup() {
+		const meStore = useMeStore()
+
+		return { meStore }
 	},
 
 	data() {
@@ -112,8 +129,14 @@ export default {
 		}
 	},
 
+	computed: {
+		isOwner() {
+			return this.meStore.$state.profileId === this.profile.profileId
+		},
+	},
+
 	methods: {
-		getProfile() {
+		async getProfile() {
 			if (this.paramProfileId) {
 				axios
 					.get('https://localhost:5001/api/Profile/' + this.paramProfileId)
@@ -126,7 +149,7 @@ export default {
 			}
 		},
 
-		getGames() {
+		async getGames() {
 			if (this.paramProfileId) {
 				axios
 					.get('/api/Game/ByUser/' + this.paramProfileId)
@@ -139,7 +162,7 @@ export default {
 			}
 		},
 
-		getPosts() {
+		async getPosts() {
 			if (this.paramProfileId) {
 				axios
 					.get('/api/Post/GetByProfileId/' + this.paramProfileId)
@@ -152,7 +175,7 @@ export default {
 			}
 		},
 
-		getComments() {
+		async getComments() {
 			if (this.paramProfileId) {
 				axios
 					.get('/api/Comment/GetByProfileId/' + this.paramProfileId)
@@ -164,14 +187,26 @@ export default {
 					})
 			}
 		},
+
+		async createdProfile() {
+			this.paramProfileId = this.$route.params.profileId
+			await this.getProfile()
+			await this.getGames()
+			await this.getPosts()
+			await this.getComments()
+		},
 	},
 
-	mounted() {
-		this.paramProfileId = this.$route.params.profileId
-		this.getProfile()
-		this.getGames()
-		this.getPosts()
-		this.getComments()
+	created() {
+		this.createdProfile()
+	},
+
+	watch: {
+		'$route.params.profileId': {
+			handler() {
+				this.createdProfile()
+			},
+		},
 	},
 }
 </script>

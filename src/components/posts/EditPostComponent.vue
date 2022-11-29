@@ -58,7 +58,7 @@ export default {
 		editPost() {
 			if (this.post) {
 				axios
-					.put('https://localhost:5001/api/Post/' + this.post.postId, this.postDto)
+					.put('/api/Post/' + this.post.postId, this.postDto)
 					.then(() => {
 						this.$emit('done')
 					})
@@ -68,7 +68,7 @@ export default {
 			}
 		},
 
-		clean() {
+		async clean() {
 			this.postDto = Object.assign({}, this.post)
 		},
 	},

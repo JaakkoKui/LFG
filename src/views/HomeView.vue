@@ -29,9 +29,9 @@ export default {
 	},
 
 	methods: {
-		getPosts() {
+		async getPosts() {
 			axios
-				.get('https://localhost:5001/api/Post')
+				.get('/api/Post')
 				.then((response) => {
 					this.posts = response.data
 				})

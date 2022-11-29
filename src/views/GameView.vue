@@ -79,7 +79,7 @@ export default {
 	},
 
 	methods: {
-		getGame() {
+		async getGame() {
 			axios
 				.get('/api/Game/' + this.$route.params.gameId)
 				.then((response) => {
@@ -91,7 +91,7 @@ export default {
 				})
 		},
 
-		deleteGame() {
+		async deleteGame() {
 			axios
 				.delete('/api/Game/' + this.$route.params.gameId)
 				.then(() => {

@@ -119,6 +119,7 @@ import EditPostComponent from '@/components/posts/EditPostComponent.vue'
 import PostHeader from '@/components/posts/PostHeader.vue'
 import CancelButtonHelper from '@/helpers/CancelButtonHelper.vue'
 import ButtonHelper from '@/helpers/ButtonHelper.vue'
+import { useMeStore } from '@/stores/me'
 
 export default {
 	name: 'PostComponent',
@@ -134,9 +135,14 @@ export default {
 		post: Object,
 	},
 
+	setup() {
+		const meStore = useMeStore()
+
+		return { meStore }
+	},
+
 	data() {
 		return {
-			isOwner: false,
 			editable: false,
 			commentsOpen: false,
 			isEditing: false,
@@ -148,17 +154,23 @@ export default {
 		}
 	},
 
+	computed: {
+		isOwner() {
+			return this.meStore.$state.profileId === this.profile.profileId
+		},
+	},
+
 	methods: {
-		handleCommentsButton() {
+		async handleCommentsButton() {
 			if (this.commentsOpen) {
 				this.commentsOpen = false
 			} else {
-				this.getComments()
+				await this.getComments()
 				this.commentsOpen = true
 			}
 		},
 
-		getProfile() {
+		async getProfile() {
 			axios
 				.get('https://localhost:5001/api/Profile/' + this.post.profileId)
 				.then((response) => {
@@ -169,23 +181,11 @@ export default {
 				})
 		},
 
-		getComments() {
+		async getComments() {
 			axios
 				.get('https://localhost:5001/api/Comment/GetByPostId/' + this.post.postId)
 				.then((response) => {
 					this.comments = response.data
-				})
-				.catch((error) => {
-					console.log(error)
-				})
-		},
-
-		//Demo!!!!
-		checkOwnerShip() {
-			axios
-				.get('https://localhost:5001/api/Profile/@me')
-				.then((response) => {
-					this.isOwner = this.profile.profileId === response.data.profileId
 				})
 				.catch((error) => {
 					console.log(error)
@@ -202,11 +202,11 @@ export default {
 			})
 		},
 
-		submitEdit() {
+		async submitEdit() {
 			this.$refs.editPost.editPost()
 		},
 
-		deletePost() {
+		async deletePost() {
 			axios
 				.delete('https://localhost:5001/api/Post/' + this.post.postId)
 				.then(() => {
@@ -230,12 +230,6 @@ export default {
 
 	mounted() {
 		this.getProfile()
-	},
-
-	watch: {
-		profile() {
-			this.checkOwnerShip()
-		},
 	},
 }
 </script>
