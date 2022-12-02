@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -27,7 +27,7 @@ public class CommentController : ControllerBase
 	public async Task<List<Comment>> Get()
 	{
 		const string query =
-			@"SELECT commentId, content, DATE_FORMAT(date,'%Y-%m-%dT%TZ') as date, profileId, postId FROM Comment";
+			@"SELECT commentId, content, DATE_FORMAT(date,'%Y-%m-%dT%TZ') as date, profileId, postId FROM Comment ORDER by date DESC";
 
 		var sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
 
@@ -59,7 +59,7 @@ public class CommentController : ControllerBase
 	public async Task<List<Comment>> GetByPostId(String postId)
 	{
 		const string query =
-			@"SELECT commentId, content, DATE_FORMAT(date,'%Y-%m-%dT%TZ') as date, profileId, postId FROM Comment WHERE postId=@postId";
+			@"SELECT commentId, content, DATE_FORMAT(date,'%Y-%m-%dT%TZ') as date, profileId, postId FROM Comment WHERE postId=@postId ORDER by date DESC";
 
 		var sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
 
