@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
@@ -12,6 +12,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
+
+
+/* Controller for the Comment entity.
+ Transmits data between models and Frontend.
+*/
+
 
 namespace LFG.Controllers;
 
@@ -27,6 +33,9 @@ public class PostController : ControllerBase
 		_configuration = configuration;
 		_env = env;
 	}
+
+	
+	//Get command for all posts.
 
 	[HttpGet]
 	public async Task<List<Post>> GetAll()
@@ -63,6 +72,9 @@ public class PostController : ControllerBase
 
 		return posts;
 	}
+
+
+	//Get command for a specific post.
 
 	[HttpGet("{id}")]
 	public async Task<Post> Get(string id)
@@ -101,6 +113,8 @@ public class PostController : ControllerBase
 		return posts[0];
 	}
 
+	//Get command for all posts of a specific user.
+
 	[HttpGet("GetByProfileId/{profileId}")]
 	public async Task<List<Post>> GetByProfileId(String profileId)
 	{
@@ -138,6 +152,8 @@ public class PostController : ControllerBase
 		return posts;
 	}
 
+	//Post command for a new post.
+	
 	[Authorize]
 	[HttpPost]
 	public JsonResult Post(PostDto post)
@@ -173,6 +189,8 @@ public class PostController : ControllerBase
 
 		return new JsonResult("Added Succesfully");
 	}
+
+	//Put command for editing specific post.
 
 	[Authorize]
 	[HttpPut("{id}")]
@@ -211,6 +229,8 @@ public class PostController : ControllerBase
 		return new JsonResult("Updated Successfully!");
 	}
 
+	//Delete command for deleting specific post.
+
 	[Authorize]
 	[HttpDelete("{id}")]
 	public JsonResult Delete(string id)
@@ -241,6 +261,8 @@ public class PostController : ControllerBase
 		return new JsonResult("Deleted Successfully!");
 	}
 
+	//Post command for adding a photo to post, not implemented.
+	
 	[Authorize]
 	[HttpPost("SaveFile")]
 	public JsonResult SaveFile()
