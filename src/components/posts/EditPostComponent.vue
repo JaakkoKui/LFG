@@ -1,23 +1,23 @@
 ﻿<template>
 	<!-- Post body while editing -->
 	<section class="my-8 flex flex-col">
+		<!--Edit post title-->
 		<input
 			id="editPostTitle"
 			v-model="postDto.title"
 			type="text"
 			class="bg-background-darker placeholder:text-text-darker w-full md:w-1/2 xl:w-1/3 outline-0 resize-none overflow-hidden text-2xl font-semibold mb-4 border-b border-background-lighter focus:border-white pb-1"
-			placeholder="Title your post"
+			:placeholder="$t('posts.placeholderTitle')"
 		/>
-		<!--<p class="text-xs opacity-70 mt-1 mb-2">{{ updatePost.title.length }}/{{ titleMax }}</p>-->
+		<!--Edit post content-->
 		<textarea
 			id="editPostContent"
 			v-model="postDto.content"
 			@input="autoGrow"
 			rows="1"
 			class="bg-background-darker placeholder:text-text-darker outline-0 resize-none overflow-hidden w-full border-b border-background-lighter focus:border-white"
-			placeholder="Write some content to your post"
+			:placeholder="$t('posts.placeholderContent')"
 		></textarea>
-		<!--<p class="text-xs opacity-70 mt-1">{{ updatePost.content.length }}/{{ contentMax }}</p>-->
 	</section>
 </template>
 
@@ -32,11 +32,9 @@ export default {
 		executeEdit: Boolean,
 	},
 
+	//Keep post Data Transfer Object
 	data() {
 		return {
-			titleMax: 32,
-			contentMax: 1024,
-
 			postDto: {
 				title: '',
 				content: '',
@@ -49,13 +47,15 @@ export default {
 	},
 
 	methods: {
+	  //Grow textfield when space runs out
 		autoGrow() {
 			let element = document.getElementById('editPostContent')
 			element.style.height = '5px'
 			element.style.height = element.scrollHeight + 4 + 'px'
 		},
 
-		editPost() {
+		//Pass edit to API
+		async editPost() {
 			if (this.post) {
 				axios
 					.put('/api/Post/' + this.post.postId, this.postDto)
@@ -68,15 +68,18 @@ export default {
 			}
 		},
 
+		//Clean the DTO with a fresh one
 		async clean() {
 			this.postDto = Object.assign({}, this.post)
 		},
 	},
 
+	//On create clean DTO
 	created() {
 		this.clean()
 	},
 
+	//Auto adjust to edit size on component mount
 	mounted() {
 		this.autoGrow()
 	},

@@ -1,5 +1,6 @@
 ﻿<template>
 	<header>
+		<!-- Profile link to go to a posters profile-->
 		<router-link
 			id="link"
 			:to="'/profile/' + profile.profileId"
@@ -24,11 +25,10 @@ export default {
 		AvatarHelper,
 	},
 
+	//Props from parent to render
 	props: {
 		profile: Object,
 		createDate: String,
 	},
 }
 </script>
-
-<style scoped></style>

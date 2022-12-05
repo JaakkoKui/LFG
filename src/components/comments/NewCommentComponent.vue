@@ -1,10 +1,12 @@
 ﻿<template>
 	<!-- New comment -->
 	<div v-if="me" class="my-4 flex">
+		<!-- New comment profile -->
 		<div class="min-w-[35px] w-[35px] h-[35px] mr-2">
 			<AvatarHelper :avatar="me.avatar" :profile-id="me.profileId" />
 		</div>
 		<div class="w-full">
+			<!-- New comment body -->
 			<textarea
 				v-model="text"
 				@focus="showButtons"
@@ -12,13 +14,13 @@
 				class="w-full bg-background-darker border-b border-background-lightest text-text-default px-2 placeholder:text-text-darker outline-0 focus:border-text-white"
 				:maxlength="maxLenght"
 				rows="1"
-				placeholder="Comment"
+				:placeholder="$t('comments.comment')"
 				id="newComment"
 			></textarea>
 			<transition>
 				<div v-if="active" class="w-fit ml-auto mt-2" id="buttons">
 					<CancelButtonHelper @click="handleCancel" ref="cancelButton" />
-					<ButtonHelper @click="postComment" :disabled="!ready" name="comment" />
+					<ButtonHelper @click="postComment" :disabled="!ready" :name="$t('buttons.comment')" />
 				</div>
 			</transition>
 		</div>
@@ -40,16 +42,18 @@ export default {
 		ButtonHelper,
 	},
 
+	//Get postId from the comment parenting post
 	props: {
 		postId: String,
 	},
 
+	//Setup pinia storage
 	setup() {
 		const meStore = useMeStore()
-
 		return { meStore }
 	},
 
+	//Know comment profile, Know if comment is active and ready to send. In addition have the comment text ready.
 	data() {
 		return {
 			maxLenght: 250,
@@ -63,20 +67,24 @@ export default {
 	},
 
 	methods: {
+	  //Handle new comment cancel
 		handleCancel() {
 			this.text = ''
 			this.active = false
 		},
 
+		//Check comment validity aka. if comment has any text and autogrow and auto enable buttons
 		async checkValidComment() {
 			this.autoGrow()
 			this.ready = !!this.text.length
 		},
 
+		//Show comment controls if new comment has been interacted with
 		async showButtons() {
 			this.active = true
 		},
 
+		//Post Comment
 		async postComment() {
 			if (this.ready && this.postId) {
 				const commentDto = {
@@ -98,10 +106,12 @@ export default {
 			}
 		},
 
+		//Get your profile from Pinia
 		async getMe() {
 			this.me = this.meStore.$state
 		},
 
+		//Autogrow comment text field
 		autoGrow() {
 			let element = document.getElementById('newComment')
 			element.style.height = '5px'
@@ -109,6 +119,7 @@ export default {
 		},
 	},
 
+	//When comment component is mounted, get your profile
 	mounted() {
 		this.getMe()
 	},

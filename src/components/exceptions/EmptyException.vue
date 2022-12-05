@@ -1,9 +1,10 @@
 ﻿<template>
+	<!-- Empty exception -->
 	<div id="empty-exception" class="bg-background-darker rounded-xl p-8 xl:p-16 relative max-w-[1600px] w-full mx-auto">
 		<div class="xl:absolute top-0 xl:h-full mb-4 flex">
 			<div class="xl:h-fit mx-auto xl:my-auto">
-				<h1 class="text-3xl sm:text-6xl font-semibold capitalize">Such empty...</h1>
-				<h4 class="mt-1 italic font-semibold text-sm">Seems like there is nothing here...</h4>
+				<h1 class="text-3xl sm:text-6xl font-semibold capitalize">{{$t('exceptions.empty.title')}}</h1>
+				<h4 class="mt-1 italic font-semibold text-sm">{{$t('exceptions.empty.description')}}</h4>
 			</div>
 		</div>
 		<div class="relative">

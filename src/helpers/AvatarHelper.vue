@@ -1,4 +1,5 @@
 ﻿<template>
+	<!-- Avatar that gets the profile avatar from Discord's user API -->
 	<img
 		v-if="profileId"
 		alt="avatar"
@@ -6,13 +7,16 @@
 		:src="'https://cdn.discordapp.com/avatars/' + this.profileId + '/' + this.avatar + '.jpg'"
 		id="avatar"
 	/>
-	<div v-else class="w-full aspect-square rounded-full bg-gray-700 animate-pulse" id="noProfileId"></div>
+
+	<!-- Skeleton loader or empty -->
+	<div v-else class="aspect-square rounded-full bg-gray-700 animate-pulse" id="noProfileId"></div>
 </template>
 
 <script>
 export default {
 	name: 'AvatarComponent',
 
+	//Search props from parent
 	props: {
 		avatar: String,
 		profileId: String,

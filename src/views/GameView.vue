@@ -2,13 +2,13 @@
 	<div v-if="!notFound" class="p-2 sm:p-4 lg:p-8 max-h-[calc(100vh-65px)] flex justify-center relative">
 		<div class="md:flex h-fit md:h-full min-h-full gap-x-2">
 			<div class="w-fit h-fit border border-background-darker max-w-1/2 bg-background-darker rounded-xl">
-				<GameImageComponent @cancel="deleteConfirm = false" @deleteGame="deleteGame" :delete-confirm="deleteConfirm" />
+				<GameImageComponent @cancel="deleteConfirm = false" @deleteGame="deleteGame" :delete-confirm="deleteConfirm"/>
 			</div>
 			<div class="flex flex-col bg-background-darker rounded-xl my-2 md:mb-0 md:mt-0 sm:min-w-[300px] lg:min-w-[500px]">
 				<!-- View game -->
-				<GameContentComponent v-if="game && !isNew && !isEditing" :game="game" />
-				<NewGameContentComponent v-if="isNew" />
-				<EditGameContentComponent v-if="isEditing" @updateGame="getGame" :game="game" @cancel="isEditing = false" />
+				<GameContentComponent v-if="game && !isNew && !isEditing" :game="game"/>
+				<NewGameContentComponent v-if="isNew"/>
+				<EditGameContentComponent v-if="isEditing" @updateGame="getGame" :game="game" @cancel="isEditing = false"/>
 
 				<div v-if="!isNew && !isEditing" class="w-full p-2 mt-auto">
 					<button
@@ -19,11 +19,11 @@
 							src="@/assets/images/game.jpeg"
 							alt="communit-background"
 						/>
-						<span class="z-10 pointer-events-none">Go to the Community</span>
+						<span class="z-10 pointer-events-none">{{$t('game.toCommunity')}}</span>
 						<span class="material-symbols-outlined font-bold ml-2 mt-1.5 z-10 pointer-events-none">arrow_forward</span>
 					</button>
 
-					<div class="flex mt-2 p-2 bg-background-default rounded-xl">
+					<div v-if="isOwner" id="gameControls" class="flex mt-2 p-2 bg-background-default rounded-xl">
 						<div class="w-fit mx-auto gap-2 flex">
 							<button
 								@click="deleteConfirm = !deleteConfirm"
@@ -57,6 +57,7 @@ import GameContentComponent from '@/components/game/GameContentComponent.vue'
 import NewGameContentComponent from '../components/game/NewGameContentComponent.vue'
 import EditGameContentComponent from '../components/game/EditGameContentComponent.vue'
 import router from '../router'
+import {useMeStore} from "@/stores/me";
 
 export default {
 	name: 'GameView',
@@ -67,16 +68,32 @@ export default {
 		EditGameContentComponent,
 	},
 
+  //Setup Pinia storage
+  setup() {
+		const meStore = useMeStore()
+		return { meStore }
+  },
+
 	data() {
 		return {
 			isNew: false,
 			isEditing: false,
 			notFound: false,
 			game: null,
+			gameExternal: null,
 
 			deleteConfirm: false,
 		}
 	},
+
+  computed: {
+	//Check ownership from pinia
+	isOwner() {
+	  if(this.meStore.$state.profileId){
+			return this.meStore.$state.profileId === this.$route.params.profileId
+	  }
+	},
+  },
 
 	methods: {
 		async getGame() {
@@ -88,6 +105,17 @@ export default {
 				.catch((error) => {
 					this.notFound = true
 					console.log(error)
+				})
+		},
+
+		async getGameExternal() {
+		  axios
+				.get('/api/Game/GetExternal/' + this.game.gameName)
+				.then((response) => {
+				  this.gameExternal = response.data
+				})
+				.catch((e) => {
+				  console.log(e)
 				})
 		},
 
@@ -110,5 +138,9 @@ export default {
 			this.getGame()
 		}
 	},
+
+	mounted() {
+	  this.getGameExternal()
+	}
 }
 </script>

@@ -13,10 +13,10 @@
 		</div>
 		<div class="flex my-4 p-8 lg:px-16 lg:py-8">
 			<div class="font-bold capitalize w-full flex flex-col gap-y-2">
-				<h4 class="my-auto">Nickname</h4>
-				<h4 class="my-auto">Hours played</h4>
-				<h4 class="my-auto">Rank</h4>
-				<h4 class="my-auto">Server</h4>
+				<h4 class="my-auto">{{$t('game.nickname')}}</h4>
+				<h4 class="my-auto">{{$t('game.hoursPlayed')}}</h4>
+				<h4 class="my-auto">{{$t('game.rank')}}</h4>
+				<h4 class="my-auto">{{$t('game.server')}}</h4>
 			</div>
 			<div class="flex flex-col gap-y-2 w-fit">
 				<input v-model="gameDto.nicknameInGame" class="w-full rounded-full bg-accent px-1 text-center" id="nickname" />
@@ -32,7 +32,7 @@
 		</div>
 
 		<div class="px-8 lg:px-16">
-			<h4 class="font-bold">Comment</h4>
+			<h4 class="font-bold capitalize">{{$t('game.comment')}}</h4>
 			<textarea
 				v-model="gameDto.comments"
 				placeholder="Write your comment here!"

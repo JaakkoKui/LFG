@@ -18,7 +18,7 @@
 				{{ game.gameName }}
 			</h1>
 			<h2 class="italic font-semibold text-center opacity-75 block h-fit my-auto ml-auto" id="hoursPlayed">
-				{{ game.hoursPlayed }} Hours
+				{{ game.hoursPlayed }} {{$t('game.hours')}}
 			</h2>
 		</div>
 	</router-link>
@@ -28,8 +28,9 @@
 export default {
 	name: 'GameComponent',
 
+	//Props passed from parent to render
 	props: {
-		game: {},
+		game: Object,
 		profileId: String,
 	},
 }
