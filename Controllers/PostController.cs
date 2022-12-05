@@ -35,14 +35,14 @@ namespace LFG.Controllers
 			_env = env;
 		}
 
+	
+	//Get command for all posts.
 
-		//Get command for all posts.
-
-		[HttpGet]
-		public async Task<List<Post>> GetAll()
-		{
-			const string query =
-				@"SELECT postId, title, DATE_FORMAT(createDate,'%Y-%m-%dT%TZ') as createDate, content, profileId, photoFileName, numberOfLikes, numberOfDislikes, numberOfComments FROM Post";
+	[HttpGet]
+	public async Task<List<Post>> GetAll()
+	{
+		const string query =
+			@"SELECT postId, title, DATE_FORMAT(createDate,'%Y-%m-%dT%TZ') as createDate, content, profileId, photoFileName, numberOfComments FROM Post";
 
 			var sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
 
@@ -53,20 +53,18 @@ namespace LFG.Controllers
 
 			await using var cmd = new MySqlCommand(query, conn);
 
-			var reader = cmd.ExecuteReader();
-			while (await reader.ReadAsync())
-				posts.Add(new Post
-				{
-					postId = await reader.GetFieldValueAsync<Guid>(0),
-					title = await reader.GetFieldValueAsync<string>(1),
-					createDate = DateTime.Parse(await reader.GetFieldValueAsync<string>(2)),
-					content = await reader.GetFieldValueAsync<string>(3),
-					profileId = await reader.GetFieldValueAsync<string>(4),
-					photoFileName = await reader.GetFieldValueOrNullAsync<string>(5),
-					numberOfLikes = await reader.GetFieldValueAsync<int>(6),
-					numberOfDislikes = await reader.GetFieldValueAsync<int>(7),
-					numberOfComments = await reader.GetFieldValueAsync<int>(8)
-				});
+		var reader = cmd.ExecuteReader();
+		while (await reader.ReadAsync())
+			posts.Add(new Post
+			{
+				postId = await reader.GetFieldValueAsync<Guid>(0),
+				title = await reader.GetFieldValueAsync<string>(1),
+				createDate = DateTime.Parse(await reader.GetFieldValueAsync<string>(2)),
+				content = await reader.GetFieldValueAsync<string>(3),
+				profileId = await reader.GetFieldValueAsync<string>(4),
+				photoFileName = await reader.GetFieldValueOrNullAsync<string>(5),
+				numberOfComments = await reader.GetFieldValueAsync<int>(6)
+			});
 
 			await reader.CloseAsync();
 			await conn.CloseAsync();
@@ -77,11 +75,11 @@ namespace LFG.Controllers
 
 		//Get command for a specific post.
 
-		[HttpGet("{id}")]
-		public async Task<Post> Get(string id)
-		{
-			const string query =
-				@"SELECT postId, title, DATE_FORMAT(createDate,'%Y-%m-%dT%TZ') as createDate, content, profileId, photoFileName, numberOfLikes, numberOfDislikes, numberOfComments FROM Post WHERE postId=@postId";
+	[HttpGet("{id}")]
+	public async Task<Post> Get(string id)
+	{
+		const string query =
+			@"SELECT postId, title, DATE_FORMAT(createDate,'%Y-%m-%dT%TZ') as createDate, content, profileId, photoFileName, numberOfComments FROM Post WHERE postId=@postId";
 
 			var sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
 
@@ -93,20 +91,18 @@ namespace LFG.Controllers
 			await using var cmd = new MySqlCommand(query, conn);
 			cmd.Parameters.AddWithValue("@postId", id);
 
-			var reader = cmd.ExecuteReader();
-			while (await reader.ReadAsync())
-				posts.Add(new Post
-				{
-					postId = await reader.GetFieldValueAsync<Guid>(0),
-					title = await reader.GetFieldValueAsync<string>(1),
-					createDate = DateTime.Parse(await reader.GetFieldValueAsync<string>(2)),
-					content = await reader.GetFieldValueAsync<string>(3),
-					profileId = await reader.GetFieldValueAsync<string>(4),
-					photoFileName = await reader.GetFieldValueOrNullAsync<string>(5),
-					numberOfLikes = await reader.GetFieldValueAsync<int>(6),
-					numberOfDislikes = await reader.GetFieldValueAsync<int>(7),
-					numberOfComments = await reader.GetFieldValueAsync<int>(8)
-				});
+		var reader = cmd.ExecuteReader();
+		while (await reader.ReadAsync())
+			posts.Add(new Post
+			{
+				postId = await reader.GetFieldValueAsync<Guid>(0),
+				title = await reader.GetFieldValueAsync<string>(1),
+				createDate = DateTime.Parse(await reader.GetFieldValueAsync<string>(2)),
+				content = await reader.GetFieldValueAsync<string>(3),
+				profileId = await reader.GetFieldValueAsync<string>(4),
+				photoFileName = await reader.GetFieldValueOrNullAsync<string>(5),
+				numberOfComments = await reader.GetFieldValueAsync<int>(6)
+			});
 
 			await reader.CloseAsync();
 			await conn.CloseAsync();
@@ -116,11 +112,11 @@ namespace LFG.Controllers
 
 		//Get command for all posts of a specific user.
 
-		[HttpGet("GetByProfileId/{profileId}")]
-		public async Task<List<Post>> GetByProfileId(String profileId)
-		{
-			const string query =
-				@"SELECT postId, title, DATE_FORMAT(createDate,'%Y-%m-%dT%TZ') as createDate, content, profileId, photoFileName, numberOfLikes, numberOfDislikes, numberOfComments FROM Post WHERE profileId=@profileId";
+	[HttpGet("GetByProfileId/{profileId}")]
+	public async Task<List<Post>> GetByProfileId(String profileId)
+	{
+		const string query =
+			@"SELECT postId, title, DATE_FORMAT(createDate,'%Y-%m-%dT%TZ') as createDate, content, profileId, photoFileName, numberOfComments FROM Post WHERE profileId=@profileId";
 
 			var sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
 
@@ -132,20 +128,18 @@ namespace LFG.Controllers
 			await using var cmd = new MySqlCommand(query, conn);
 			cmd.Parameters.AddWithValue("@profileId", profileId);
 
-			var reader = cmd.ExecuteReader();
-			while (await reader.ReadAsync())
-				posts.Add(new Post
-				{
-					postId = await reader.GetFieldValueAsync<Guid>(0),
-					title = await reader.GetFieldValueAsync<string>(1),
-					createDate = DateTime.Parse(await reader.GetFieldValueAsync<string>(2)),
-					content = await reader.GetFieldValueAsync<string>(3),
-					profileId = await reader.GetFieldValueAsync<string>(4),
-					photoFileName = await reader.GetFieldValueOrNullAsync<string>(5),
-					numberOfLikes = await reader.GetFieldValueAsync<int>(6),
-					numberOfDislikes = await reader.GetFieldValueAsync<int>(7),
-					numberOfComments = await reader.GetFieldValueAsync<int>(8)
-				});
+		var reader = cmd.ExecuteReader();
+		while (await reader.ReadAsync())
+			posts.Add(new Post
+			{
+				postId = await reader.GetFieldValueAsync<Guid>(0),
+				title = await reader.GetFieldValueAsync<string>(1),
+				createDate = DateTime.Parse(await reader.GetFieldValueAsync<string>(2)),
+				content = await reader.GetFieldValueAsync<string>(3),
+				profileId = await reader.GetFieldValueAsync<string>(4),
+				photoFileName = await reader.GetFieldValueOrNullAsync<string>(5),
+				numberOfComments = await reader.GetFieldValueAsync<int>(6)
+			});
 
 			await reader.CloseAsync();
 			await conn.CloseAsync();
@@ -153,29 +147,27 @@ namespace LFG.Controllers
 			return posts;
 		}
 
-		//Post command for a new post.
+	//Post command for a new post.
 
-		[Authorize]
-		[HttpPost]
-		public JsonResult Post(PostDto post)
+	[Authorize]
+	[HttpPost]
+	public JsonResult Post(PostDto post)
+	{
+		const string query =
+			@"INSERT INTO Post (postId, title, content, profileId, photoFileName, numberOfComments) VALUES (NULL, @title, @content, @profileId, @photoFileName, @numberOfComments);";
+
+		var table = new DataTable();
+		var sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
+		MySqlDataReader myReader;
+		using (var mycon = new MySqlConnection(sqlDataSource))
 		{
-			const string query =
-				@"INSERT INTO Post (postId, title, content, profileId, photoFileName, numberOfLikes, numberOfDislikes, numberOfComments) VALUES (NULL, @title, @content, @profileId, @photoFileName, @numberOfLikes, @numberOfDislikes, @numberOfComments);";
-
-			var table = new DataTable();
-			var sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
-			MySqlDataReader myReader;
-			using (var mycon = new MySqlConnection(sqlDataSource))
+			mycon.Open();
+			using (var myCommand = new MySqlCommand(query, mycon))
 			{
-				mycon.Open();
-				using (var myCommand = new MySqlCommand(query, mycon))
-				{
-					myCommand.Parameters.AddWithValue("@title", post.title);
-					myCommand.Parameters.AddWithValue("@content", post.content);
-					myCommand.Parameters.AddWithValue("@photoFileName", post.photoFileName);
-					myCommand.Parameters.AddWithValue("@numberOfLikes", post.numberOfLikes);
-					myCommand.Parameters.AddWithValue("@numberOfDislikes", post.numberOfDislikes);
-					myCommand.Parameters.AddWithValue("@numberOfComments", post.numberOfComments);
+				myCommand.Parameters.AddWithValue("@title", post.title);
+				myCommand.Parameters.AddWithValue("@content", post.content);
+				myCommand.Parameters.AddWithValue("@photoFileName", post.photoFileName);
+				myCommand.Parameters.AddWithValue("@numberOfComments", post.numberOfComments);
 
 					var id = HttpContext.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
 					myCommand.Parameters.AddWithValue("@profileId", id);
@@ -193,28 +185,26 @@ namespace LFG.Controllers
 
 		//Put command for editing specific post.
 
-		[Authorize]
-		[HttpPut("{id}")]
-		public JsonResult Put(string id, PostDto post)
-		{
-			const string query =
-				@"UPDATE Post SET title=@title, content=@content, photoFileName=@photoFileName, numberOfLikes=@numberOfLikes, numberOfDislikes=@numberOfDislikes, numberOfComments=@numberOfComments WHERE postId=@postId AND profileId=@profileId;";
+	[Authorize]
+	[HttpPut("{id}")]
+	public JsonResult Put(string id, PostDto post)
+	{
+		const string query =
+			@"UPDATE Post SET title=@title, content=@content, photoFileName=@photoFileName, numberOfComments=@numberOfComments WHERE postId=@postId AND profileId=@profileId;";
 
-			var table = new DataTable();
-			var sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
-			MySqlDataReader myReader;
-			using (var mycon = new MySqlConnection(sqlDataSource))
+		var table = new DataTable();
+		var sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
+		MySqlDataReader myReader;
+		using (var mycon = new MySqlConnection(sqlDataSource))
+		{
+			mycon.Open();
+			using (var myCommand = new MySqlCommand(query, mycon))
 			{
-				mycon.Open();
-				using (var myCommand = new MySqlCommand(query, mycon))
-				{
-					myCommand.Parameters.AddWithValue("@postId", id);
-					myCommand.Parameters.AddWithValue("@title", post.title);
-					myCommand.Parameters.AddWithValue("@content", post.content);
-					myCommand.Parameters.AddWithValue("@photoFileName", post.photoFileName);
-					myCommand.Parameters.AddWithValue("@numberOfLikes", post.numberOfLikes);
-					myCommand.Parameters.AddWithValue("@numberOfDislikes", post.numberOfDislikes);
-					myCommand.Parameters.AddWithValue("@numberOfComments", post.numberOfComments);
+				myCommand.Parameters.AddWithValue("@postId", id);
+				myCommand.Parameters.AddWithValue("@title", post.title);
+				myCommand.Parameters.AddWithValue("@content", post.content);
+				myCommand.Parameters.AddWithValue("@photoFileName", post.photoFileName);
+				myCommand.Parameters.AddWithValue("@numberOfComments", post.numberOfComments);
 
 					var profileId = HttpContext.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
 					myCommand.Parameters.AddWithValue("@profileId", profileId);
@@ -262,18 +252,18 @@ namespace LFG.Controllers
 			return new JsonResult("Deleted Successfully!");
 		}
 
-		//Post command for adding a photo to post, not implemented.
+	//Post command for adding a photo to post, not implemented.
 
-		[Authorize]
-		[HttpPost("SaveFile")]
-		public JsonResult SaveFile()
+	[Authorize]
+	[HttpPost("SaveFile")]
+	public JsonResult SaveFile()
+	{
+		try
 		{
-			try
-			{
-				var httpRequest = Request.Form;
-				var postedFile = httpRequest.Files[0];
-				var filename = postedFile.FileName;
-				var physicalPath = _env.ContentRootPath + "/Photos/" + filename;
+			var httpRequest = Request.Form;
+			var postedFile = httpRequest.Files[0];
+			var filename = postedFile.FileName;
+			var physicalPath = _env.ContentRootPath + "/Photos/" + filename;
 
 				using (var stream = new FileStream(physicalPath, FileMode.Create))
 				{
