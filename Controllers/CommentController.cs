@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -12,6 +12,10 @@ using MySql.Data.MySqlClient;
 
 namespace LFG.Controllers;
 
+/* Controller for the Comment entity.
+ Transmits data between models and Frontend.
+*/
+
 [ApiController]
 [Route("api/[controller]")]
 public class CommentController : ControllerBase
@@ -23,11 +27,14 @@ public class CommentController : ControllerBase
 		_configuration = configuration;
 	}
 
+
+	//Get command for all comments, not used.
+
 	[HttpGet]
 	public async Task<List<Comment>> Get()
 	{
 		const string query =
-			@"SELECT commentId, content, DATE_FORMAT(date,'%Y-%m-%dT%TZ') as date, profileId, postId FROM Comment";
+			@"SELECT commentId, content, DATE_FORMAT(date,'%Y-%m-%dT%TZ') as date, profileId, postId FROM Comment ORDER by date DESC";
 
 		var sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
 
@@ -55,11 +62,13 @@ public class CommentController : ControllerBase
 		return comments;
 	}
 
+	//Get command for all comments of a specific post.
+
 	[HttpGet("GetByPostId/{postId}")]
 	public async Task<List<Comment>> GetByPostId(String postId)
 	{
 		const string query =
-			@"SELECT commentId, content, DATE_FORMAT(date,'%Y-%m-%dT%TZ') as date, profileId, postId FROM Comment WHERE postId=@postId";
+			@"SELECT commentId, content, DATE_FORMAT(date,'%Y-%m-%dT%TZ') as date, profileId, postId FROM Comment WHERE postId=@postId ORDER by date DESC";
 
 		var sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
 
@@ -88,11 +97,13 @@ public class CommentController : ControllerBase
 		return comments;
 	}
 
+	//Get command for comments made by a specific profile.
+
 	[HttpGet("GetByProfileId/{profileId}")]
 	public async Task<List<Comment>> GetByProfileId(String profileId)
 	{
 		const string query =
-			@"SELECT commentId, content, DATE_FORMAT(date,'%Y-%m-%dT%TZ') as date, profileId, postId FROM Comment WHERE profileId=@profileId";
+			@"SELECT commentId, content, DATE_FORMAT(date,'%Y-%m-%d T%TZ') as date, profileId, postId FROM Comment WHERE profileId=@profileId";
 
 		var sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
 
@@ -120,6 +131,8 @@ public class CommentController : ControllerBase
 
 		return comments;
 	}
+
+	//Post command for a new comment.
 
 	[Authorize]
 	[HttpPost]
@@ -153,6 +166,8 @@ public class CommentController : ControllerBase
 		return new JsonResult("Added Successfully!");
 	}
 
+	//Put command for updating a comment.
+
 	[Authorize]
 	[HttpPut("{id}")]
 	public JsonResult Put(string id, CommentDto comment)
@@ -185,6 +200,8 @@ public class CommentController : ControllerBase
 
 		return new JsonResult("Updated Successfully!");
 	}
+
+	//Delete command for a comment by commentID.
 
 	[Authorize]
 	[HttpDelete("{id}")]

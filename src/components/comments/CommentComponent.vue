@@ -14,7 +14,7 @@
 				>
 				<h6 class="italic text-xs mt-1 opacity-70" id="date">{{ comment.date }}</h6>
 				<button
-					v-if="!menu"
+					v-if="!menu && isOwner"
 					class="material-symbols-outlined ml-2 opacity-70 hover:opacity-100 transition duration-150"
 					@click="menu = true"
 				>
@@ -23,7 +23,7 @@
 				<!-- Menu -->
 				<section
 					v-if="menu && !deleting"
-					class="ml-2 rounded-md bg-background-default flex flex-col h-fit w-80 absolute z-10"
+					class="ml-2 rounded-md bg-background-default flex flex-col h-fit w-80 absolute z-10 border border-background-lighter"
 				>
 					<button
 						@click=";(editing = true), (menu = false)"
@@ -47,7 +47,7 @@
 				<!-- Delete confirmation -->
 				<section
 					v-if="menu && deleting"
-					class="ml-2 rounded-md bg-background-default flex flex-col h-fit w-80 absolute z-10"
+					class="ml-2 rounded-md bg-background-default flex flex-col h-fit w-80 absolute z-10 border border-background-lighter"
 				>
 					<div class="px-2 py-2 border-b border-background-lighter">
 						<p>Are you sure you want to delete this comment permanently?</p>
@@ -84,6 +84,7 @@
 import AvatarHelper from '@/helpers/AvatarHelper.vue'
 import EditCommentComponent from '@/components/comments/EditCommentComponent.vue'
 import axios from 'axios'
+import { useMeStore } from '@/stores/me'
 
 export default {
 	name: 'CommentComponent',
@@ -91,6 +92,12 @@ export default {
 
 	props: {
 		comment: Object,
+	},
+
+	setup() {
+		const meStore = useMeStore()
+
+		return { meStore }
 	},
 
 	data() {
@@ -102,16 +109,22 @@ export default {
 		}
 	},
 
+	computed: {
+		isOwner() {
+			return this.meStore.$state.profileId === this.profile.profileId
+		},
+	},
+
 	methods: {
 		async getProfile() {
 			if (this.comment) {
-				axios.get('https://localhost:5001/api/Profile/' + this.comment.profileId).then((response) => {
+				axios.get('/api/Profile/' + this.comment.profileId).then((response) => {
 					this.profile = response.data
 				})
 			}
 		},
 
-		deleteComment() {
+		async deleteComment() {
 			if (this.comment) {
 				axios
 					.delete('/api/Comment/' + this.comment.commentId)

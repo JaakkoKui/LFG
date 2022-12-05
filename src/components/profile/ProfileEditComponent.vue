@@ -31,8 +31,8 @@
 			/>
 		</div>
 		<div id="profileEditControls" class="absolute bottom-0 right-0 my-2 mx-4">
-			<CancelButtonHelper @click="$emit('cancel')" ref="cancelButton"/>
-			<ButtonHelper name="edit" @click="putEdit" ref="editButton"/>
+			<CancelButtonHelper @click="$emit('cancel')" ref="cancelButton" />
+			<ButtonHelper name="edit" @click="putEdit" ref="editButton" />
 		</div>
 	</fieldset>
 </template>
@@ -41,12 +41,19 @@
 import axios from 'axios'
 import ButtonHelper from '@/helpers/ButtonHelper.vue'
 import CancelButtonHelper from '@/helpers/CancelButtonHelper.vue'
+import { useMeStore } from '@/stores/me'
 
 export default {
 	name: 'EditProfileView',
 	components: {
 		ButtonHelper,
 		CancelButtonHelper,
+	},
+
+	setup() {
+		const meStore = useMeStore()
+
+		return { meStore }
 	},
 
 	data() {
@@ -63,24 +70,16 @@ export default {
 	},
 
 	methods: {
-		getMe() {
-			axios
-				.get('/api/Profile/@me')
-				.then((response) => {
-					this.me = response.data
+		async getMe() {
+			this.me = this.meStore.$state
 
-					this.profileDto.nickname = this.me.nickname
-					this.profileDto.firstName = this.me.firstName
-					this.profileDto.lastName = this.me.lastName
-					this.profileDto.age = this.me.age
-				})
-				.catch((error) => {
-					console.error(error)
-					this.$emit('cancel')
-				})
+			this.profileDto.nickname = this.me.nickname
+			this.profileDto.firstName = this.me.firstName
+			this.profileDto.lastName = this.me.lastName
+			this.profileDto.age = this.me.age
 		},
 
-		putEdit() {
+		async putEdit() {
 			axios
 				.put('/api/Profile', this.profileDto)
 				.then(() => {

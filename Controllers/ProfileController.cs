@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -13,6 +13,12 @@ using MySql.Data.MySqlClient;
 
 namespace LFG.Controllers;
 
+/* Controller for the Profile entity.
+ * Transmits data between models and Frontend.
+*/
+
+
+
 [Route("api/[controller]")]
 [ApiController]
 public class ProfileController : ControllerBase
@@ -24,11 +30,14 @@ public class ProfileController : ControllerBase
 		_configuration = configuration;
 	}
 
+
+	//Get command for all profiles.
+
 	[HttpGet]
 	public async Task<List<Profile>> Get()
 	{
 		const string query =
-			@"SELECT profileId,discordName,nickname,firstName,lastName,age,avatar, DATE_FORMAT(joiningDate,'%Y-%m-%dT%TZ') as joiningDate FROM Profile";
+			@"SELECT profileId,discordName,nickname,firstName,lastName,age,avatar, DATE_FORMAT(joiningDate,'%Y-%m-%d T%TZ') as joiningDate FROM Profile";
 
 		var sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
 
@@ -59,6 +68,8 @@ public class ProfileController : ControllerBase
 		return profiles;
 	}
 
+	//Get command for your users own profile.
+	
 	[Authorize]
 	[HttpGet("@me")]
 	public async Task<Profile> GetMe()
@@ -98,6 +109,8 @@ public class ProfileController : ControllerBase
 		return profiles[0];
 	}
 
+	//Get command for a specific profile by ID.
+
 	[HttpGet("{id}")]
 	public async Task<Profile> GetById(string id)
 	{
@@ -135,6 +148,8 @@ public class ProfileController : ControllerBase
 		return profiles[0];
 	}
 
+	//Put command for editing users own profile.
+
 	[Authorize]
 	[HttpPut]
 	public JsonResult Put(ProfileDto profile)
@@ -168,6 +183,8 @@ public class ProfileController : ControllerBase
 
 		return new JsonResult(table);
 	}
+
+	//Delete command for deleting users own profile, not implemented.
 
 	[Authorize]
 	[HttpDelete]

@@ -1,7 +1,7 @@
 ﻿<template>
 	<section class="mx-4 sm:mx-8 lg:w-1/2" :class="{ 'lg:mr-0': postId }">
 		<NewCommentComponent v-if="postId" @updateComments="$emit('updateComments')" :post-id="postId" />
-		<div v-for="(comment, key) in comments" :key="key" class="flex flex-col gap-y-8 mt-4">
+		<div v-for="(comment, key) in comments" :key="key" class="flex flex-col gap-y-8 my-4">
 			<CommentComponent @updateComments="$emit('updateComments')" :comment="comment" />
 		</div>
 	</section>

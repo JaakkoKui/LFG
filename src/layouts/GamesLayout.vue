@@ -25,11 +25,5 @@ export default {
 		games: Array,
 		profileId: String,
 	},
-
-	data() {
-		return {
-			isOwner: true,
-		}
-	},
 }
 </script>

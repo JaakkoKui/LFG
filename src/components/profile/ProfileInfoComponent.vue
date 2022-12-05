@@ -11,14 +11,16 @@
 				ref="avatarHelper"
 			/>
 
-			<ProfileInfoContentComponent v-if="!editing" :profile="profile" ref="profileInfo"/>
+			<ProfileInfoContentComponent v-if="!editing" :profile="profile" ref="profileInfo" />
 		</div>
 
-		<ProfileEditComponent v-if="editing" @done="$emit('updateProfile')" @cancel="editing = false" ref="profileEdit"/>
+		<ProfileEditComponent v-if="editing" @done="$emit('updateProfile')" @cancel="editing = false" ref="profileEdit" />
 
 		<div v-if="deleting" class="absolute w-full h-full left-0 max-sm:p-8 top-0 flex">
 			<div class="m-auto w-fit h-fit">
-				<p class="italic font-semibold max-sm:text-center" id="areYouSure">Are you sure you want to delete your profile permanently?</p>
+				<p class="italic font-semibold max-sm:text-center" id="areYouSure">
+					Are you sure you want to delete your profile permanently?
+				</p>
 				<div class="flex max-sm:mx-auto max-sm:w-fit max-sm:flex-col gap-x-4">
 					<button
 						id="cancelButton"
@@ -38,7 +40,7 @@
 			</div>
 		</div>
 
-		<aside v-if="!editing" class="sm:flex sm:absolute right-0 top-0 h-full">
+		<aside v-if="!editing && isOwner" class="sm:flex sm:absolute right-0 top-0 h-full">
 			<p class="font-semibold opacity-70 max-sm:text-center max-sm:mb-2 sm:mr-4 sm:my-auto" :class="{ blur: deleting }">
 				{{ simplifiedDate }}
 			</p>
@@ -91,18 +93,18 @@ export default {
 
 	props: {
 		profile: Object,
+		isOwner: Boolean,
 	},
 
 	data() {
 		return {
-			isOwner: true,
 			editing: false,
 			deleting: false,
 		}
 	},
 
 	methods: {
-		deleteProfile() {
+		async deleteProfile() {
 			axios
 				.delete('/api/Profile/')
 				.then(() => {

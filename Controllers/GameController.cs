@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -13,6 +13,11 @@ using MySql.Data.MySqlClient;
 
 namespace LFG.Controllers;
 
+
+/* Controller for the Game entity.
+ Transmits data between model and Frontend.
+*/
+
 [ApiController]
 [Route("api/[controller]")]
 public class GameController : ControllerBase
@@ -23,6 +28,8 @@ public class GameController : ControllerBase
 	{
 		_configuration = configuration;
 	}
+
+	//Get command for all games in database, not used.
 
 	[HttpGet]
 	public async Task<List<Game>> Get()
@@ -57,6 +64,8 @@ public class GameController : ControllerBase
 
 		return games;
 	}
+
+	//Get command for a specific game by gameID.
 
 	[HttpGet("{id}")]
 	public async Task<Game> Get(string id)
@@ -93,6 +102,9 @@ public class GameController : ControllerBase
 		return games[0];
 	}
 
+
+	//Get command for all games in database by profileID.
+
 	[HttpGet("ByUser/{profileId}")]
 	public async Task<List<Game>> GetByProfile(string profileId)
 	{
@@ -127,6 +139,8 @@ public class GameController : ControllerBase
 
 		return games;
 	}
+
+	//Post command for adding a new game.
 
 	[Authorize]
 	[HttpPost]
@@ -164,6 +178,8 @@ public class GameController : ControllerBase
 		return new JsonResult("Added Successfully!");
 	}
 
+	//Put command for updating a game.
+
 	[Authorize]
 	[HttpPut("{id}")]
 	public JsonResult Put(string id, GameDto game)
@@ -200,6 +216,8 @@ public class GameController : ControllerBase
 
 		return new JsonResult("Updated Successfully!");
 	}
+
+	//Delete game by gameID.
 
 	[Authorize]
 	[HttpDelete("{id}")]
