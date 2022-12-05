@@ -53,7 +53,7 @@ Our LFG API is served from
 
 LFG API end-points can be seen from
 
-`https://localhost:5001/api/swagger`
+`https://localhost:5001/swagger/index.html`
 
 External APIs used are:
 - Discord API for oAuth2 authentication flow and getting user data an initial locale.

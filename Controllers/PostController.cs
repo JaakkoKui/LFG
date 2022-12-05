@@ -34,14 +34,14 @@ public class PostController : ControllerBase
 		_env = env;
 	}
 
-	
+
 	//Get command for all posts.
 
 	[HttpGet]
 	public async Task<List<Post>> GetAll()
 	{
 		const string query =
-			@"SELECT postId, title, DATE_FORMAT(createDate,'%Y-%m-%dT%TZ') as createDate, content, profileId, photoFileName, numberOfLikes, numberOfDislikes, numberOfComments FROM Post";
+			@"SELECT postId, title, DATE_FORMAT(createDate,'%Y-%m-%dT%TZ') as createDate, content, profileId, photoFileName, numberOfComments FROM Post";
 
 		var sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
 
@@ -62,9 +62,7 @@ public class PostController : ControllerBase
 				content = await reader.GetFieldValueAsync<string>(3),
 				profileId = await reader.GetFieldValueAsync<string>(4),
 				photoFileName = await reader.GetFieldValueOrNullAsync<string>(5),
-				numberOfLikes = await reader.GetFieldValueAsync<int>(6),
-				numberOfDislikes = await reader.GetFieldValueAsync<int>(7),
-				numberOfComments = await reader.GetFieldValueAsync<int>(8)
+				numberOfComments = await reader.GetFieldValueAsync<int>(6)
 			});
 
 		await reader.CloseAsync();
@@ -80,7 +78,7 @@ public class PostController : ControllerBase
 	public async Task<Post> Get(string id)
 	{
 		const string query =
-			@"SELECT postId, title, DATE_FORMAT(createDate,'%Y-%m-%dT%TZ') as createDate, content, profileId, photoFileName, numberOfLikes, numberOfDislikes, numberOfComments FROM Post WHERE postId=@postId";
+			@"SELECT postId, title, DATE_FORMAT(createDate,'%Y-%m-%dT%TZ') as createDate, content, profileId, photoFileName, numberOfComments FROM Post WHERE postId=@postId";
 
 		var sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
 
@@ -102,9 +100,7 @@ public class PostController : ControllerBase
 				content = await reader.GetFieldValueAsync<string>(3),
 				profileId = await reader.GetFieldValueAsync<string>(4),
 				photoFileName = await reader.GetFieldValueOrNullAsync<string>(5),
-				numberOfLikes = await reader.GetFieldValueAsync<int>(6),
-				numberOfDislikes = await reader.GetFieldValueAsync<int>(7),
-				numberOfComments = await reader.GetFieldValueAsync<int>(8)
+				numberOfComments = await reader.GetFieldValueAsync<int>(6)
 			});
 
 		await reader.CloseAsync();
@@ -119,7 +115,7 @@ public class PostController : ControllerBase
 	public async Task<List<Post>> GetByProfileId(String profileId)
 	{
 		const string query =
-			@"SELECT postId, title, DATE_FORMAT(createDate,'%Y-%m-%dT%TZ') as createDate, content, profileId, photoFileName, numberOfLikes, numberOfDislikes, numberOfComments FROM Post WHERE profileId=@profileId";
+			@"SELECT postId, title, DATE_FORMAT(createDate,'%Y-%m-%dT%TZ') as createDate, content, profileId, photoFileName, numberOfComments FROM Post WHERE profileId=@profileId";
 
 		var sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
 
@@ -141,9 +137,7 @@ public class PostController : ControllerBase
 				content = await reader.GetFieldValueAsync<string>(3),
 				profileId = await reader.GetFieldValueAsync<string>(4),
 				photoFileName = await reader.GetFieldValueOrNullAsync<string>(5),
-				numberOfLikes = await reader.GetFieldValueAsync<int>(6),
-				numberOfDislikes = await reader.GetFieldValueAsync<int>(7),
-				numberOfComments = await reader.GetFieldValueAsync<int>(8)
+				numberOfComments = await reader.GetFieldValueAsync<int>(6)
 			});
 
 		await reader.CloseAsync();
@@ -153,13 +147,13 @@ public class PostController : ControllerBase
 	}
 
 	//Post command for a new post.
-	
+
 	[Authorize]
 	[HttpPost]
 	public JsonResult Post(PostDto post)
 	{
 		const string query =
-			@"INSERT INTO Post (postId, title, content, profileId, photoFileName, numberOfLikes, numberOfDislikes, numberOfComments) VALUES (NULL, @title, @content, @profileId, @photoFileName, @numberOfLikes, @numberOfDislikes, @numberOfComments);";
+			@"INSERT INTO Post (postId, title, content, profileId, photoFileName, numberOfComments) VALUES (NULL, @title, @content, @profileId, @photoFileName, @numberOfComments);";
 
 		var table = new DataTable();
 		var sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
@@ -172,8 +166,6 @@ public class PostController : ControllerBase
 				myCommand.Parameters.AddWithValue("@title", post.title);
 				myCommand.Parameters.AddWithValue("@content", post.content);
 				myCommand.Parameters.AddWithValue("@photoFileName", post.photoFileName);
-				myCommand.Parameters.AddWithValue("@numberOfLikes", post.numberOfLikes);
-				myCommand.Parameters.AddWithValue("@numberOfDislikes", post.numberOfDislikes);
 				myCommand.Parameters.AddWithValue("@numberOfComments", post.numberOfComments);
 
 				var id = HttpContext.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
@@ -197,7 +189,7 @@ public class PostController : ControllerBase
 	public JsonResult Put(string id, PostDto post)
 	{
 		const string query =
-			@"UPDATE Post SET title=@title, content=@content, photoFileName=@photoFileName, numberOfLikes=@numberOfLikes, numberOfDislikes=@numberOfDislikes, numberOfComments=@numberOfComments WHERE postId=@postId AND profileId=@profileId;";
+			@"UPDATE Post SET title=@title, content=@content, photoFileName=@photoFileName, numberOfComments=@numberOfComments WHERE postId=@postId AND profileId=@profileId;";
 
 		var table = new DataTable();
 		var sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
@@ -211,8 +203,6 @@ public class PostController : ControllerBase
 				myCommand.Parameters.AddWithValue("@title", post.title);
 				myCommand.Parameters.AddWithValue("@content", post.content);
 				myCommand.Parameters.AddWithValue("@photoFileName", post.photoFileName);
-				myCommand.Parameters.AddWithValue("@numberOfLikes", post.numberOfLikes);
-				myCommand.Parameters.AddWithValue("@numberOfDislikes", post.numberOfDislikes);
 				myCommand.Parameters.AddWithValue("@numberOfComments", post.numberOfComments);
 
 				var profileId = HttpContext.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
@@ -262,7 +252,7 @@ public class PostController : ControllerBase
 	}
 
 	//Post command for adding a photo to post, not implemented.
-	
+
 	[Authorize]
 	[HttpPost("SaveFile")]
 	public JsonResult SaveFile()
