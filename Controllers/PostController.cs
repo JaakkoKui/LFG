@@ -19,22 +19,23 @@ using MySql.Data.MySqlClient;
 */
 
 
-namespace LFG.Controllers;
-
-[ApiController]
-[Route("api/[controller]")]
-public class PostController : ControllerBase
+namespace LFG.Controllers
 {
-	private readonly IConfiguration _configuration;
-	private readonly IWebHostEnvironment _env;
 
-	public PostController(IConfiguration configuration, IWebHostEnvironment env)
+	[ApiController]
+	[Route("api/[controller]")]
+	public class PostController : ControllerBase
 	{
-		_configuration = configuration;
-		_env = env;
-	}
+		private readonly IConfiguration _configuration;
+		private readonly IWebHostEnvironment _env;
 
+		public PostController(IConfiguration configuration, IWebHostEnvironment env)
+		{
+			_configuration = configuration;
+			_env = env;
+		}
 
+	
 	//Get command for all posts.
 
 	[HttpGet]
@@ -43,14 +44,14 @@ public class PostController : ControllerBase
 		const string query =
 			@"SELECT postId, title, DATE_FORMAT(createDate,'%Y-%m-%dT%TZ') as createDate, content, profileId, photoFileName, numberOfComments FROM Post";
 
-		var sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
+			var sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
 
-		await using var conn = new MySqlConnection(sqlDataSource);
-		await conn.OpenAsync();
+			await using var conn = new MySqlConnection(sqlDataSource);
+			await conn.OpenAsync();
 
-		var posts = new List<Post>();
+			var posts = new List<Post>();
 
-		await using var cmd = new MySqlCommand(query, conn);
+			await using var cmd = new MySqlCommand(query, conn);
 
 		var reader = cmd.ExecuteReader();
 		while (await reader.ReadAsync())
@@ -65,14 +66,14 @@ public class PostController : ControllerBase
 				numberOfComments = await reader.GetFieldValueAsync<int>(6)
 			});
 
-		await reader.CloseAsync();
-		await conn.CloseAsync();
+			await reader.CloseAsync();
+			await conn.CloseAsync();
 
-		return posts;
-	}
+			return posts;
+		}
 
 
-	//Get command for a specific post.
+		//Get command for a specific post.
 
 	[HttpGet("{id}")]
 	public async Task<Post> Get(string id)
@@ -80,15 +81,15 @@ public class PostController : ControllerBase
 		const string query =
 			@"SELECT postId, title, DATE_FORMAT(createDate,'%Y-%m-%dT%TZ') as createDate, content, profileId, photoFileName, numberOfComments FROM Post WHERE postId=@postId";
 
-		var sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
+			var sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
 
-		await using var conn = new MySqlConnection(sqlDataSource);
-		await conn.OpenAsync();
+			await using var conn = new MySqlConnection(sqlDataSource);
+			await conn.OpenAsync();
 
-		var posts = new List<Post>();
+			var posts = new List<Post>();
 
-		await using var cmd = new MySqlCommand(query, conn);
-		cmd.Parameters.AddWithValue("@postId", id);
+			await using var cmd = new MySqlCommand(query, conn);
+			cmd.Parameters.AddWithValue("@postId", id);
 
 		var reader = cmd.ExecuteReader();
 		while (await reader.ReadAsync())
@@ -103,13 +104,13 @@ public class PostController : ControllerBase
 				numberOfComments = await reader.GetFieldValueAsync<int>(6)
 			});
 
-		await reader.CloseAsync();
-		await conn.CloseAsync();
+			await reader.CloseAsync();
+			await conn.CloseAsync();
 
-		return posts[0];
-	}
+			return posts[0];
+		}
 
-	//Get command for all posts of a specific user.
+		//Get command for all posts of a specific user.
 
 	[HttpGet("GetByProfileId/{profileId}")]
 	public async Task<List<Post>> GetByProfileId(String profileId)
@@ -117,15 +118,15 @@ public class PostController : ControllerBase
 		const string query =
 			@"SELECT postId, title, DATE_FORMAT(createDate,'%Y-%m-%dT%TZ') as createDate, content, profileId, photoFileName, numberOfComments FROM Post WHERE profileId=@profileId";
 
-		var sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
+			var sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
 
-		await using var conn = new MySqlConnection(sqlDataSource);
-		await conn.OpenAsync();
+			await using var conn = new MySqlConnection(sqlDataSource);
+			await conn.OpenAsync();
 
-		var posts = new List<Post>();
+			var posts = new List<Post>();
 
-		await using var cmd = new MySqlCommand(query, conn);
-		cmd.Parameters.AddWithValue("@profileId", profileId);
+			await using var cmd = new MySqlCommand(query, conn);
+			cmd.Parameters.AddWithValue("@profileId", profileId);
 
 		var reader = cmd.ExecuteReader();
 		while (await reader.ReadAsync())
@@ -140,11 +141,11 @@ public class PostController : ControllerBase
 				numberOfComments = await reader.GetFieldValueAsync<int>(6)
 			});
 
-		await reader.CloseAsync();
-		await conn.CloseAsync();
+			await reader.CloseAsync();
+			await conn.CloseAsync();
 
-		return posts;
-	}
+			return posts;
+		}
 
 	//Post command for a new post.
 
@@ -168,21 +169,21 @@ public class PostController : ControllerBase
 				myCommand.Parameters.AddWithValue("@photoFileName", post.photoFileName);
 				myCommand.Parameters.AddWithValue("@numberOfComments", post.numberOfComments);
 
-				var id = HttpContext.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
-				myCommand.Parameters.AddWithValue("@profileId", id);
+					var id = HttpContext.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+					myCommand.Parameters.AddWithValue("@profileId", id);
 
-				myReader = myCommand.ExecuteReader();
-				table.Load(myReader);
+					myReader = myCommand.ExecuteReader();
+					table.Load(myReader);
 
-				myReader.Close();
-				mycon.Close();
+					myReader.Close();
+					mycon.Close();
+				}
 			}
+
+			return new JsonResult("Added Succesfully");
 		}
 
-		return new JsonResult("Added Succesfully");
-	}
-
-	//Put command for editing specific post.
+		//Put command for editing specific post.
 
 	[Authorize]
 	[HttpPut("{id}")]
@@ -205,51 +206,51 @@ public class PostController : ControllerBase
 				myCommand.Parameters.AddWithValue("@photoFileName", post.photoFileName);
 				myCommand.Parameters.AddWithValue("@numberOfComments", post.numberOfComments);
 
-				var profileId = HttpContext.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
-				myCommand.Parameters.AddWithValue("@profileId", profileId);
+					var profileId = HttpContext.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+					myCommand.Parameters.AddWithValue("@profileId", profileId);
 
-				myReader = myCommand.ExecuteReader();
-				table.Load(myReader);
+					myReader = myCommand.ExecuteReader();
+					table.Load(myReader);
 
-				myReader.Close();
-				mycon.Close();
+					myReader.Close();
+					mycon.Close();
+				}
 			}
+
+			return new JsonResult("Updated Successfully!");
 		}
 
-		return new JsonResult("Updated Successfully!");
-	}
+		//Delete command for deleting specific post.
 
-	//Delete command for deleting specific post.
-
-	[Authorize]
-	[HttpDelete("{id}")]
-	public JsonResult Delete(string id)
-	{
-		const string query = @"DELETE FROM Post WHERE postId=@postId AND profileId=@profileId;";
-
-		var table = new DataTable();
-		var sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
-		MySqlDataReader myReader;
-		using (var mycon = new MySqlConnection(sqlDataSource))
+		[Authorize]
+		[HttpDelete("{id}")]
+		public JsonResult Delete(string id)
 		{
-			mycon.Open();
-			using (var myCommand = new MySqlCommand(query, mycon))
+			const string query = @"DELETE FROM Post WHERE postId=@postId AND profileId=@profileId;";
+
+			var table = new DataTable();
+			var sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
+			MySqlDataReader myReader;
+			using (var mycon = new MySqlConnection(sqlDataSource))
 			{
-				myCommand.Parameters.AddWithValue("@postId", id);
+				mycon.Open();
+				using (var myCommand = new MySqlCommand(query, mycon))
+				{
+					myCommand.Parameters.AddWithValue("@postId", id);
 
-				var profileId = HttpContext.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
-				myCommand.Parameters.AddWithValue("@profileId", profileId);
+					var profileId = HttpContext.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+					myCommand.Parameters.AddWithValue("@profileId", profileId);
 
-				myReader = myCommand.ExecuteReader();
-				table.Load(myReader);
+					myReader = myCommand.ExecuteReader();
+					table.Load(myReader);
 
-				myReader.Close();
-				mycon.Close();
+					myReader.Close();
+					mycon.Close();
+				}
 			}
-		}
 
-		return new JsonResult("Deleted Successfully!");
-	}
+			return new JsonResult("Deleted Successfully!");
+		}
 
 	//Post command for adding a photo to post, not implemented.
 
@@ -264,16 +265,17 @@ public class PostController : ControllerBase
 			var filename = postedFile.FileName;
 			var physicalPath = _env.ContentRootPath + "/Photos/" + filename;
 
-			using (var stream = new FileStream(physicalPath, FileMode.Create))
-			{
-				postedFile.CopyTo(stream);
-			}
+				using (var stream = new FileStream(physicalPath, FileMode.Create))
+				{
+					postedFile.CopyTo(stream);
+				}
 
-			return new JsonResult(filename);
-		}
-		catch (Exception)
-		{
-			return new JsonResult("anonymous.png");
+				return new JsonResult(filename);
+			}
+			catch (Exception)
+			{
+				return new JsonResult("anonymous.png");
+			}
 		}
 	}
 }
