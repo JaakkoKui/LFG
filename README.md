@@ -49,11 +49,11 @@ Front-end testing is done with Playwright
 
 Our LFG API is served from
 
-`localhost:5001/api`
+`https://localhost:5001/api`
 
 LFG API end-points can be seen from
 
-`localhost:5001/api/swagger`
+`https://localhost:5001/api/swagger`
 
 External APIs used are:
 - Discord API for oAuth2 authentication flow and getting user data an initial locale.
@@ -93,5 +93,5 @@ Then you can start front-end with the command
 
 `npm run dev`
 
-The website will be serviced from **http://localhost:5001**
+The website will be serviced from **https://localhost:5001**
 
