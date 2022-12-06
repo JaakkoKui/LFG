@@ -1,25 +1,27 @@
 ﻿<template>
-	<div v-if="!notFound" class="p-2 sm:p-4 lg:p-8 max-h-[calc(100vh-65px)] flex justify-center relative">
-		<div class="md:flex h-fit md:h-full min-h-full gap-x-2">
-			<div class="w-fit h-fit border border-background-darker max-w-1/2 bg-background-darker rounded-xl">
-				<GameImageComponent @cancel="deleteConfirm = false" @deleteGame="deleteGame" :delete-confirm="deleteConfirm"/>
+	<div v-if="!notFound" class="p-2 sm:p-4 lg:p-8 max-h-[calc(100vh-65px)] w-full flex justify-center relative aspect-[2/1] min-h-[850px]">
+		<div class="lg:flex h-fit md:h-full min-h-full gap-x-2">
+			<div class="w-fit border border-background-darker bg-background-darker rounded-xl">
+				<GameImageComponent @cancel="deleteConfirm = false" @deleteGame="deleteGame" :delete-confirm="deleteConfirm"
+														:uri="computedUri" :score="computedScore"/>
 			</div>
 			<div class="flex flex-col bg-background-darker rounded-xl my-2 md:mb-0 md:mt-0 sm:min-w-[300px] lg:min-w-[500px]">
 				<!-- View game -->
-				<GameContentComponent v-if="game && !isNew && !isEditing" :game="game"/>
+				<GameContentComponent v-if="game && !isNew && !isEditing" :gameExternal="gameExternal" :game="game"/>
 				<NewGameContentComponent v-if="isNew"/>
 				<EditGameContentComponent v-if="isEditing" @updateGame="getGame" :game="game" @cancel="isEditing = false"/>
 
 				<div v-if="!isNew && !isEditing" class="w-full p-2 mt-auto">
 					<button
+						v-if="gameExternal"
 						class="w-full relative flex justify-center py-16 rounded-xl text-2xl font-semibold transition duration-300 ease-out text-text-white overflow-clip"
 					>
 						<img
-							class="absolute -top-[10%] object-cover transition duration-500 ease-out hover:scale-125 z-0 rounded-xl"
-							src="@/assets/images/game.jpeg"
+							class="absolute -top-[10%] object-cover transition duration-500 ease-out hover:scale-125 z-0 rounded-xl blur"
+							:src="gameExternal.background_image_additional"
 							alt="communit-background"
 						/>
-						<span class="z-10 pointer-events-none">{{$t('game.toCommunity')}}</span>
+						<span class="z-10 pointer-events-none">{{ $t('game.toCommunity') }}</span>
 						<span class="material-symbols-outlined font-bold ml-2 mt-1.5 z-10 pointer-events-none">arrow_forward</span>
 					</button>
 
@@ -68,11 +70,11 @@ export default {
 		EditGameContentComponent,
 	},
 
-  //Setup Pinia storage
-  setup() {
+	//Setup Pinia storage
+	setup() {
 		const meStore = useMeStore()
-		return { meStore }
-  },
+		return {meStore}
+	},
 
 	data() {
 		return {
@@ -86,15 +88,26 @@ export default {
 		}
 	},
 
-  computed: {
-	//Check ownership from pinia
-	isOwner() {
-	  if(this.meStore.$state.profileId){
-			return this.meStore.$state.profileId === this.$route.params.profileId
-	  }
-	},
-  },
+	computed: {
+		//Check ownership from pinia
+		isOwner() {
+			if (this.meStore.$state.profileId) {
+				return this.meStore.$state.profileId === this.$route.params.profileId
+			}
+		},
 
+		computedUri() {
+			if (this.gameExternal) {
+				return this.gameExternal.background_image
+			}
+		},
+
+		computedScore(){
+		  if(this.gameExternal){
+				return this.gameExternal.metacritic
+			}
+		}
+	},
 	methods: {
 		async getGame() {
 			axios
@@ -109,14 +122,17 @@ export default {
 		},
 
 		async getGameExternal() {
-		  axios
-				.get('/api/Game/GetExternal/' + this.game.gameName)
-				.then((response) => {
-				  this.gameExternal = response.data
-				})
-				.catch((e) => {
-				  console.log(e)
-				})
+			if (this.game) {
+				console.log('/api/Game/GetExternal/' + this.game.gameName)
+				axios
+					.get('/api/Game/GetExternal/' + this.game.gameName)
+					.then((response) => {
+						this.gameExternal = response.data
+					})
+					.catch((e) => {
+						console.log(e)
+					})
+			}
 		},
 
 		async deleteGame() {
@@ -139,8 +155,12 @@ export default {
 		}
 	},
 
-	mounted() {
-	  this.getGameExternal()
+	watch: {
+		game() {
+		  if(this.game){
+				this.getGameExternal()
+			}
+		}
 	}
 }
 </script>

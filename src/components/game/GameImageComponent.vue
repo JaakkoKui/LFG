@@ -1,11 +1,17 @@
 ﻿<template>
-	<div class="aspect-[1.4142] inline relative">
+	<!-- Game image component -->
+	<div class="block relative h-full">
 		<img
-			class="object-contain rounded-xl h-full max-h-full"
+			v-if="uri"
+			class="rounded-xl h-full object-cover"
 			:class="{ blur: deleteConfirm }"
-			src="@/assets/images/DemoCovers/Path Of Exile.png"
+			:src="uri"
 			alt="Game"
 		/>
+
+		<div v-else class="block min-w-[700px] w-full h-[600px]"></div>
+
+		<div v-if="score" class="absolute right-4 bottom-4 bg-primary rounded-lg py-4 px-8 font-semibold">{{score}}</div>
 
 		<div v-if="deleteConfirm" class="absolute w-full h-full left-0 max-sm:p-8 top-0 flex">
 			<div class="m-auto w-fit h-fit">
@@ -36,6 +42,8 @@ export default {
 	name: 'GameImageComponent',
 	props: {
 		deleteConfirm: Boolean,
+		uri: String,
+		score: String,
 	},
 }
 </script>

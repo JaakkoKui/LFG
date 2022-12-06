@@ -7,7 +7,7 @@
 			<input
 				v-model="gameDto.gameName"
 				class="w-full bg-transparent px-1 outline-0 font-bold border-b-2 border-text-darker focus:border-white placeholder:text-text-darker text-center"
-				placeholder="Game Name*"
+				:placeholder="$t('game.gameNamePlaceholder')"
 				id="gameName"
 			/>
 		</div>
@@ -35,7 +35,7 @@
 			<h4 class="font-bold capitalize">{{$t('game.comment')}}</h4>
 			<textarea
 				v-model="gameDto.comments"
-				placeholder="Write your comment here!"
+				:placeholder="$t('game.gameCommentPlaceholder')"
 				class="bg-background-darker placeholder:text-text-darker outline-0 resize-none overflow-hidden w-full border-b border-background-lighter focus:border-white mt-1"
 				rows="1"
 				@input="autoGrow"

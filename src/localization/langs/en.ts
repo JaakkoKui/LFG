@@ -58,7 +58,9 @@ const en = {
 		rank: 'rank',
 		server: 'server',
 		comment: 'comment',
-		toCommunity: 'Go to the community'
+		toCommunity: 'Go to the community',
+		gameNamePlaceholder: 'Game Name',
+		gameCommentPlaceholder: 'Write your comment here!'
 	},
 	comments: {
 		deleteConfirmation: 'Are you sure you want to delete this comment permanently?',

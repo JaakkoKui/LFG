@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using LFG.Model;
@@ -24,6 +25,7 @@ namespace LFG.Controllers
 	public class GameController : ControllerBase
 	{
 		private readonly IConfiguration _configuration;
+		readonly HttpClient client = new HttpClient();
 
 		public GameController(IConfiguration configuration)
 		{
@@ -64,6 +66,26 @@ namespace LFG.Controllers
 			await conn.CloseAsync();
 
 			return games;
+		}
+
+		[HttpGet("GetExternal/{slug}")]
+		public async Task<Object> GetExternal(string slug)
+		{
+			try
+			{
+				slug = slug.ToLower().Replace(" ", "-");
+				using HttpResponseMessage response = await client.GetAsync("https://api.rawg.io/api/games/"+ slug +"?key=73e77644ac9c41d58460651f2e9dcdaf");
+				response.EnsureSuccessStatusCode();
+				string responseBody = await response.Content.ReadAsStringAsync();
+				return responseBody;
+			}
+			catch (HttpRequestException e)
+			{
+				Console.WriteLine("\nException Caught!");
+				Console.WriteLine("Message :{0} ", e.Message);
+			}
+
+			return "";
 		}
 
 		//Get command for a specific game by gameID.
