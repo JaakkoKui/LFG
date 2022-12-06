@@ -108,7 +108,11 @@ export default {
 
 		//Get your profile from Pinia
 		async getMe() {
-			this.me = this.meStore.$state
+		  if(this.meStore.$state.profileId){
+				this.me = this.meStore.$state
+			} else {
+				this.me = null
+			}
 		},
 
 		//Autogrow comment text field

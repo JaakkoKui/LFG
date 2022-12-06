@@ -121,9 +121,9 @@ export default {
 	  	localeChange: false,
 
 			locales: [
-			  { language: 'Finnish', lang: 'fi'},
+			  { language: 'Suomi', lang: 'fi'},
 				{ language: 'English', lang: 'en'},
-				{ language: 'Japanese', lang: 'ja'},
+				{ language: '日本語', lang: 'ja'},
 			]
 		}
 	},
@@ -145,14 +145,8 @@ export default {
 	computed: {
 	  //Simplifies the date from it's SQL timestamp form
 		simplifiedDate() {
-			try {
-				const jDate = this.profile.joiningDate.split('T')
-				const seperatedDates = jDate[0].split('-')
-				return seperatedDates[2] + '.' + seperatedDates[1] + '.' + seperatedDates[0]
-			} catch (e) {
-				console.log(e)
-				return null
-			}
+			const date = new Date(this.profile.joiningDate)
+			return this.$t('date.joinDate', { day: date.getDate(), month: date.getMonth(), year: date.getFullYear() })
 		},
 	},
 }

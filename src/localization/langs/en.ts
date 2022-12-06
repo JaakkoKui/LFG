@@ -89,8 +89,18 @@ const en = {
 			title: 'Oops!',
 			description: 'What you are looking for does not appear to be here...'
 		}
-
 	},
+	time: {
+		second: '{amount} second ago | {amount} seconds ago',
+		minute: '{amount} minute ago | {amount} minutes ago',
+		hour: '{amount} hour ago | {amount} hours ago',
+		day: '{amount} day ago | {amount} days ago',
+		month: '{amount} month ago | {amount} months ago',
+		year: '{amount} year ago | {amount} years ago',
+	},
+	date: {
+		joinDate: '{month}/{day}/{year}'
+	}
 }
 
 export default en

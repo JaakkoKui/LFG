@@ -91,6 +91,17 @@ const fi = {
 		}
 
 	},
+	time: {
+		second: '{amount} sekuntti sitten | {amount} sekunttia sitten',
+		minute: '{amount} minuutti sitten | {amount} minuuttia sitten',
+		hour: '{amount} tunti sitten | {amount} tuntia sitten',
+		day: '{amount} päivä sitten | {amount} päivää sitten',
+		month: '{amount} kuukausi sitten | {amount} kuukautta sitten',
+		year: '{amount} vuosi sitten | {amount} vuotta sitten',
+	},
+	date: {
+		joinDate: '{day}.{month}.{year}'
+	}
 }
 
 export default fi

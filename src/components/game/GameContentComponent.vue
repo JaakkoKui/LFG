@@ -1,5 +1,7 @@
 ﻿<template>
 	<div class="mb-4">
+
+		<!-- Game title -->
 		<div
 			id="gameName"
 			class="text-4xl font-bold p-8 text-center text-text-white rounded-xl mt-2 mx-2 transition duration-200"
@@ -7,6 +9,8 @@
 		>
 			{{ game.gameName }}
 		</div>
+
+		<!-- Game info body -->
 		<div class="flex my-4 p-8 lg:px-16 lg:py-8">
 			<div class="font-bold capitalize w-full flex flex-col gap-y-2">
 				<h4 class="my-auto">{{ $t('game.nickname') }}</h4>
@@ -33,6 +37,7 @@
 			</div>
 		</div>
 
+		<!-- Game comment -->
 		<div v-if="game.comments" class="px-8 lg:px-16">
 			<h4 class="font-bold capitalize">{{ $t('game.comment') }}</h4>
 			<p id="comments">{{ game.comments }}</p>
@@ -44,11 +49,13 @@
 export default {
 	name: 'GameContentComponent',
 
+	//Get game object from parent for render and get external game data
 	props: {
 		game: Object,
 		gameExternal: Object,
 	},
 
+	//Change title background color to the dominant color of the game if one exists.
 	computed: {
 		classObject() {
 			if (this.gameExternal) {

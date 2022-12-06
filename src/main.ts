@@ -10,7 +10,7 @@ import './style.css'
 
 //i18n options
 const i18n = createI18n({
-	locale: 'en',
+	locale: 'ja',
 	fallbackLocale: 'en',
 	messages,
 })

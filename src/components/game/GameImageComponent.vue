@@ -1,6 +1,7 @@
 ﻿<template>
 	<!-- Game image component -->
 	<div class="block relative h-full">
+		<!-- Image -->
 		<img
 			v-if="uri"
 			class="rounded-xl h-full object-cover"
@@ -9,10 +10,13 @@
 			alt="Game"
 		/>
 
+		<!-- If no image or empty -->
 		<div v-else class="block min-w-[700px] w-full h-[600px]"></div>
 
+		<!-- Metacritic score -->
 		<div v-if="score" class="absolute right-4 bottom-4 bg-primary rounded-lg py-4 px-8 font-semibold">{{score}}</div>
 
+		<!-- Game delete confirmation -->
 		<div v-if="deleteConfirm" class="absolute w-full h-full left-0 max-sm:p-8 top-0 flex">
 			<div class="m-auto w-fit h-fit">
 				<p class="italic font-semibold max-sm:text-center">
@@ -40,6 +44,8 @@
 <script>
 export default {
 	name: 'GameImageComponent',
+
+	//Props from parent to confirm delete, image uri from external API and metacritic score
 	props: {
 		deleteConfirm: Boolean,
 		uri: String,
