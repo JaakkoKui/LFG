@@ -1,5 +1,6 @@
 ﻿<template>
-	<fieldset class="flex flex-col sm:w-full border rounded-xl mx-4 my-4 px-8 pt-4 pb-2 sm:py-4 border-background-lightest relative">
+	<fieldset
+		class="flex flex-col sm:w-full border rounded-xl mx-4 my-4 px-8 pt-4 pb-2 sm:py-4 border-background-lightest relative">
 		<legend>{{ $t('profile.info.profile') }}</legend>
 
 		<article class="flex">
@@ -37,7 +38,8 @@
 		</article>
 
 		<!-- Profile edit controls -->
-		<div id="profileEditControls" class="flex sm:absolute bottom-0 right-0 mt-4 pt-2 sm:my-2 sm:mx-4 max-sm:border-t border-background-lighter">
+		<div id="profileEditControls"
+				 class="flex sm:absolute bottom-0 right-0 mt-4 pt-2 sm:my-2 sm:mx-4 max-sm:border-t border-background-lighter">
 			<div class="ml-auto">
 				<CancelButtonHelper id="profileEditCancel" @click="$emit('cancel')" ref="cancelButton"/>
 				<ButtonHelper id="profileEditConfirm" :name="$t('buttons.edit')" @click="putEdit" ref="editButton"/>
@@ -105,16 +107,13 @@ export default {
 	},
 
 	computed: {
-		//Simplifies the created date
+		//Simplifies the date from it's SQL timestamp form
 		simplifiedDate() {
-			try {
-				const jDate = this.profile.joiningDate.split('T')
-				const seperatedDates = jDate[0].split('-')
-				return seperatedDates[2] + '.' + seperatedDates[1] + '.' + seperatedDates[0]
-			} catch (e) {
-				console.log(e)
-				return null
-			}
+			let date = new Date(this.profile.joiningDate)
+			date = date + date.getTimezoneOffset()
+			date = date + new Date().getTimezoneOffset()
+			date = new Date(date)
+			return this.$t('date.joinDate', {day: date.getDate(), month: date.getMonth(), year: date.getFullYear()})
 		},
 	},
 

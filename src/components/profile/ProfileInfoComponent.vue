@@ -145,7 +145,10 @@ export default {
 	computed: {
 	  //Simplifies the date from it's SQL timestamp form
 		simplifiedDate() {
-			const date = new Date(this.profile.joiningDate)
+			let date = new Date(this.profile.joiningDate)
+			date = date + date.getTimezoneOffset()
+			date = date + new Date().getTimezoneOffset()
+			date = new Date(date)
 			return this.$t('date.joinDate', { day: date.getDate(), month: date.getMonth(), year: date.getFullYear() })
 		},
 	},
