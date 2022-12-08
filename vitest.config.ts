@@ -10,7 +10,6 @@ export default mergeConfig(viteConfig, defineConfig({
 			'/Auth': 'https://localhost:5001',
 		},
 	},
-	
 	test: {
 		globals: true
 	},
