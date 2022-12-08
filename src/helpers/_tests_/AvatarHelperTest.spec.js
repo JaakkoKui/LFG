@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import { shallowMount } from '@vue/test-utils'
 import AvatarHelper from 'src/helpers/AvatarHelper.vue'
-import { ECDH } from 'crypto'
+
 
 describe('Avatar Helper tests', () => {
     let wrapper = null
