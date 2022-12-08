@@ -13,7 +13,7 @@
 			</p>
 		</div>
 		<!-- Age -->
-		<p v-if="profile.age" class="text-xs sm:text-sm font-semibold opacity-70" id="age">Age: {{ profile.age }}</p>
+		<p v-if="profile.age" class="text-xs sm:text-sm font-semibold opacity-70" id="age">{{$t('profile.info.age')}} {{ profile.age }}</p>
 
 		<!-- Discord -->
 		<div :id="profile.profileId + '-discord'" class="flex mt-2 w-fit mx-auto sm:mx-0">
@@ -27,6 +27,7 @@
 export default {
 	name: 'ProfileInfoContentComponent',
 
+	//Profile passed in order to render the profile
 	props: {
 		profile: Object,
 	},

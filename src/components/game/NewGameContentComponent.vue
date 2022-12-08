@@ -1,22 +1,25 @@
 ﻿<template>
 	<div class="w-full mb-4 relative h-full">
+		<!-- Game title -->
 		<div
 			id="gameName"
-			class="text-4xl font-bold p-8 text-center bg-gradient-to-r from-secondary to-secondaryVariant text-text-white rounded-xl mt-2 mx-2"
+			class="text-4xl font-bold p-8 text-center bg-secondary text-text-white rounded-xl mt-2 mx-2"
 		>
 			<input
 				v-model="gameDto.gameName"
 				class="w-full bg-transparent px-1 outline-0 font-bold border-b-2 border-text-darker focus:border-white placeholder:text-text-darker text-center"
-				placeholder="Game Name*"
+				:placeholder="$t('game.gameNamePlaceholder')"
 				id="gameName"
 			/>
 		</div>
+
+		<!-- Game content body -->
 		<div class="flex my-4 p-8 lg:px-16 lg:py-8">
 			<div class="font-bold capitalize w-full flex flex-col gap-y-2">
-				<h4 class="my-auto">Nickname</h4>
-				<h4 class="my-auto">Hours played</h4>
-				<h4 class="my-auto">Rank</h4>
-				<h4 class="my-auto">Server</h4>
+				<h4 class="my-auto">{{$t('game.nickname')}}</h4>
+				<h4 class="my-auto">{{$t('game.hoursPlayed')}}</h4>
+				<h4 class="my-auto">{{$t('game.rank')}}</h4>
+				<h4 class="my-auto">{{$t('game.server')}}</h4>
 			</div>
 			<div class="flex flex-col gap-y-2 w-fit">
 				<input v-model="gameDto.nicknameInGame" class="w-full rounded-full bg-accent px-1 text-center" id="nickname" />
@@ -31,11 +34,12 @@
 			</div>
 		</div>
 
+		<!-- Game comment -->
 		<div class="px-8 lg:px-16">
-			<h4 class="font-bold">Comment</h4>
+			<h4 class="font-bold capitalize">{{$t('game.comment')}}</h4>
 			<textarea
 				v-model="gameDto.comments"
-				placeholder="Write your comment here!"
+				:placeholder="$t('game.gameCommentPlaceholder')"
 				class="bg-background-darker placeholder:text-text-darker outline-0 resize-none overflow-hidden w-full border-b border-background-lighter focus:border-white mt-1"
 				rows="1"
 				@input="autoGrow"
@@ -43,6 +47,7 @@
 			></textarea>
 		</div>
 
+		<!-- New game controls -->
 		<div class="flex absolute right-0 bottom-0 mx-8">
 			<CancelButtonHelper @click="cancelNew" />
 			<ButtonHelper name="Add" @click="postNewGame"  ref="addGame"/>
@@ -63,6 +68,7 @@ export default {
 		ButtonHelper,
 	},
 
+	//Data stores the Data Transfer Object that is sent when new game is ready
 	data() {
 		return {
 			faulty: false,
@@ -79,11 +85,13 @@ export default {
 	},
 
 	methods: {
+	  //Cancel the new comment and reroute back to profile
 		cancelNew() {
 			router.push('/profile/' + this.$route.params.profileId)
 		},
 
-		postNewGame() {
+		//Post new game to database
+		async postNewGame() {
 			if (this.gameDto.gameName.length > 0 && this.gameDto.nicknameInGame.length > 0) {
 				axios
 					.post('/api/Game', this.gameDto)
@@ -96,6 +104,7 @@ export default {
 			}
 		},
 
+		//Autogrow comment when space runs out
 		autoGrow() {
 			let element = document.getElementById('comments')
 			element.style.height = '5px'

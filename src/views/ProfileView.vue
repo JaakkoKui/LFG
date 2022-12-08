@@ -15,12 +15,12 @@
 			class="bg-gradient-to-r from-primaryVariant via-primary to-pink-600 py-16 rounded-xl text-center text-text-white mt-2 mx-2 h-[212px]"
 		>
 			<div v-if="isOwner">
-				<h1 class="text-5xl font-semibold">Your Posts</h1>
-				<p class="font-semibold text-sm mt-2 italic">All your posts.</p>
+				<h1 class="text-5xl font-semibold">{{$t('profile.headers.yourPosts.title')}}</h1>
+				<p class="font-semibold text-sm mt-2 italic">{{$t('profile.headers.yourPosts.description')}}</p>
 			</div>
 			<div v-else>
-				<h1 class="text-5xl font-semibold">{{ profile.nickname }}'s Posts</h1>
-				<p class="font-semibold text-sm mt-2 italic">All {{ profile.nickname }}'s posts.</p>
+				<h1 class="text-5xl font-semibold">{{$t('profile.headers.theirPosts.title', { nickname: profile.nickname })}}</h1>
+				<p class="font-semibold text-sm mt-2 italic">{{$t('profile.headers.theirPosts.description', { nickname: profile.nickname })}}</p>
 			</div>
 		</header>
 
@@ -30,39 +30,38 @@
 			class="bg-gradient-to-r from-teal-500 via-blue-600 to-sky-500 py-16 rounded-xl text-center text-text-white mt-2 mx-2 h-[212px]"
 		>
 			<div v-if="isOwner">
-				<h1 class="text-5xl font-semibold">Your Comments</h1>
-				<p class="font-semibold text-sm mt-2 italic">All your comments.</p>
+				<h1 class="text-5xl font-semibold">{{$t('profile.headers.yourComments.title')}}</h1>
+				<p class="font-semibold text-sm mt-2 italic">{{$t('profile.headers.yourComments.description')}}</p>
 			</div>
 			<div v-else>
-				<h1 class="text-5xl font-semibold">{{ profile.nickname }}'s Comments</h1>
-				<p class="font-semibold text-sm mt-2 italic">All {{ profile.nickname }}'s comments.</p>
+				<h1 class="text-5xl font-semibold">{{$t('profile.headers.theirComments.title', { nickname: profile.nickname }) }}</h1>
+				<p class="font-semibold text-sm mt-2 italic">{{$t('profile.headers.theirComments.description', { nickname: profile.nickname })}}</p>
 			</div>
 		</header>
 
 		<!-- In profile navigation -->
 		<div class="h-16 flex w-fit mx-auto">
-			<button @click="tab = 1" class="px-4 h-full opacity-75 hover:opacity-100" :class="{ 'border-b': tab === 1 }">
-				Games
+			<button @click="tab = 1" class="px-4 h-full opacity-75 hover:opacity-100 capitalize" :class="{ 'border-b': tab === 1 }">
+				{{$t('profile.nav.games')}}
 			</button>
-			<button @click="tab = 2" class="px-4 h-full opacity-75 hover:opacity-100" :class="{ 'border-b': tab === 2 }">
-				Posts
+			<button @click="tab = 2" class="px-4 h-full opacity-75 hover:opacity-100 capitalize" :class="{ 'border-b': tab === 2 }">
+				{{$t('profile.nav.posts')}}
 			</button>
-			<button @click="tab = 3" class="px-4 h-full opacity-75 hover:opacity-100" :class="{ 'border-b': tab === 3 }">
-				Comments
+			<button @click="tab = 3" class="px-4 h-full opacity-75 hover:opacity-100 capitalize" :class="{ 'border-b': tab === 3 }">
+				{{$t('profile.nav.comments')}}
 			</button>
 		</div>
 
 		<!-- Games container -->
 		<section v-if="tab === 1" class="flex flex-col max-w-[1600px] mx-auto w-full px-2 sm:px-4 lg:px-8">
 			<div v-if="isOwner" class="sm:px-8 sm:py-4 sm:mb-4 bg-background-darker rounded-xl">
-				<RouterLink :to="profile.profileId + '/game/new'">
-					<button
-						class="flex text-lg z-20 sm:text-xl max-sm:fixed max-sm:p-4 sm:py-2 sm:px-4 bottom-0 right-0 font-semibold capitalize rounded-2xl bg-primary max-sm:m-4 shadow-xl transition duration-150 ease-out hover:bg-primaryVariant hover:scale-110"
-					>
-						<span class="h-[24px] mr-2 my-auto material-symbols-outlined font-bold">add</span>
-						<span class="mr-2">New</span>
-					</button>
-				</RouterLink>
+				<button
+					@click="toNewGame"
+					class="flex text-lg z-20 sm:text-xl max-sm:fixed max-sm:p-4 sm:py-2 sm:px-4 bottom-0 right-0 font-semibold capitalize rounded-2xl bg-primary max-sm:m-4 shadow-xl transition duration-150 ease-out hover:bg-primaryVariant hover:scale-110"
+				>
+					<span class="h-[24px] mr-2 my-auto material-symbols-outlined font-bold">add</span>
+					<span class="mr-2">{{$t('buttons.new')}}</span>
+				</button>
 			</div>
 			<GamesLayout :games="games" :profile-id="profile.profileId" />
 		</section>
@@ -76,7 +75,7 @@
 					class="flex text-lg z-20 sm:text-xl max-sm:fixed max-sm:p-4 sm:py-2 sm:px-4 bottom-0 right-0 font-semibold capitalize rounded-2xl bg-primary max-sm:m-4 shadow-xl transition duration-150 ease-out hover:bg-primaryVariant hover:scale-110"
 				>
 					<span class="h-[24px] mr-2 my-auto material-symbols-outlined font-bold">add</span>
-					<span class="mr-2">New</span>
+					<span class="mr-2">{{$t('buttons.new')}}</span>
 				</button>
 			</div>
 			<PostsLayout :posts="posts" @updatePost="getPosts" />
@@ -99,6 +98,7 @@ import GamesLayout from '@/layouts/GamesLayout.vue'
 import PostsLayout from '@/layouts/PostsLayout.vue'
 import CommentsLayout from '@/layouts/CommentsLayout.vue'
 import { useMeStore } from '@/stores/me'
+import router from "@/router";
 
 export default {
 	name: 'ProfileView',
@@ -110,19 +110,20 @@ export default {
 		CommentsLayout,
 	},
 
+	//Setup Pinia storage for @me ownership validation
 	setup() {
 		const meStore = useMeStore()
-
 		return { meStore }
 	},
 
+	//Data keeps track of which profile is being looked at, profile, profiles games, posts and comments, current tab
 	data() {
 		return {
 			paramProfileId: '',
-			profile: {},
-			games: [],
-			posts: [],
-			comments: [],
+			profile: null,
+			games: null,
+			posts: null,
+			comments: null,
 
 			tab: 1,
 			addingNew: false,
@@ -136,10 +137,11 @@ export default {
 	},
 
 	methods: {
+	  //Get profile from API by the id in the url
 		async getProfile() {
 			if (this.paramProfileId) {
 				axios
-					.get('https://localhost:5001/api/Profile/' + this.paramProfileId)
+					.get('/api/Profile/' + this.paramProfileId)
 					.then((response) => {
 						this.profile = response.data
 					})
@@ -149,6 +151,7 @@ export default {
 			}
 		},
 
+		//Get all games from API that belong to the viewed profile
 		async getGames() {
 			if (this.paramProfileId) {
 				axios
@@ -162,6 +165,7 @@ export default {
 			}
 		},
 
+		//Get all posts from API posted by the viewed profile
 		async getPosts() {
 			if (this.paramProfileId) {
 				axios
@@ -175,6 +179,7 @@ export default {
 			}
 		},
 
+		//Get all comments from API that where commented by the viewed profile
 		async getComments() {
 			if (this.paramProfileId) {
 				axios
@@ -188,6 +193,12 @@ export default {
 			}
 		},
 
+		//Pushes router to go new game
+		async toNewGame(){
+		  await router.push(this.profile.profileId + '/game/new')
+		},
+
+		//Get relevant data to profile
 		async createdProfile() {
 			this.paramProfileId = this.$route.params.profileId
 			await this.getProfile()
@@ -197,11 +208,13 @@ export default {
 		},
 	},
 
+	//On view created get relevant data
 	created() {
 		this.createdProfile()
 	},
 
 	watch: {
+	  //Watch url and if profile id changes get new profile relevant data (in-case of profile to profile movement)
 		'$route.params.profileId': {
 			handler() {
 				this.createdProfile()

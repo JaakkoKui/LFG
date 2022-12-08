@@ -9,6 +9,7 @@ export const useMeStore = defineStore('user', {
 	},
 
 	getters: {
+		//Get profile id from state
 		profileId(state) {
 			// @ts-ignore
 			return state.profileId
@@ -16,6 +17,7 @@ export const useMeStore = defineStore('user', {
 	},
 
 	actions: {
+		//Setter for @me. Activated from App.vue when page is created
 		async setMe() {
 			axios
 				.get('/api/Profile/@me')

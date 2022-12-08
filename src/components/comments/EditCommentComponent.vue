@@ -1,5 +1,7 @@
 ﻿<template>
+	<!-- Edit comment -->
 	<div class="w-full">
+		<!-- Edit comment body -->
 		<textarea
 			v-model="commentDto.content"
 			@input="checkValidComment"
@@ -9,10 +11,11 @@
 			placeholder="Comment"
 			id="newComment"
 		></textarea>
+		<!-- Edit controls -->
 		<transition>
 			<div class="w-fit ml-auto" id="buttons">
 				<CancelButtonHelper @click="handleCancel" ref="cancelButton" />
-				<ButtonHelper @click="editComment" :disabled="!ready" name="Edit" />
+				<ButtonHelper @click="editComment" :disabled="!ready" :name="$t('buttons.edit')" />
 			</div>
 		</transition>
 	</div>
@@ -31,10 +34,12 @@ export default {
 		CancelButtonHelper,
 	},
 
+	//Get previous comment to fill textfield
 	props: {
 		comment: Object,
 	},
 
+	//Know if ready and store the Data Transfer Object
 	data() {
 		return {
 			maxLenght: 250,
@@ -48,16 +53,19 @@ export default {
 	},
 
 	methods: {
-		handleCancel() {
+	  //Handle comment edit cancel by emit to parent
+		async handleCancel() {
 			this.$emit('cancel')
 		},
 
-		checkValidComment() {
+		//Check comment validity after edit (basically is it empty)
+		async checkValidComment() {
 			this.autoGrow()
 			this.ready = !!this.commentDto.content.length
 		},
 
-		editComment() {
+		//Update edited comment
+		async editComment() {
 			if (this.commentDto.content.length > 0 && this.commentDto.postId) {
 				axios
 					.put('/api/Comment/' + this.comment.commentId, this.commentDto)
@@ -73,6 +81,7 @@ export default {
 			}
 		},
 
+		//Autogrow comment text field
 		autoGrow() {
 			let element = document.getElementById('newComment')
 			element.style.height = '5px'
@@ -80,6 +89,7 @@ export default {
 		},
 	},
 
+	//When component is mounted build the comment DTO from previous comment
 	mounted() {
 		if (this.comment) {
 			this.commentDto.content = this.comment.content
@@ -88,5 +98,3 @@ export default {
 	},
 }
 </script>
-
-<style scoped></style>

@@ -10,24 +10,29 @@ const routes: Array<RouteRecordRaw> = [
 		path: '/',
 		name: 'Feed',
 		component: HomeView,
+		//Load Homeview when going to empty '/'
 	},
 	{
 		path: '/about',
 		name: 'About',
 		component: AboutView,
+		//Load AboutView on /about
 	},
 	{
 		path: '/profile/:profileId',
 		name: 'Profile',
 		component: ProfileView,
+		//Load ProfileView on /profile/(profileId) and pass the profile id as a route parameter
 	},
 	{
 		path: '/profile/:profileId/game/:gameId',
 		name: 'game-view',
 		component: GameView,
+		//Load Game view based on profile and game id
 	},
 ]
 
+//History mode aka. you can route back
 const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
 	routes,
