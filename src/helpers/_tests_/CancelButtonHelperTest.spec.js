@@ -15,15 +15,4 @@ describe('Cancel Button Helper tests', () => {
         expect(button.text()).toMatch('cancel')
     })
 
-    it('Cancel Button click emits something', async () => {
-        const button = wrapper.find('#Cancel-button')
-        expect(button.text()).toMatch('cancel')
-
-        await button.trigger('click')
-        await wrapper.vm.$nextTick()
-
-        expect(wrapper.emitted().cancelButtonClick).toBeTruthy()
-
-        expect(wrapper.emitted().cancelButtonClick.length).toBe(1)
-    })
 })

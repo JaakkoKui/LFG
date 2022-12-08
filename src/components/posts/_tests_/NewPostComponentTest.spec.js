@@ -1,7 +1,8 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
-import { flushPromises, mount,shallowMount } from '@vue/test-utils'
+import { flushPromises, shallowMount } from '@vue/test-utils'
 import axios from 'axios'
 import NewPostComponent from 'src/components/posts/NewPostComponent.vue'
+import { createTestingPinia } from '@pinia/testing'
 
 
 vi.mock("axios", () => {
@@ -39,7 +40,8 @@ describe('Tests for the New Post Component', () => {
             firstName: "Jesper",
             lastName: "Oja",
             age: "33",
-            joiningDate: "null"
+            joiningDate: "null",
+            id: "Jepsu"
 
         }
 
@@ -52,7 +54,24 @@ describe('Tests for the New Post Component', () => {
                 transition: transitionStub()
             },
             attachTo: document.body,
-            addingNew: false
+            addingNew: false,
+            global: {
+                plugins: [createTestingPinia()]
+            },
+            data() {
+                return {
+                    profile: {
+                        discordName: "Xermos",
+                        nickname: "Xermos",
+                        avatar: "null",
+                        firstName: "Jesper",
+                        lastName: "Oja",
+                        age: "33",
+                        joiningDate: "null",
+                        profileId: "Jepsu"
+                    }
+                }
+            }
         })
 
 
@@ -63,21 +82,12 @@ describe('Tests for the New Post Component', () => {
     })
 
     it('Postheader is showing and getting right data', async () => {
-        await flushPromises()
-
-        expect(axios.get).toHaveBeenCalledTimes(1)
-        expect(axios.get).toBeCalledWith(expect.stringMatching(/me/))
-
-        const header = wrapper.findComponent({ ref: "postHeader"})
+        
+        const header = wrapper.findComponent({ ref: "postHeader" })
         expect(header.exists()).toBeTruthy()
-        expect(header.attributes().profile).toBe(wrapper.vm.profile)
     })
 
     it('Title input field and Content textarea show correct placeholders', async () => {
-        await flushPromises()
-
-        expect(axios.get).toHaveBeenCalledTimes(1)
-        expect(axios.get).toBeCalledWith(expect.stringMatching(/me/))
 
         const title = wrapper.find('#newPostTitle')
         expect(title.attributes().placeholder).toMatch('Title your post')
@@ -91,7 +101,7 @@ describe('Tests for the New Post Component', () => {
         const title = wrapper.find('input[id="newPostTitle"]')
         expect(title.attributes().placeholder).toMatch('Title your post')
         expect(title.exists()).toBeTruthy()
-        
+
         await title.setValue('Testing title creation')
         expect(title.element.value).toMatch('Testing title creation')
         expect(wrapper.vm.postDto.title).toMatch(title.element.value)
@@ -104,15 +114,11 @@ describe('Tests for the New Post Component', () => {
     })
 
     it('Button rendered correctly', async () => {
-        await flushPromises()
 
-        expect(axios.get).toHaveBeenCalledTimes(1)
-        expect(axios.get).toBeCalledWith(expect.stringMatching(/me/))
-
-        const cancelButton = wrapper.findComponent({ ref: "cancelButton"})
+        const cancelButton = wrapper.findComponent({ ref: "cancelButton" })
         expect(cancelButton.exists()).toBeTruthy()
 
-        const postButton = wrapper.findComponent({ref: "postButton"})
+        const postButton = wrapper.findComponent({ ref: "postButton" })
         expect(postButton.exists()).toBeTruthy()
         expect(postButton.attributes().disabled).toBe('true')
 
@@ -132,12 +138,8 @@ describe('Tests for the New Post Component', () => {
     })
 
     it('Cancel button emmits cancel call', async () => {
-        await flushPromises()
 
-        expect(axios.get).toHaveBeenCalledTimes(1)
-        expect(axios.get).toBeCalledWith(expect.stringMatching(/me/))
-
-        const cancelButton = wrapper.findComponent({ ref: "cancelButton"})
+        const cancelButton = wrapper.findComponent({ ref: "cancelButton" })
         expect(cancelButton.exists()).toBeTruthy()
 
         await cancelButton.trigger('click')
@@ -146,13 +148,9 @@ describe('Tests for the New Post Component', () => {
         expect(wrapper.emitted().cancel).toBeTruthy()
     })
 
-    it('PostButton send request and emmits newPost call', async() => {
-        await flushPromises()
+    it('PostButton send request and emmits newPost call', async () => {
 
-        expect(axios.get).toHaveBeenCalledTimes(1)
-        expect(axios.get).toBeCalledWith(expect.stringMatching(/me/))
-
-        const postButton = wrapper.findComponent({ref: "postButton"})
+        const postButton = wrapper.findComponent({ ref: "postButton" })
         expect(postButton.exists()).toBeTruthy()
         expect(postButton.attributes().disabled).toBe('true')
 

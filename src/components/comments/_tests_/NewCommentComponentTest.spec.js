@@ -1,7 +1,8 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
-import { flushPromises, mount } from '@vue/test-utils'
+import { flushPromises, shallowMount } from '@vue/test-utils'
 import axios from 'axios'
 import NewCommentComponent from 'src/components/comments/NewCommentComponent.vue'
+import { createTestingPinia } from '@pinia/testing'
 
 
 vi.mock("axios", () => {
@@ -35,12 +36,15 @@ describe('Tests for the New Comment Component', () => {
 
         axios.get.mockResolvedValue(mockResponseData)
         // render the component
-        wrapper = mount(NewCommentComponent, {
+        wrapper = shallowMount(NewCommentComponent, {
             stubs: {
                 // Stub out the transition:
                 transition: transitionStub()
             },
-            attachTo: document.body
+            attachTo: document.body,
+            global:{
+                plugins: [createTestingPinia()]
+              }
         })
 
 
@@ -48,7 +52,6 @@ describe('Tests for the New Comment Component', () => {
 
     afterEach(() => {
         axios.get.mockReset()
-        wrapper.unmount()
     })
 
     it('Textarea shows as it should and you can write to it', async () => {
@@ -59,11 +62,6 @@ describe('Tests for the New Comment Component', () => {
             active: false,
             text: '',
         })
-
-        await flushPromises()
-
-        expect(axios.get).toHaveBeenCalledTimes(1)
-        expect(axios.get).toBeCalledWith(expect.stringMatching(/me/))
 
         const textArea = wrapper.find('#newComment')
         expect(textArea.attributes().rows).toEqual('1')
@@ -84,11 +82,6 @@ describe('Tests for the New Comment Component', () => {
             text: '',
         })
 
-        await flushPromises()
-
-        expect(axios.get).toHaveBeenCalledTimes(1)
-        expect(axios.get).toBeCalledWith(expect.stringMatching(/me/))
-
         const textArea = wrapper.find('#newComment')
         await textArea.trigger('focus')
         await textArea.setValue('Testing testing')
@@ -108,11 +101,6 @@ describe('Tests for the New Comment Component', () => {
             active: false,
             text: '',
         })
-
-        await flushPromises()
-
-        expect(axios.get).toHaveBeenCalledTimes(1)
-        expect(axios.get).toBeCalledWith(expect.stringMatching(/me/))
 
         const textArea = wrapper.find('#newComment')
 

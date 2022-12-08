@@ -1,7 +1,9 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
-import { flushPromises, mount } from '@vue/test-utils'
+import { flushPromises, shallowMount } from '@vue/test-utils'
 import axios from 'axios'
 import PostComponent from 'src/components/posts/PostComponent.vue'
+import { createTestingPinia } from '@pinia/testing'
+import { useMeStore } from '../../../stores/me.ts'
 
 vi.mock("axios", () => {
     return {
@@ -28,13 +30,13 @@ describe('Tests for the Post Component', () => {
             firstName: "Jesper",
             lastName: "Oja",
             age: "33",
-            joiningDate: "null"
-
+            joiningDate: "null",
+            id: "Jepsu"
         }
 
         axios.get.mockResolvedValue(mockResponseData)
         // render the component
-        wrapper = mount(PostComponent, {
+        wrapper = shallowMount(PostComponent, {
             stubs: {
                 // Stub out the transition:
                 transition: transitionStub()
@@ -49,6 +51,14 @@ describe('Tests for the Post Component', () => {
                     numberOfLikes: 1,
                     numberOfDislikes: 2,
                     postId: "POST"
+                }
+            },
+            global:{
+                plugins: [createTestingPinia()]
+              },
+            computed: {
+                isOwner() {
+                    return true
                 }
             }
         })
@@ -66,10 +76,8 @@ describe('Tests for the Post Component', () => {
             profile: {
                 avatar: "avatar",
                 profileId: "Jepsu",
-                nickname: "Xermos",
-
+                nickname: "Xermos"
             },
-            isOwner: false,
             editable: false,
             commentsOpen: false,
             comments: []
@@ -83,7 +91,7 @@ describe('Tests for the Post Component', () => {
 
         await flushPromises()
 
-        expect(axios.get).toHaveBeenCalledTimes(3)
+        expect(axios.get).toHaveBeenCalledTimes(1)
         expect(axios.get).toBeCalledWith(expect.stringMatching(/Jepsu/))
 
         expect(wrapper.vm.profile.avatar).toMatch('avatar')
@@ -94,27 +102,12 @@ describe('Tests for the Post Component', () => {
         expect(beFirst.text()).toMatch("Show 0 Comments")
     })
 
-    it('Posters nickname and post date shows', async () => {
-        startTest()
-
-        await flushPromises()
-
-        expect(axios.get).toHaveBeenCalledTimes(3)
-        expect(axios.get).toBeCalledWith(expect.stringMatching(/Jepsu/))
-
-        const link = wrapper.find('#nickname')
-        expect(link.text()).toMatch("Xermos")
-
-        const date = wrapper.find('#date')
-        expect(date.text()).toMatch('12.12.12')
-    })
-
     it('Post title, content, likes and dislikes shows right', async () => {
         startTest()
 
         await flushPromises()
 
-        expect(axios.get).toHaveBeenCalledTimes(3)
+        expect(axios.get).toHaveBeenCalledTimes(1)
         expect(axios.get).toBeCalledWith(expect.stringMatching(/Jepsu/))
 
         const title = wrapper.find('h2')
@@ -141,7 +134,7 @@ describe('Tests for the Post Component', () => {
 
         await flushPromises()
 
-        expect(axios.get).toHaveBeenCalledTimes(3)
+        expect(axios.get).toHaveBeenCalledTimes(1)
         expect(axios.get).toBeCalledWith(expect.stringMatching(/Jepsu/))
 
         expect(wrapper.vm.commentsOpen).toBeFalsy()
@@ -156,10 +149,8 @@ describe('Tests for the Post Component', () => {
 
         await flushPromises()
 
-        expect(axios.get).toHaveBeenCalledTimes(3)
+        expect(axios.get).toHaveBeenCalledTimes(1)
         expect(axios.get).toBeCalledWith(expect.stringMatching(/Jepsu/))
-
-        expect(wrapper.vm.isOwner).toBeFalsy()
 
         const aside = wrapper.find('#reactButtons')
         expect(aside.exists()).toBeTruthy()
@@ -173,7 +164,6 @@ describe('Tests for the Post Component', () => {
 
     it('Owner buttons, Edit and Delete, are shown when owner', async () => {
         wrapper.setData({
-            isOwner: true,
             profile: {
                 avatar: "avatar",
                 profileId: "Jepsu",
@@ -184,10 +174,8 @@ describe('Tests for the Post Component', () => {
 
         await flushPromises()
 
-        expect(axios.get).toHaveBeenCalledTimes(3)
+        expect(axios.get).toHaveBeenCalledTimes(1)
         expect(axios.get).toBeCalledWith(expect.stringMatching(/Jepsu/))
-
-        expect(wrapper.vm.isOwner).toBeTruthy()
 
         const aside = wrapper.find(`#${wrapper.props().post.postId}-controls`)
         expect(aside.exists()).toBeTruthy()
@@ -210,7 +198,7 @@ describe('Tests for the Post Component', () => {
 
         await flushPromises()
 
-        expect(axios.get).toHaveBeenCalledTimes(3)
+        expect(axios.get).toHaveBeenCalledTimes(1)
         expect(axios.get).toBeCalledWith(expect.stringMatching(/Jepsu/))
 
         expect(wrapper.vm.commentsOpen).toBeFalsy()
@@ -223,7 +211,7 @@ describe('Tests for the Post Component', () => {
 
         await flushPromises()
 
-        expect(axios.get).toHaveBeenCalledTimes(4)
+        expect(axios.get).toHaveBeenCalledTimes(2)
         expect(axios.get).toBeCalledWith(expect.stringMatching(/GetByPostId/))
 
         expect(wrapper.vm.commentsOpen).toBeTruthy()

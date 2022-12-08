@@ -2,6 +2,7 @@ import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { flushPromises, shallowMount } from '@vue/test-utils'
 import axios from 'axios'
 import CommentComponent from 'src/components/comments/CommentComponent.vue'
+import { createTestingPinia } from '@pinia/testing'
 
 
 vi.mock("axios", () => {
@@ -24,7 +25,8 @@ describe('Tests for the Comment Component', () => {
         firstName: "Jesper",
         lastName: "Oja",
         age: "33",
-        joiningDate: "null"
+        joiningDate: "null",
+        id: "Jepsu"
       }
     }
 
@@ -36,19 +38,22 @@ describe('Tests for the Comment Component', () => {
           content: "Testing",
           date: "12.12.12",
           profileId: "Jepsu"
-        },
-        profileId: "Jepsu"
+        }
+      },
+      global:{
+        plugins: [createTestingPinia()]
       }
     })
   })
 
+
+
   afterEach(() => {
     axios.get.mockReset()
-    wrapper.unmount()
   })
 
   it('check successful events', async () => {
-
+    
     wrapper.setData({ profile: { nickname: "Xermos", id: "Jepsu" } })
     await flushPromises()
 

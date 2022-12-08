@@ -2,7 +2,8 @@ import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { flushPromises, shallowMount } from '@vue/test-utils'
 import axios from 'axios'
 import ProfileEditComponent from 'src/components/profile/ProfileEditComponent.vue'
-import exp from 'constants';
+import { createTestingPinia } from '@pinia/testing'
+
 
 
 vi.mock("axios", () => {
@@ -45,7 +46,10 @@ describe('Tests for the Profile Edit Component', () => {
                 // Stub out the transition:
                 transition: transitionStub()
             },
-            attachTo: document.body
+            attachTo: document.body,
+            global:{
+                plugins: [createTestingPinia()]
+              }
         })
     })
 
@@ -72,11 +76,6 @@ describe('Tests for the Profile Edit Component', () => {
       })
 
     it('Data is loaded correctly at the start', async () => {
-        await flushPromises()
-
-        expect(axios.get).toHaveBeenCalledTimes(1)
-        expect(axios.get).toBeCalledWith(expect.stringMatching(/me/))
-
         atTheStart()
         
         expect(wrapper.vm.profileDto.nickname).toMatch('Xermos')
@@ -86,10 +85,6 @@ describe('Tests for the Profile Edit Component', () => {
     })
 
     it('Current profile info is shown in input fields', async () => {
-        await flushPromises()
-
-        expect(axios.get).toHaveBeenCalledTimes(1)
-        expect(axios.get).toBeCalledWith(expect.stringMatching(/me/))
 
         await atTheStart()
 
@@ -107,11 +102,7 @@ describe('Tests for the Profile Edit Component', () => {
     })
 
     it('Changing input field values change values in profileDto object', async () => {
-        await flushPromises()
-
-        expect(axios.get).toHaveBeenCalledTimes(1)
-        expect(axios.get).toBeCalledWith(expect.stringMatching(/me/))
-
+        
         await atTheStart()
 
         const nickname = wrapper.find('#nickname')
@@ -136,11 +127,7 @@ describe('Tests for the Profile Edit Component', () => {
     })
 
     it('Cancel button and edit button rendered correctly', async () => {
-        await flushPromises()
-
-        expect(axios.get).toHaveBeenCalledTimes(1)
-        expect(axios.get).toBeCalledWith(expect.stringMatching(/me/))
-
+       
         await atTheStart()
 
         const editButton = wrapper.findComponent({ref:'editButton'})
@@ -153,11 +140,7 @@ describe('Tests for the Profile Edit Component', () => {
     })
 
     it('Clicking edit button send put request and emmits cancel and done calls', async () => {
-        await flushPromises()
-
-        expect(axios.get).toHaveBeenCalledTimes(1)
-        expect(axios.get).toBeCalledWith(expect.stringMatching(/me/))
-
+        
         await atTheStart()
 
         const editButton = wrapper.findComponent({ref:'editButton'})
@@ -177,11 +160,7 @@ describe('Tests for the Profile Edit Component', () => {
     })
 
     it('Clicking cancel button emmits cancel call', async () => {
-        await flushPromises()
-
-        expect(axios.get).toHaveBeenCalledTimes(1)
-        expect(axios.get).toBeCalledWith(expect.stringMatching(/me/))
-
+        
         await atTheStart()
 
         const cancelButton = wrapper.findComponent({ ref: 'cancelButton'})

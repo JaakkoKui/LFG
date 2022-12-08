@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import { shallowMount } from '@vue/test-utils'
 import PostHeader from 'src/components/posts/PostHeader.vue'
+import { createTestingPinia } from '@pinia/testing'
 
 describe('Tests for the Post Header Component', () => {
     let wrapper = null
@@ -19,7 +20,10 @@ describe('Tests for the Post Header Component', () => {
                     joiningDate: "null"
                 },
                 createDate: "12.11.2022"
-            }
+            },
+            global:{
+                plugins: [createTestingPinia()]
+              }
         })
     })
 

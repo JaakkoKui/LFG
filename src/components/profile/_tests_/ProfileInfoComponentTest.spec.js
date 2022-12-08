@@ -27,7 +27,8 @@ describe('Tests for the Profile Info Component', () => {
                     age: "33",
                     joiningDate: "12.11.2022",
                     profileId: "Jepsu"
-                  }
+                  },
+                isOwner: true
             }
         })
 
