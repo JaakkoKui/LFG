@@ -51,12 +51,7 @@
 				{{ simplifiedDate }}
 			</p>
 
-			<!-- Locale menu -->
-			<section v-if="localeChange" class="flex flex-col rounded-xl bg-background-default p-2 max-sm:justify-center sm:my-2 overflow-y-auto z-10 max-sm:mb-2">
-				<button v-for="locale in locales" :id="locale.lang" @click="$i18n.locale = locale.lang" class="py-2 px-4 text-center border-b border-background-lighter transition duration-100 hover:text-text-white hover:scale-105">
-					{{locale.language}}
-				</button>
-			</section>
+			<LocaleChooser id="localeChooser" v-if="localeChange"/>
 
 	  	<!-- Profile controls -->
 			<section
@@ -98,10 +93,12 @@ import ProfileEditComponent from '@/components/profile/ProfileEditComponent.vue'
 import ProfileInfoContentComponent from '@/components/profile/ProfileInfoContentComponent.vue'
 import axios from 'axios'
 import router from '@/router'
+import LocaleChooser from "@/components/profile/LocaleChooser.vue";
 
 export default {
 	name: 'ProfileInfoComponent',
 	components: {
+	LocaleChooser,
 		AvatarHelper,
 		ProfileEditComponent,
 		ProfileInfoContentComponent,
@@ -119,12 +116,6 @@ export default {
 			editing: false,
 			deleting: false,
 	  	localeChange: false,
-
-			locales: [
-			  { language: 'Suomi', lang: 'fi'},
-				{ language: 'English', lang: 'en'},
-				{ language: '日本語', lang: 'ja'},
-			]
 		}
 	},
 

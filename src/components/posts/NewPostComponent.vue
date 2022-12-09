@@ -1,6 +1,8 @@
 ﻿<template>
 	<div class="border-background-lighter pt-8 pb-4 mb-4 px-8 mx-2 sm:mx-4 lg:mx-8 bg-background-darker rounded-xl">
+		<!-- Post header aka. profile name and profile etc -->
 		<PostHeader :profile="profile" ref="postHeader" />
+		<!-- New post title input textfield -->
 		<div class="flex">
 			<input
 				id="newPostTitle"
@@ -8,9 +10,10 @@
 				type="text"
 				class="bg-background-darker placeholder:text-text-darker w-full md:w-1/2 xl:w-1/3 outline-0 resize-none overflow-hidden text-xl font-semibold mb-4 border-b border-background-lighter focus:border-white pb-1"
 				placeholder="Title your post"
+				:maxlength="titleMax"
 			/>
-			<!-- <p class="text-sm opacity-70 mt-auto ml-4">{{ title.length }}/{{ titleMax }}</p> -->
 		</div>
+		<!-- New post content body textfield -->
 		<div class="flex">
 			<textarea
 				id="newPostContent"
@@ -19,8 +22,8 @@
 				rows="1"
 				class="bg-background-darker placeholder:text-text-darker outline-0 resize-none overflow-hidden w-full border-b border-background-lighter focus:border-white"
 				placeholder="Write some content to your post"
+				:maxlength="contentMax"
 			></textarea>
-			<!--<p class="text-sm opacity-70 mt-auto ml-4">{{ content.length }}/{{ contentMax }}</p>-->
 		</div>
 		<div id="newPostButtons" class="ml-auto mt-4 w-fit">
 			<CancelButtonHelper @click="cancelNew" ref="cancelButton" />
@@ -57,9 +60,8 @@ export default {
 
 	data() {
 		return {
-			titleMax: 32,
+			titleMax: 45,
 			contentMax: 1024,
-			textBoxRows: 1,
 
 			postDto: {
 				title: '',
@@ -74,20 +76,24 @@ export default {
 	},
 
 	methods: {
+	  //Emit cancel to parent
 		cancelNew() {
 			this.$emit('cancel')
 		},
 
+		//Autogrow textfield if runs out of space
 		autoGrow() {
 			let element = document.getElementById('newPostContent')
 			element.style.height = '5px'
 			element.style.height = element.scrollHeight + 4 + 'px'
 		},
 
+		//Sets profile to your current profile
 		async getMe() {
 			this.profile = this.meStore.$state
 		},
 
+		//Post new post to API
 		async postPost() {
 			if (this.postDto.content && this.postDto.title) {
 				axios
@@ -103,7 +109,8 @@ export default {
 		},
 	},
 
-	mounted() {
+	//On creation, get your profile
+	created() {
 		this.getMe()
 	},
 }

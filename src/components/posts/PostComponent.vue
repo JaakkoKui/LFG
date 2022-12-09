@@ -13,7 +13,7 @@
 			<!-- Post body -->
 			<section v-if="!isEditing" :id="post.postId + '-content'" class="my-8" :class="{ blur: checkForDelete }">
 				<h2 class="font-semibold text-2xl mb-4">{{ post.title }}</h2>
-				<p id="content">{{ post.content }}</p>
+				<p id="content" style="display: inline-block; word-break: break-word">{{ post.content }}</p>
 			</section>
 
 			<!-- Edit post body -->

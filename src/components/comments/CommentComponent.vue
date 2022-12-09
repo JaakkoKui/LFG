@@ -4,7 +4,7 @@
 			<AvatarHelper :avatar="profile.avatar" :profile-id="profile.profileId"/>
 		</div>
 
-		<div>
+		<div class="block w-full">
 			<div class="flex">
 
 				<!-- Commentor profile link -->
@@ -73,7 +73,7 @@
 					</button>
 				</section>
 			</div>
-			<div>
+			<div class="block">
 				<!-- Comment body -->
 				<p v-if="!editing" class="ml-[7px]" style="display: inline-block; word-break: break-word">
 					{{ comment.content }}

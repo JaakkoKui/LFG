@@ -56,7 +56,7 @@ export default {
 	//Know comment profile, Know if comment is active and ready to send. In addition have the comment text ready.
 	data() {
 		return {
-			maxLenght: 250,
+			maxLenght: 500,
 			active: false,
 			ready: false,
 

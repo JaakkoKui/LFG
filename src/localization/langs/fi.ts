@@ -16,6 +16,7 @@ const fi = {
 		comment: 'Kommentoi',
 		cancel: 'Peruuta',
 		delete: 'Poista',
+		close: 'Sulje'
 	},
 	profile: {
 		info: {
@@ -88,7 +89,9 @@ const fi = {
 		notFound: {
 			title: 'Hups!',
 			description: 'Se mitä etsit ei kyllä ole täällä...'
-		}
+		},
+		faultyGame: 'Vialliset pelin tiedot...',
+		age: 'Mahdoton ikä...'
 
 	},
 	time: {

@@ -17,25 +17,33 @@
 					id="nickname"
 					v-model="profileDto.nickname"
 					class="w-full bg-transparent border-b border-background-lightest text-text-default placeholder:text-text-darker outline-0 focus:border-text-white px-2"
+					maxlength="30"
 				/>
 				<input
 					id="firstName"
 					v-model="profileDto.firstName"
 					class="w-full bg-transparent border-b border-background-lightest text-text-default placeholder:text-text-darker outline-0 focus:border-text-white px-2"
+		  		maxlength="30"
 				/>
 				<input
 					id="lastName"
 					v-model="profileDto.lastName"
 					class="w-full bg-transparent border-b border-background-lightest text-text-default placeholder:text-text-darker outline-0 focus:border-text-white px-2"
+		  		maxlength="30"
 				/>
 				<input
 					id="age"
 					v-model="profileDto.age"
 					type="number"
 					class="w-full bg-transparent border-b border-background-lightest text-text-default placeholder:text-text-darker outline-0 focus:border-text-white px-2"
+					max="199"
+					min="0"
 				/>
 			</div>
 		</article>
+
+		<!-- Error toast -->
+		<Toast @close="faulty = false" :text="$t('exceptions.age')"/>
 
 		<!-- Profile edit controls -->
 		<div id="profileEditControls"
@@ -53,10 +61,12 @@ import axios from 'axios'
 import ButtonHelper from '@/helpers/ButtonHelper.vue'
 import CancelButtonHelper from '@/helpers/CancelButtonHelper.vue'
 import {useMeStore} from '@/stores/me'
+import Toast from "@/components/exceptions/Toast.vue";
 
 export default {
 	name: 'EditProfileView',
 	components: {
+	Toast,
 		ButtonHelper,
 		CancelButtonHelper,
 	},
@@ -78,6 +88,7 @@ export default {
 			},
 
 			me: null,
+			faulty: false,
 		}
 	},
 
@@ -94,15 +105,19 @@ export default {
 
 		//Updates your profile information when user decides to do so
 		async putEdit() {
-			axios
-				.put('/api/Profile', this.profileDto)
-				.then(() => {
-					this.$emit('done')
-					this.$emit('cancel')
-				})
-				.catch((error) => {
-					console.log(error)
-				})
+			if (this.profileDto.age < 200 && this.profileDto.age >= 0) {
+				axios
+					.put('/api/Profile', this.profileDto)
+					.then(() => {
+						this.$emit('done')
+						this.$emit('cancel')
+					})
+					.catch((error) => {
+						console.log(error)
+					})
+			} else {
+			  this.faulty = true
+			}
 		},
 	},
 

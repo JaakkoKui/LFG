@@ -106,6 +106,9 @@ export default {
 		profile: {
 			handler() {
 				this.checkLogin()
+				if(this.profile.locale){
+		  		this.$i18n.locale = this.profile.locale
+				}
 			},
 			deep: true,
 		},
