@@ -79,6 +79,34 @@ const en = {
 		header: {
 			title: 'About us',
 			description: 'Social platform for gamers!'
+		},
+		vision: {
+			title: 'Vision.',
+			content: 'The idea is to have a social platform where gamers can bond, compete and find other gamers through video games.',
+		},
+		features: {
+			title: 'Our features!',
+			subtitle: 'On our app you can',
+			content: {
+				l1: 'On login your profile is created from your user on Discord. From there we get your initial locale, discord and your initial profile name.',
+				l2: 'Make and use your very own profile and giving others a Nickname to call you by and optionally for other users your age and name.',
+				l3: 'Add games and statistics in those games.',
+				l4: 'Post your thoughts to a common page we call "feed".',
+				l5: 'React to posts by either liking, disliking or discussing by comments.',
+				l6: 'Edit or delete the above-mentioned.',
+				l7: 'View other people\'s profiles and games within.'
+			}
+		},
+		future: {
+			title: 'Future?',
+			subtitle: 'In the future we would like to',
+			content: {
+				l1: 'Have dedicated communities for each game.',
+				l2: 'Have a smart way of selecting games.',
+				l3: 'Have a way for users to befriend each other on our platform.',
+				l4: 'Have a smart way to search other users.',
+				l5: 'Have custom communities for example for e-sports organizations.',
+			}
 		}
 	},
 	exceptions: {

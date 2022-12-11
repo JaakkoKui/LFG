@@ -9,10 +9,8 @@
 		<div class="flex max-lg:flex-row text-center flex-wrap gap-y-4">
 			<div class="h-[600px] max-lg:w-full lg:w-1/2 lg:pr-2 max-lg:order-2">
 				<div class="bg-background-darker rounded-xl p-8 h-full">
-					<h2 class="mb-4 font-semibold text-3xl">Vision.</h2>
-					<p class="mt-16">The idea is to have a social platform where gamers can bond, compete and find other gamers
-						through video
-						games.</p>
+					<h2 class="mb-4 font-semibold text-3xl">{{ $t('about.vision.title') }}</h2>
+					<p class="mt-16">{{ $t('about.vision.content') }}</p>
 				</div>
 			</div>
 			<div class="h-[600px] max-lg:w-full lg:w-1/2 lg:pl-2 max-lg:order-1">
@@ -28,21 +26,17 @@
 			</div>
 			<div class="h-[600px] max-lg:w-full lg:w-2/3 lg:pl-2 max-lg:order-3">
 				<div class="bg-background-darker rounded-xl p-8 h-full">
-					<h2 class="mb-4 font-semibold text-3xl">Our features!</h2>
+					<h2 class="mb-4 font-semibold text-3xl">{{ $t('about.features.title') }}</h2>
 					<div class="text-left mt-16">
-						<h4 class="font-semibold mb-2 text-xl">On our app you can</h4>
+						<h4 class="font-semibold mb-2 text-xl">{{ $t('about.features.subtitle') }}</h4>
 						<ul class="list-disc list-inside">
-							<li>On login your profile is created from your user on Discord. From there we get your initial locale,
-								discord and your initial profile name.
-							</li>
-							<li>Make and use your very own profile and giving others a Nickname to call you by and optionally for
-								other users your age and name.
-							</li>
-							<li>Add games and statistics in those games.</li>
-							<li>Post your thoughts to a common page we call "feed".</li>
-							<li>React to posts by either liking, disliking or discussing by comments.</li>
-							<li>Edit or delete the above mentioned.</li>
-							<li>View other people's profiles and games within.</li>
+							<li>{{ $t('about.features.content.l1') }}</li>
+							<li>{{ $t('about.features.content.l2') }}</li>
+							<li>{{ $t('about.features.content.l3') }}</li>
+							<li>{{ $t('about.features.content.l4') }}</li>
+							<li>{{ $t('about.features.content.l5') }}</li>
+							<li>{{ $t('about.features.content.l6') }}</li>
+							<li>{{ $t('about.features.content.l7') }}</li>
 						</ul>
 					</div>
 				</div>
@@ -50,15 +44,15 @@
 
 			<div class="h-[600px] max-lg:w-full lg:w-1/2 lg:pr-2">
 				<div class="bg-background-darker rounded-xl p-8 h-full">
-					<h2 class="mb-4 font-semibold text-3xl">Future?</h2>
+					<h2 class="mb-4 font-semibold text-3xl">{{ $t('about.future.title') }}</h2>
 					<div class="text-left mt-16">
-						<h4 class="font-semibold mb-2 text-xl">In the future we would like to</h4>
+						<h4 class="font-semibold mb-2 text-xl">{{ $t('about.future.subtitle') }}</h4>
 						<ul class="list-disc list-inside">
-							<li>Have dedicated communities for each game.</li>
-							<li>Have a smart way of selecting games.</li>
-							<li>Have a way for users to befriend each other on our platform.</li>
-							<li>Have a smart way to search other users.</li>
-							<li>Have custom communities for example for e-sports organizations.</li>
+							<li>{{ $t('about.future.content.l1') }}</li>
+							<li>{{ $t('about.future.content.l2') }}</li>
+							<li>{{ $t('about.future.content.l3') }}</li>
+							<li>{{ $t('about.future.content.l4') }}</li>
+							<li>{{ $t('about.future.content.l5') }}</li>
 						</ul>
 					</div>
 				</div>

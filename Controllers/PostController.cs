@@ -35,14 +35,14 @@ namespace LFG.Controllers
 			_env = env;
 		}
 
-	
+
 	//Get command for all posts.
 
 	[HttpGet]
 	public async Task<List<Post>> GetAll()
 	{
 		const string query =
-			@"SELECT postId, title, DATE_FORMAT(createDate,'%Y-%m-%dT%TZ') as createDate, content, profileId, photoFileName, numberOfComments FROM Post";
+			@"SELECT postId, title, DATE_FORMAT(createDate,'%Y-%m-%dT%TZ') as createDate, content, profileId, photoFileName, numberOfComments FROM Post ORDER by createDate DESC";
 
 			var sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
 
@@ -116,7 +116,7 @@ namespace LFG.Controllers
 	public async Task<List<Post>> GetByProfileId(String profileId)
 	{
 		const string query =
-			@"SELECT postId, title, DATE_FORMAT(createDate,'%Y-%m-%dT%TZ') as createDate, content, profileId, photoFileName, numberOfComments FROM Post WHERE profileId=@profileId";
+			@"SELECT postId, title, DATE_FORMAT(createDate,'%Y-%m-%dT%TZ') as createDate, content, profileId, photoFileName, numberOfComments FROM Post WHERE profileId=@profileId ORDER by createDate DESC";
 
 			var sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
 

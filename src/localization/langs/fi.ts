@@ -79,6 +79,34 @@ const fi = {
 		header: {
 			title: 'Meistä',
 			description: 'Sosiaalinen alusta pelaajille!'
+		},
+		vision: {
+			title: 'Visio.',
+			content: 'Ideamme on olla sosiaalinen alusta pelaajille, jotta he voivat löytää toisia pelaajia heidän pelaamiensa videopelien kautta.'
+		},
+		features: {
+			title: 'Palvelumme ominaisuuksia!',
+			subtitle: 'Palvelussamme tällä hetkellä voit',
+			content: {
+				l1: 'On login your profile is created from your user on Discord. From there we get your initial locale, discord and your initial profile name.',
+				l2: 'Make and use your very own profile and giving others a Nickname to call you by and optionally for other users your age and name.',
+				l3: 'Add games and statistics in those games.',
+				l4: 'Post your thoughts to a common page we call "feed".',
+				l5: 'React to posts by either liking, disliking or discussing by comments.',
+				l6: 'Edit or delete the above mentioned.',
+				l7: 'View other people\'s profiles and games within.'
+			}
+		},
+		future: {
+			title: 'Tulevaisuudessa?',
+			subtitle: 'Tulevaisuudessa haluaisimme toteuttaa',
+			content: {
+				l1: 'Jokaiselle pelille oman yhteisön.',
+				l2: 'Paremman tavan lisätä pelejä profiilille.',
+				l3: 'Antaa käyttäjille mahdollisuus pyytää muita käyttäjiä kavereiksi alustalla.',
+				l4: 'Hyvän tavan löytää muita käyttäjiä hakemalla käyttäjän nimellä.',
+				l5: 'Muokattavia yhteisön päivittämiä yhteisöjä esim. e-sports tapahtumia varten.',
+			}
 		}
 	},
 	exceptions: {
