@@ -36,20 +36,18 @@ describe('Tests for the Comment Component', () => {
       props: {
         comment: {
           content: "Testing",
-          date: "12.12.12",
+          date: "12.12.2012",
           profileId: "Jepsu"
         }
       },
-      global:{
-        plugins: [createTestingPinia()]
-      }
+      global: {
+        mocks:
+        {
+            $tc: vi.fn()
+        },
+        plugins: [createTestingPinia()],
+    }
     })
-  })
-
-
-
-  afterEach(() => {
-    axios.get.mockReset()
   })
 
   it('check successful events', async () => {

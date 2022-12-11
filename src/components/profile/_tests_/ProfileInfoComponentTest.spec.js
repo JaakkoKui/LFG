@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest'
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { shallowMount, flushPromises } from '@vue/test-utils'
 import ProfileInfoComponent from 'src/components/profile/ProfileInfoComponent.vue'
 import axios from 'axios'
@@ -31,7 +31,6 @@ describe('Tests for the Profile Info Component', () => {
                 isOwner: true
             }
         })
-
         
         })
 
@@ -61,15 +60,12 @@ describe('Tests for the Profile Info Component', () => {
 
         const deleteButton = wrapper.find('#deleteButton')
         expect(deleteButton.exists()).toBeTruthy()
-        expect(deleteButton.text()).toMatch('Delete')
 
         const editButton = wrapper.find('#editButton')
         expect(editButton.exists()).toBeTruthy()
-        expect(editButton.text()).toMatch('Edit')
 
         const linkButton = wrapper.find('#linkButton')
         expect(linkButton.exists()).toBeTruthy()
-        expect(linkButton.text()).toMatch('link')
     })
 
     it('Clicking edit button changes editing value and shows profile edit component', async () => {
@@ -78,7 +74,6 @@ describe('Tests for the Profile Info Component', () => {
 
         const editButton = wrapper.find('#editButton')
         expect(editButton.exists()).toBeTruthy()
-        expect(editButton.text()).toMatch('Edit')
 
         await editButton.trigger('click')
         await wrapper.vm.$nextTick()
@@ -98,22 +93,18 @@ describe('Tests for the Profile Info Component', () => {
 
         const deleteButton = wrapper.find('#deleteButton')
         expect(deleteButton.exists()).toBeTruthy()
-        expect(deleteButton.text()).toMatch('Delete')
 
         await deleteButton.trigger('click')
         await wrapper.vm.$nextTick()
 
         const youSure = wrapper.find('#areYouSure')
         expect(youSure.exists()).toBeTruthy()
-        expect(youSure.text()).toMatch('Are you sure you want to delete your profile permanently?')
 
         const confirmButton = wrapper.find('#confirmDelete')
         expect(confirmButton.exists()).toBeTruthy()
-        expect(confirmButton.text()).toBe('Delete')
 
         const cancelButton = wrapper.find('#cancelButton')
         expect(cancelButton.exists()).toBeTruthy()
-        expect(cancelButton.text()).toMatch('Cancel')
     })
 
     it('Confirm delete button send delete request', async () => {
@@ -122,14 +113,13 @@ describe('Tests for the Profile Info Component', () => {
 
         const deleteButton = wrapper.find('#deleteButton')
         expect(deleteButton.exists()).toBeTruthy()
-        expect(deleteButton.text()).toMatch('Delete')
 
         await deleteButton.trigger('click')
         await wrapper.vm.$nextTick()
 
         const confirmButton = wrapper.find('#confirmDelete')
         expect(confirmButton.exists()).toBeTruthy()
-        expect(confirmButton.text()).toBe('Delete')
+       
 
         await confirmButton.trigger('click')
         await wrapper.vm.$nextTick()
@@ -156,11 +146,9 @@ describe('Tests for the Profile Info Component', () => {
         expect(wrapper.vm.deleting).toBeTruthy()
         const youSure = wrapper.find('#areYouSure')
         expect(youSure.exists()).toBeTruthy()
-        expect(youSure.text()).toMatch('Are you sure you want to delete your profile permanently?')
 
         const cancelButton = wrapper.find('#cancelButton')
         expect(cancelButton.exists()).toBeTruthy()
-        expect(cancelButton.text()).toMatch('Cancel')
 
         await cancelButton.trigger('click')
         await wrapper.vm.$nextTick()

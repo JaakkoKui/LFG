@@ -15,16 +15,8 @@ describe('Tests for the Game Card Component', () => {
                     hoursPlayed: "123",
                     gameId: "J3p"
                 }
-            }
+            },
         })
-    })
-
-    it("Image is rendered correctly", () => {
-
-        expect(wrapper.props().game.gameName).toBe('Hades')
-        const image = wrapper.find('#gameImage')
-        expect(image.attributes().alt).toMatch('Hades')
-
     })
 
     it("Game name and hours played shows", () => {
@@ -35,7 +27,7 @@ describe('Tests for the Game Card Component', () => {
         expect(name.text()).toMatch('Hades')
 
         const hours = wrapper.find('#hoursPlayed')
-        expect(hours.text()).toMatch('123 Hours')
+        expect(hours.text()).toMatch('123')
     })
 
     it("Game Card Links to right place", () => {
