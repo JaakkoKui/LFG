@@ -19,7 +19,7 @@
 				<h4 v-if="game.server" class="my-auto">{{ $t('game.server') }}</h4>
 			</div>
 			<div class="flex flex-col gap-y-2 w-fit text-center">
-				<p class="ml-auto px-4 py-0.5 bg-accent rounded-full text-text-lighter" id="nickname">{{
+				<p class="ml-auto px-4 py-0.5 bg-accent rounded-full text-text-lighter" style="display: inline-block; word-break: keep-all; white-space: nowrap" id="nickname">{{
 						game.nicknameInGame
 					}}</p>
 				<p
@@ -28,10 +28,10 @@
 					id="hours"
 				>{{ game.hoursPlayed }}</p
 				>
-				<p v-if="game.rank" class="ml-auto px-4 py-0.5 bg-accent rounded-full text-text-lighter" id="rank">{{
+				<p v-if="game.rank" style="display: inline-block; word-break: keep-all; white-space: nowrap" class="ml-auto px-4 py-0.5 bg-accent rounded-full text-text-lighter break-keep" id="rank">{{
 						game.rank
 					}}</p>
-				<p v-if="game.server" class="ml-auto px-4 py-0.5 bg-accent rounded-full text-text-lighter" id="server">{{
+				<p v-if="game.server" style="display: inline-block; word-break: keep-all; white-space: nowrap" class="ml-auto px-4 py-0.5 bg-accent rounded-full text-text-lighter" id="server">{{
 						game.server
 					}}</p>
 			</div>
@@ -40,7 +40,7 @@
 		<!-- Game comment -->
 		<div v-if="game.comments" class="px-8 lg:px-16">
 			<h4 class="font-bold capitalize">{{ $t('game.comment') }}</h4>
-			<p id="comments">{{ game.comments }}</p>
+			<p id="comments" style="display: inline-block; word-break: break-word">{{ game.comments }}</p>
 		</div>
 	</div>
 </template>

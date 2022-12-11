@@ -16,6 +16,7 @@ const ja = {
 		comment: 'コメント',
 		cancel: 'キャンセル',
 		delete: '消去',
+		close: '近い',
 	},
 	profile: {
 		info: {
@@ -88,7 +89,9 @@ const ja = {
 		notFound: {
 			title: 'おっとっと！',
 			description: 'あなたが探しているものはここにないようです...'
-		}
+		},
+		faultyGame: 'ゲーム情報が無効です',
+		age: 'ありえない年齢'
 	},
 	time: {
 		second: '{amount} 秒前 | {amount} 秒前',

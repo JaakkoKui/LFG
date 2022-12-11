@@ -8,6 +8,7 @@
 			type="text"
 			class="bg-background-darker placeholder:text-text-darker w-full md:w-1/2 xl:w-1/3 outline-0 resize-none overflow-hidden text-2xl font-semibold mb-4 border-b border-background-lighter focus:border-white pb-1"
 			:placeholder="$t('posts.placeholderTitle')"
+	  	:maxlength="titleMax"
 		/>
 		<!--Edit post content-->
 		<textarea
@@ -17,6 +18,7 @@
 			rows="1"
 			class="bg-background-darker placeholder:text-text-darker outline-0 resize-none overflow-hidden w-full border-b border-background-lighter focus:border-white"
 			:placeholder="$t('posts.placeholderContent')"
+			:maxlength="contentMax"
 		></textarea>
 	</section>
 </template>
@@ -35,6 +37,9 @@ export default {
 	//Keep post Data Transfer Object
 	data() {
 		return {
+			titleMax: 45,
+			contentMax: 1024,
+
 			postDto: {
 				title: '',
 				content: '',

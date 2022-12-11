@@ -16,6 +16,7 @@ const en = {
 		comment: 'Comment',
 		cancel: 'Cancel',
 		delete: 'Delete',
+		close: 'Close'
 	},
 	profile: {
 		info: {
@@ -88,7 +89,9 @@ const en = {
 		notFound: {
 			title: 'Oops!',
 			description: 'What you are looking for does not appear to be here...'
-		}
+		},
+		faultyGame: 'Faulty game info...',
+		age: 'Impossibe age...'
 	},
 	time: {
 		second: '{amount} second ago | {amount} seconds ago',

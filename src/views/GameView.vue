@@ -5,7 +5,7 @@
 				<GameImageComponent @cancel="deleteConfirm = false" @deleteGame="deleteGame" :delete-confirm="deleteConfirm"
 														:uri="computedUri" :score="computedScore"/>
 			</div>
-			<div class="flex flex-col bg-background-darker rounded-xl my-2 md:mb-0 md:mt-0 sm:min-w-[300px] lg:min-w-[500px]">
+			<div class="flex flex-col bg-background-darker rounded-xl my-2 md:mb-0 md:mt-0 sm:min-w-[300px] lg:w-[500px]">
 				<!-- View game -->
 				<GameContentComponent v-if="game && !isNew && !isEditing" :gameExternal="gameExternal" :game="game"/>
 				<NewGameContentComponent v-if="isNew"/>

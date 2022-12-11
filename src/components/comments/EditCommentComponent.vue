@@ -1,6 +1,6 @@
 ﻿<template>
 	<!-- Edit comment -->
-	<div class="w-full">
+	<div class="block">
 		<!-- Edit comment body -->
 		<textarea
 			v-model="commentDto.content"
@@ -9,7 +9,7 @@
 			:maxlength="maxLenght"
 			rows="1"
 			placeholder="Comment"
-			id="newComment"
+			id="editComment"
 		></textarea>
 		<!-- Edit controls -->
 		<transition>
@@ -42,7 +42,7 @@ export default {
 	//Know if ready and store the Data Transfer Object
 	data() {
 		return {
-			maxLenght: 250,
+			maxLenght: 500,
 			ready: true,
 
 			commentDto: {
@@ -83,18 +83,22 @@ export default {
 
 		//Autogrow comment text field
 		autoGrow() {
-			let element = document.getElementById('newComment')
+			let element = document.getElementById('editComment')
 			element.style.height = '5px'
 			element.style.height = element.scrollHeight + 4 + 'px'
 		},
 	},
 
 	//When component is mounted build the comment DTO from previous comment
-	mounted() {
+	created() {
 		if (this.comment) {
 			this.commentDto.content = this.comment.content
 			this.commentDto.postId = this.comment.postId
 		}
 	},
+
+	mounted(){
+		this.autoGrow()
+	}
 }
 </script>

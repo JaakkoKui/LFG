@@ -83,6 +83,9 @@ public class Startup
 				options.ClaimActions.MapJsonKey("lfg:discord:discriminator", "discriminator");
 				options.ClaimActions.MapJsonKey("lfg:discord:avatar", "avatar");
 
+				options.ClaimActions.MapJsonKey("lfg:discord:accent_color", "accent_color");
+				options.ClaimActions.MapJsonKey("lfg:discord:locale", "locale");
+
 				options.Events = new OAuthEvents
 				{
 					OnCreatingTicket = async context =>
@@ -158,13 +161,19 @@ public class Startup
 				var discriminator = context.User.Claims.First(c => c.Type == "lfg:discord:discriminator").Value;
 				var avatar = context.User.Claims.First(c => c.Type == "lfg:discord:avatar").Value;
 
+
+				var rawAccentColor = context.User.Claims.First(c => c.Type == "lfg:discord:accent_color").Value;
+				var accentColor = rawAccentColor != null ? Convert.ToInt32(rawAccentColor).ToString("X") : null;
+
+				var locale = context.User.Claims.First(c => c.Type == "lfg:discord:locale").Value;
+
 				await using var conn =
 					new MySqlConnection(configuration.GetConnectionString("MySqlDBConnection"));
 				await conn.OpenAsync();
 
 				var table = new DataTable();
 				await using (var cmd = new MySqlCommand(
-					             @"SELECT profileId,discordName,avatar FROM Profile WHERE profileId=@profileId;",
+					             @"SELECT profileId,discordName,avatar,accentColor,locale FROM Profile WHERE profileId=@profileId;",
 					             conn))
 				{
 					cmd.Parameters.AddWithValue("@profileId", id);
@@ -177,13 +186,16 @@ public class Startup
 				if (table.Rows.Count == 0)
 				{
 					await using var cmd = new MySqlCommand(
-						@"INSERT INTO Profile (profileId, discordName, nickname, avatar) VALUES (@profileId, @discordName, @nickname, @avatar)",
+						@"INSERT INTO Profile (profileId, discordName, nickname, avatar, accentColor, locale) VALUES (@profileId, @discordName, @nickname, @avatar, @accentColor, @locale)",
 						conn);
 
 					cmd.Parameters.AddWithValue("@profileId", id);
 					cmd.Parameters.AddWithValue("@discordName", $"{username}#{discriminator}");
 					cmd.Parameters.AddWithValue("@nickname", $"{username}{discriminator}");
 					cmd.Parameters.AddWithValue("@avatar", avatar);
+
+					cmd.Parameters.AddWithValue("@accentColor", accentColor);
+					cmd.Parameters.AddWithValue("@locale", locale);
 
 					var reader = await cmd.ExecuteReaderAsync();
 					await reader.CloseAsync();
@@ -192,15 +204,17 @@ public class Startup
 				{
 					var obj = table.Rows[0];
 					if (avatar != Convert.ToString(obj["avatar"]) || $"{username}#{discriminator}" !=
-					    Convert.ToString(obj["discordName"]))
+					    Convert.ToString(obj["discordName"]) || accentColor != Convert.ToString(obj["accentColor"]))
 					{
 						await using var cmd = new MySqlCommand(
-							@"UPDATE Profile SET discordName = @discordName, avatar = @avatar WHERE profileId=@profileId",
+							@"UPDATE Profile SET discordName = @discordName, avatar = @avatar, accentColor = @accentColor WHERE profileId=@profileId",
 							conn);
 
 						cmd.Parameters.AddWithValue("@profileId", id);
 						cmd.Parameters.AddWithValue("@discordName", $"{username}#{discriminator}");
 						cmd.Parameters.AddWithValue("@avatar", avatar);
+
+						cmd.Parameters.AddWithValue("@accentColor", accentColor);
 
 						var reader = await cmd.ExecuteReaderAsync();
 						await reader.CloseAsync();

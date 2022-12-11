@@ -3,7 +3,7 @@
 		<!-- game title-->
 		<div
 			id="game"
-			class="text-4xl font-bold p-8 text-center bg-gradient-to-r from-secondary to-secondaryVariant text-text-white rounded-xl mt-2 mx-2"
+			class="text-4xl font-bold p-8 text-center bg-secondary text-text-white rounded-xl mt-2 mx-2"
 		>
 			<input
 				v-model="gameDto.gameName"
@@ -29,6 +29,7 @@
 					:placeholder="game.nicknameInGame"
 					class="w-full rounded-full bg-accent px-1 text-center"
 					id="nickname"
+					maxlength="20"
 				/>
 				<input
 					v-model="gameDto.hoursPlayed"
@@ -36,18 +37,22 @@
 					type="number"
 					class="w-full rounded-full bg-accent px-1 text-center"
 					id="hoursPlayed"
+		  		min="0"
+					max="999999"
 				/>
 				<input
 					v-model="gameDto.rank"
 					:placeholder="game.rank"
 					class="w-full rounded-full bg-accent px-1 text-center"
 					id="rank"
+		  		maxlength="20"
 				/>
 				<input
 					v-model="gameDto.server"
 					:placeholder="game.server"
 					class="w-full rounded-full bg-accent px-1 text-center"
 					id="server"
+		  		maxlength="20"
 				/>
 			</div>
 		</div>
@@ -62,8 +67,11 @@
 				rows="1"
 				@input="autoGrow"
 				id="comments"
+				maxlength="500"
 			></textarea>
 		</div>
+
+		<Toast v-if="faulty" :text="$t('exceptions.faultyGame')" @close="this.faulty = false"/>
 
 		<!-- Game edit controls -->
 		<div class="flex absolute right-0 bottom-0 mx-8">
@@ -77,10 +85,12 @@
 import CancelButtonHelper from '../../helpers/CancelButtonHelper.vue'
 import ButtonHelper from '../../helpers/ButtonHelper.vue'
 import axios from 'axios'
+import Toast from "@/components/exceptions/Toast.vue";
 
 export default {
 	name: 'EditGameContentComponent',
 	components: {
+	Toast,
 		CancelButtonHelper,
 		ButtonHelper,
 	},
@@ -106,7 +116,7 @@ export default {
 
 		//Update if valid game with the known DTO
 		async editGame() {
-			if (this.gameDto.gameName.length > 0 && this.gameDto.nicknameInGame.length > 0) {
+			if (this.gameDto.gameName.length > 0 && this.gameDto.nicknameInGame.length > 0 && this.gameDto.hoursPlayed < 1000000) {
 				axios
 					.put('/api/Game/' + this.game.gameId, this.gameDto)
 					.then(() => {
@@ -144,7 +154,11 @@ export default {
 	created() {
 		let gameCopy = Object.assign({}, this.game)
 		this.buildGameDto(gameCopy)
-		this.autoGrow()
 	},
+
+	//Autogrow on mounted
+	mounted(){
+		this.autoGrow()
+	}
 }
 </script>

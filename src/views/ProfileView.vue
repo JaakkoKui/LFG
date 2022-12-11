@@ -15,7 +15,7 @@
 			class="bg-gradient-to-r from-primaryVariant via-primary to-pink-600 py-16 rounded-xl text-center text-text-white mt-2 mx-2 h-[212px]"
 		>
 			<div v-if="isOwner">
-				<h1 class="text-5xl font-semibold">{{$t('profile.headers.yourPosts.title')}}</h1>
+				<h1 class="text-4xl sm:text-5xl font-semibold">{{$t('profile.headers.yourPosts.title')}}</h1>
 				<p class="font-semibold text-sm mt-2 italic">{{$t('profile.headers.yourPosts.description')}}</p>
 			</div>
 			<div v-else>
@@ -30,7 +30,7 @@
 			class="bg-gradient-to-r from-teal-500 via-blue-600 to-sky-500 py-16 rounded-xl text-center text-text-white mt-2 mx-2 h-[212px]"
 		>
 			<div v-if="isOwner">
-				<h1 class="text-5xl font-semibold">{{$t('profile.headers.yourComments.title')}}</h1>
+				<h1 class="text-4xl sm:text-5xl font-semibold">{{$t('profile.headers.yourComments.title')}}</h1>
 				<p class="font-semibold text-sm mt-2 italic">{{$t('profile.headers.yourComments.description')}}</p>
 			</div>
 			<div v-else>
