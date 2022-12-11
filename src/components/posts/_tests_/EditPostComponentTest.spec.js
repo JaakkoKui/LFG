@@ -51,7 +51,7 @@ describe('Tests for the Edit Post Component', () => {
                     postId: "TestingPost"
                 },
                 executeEdit: true
-            }
+            },
         })
     })
 

@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { shallowMount } from '@vue/test-utils'
 import GameContentComponent from 'src/components/game/GameContentComponent.vue'
 
@@ -18,7 +18,8 @@ describe('Tests for the Game Content Component', () => {
                     nicknameInGame: 'Xermos',
                     comments: 'Really great hack`n`slash game!'
                 }
-            }
+            },
+            
         })
     })
 

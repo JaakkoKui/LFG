@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
-import { flushPromises, shallowMount } from '@vue/test-utils'
+import { shallowMount  } from '@vue/test-utils'
 import axios from 'axios'
 import NewCommentComponent from 'src/components/comments/NewCommentComponent.vue'
 import { createTestingPinia } from '@pinia/testing'
@@ -41,13 +41,19 @@ describe('Tests for the New Comment Component', () => {
                 // Stub out the transition:
                 transition: transitionStub()
             },
-            attachTo: document.body,
-            global:{
-                plugins: [createTestingPinia()]
-              }
+            global: {
+                plugins: [createTestingPinia()],
+            },
+            data: () => {
+                return {
+                    me: { nickname: "Xermos", profileId: "Jepsu" },
+                    maxLenght: 250,
+                    active: false,
+                    text: '',
+                }
+            },attachTo: document.body,
+            
         })
-
-
     })
 
     afterEach(() => {
@@ -55,32 +61,17 @@ describe('Tests for the New Comment Component', () => {
     })
 
     it('Textarea shows as it should and you can write to it', async () => {
-        wrapper.setData({
-            me: { nickname: "Xermos", profileId: "Jepsu" },
-            rows: 2,
-            maxLenght: 250,
-            active: false,
-            text: '',
-        })
+        
 
         const textArea = wrapper.find('#newComment')
         expect(textArea.attributes().rows).toEqual('1')
         expect(textArea.attributes().maxlength).toBe('250')
-        expect(textArea.attributes().placeholder).toMatch('Comment')
-
 
         await textArea.setValue('Testing testing')
         expect(textArea.element.value).toMatch('Testing testing')
     })
 
     it('Buttons show when textarea is active', async () => {
-        wrapper.setData({
-            me: { nickname: "Xermos", profileId: "Jepsu" },
-            rows: 2,
-            maxLenght: 250,
-            active: false,
-            text: '',
-        })
 
         const textArea = wrapper.find('#newComment')
         await textArea.trigger('focus')
@@ -94,13 +85,6 @@ describe('Tests for the New Comment Component', () => {
     })
 
     it('Clicking cancel button deactives textarea and buttons', async () => {
-        wrapper.setData({
-            me: { nickname: "Xermos", profileId: "Jepsu" },
-            rows: 2,
-            maxLenght: 250,
-            active: false,
-            text: '',
-        })
 
         const textArea = wrapper.find('#newComment')
 

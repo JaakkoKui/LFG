@@ -17,12 +17,6 @@ vi.mock("axios", () => {
 describe('Tests for the New Post Component', () => {
     let wrapper = null
 
-    const transitionStub = () => ({
-        render: function (h) {
-            return this.$options._renderChildren
-        }
-    })
-
     beforeEach(() => {
         const mockResponseData = {
             title: 'Testing title',
@@ -49,10 +43,6 @@ describe('Tests for the New Post Component', () => {
         axios.get.mockResolvedValue(mockResponseMeData)
         // render the component
         wrapper = shallowMount(NewPostComponent, {
-            stubs: {
-                // Stub out the transition:
-                transition: transitionStub()
-            },
             attachTo: document.body,
             addingNew: false,
             global: {
@@ -79,6 +69,7 @@ describe('Tests for the New Post Component', () => {
 
     afterEach(() => {
         axios.get.mockReset()
+        axios.post.mockReset()
     })
 
     it('Postheader is showing and getting right data', async () => {
@@ -174,7 +165,7 @@ describe('Tests for the New Post Component', () => {
         expect(axios.post).toHaveBeenCalledTimes(1)
         expect(axios.post).toBeCalledWith('https://localhost:5001/api/Post', wrapper.vm.postDto)
 
-        expect(wrapper.emitted().updateComments).toBeTruthy()
+        expect(wrapper.emitted().updatePost).toBeTruthy()
         expect(wrapper.emitted().cancel).toBeTruthy()
     })
 })

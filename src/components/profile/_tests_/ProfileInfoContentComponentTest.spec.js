@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest'
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import ProfileInfoContentComponent from 'src/components/profile/ProfileInfoContentComponent.vue'
 
@@ -19,7 +19,7 @@ describe('Tests for the Profile Info Component', () => {
                     joiningDate: "12.11.2022",
                     profileId: "Jepsu"
                   }
-            }
+            },
         })
     })
 

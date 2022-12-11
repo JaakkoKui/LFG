@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
-import { flushPromises, mount } from '@vue/test-utils'
+import { flushPromises, shallowMount } from '@vue/test-utils'
 import axios from 'axios'
 import NewGameContentComponent from 'src/components/game/NewGameContentComponent.vue'
 
@@ -34,12 +34,24 @@ describe('Tests for the New Game Content Component', () => {
 
         axios.post.mockResolvedValue(mockResponseData)
         // render the component
-        wrapper = mount(NewGameContentComponent, {
+        wrapper = shallowMount(NewGameContentComponent, {
             stubs: {
                 // Stub out the transition:
                 transition: transitionStub()
             },
-            attachTo: document.body
+            attachTo: document.body,
+            data: () => {
+                return {
+                    gameDto: {
+                        gameName: "Hades",
+                        hoursPlayed: "123",
+                        rank: 'Godslayer',
+                        server: 'EU',
+                        nicknameInGame: 'Xermos',
+                        comments: 'Really great hack`n`slash game!'
+                    }
+                }
+            }
         })
 
 
@@ -50,18 +62,9 @@ describe('Tests for the New Game Content Component', () => {
     })
 
     it('Add new game button works', async () => {
-        wrapper.setData({
-            gameDto: {
-                gameName: "Hades",
-                hoursPlayed: "123",
-                rank: 'Godslayer',
-                server: 'EU',
-                nicknameInGame: 'Xermos',
-                comments: 'Really great hack`n`slash game!'
-            }
-        })
+       
 
-        const addGame = wrapper.findComponent({ref: "addGame"})
+        const addGame = wrapper.findComponent({ ref: "addGame" })
 
         await addGame.trigger('click')
         await wrapper.vm.$nextTick()

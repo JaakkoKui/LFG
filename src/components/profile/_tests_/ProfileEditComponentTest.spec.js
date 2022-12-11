@@ -9,20 +9,13 @@ import { createTestingPinia } from '@pinia/testing'
 vi.mock("axios", () => {
     return {
         default: {
-            put: vi.fn(),
-            get: vi.fn()
+            put: vi.fn()
         },
     };
 });
 
 describe('Tests for the Profile Edit Component', () => {
     let wrapper = null
-
-    const transitionStub = () => ({
-        render: function (h) {
-            return this.$options._renderChildren
-        }
-    })
 
     beforeEach(() => {
         const mockResponseData = {
@@ -31,25 +24,30 @@ describe('Tests for the Profile Edit Component', () => {
             lastName: 'Ojansson',
             age: 30,
         }
-        const mockMeResponseData = {
-            nickname: 'Xermos',
-            firstName: 'Jesper',
-            lastName: 'Oja',
-            age: 33,
-        }
 
         axios.put.mockResolvedValue(mockResponseData)
-        axios.get.mockResolvedValue(mockMeResponseData)
         // render the component
         wrapper = shallowMount(ProfileEditComponent, {
-            stubs: {
-                // Stub out the transition:
-                transition: transitionStub()
+            global: {
+                plugins: [createTestingPinia()],
+            },
+            data: () => {
+                return {
+                    profileDto: {
+                        nickname: 'Xermos',
+                        firstName: 'Jesper',
+                        lastName: 'Oja',
+                        age: 33,
+                    },
+                    me: {
+                        nickname: 'Xermos',
+                        firstName: 'Jesper',
+                        lastName: 'Oja',
+                        age: 33,
+                    }
+                }
             },
             attachTo: document.body,
-            global:{
-                plugins: [createTestingPinia()]
-              }
         })
     })
 
@@ -71,13 +69,13 @@ describe('Tests for the Profile Edit Component', () => {
     }
 
     afterEach(() => {
-        axios.get.mockReset()
-        wrapper.unmount()
-      })
+        axios.put.mockReset()
+    })
 
     it('Data is loaded correctly at the start', async () => {
-        atTheStart()
-        
+
+        const localNick = wrapper.find('#localNick')
+        expect(localNick.text()).toMatchSnapshot()
         expect(wrapper.vm.profileDto.nickname).toMatch('Xermos')
         expect(wrapper.vm.profileDto.firstName).toMatch('Jesper')
         expect(wrapper.vm.profileDto.lastName).toMatch('Oja')
@@ -85,8 +83,6 @@ describe('Tests for the Profile Edit Component', () => {
     })
 
     it('Current profile info is shown in input fields', async () => {
-
-        await atTheStart()
 
         const nickname = wrapper.find('#nickname')
         expect(nickname.element.value).toMatch('Xermos')
@@ -102,8 +98,7 @@ describe('Tests for the Profile Edit Component', () => {
     })
 
     it('Changing input field values change values in profileDto object', async () => {
-        
-        await atTheStart()
+
 
         const nickname = wrapper.find('#nickname')
         expect(nickname.element.value).toMatch('Xermos')
@@ -127,23 +122,21 @@ describe('Tests for the Profile Edit Component', () => {
     })
 
     it('Cancel button and edit button rendered correctly', async () => {
-       
-        await atTheStart()
 
-        const editButton = wrapper.findComponent({ref:'editButton'})
+
+        const editButton = wrapper.findComponent({ ref: 'editButton' })
         expect(editButton.exists()).toBeTruthy()
         expect(editButton.attributes().name).toBe('edit')
 
-        const cancelButton = wrapper.findComponent({ ref: 'cancelButton'})
+        const cancelButton = wrapper.findComponent({ ref: 'cancelButton' })
         expect(cancelButton.exists()).toBeTruthy()
-        
+
     })
 
     it('Clicking edit button send put request and emmits cancel and done calls', async () => {
-        
-        await atTheStart()
 
-        const editButton = wrapper.findComponent({ref:'editButton'})
+
+        const editButton = wrapper.findComponent({ ref: 'editButton' })
         expect(editButton.exists()).toBeTruthy()
         expect(editButton.attributes().name).toBe('edit')
 
@@ -160,10 +153,8 @@ describe('Tests for the Profile Edit Component', () => {
     })
 
     it('Clicking cancel button emmits cancel call', async () => {
-        
-        await atTheStart()
 
-        const cancelButton = wrapper.findComponent({ ref: 'cancelButton'})
+        const cancelButton = wrapper.findComponent({ ref: 'cancelButton' })
         expect(cancelButton.exists()).toBeTruthy()
 
         await cancelButton.trigger('click')

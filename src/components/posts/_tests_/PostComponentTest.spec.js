@@ -16,12 +16,6 @@ vi.mock("axios", () => {
 describe('Tests for the Post Component', () => {
     let wrapper = null
 
-    const transitionStub = () => ({
-        render: function (h) {
-            return this.$options._renderChildren
-        }
-    })
-
     beforeEach(() => {
         const mockResponseData = {
             discordName: "Xermos",
@@ -37,10 +31,6 @@ describe('Tests for the Post Component', () => {
         axios.get.mockResolvedValue(mockResponseData)
         // render the component
         wrapper = shallowMount(PostComponent, {
-            stubs: {
-                // Stub out the transition:
-                transition: transitionStub()
-            },
             props: {
                 post: {
                     profileId: "Jepsu",
@@ -53,9 +43,9 @@ describe('Tests for the Post Component', () => {
                     postId: "POST"
                 }
             },
-            global:{
-                plugins: [createTestingPinia()]
-              },
+            global: {
+                plugins: [createTestingPinia()],
+            },
             computed: {
                 isOwner() {
                     return true
@@ -68,7 +58,7 @@ describe('Tests for the Post Component', () => {
 
     afterEach(() => {
         axios.get.mockReset()
-        wrapper.unmount()
+        
     })
 
     const startTest = async () => {

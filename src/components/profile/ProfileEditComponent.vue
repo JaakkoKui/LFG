@@ -6,7 +6,7 @@
 		<article class="flex">
 			<!-- Field legends -->
 			<div class="flex flex-col justify-between">
-				<p>{{ $t('profile.info.nickname') }}</p>
+				<p id="localNick">{{ $t('profile.info.nickname') }}</p>
 				<p>{{ $t('profile.info.firstname') }}</p>
 				<p>{{ $t('profile.info.lastname') }}</p>
 				<p>{{ $t('profile.info.age') }}</p>
