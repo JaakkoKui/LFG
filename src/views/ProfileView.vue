@@ -1,92 +1,105 @@
 ﻿<template>
 	<div class="bg-background-default mb-4 sm:mb-8">
-		<!-- Profile header -->
-		<ProfileInfoComponent
-			@updateProfile="getProfile"
-			class="mt-2 mx-2"
-			v-if="profile && tab === 1"
-			:profile="profile"
-			:isOwner="isOwner"
-		/>
+		<transition name="slide-fade" mode="out-in">
+			<!-- Profile header -->
+			<ProfileInfoComponent
+				@updateProfile="getProfile"
+				class="mt-2 mx-2"
+				v-if="tab === 1"
+				:profile="profile"
+				:isOwner="isOwner"
+			/>
 
-		<!-- Posts header -->
-		<header
-			v-if="tab === 2"
-			class="bg-gradient-to-r from-primaryVariant via-primary to-pink-600 py-16 rounded-xl text-center text-text-white mt-2 mx-2 h-[212px]"
-		>
-			<div v-if="isOwner">
-				<h1 class="text-4xl sm:text-5xl font-semibold">{{$t('profile.headers.yourPosts.title')}}</h1>
-				<p class="font-semibold text-sm mt-2 italic">{{$t('profile.headers.yourPosts.description')}}</p>
-			</div>
-			<div v-else>
-				<h1 class="text-5xl font-semibold">{{$t('profile.headers.theirPosts.title', { nickname: profile.nickname })}}</h1>
-				<p class="font-semibold text-sm mt-2 italic">{{$t('profile.headers.theirPosts.description', { nickname: profile.nickname })}}</p>
-			</div>
-		</header>
+			<!-- Posts header -->
+			<header
+				v-else-if="tab === 2"
+				class="bg-gradient-to-r from-primaryVariant via-primary to-pink-600 py-16 rounded-xl text-center text-text-white mt-2 mx-2 h-[212px]"
+			>
+				<div v-if="isOwner">
+					<h1 class="text-4xl sm:text-5xl font-semibold">{{ $t('profile.headers.yourPosts.title') }}</h1>
+					<p class="font-semibold text-sm mt-2 italic">{{ $t('profile.headers.yourPosts.description') }}</p>
+				</div>
+				<div v-else>
+					<h1 class="text-5xl font-semibold">
+						{{ $t('profile.headers.theirPosts.title', {nickname: profile.nickname}) }}</h1>
+					<p class="font-semibold text-sm mt-2 italic">
+						{{ $t('profile.headers.theirPosts.description', {nickname: profile.nickname}) }}</p>
+				</div>
+			</header>
 
-		<!-- Comment header -->
-		<header
-			v-if="tab === 3"
-			class="bg-gradient-to-r from-teal-500 via-blue-600 to-sky-500 py-16 rounded-xl text-center text-text-white mt-2 mx-2 h-[212px]"
-		>
-			<div v-if="isOwner">
-				<h1 class="text-4xl sm:text-5xl font-semibold">{{$t('profile.headers.yourComments.title')}}</h1>
-				<p class="font-semibold text-sm mt-2 italic">{{$t('profile.headers.yourComments.description')}}</p>
-			</div>
-			<div v-else>
-				<h1 class="text-5xl font-semibold">{{$t('profile.headers.theirComments.title', { nickname: profile.nickname }) }}</h1>
-				<p class="font-semibold text-sm mt-2 italic">{{$t('profile.headers.theirComments.description', { nickname: profile.nickname })}}</p>
-			</div>
-		</header>
+			<!-- Comment header -->
+			<header
+				v-else-if="tab === 3"
+				class="bg-gradient-to-r from-teal-500 via-blue-600 to-sky-500 py-16 rounded-xl text-center text-text-white mt-2 mx-2 h-[212px]"
+			>
+				<div v-if="isOwner">
+					<h1 class="text-4xl sm:text-5xl font-semibold">{{ $t('profile.headers.yourComments.title') }}</h1>
+					<p class="font-semibold text-sm mt-2 italic">{{ $t('profile.headers.yourComments.description') }}</p>
+				</div>
+				<div v-else>
+					<h1 class="text-5xl font-semibold">{{
+							$t('profile.headers.theirComments.title', {nickname: profile.nickname})
+						}}</h1>
+					<p class="font-semibold text-sm mt-2 italic">
+						{{ $t('profile.headers.theirComments.description', {nickname: profile.nickname}) }}</p>
+				</div>
+			</header>
+		</transition>
 
 		<!-- In profile navigation -->
 		<div class="h-16 flex w-fit mx-auto">
-			<button @click="tab = 1" class="px-4 h-full opacity-75 hover:opacity-100 capitalize" :class="{ 'border-b': tab === 1 }">
-				{{$t('profile.nav.games')}}
+			<button @click="tab = 1" class="px-4 h-full opacity-75 hover:opacity-100 capitalize"
+							:class="{ 'border-b': tab === 1 }">
+				{{ $t('profile.nav.games') }}
 			</button>
-			<button @click="tab = 2" class="px-4 h-full opacity-75 hover:opacity-100 capitalize" :class="{ 'border-b': tab === 2 }">
-				{{$t('profile.nav.posts')}}
+			<button @click="tab = 2" class="px-4 h-full opacity-75 hover:opacity-100 capitalize"
+							:class="{ 'border-b': tab === 2 }">
+				{{ $t('profile.nav.posts') }}
 			</button>
-			<button @click="tab = 3" class="px-4 h-full opacity-75 hover:opacity-100 capitalize" :class="{ 'border-b': tab === 3 }">
-				{{$t('profile.nav.comments')}}
+			<button @click="tab = 3" class="px-4 h-full opacity-75 hover:opacity-100 capitalize"
+							:class="{ 'border-b': tab === 3 }">
+				{{ $t('profile.nav.comments') }}
 			</button>
 		</div>
 
-		<!-- Games container -->
-		<section v-if="tab === 1" class="flex flex-col max-w-[1600px] mx-auto w-full px-2 sm:px-4 lg:px-8">
-			<div v-if="isOwner" class="sm:px-8 sm:py-4 sm:mb-4 bg-background-darker rounded-xl">
-				<button
-					@click="toNewGame"
-					class="flex text-lg z-20 sm:text-xl max-sm:fixed max-sm:p-4 sm:py-2 sm:px-4 bottom-0 right-0 font-semibold capitalize rounded-2xl bg-primary max-sm:m-4 shadow-xl transition duration-150 ease-out hover:bg-primaryVariant hover:scale-110"
-				>
-					<span class="h-[24px] mr-2 my-auto material-symbols-outlined font-bold">add</span>
-					<span class="mr-2">{{$t('buttons.new')}}</span>
-				</button>
-			</div>
-			<GamesLayout :games="games" :profile-id="profile.profileId" />
-		</section>
+		<transition name="fade" mode="out-in" appear>
+			<section v-if="tab === 1" class="flex flex-col max-w-[1600px] mx-auto w-full px-2 sm:px-4 lg:px-8">
+				<!-- Games container -->
+				<div v-if="isOwner" class="sm:px-8 sm:py-4 sm:mb-4 bg-background-darker rounded-xl">
+					<button
+						@click="toNewGame"
+						class="flex text-lg z-20 sm:text-xl max-sm:fixed max-sm:p-4 sm:py-2 sm:px-4 bottom-0 right-0 font-semibold capitalize rounded-2xl bg-primary max-sm:m-4 shadow-xl transition duration-150 ease-out hover:bg-primaryVariant hover:scale-110"
+					>
+						<span class="h-[24px] mr-2 my-auto material-symbols-outlined font-bold">add</span>
+						<span class="mr-2">{{ $t('buttons.new') }}</span>
+					</button>
+				</div>
+				<GamesLayout :games="games" :profile-id="getProfileId"/>
+			</section>
 
-		<!-- Posts -->
-		<section v-if="posts && tab === 2" class="max-w-[1600px] mx-auto">
-			<NewPostComponent v-if="addingNew" @updatePost="getPosts" @cancel="addingNew = false" />
-			<div v-if="!addingNew && isOwner" class="sm:px-8 sm:py-4 sm:mb-4 sm:mx-4 lg:mx-8 bg-background-darker rounded-xl">
-				<button
-					@click="addingNew = true"
-					class="flex text-lg z-20 sm:text-xl max-sm:fixed max-sm:p-4 sm:py-2 sm:px-4 bottom-0 right-0 font-semibold capitalize rounded-2xl bg-primary max-sm:m-4 shadow-xl transition duration-150 ease-out hover:bg-primaryVariant hover:scale-110"
-				>
-					<span class="h-[24px] mr-2 my-auto material-symbols-outlined font-bold">add</span>
-					<span class="mr-2">{{$t('buttons.new')}}</span>
-				</button>
-			</div>
-			<PostsLayout :posts="posts" @updatePost="getPosts" />
-		</section>
+			<!-- Posts -->
+			<section v-else-if="tab === 2" class="max-w-[1600px] mx-auto">
+				<NewPostComponent v-if="addingNew" @updatePost="getPosts" @cancel="addingNew = false"/>
+				<div v-if="!addingNew && isOwner"
+						 class="sm:px-8 sm:py-4 sm:mb-4 sm:mx-4 lg:mx-8 bg-background-darker rounded-xl">
+					<button
+						@click="addingNew = true"
+						class="flex text-lg z-20 sm:text-xl max-sm:fixed max-sm:p-4 sm:py-2 sm:px-4 bottom-0 right-0 font-semibold capitalize rounded-2xl bg-primary max-sm:m-4 shadow-xl transition duration-150 ease-out hover:bg-primaryVariant hover:scale-110"
+					>
+						<span class="h-[24px] mr-2 my-auto material-symbols-outlined font-bold">add</span>
+						<span class="mr-2">{{ $t('buttons.new') }}</span>
+					</button>
+				</div>
+				<PostsLayout :posts="posts" @updatePost="getPosts"/>
+			</section>
 
-		<!-- Comments -->
-		<section v-if="comments && tab === 3" class="max-w-[1600px] mx-auto">
-			<div class="mx-4 sm:mx-4 lg:mx-8 bg-background-darker rounded-xl py-4">
-				<CommentsLayout @updateComments="getComments" :comments="comments" />
-			</div>
-		</section>
+			<!-- Comments -->
+			<section v-else-if="tab === 3" class="max-w-[1600px] mx-auto">
+				<div class="mx-4 sm:mx-4 lg:mx-8 bg-background-darker rounded-xl py-4">
+					<CommentsLayout @updateComments="getComments" :comments="comments"/>
+				</div>
+			</section>
+		</transition>
 	</div>
 </template>
 
@@ -97,7 +110,7 @@ import NewPostComponent from '@/components/posts/NewPostComponent.vue'
 import GamesLayout from '@/layouts/GamesLayout.vue'
 import PostsLayout from '@/layouts/PostsLayout.vue'
 import CommentsLayout from '@/layouts/CommentsLayout.vue'
-import { useMeStore } from '@/stores/me'
+import {useMeStore} from '@/stores/me'
 import router from "@/router";
 
 export default {
@@ -113,7 +126,7 @@ export default {
 	//Setup Pinia storage for @me ownership validation
 	setup() {
 		const meStore = useMeStore()
-		return { meStore }
+		return {meStore}
 	},
 
 	//Data keeps track of which profile is being looked at, profile, profiles games, posts and comments, current tab
@@ -132,12 +145,25 @@ export default {
 
 	computed: {
 		isOwner() {
-			return this.meStore.$state.profileId === this.profile.profileId
+		  try{
+				return this.meStore.$state.profileId === this.profile.profileId
+			} catch (e) {
+
+	  }
+
 		},
+
+		getProfileId(){
+		  try{
+				return this.profile.profileId
+			}catch (e) {
+
+	  }
+		}
 	},
 
 	methods: {
-	  //Get profile from API by the id in the url
+		//Get profile from API by the id in the url
 		async getProfile() {
 			if (this.paramProfileId) {
 				axios
@@ -194,8 +220,8 @@ export default {
 		},
 
 		//Pushes router to go new game
-		async toNewGame(){
-		  await router.push(this.profile.profileId + '/game/new')
+		async toNewGame() {
+			await router.push(this.profile.profileId + '/game/new')
 		},
 
 		//Get relevant data to profile
@@ -214,7 +240,7 @@ export default {
 	},
 
 	watch: {
-	  //Watch url and if profile id changes get new profile relevant data (in-case of profile to profile movement)
+		//Watch url and if profile id changes get new profile relevant data (in-case of profile to profile movement)
 		'$route.params.profileId': {
 			handler() {
 				this.createdProfile()
@@ -223,3 +249,36 @@ export default {
 	},
 }
 </script>
+
+<style scoped>
+.slide-fade-enter-active {
+	transition: all 0.5s ease-out;
+}
+
+.slide-fade-leave-active {
+	transition: all 0.3s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.slide-fade-enter-from {
+	transform: translateX(20px);
+	opacity: 30%;
+}
+
+.slide-fade-leave-to {
+	transform: translateX(-20px);
+	opacity: 30%;
+}
+
+.fade-enter-active {
+	transition: opacity 0.2s ease-out;
+}
+
+.fade-leave-active {
+	transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+	opacity: 0;
+}
+</style>

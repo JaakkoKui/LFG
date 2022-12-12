@@ -13,6 +13,5 @@ namespace LFG.Model
 		[NotNull][Required] public string? content { get; set; }
 		[NotNull][Required] public string? profileId { get; set; }
 		public string? photoFileName { get; set; }
-		[Required] public int numberOfComments { get; set; }
 	}
 }

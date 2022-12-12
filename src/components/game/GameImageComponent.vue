@@ -1,6 +1,6 @@
 ﻿<template>
 	<!-- Game image component -->
-	<div class="block relative h-full">
+	<div class="w-full relative h-full">
 		<!-- Image -->
 		<img
 			v-if="uri"
@@ -11,7 +11,7 @@
 		/>
 
 		<!-- If no image or empty -->
-		<div v-else class="block min-w-[700px] w-full h-[600px]"></div>
+		<div v-else class="w-full h-[600px]"></div>
 
 		<!-- Metacritic score -->
 		<div v-if="score" class="absolute right-4 bottom-4 bg-primary rounded-lg py-4 px-8 font-semibold">{{score}}</div>

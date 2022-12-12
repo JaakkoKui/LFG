@@ -98,6 +98,35 @@ namespace LFG.Controllers
 			return comments;
 		}
 
+		//Get command for how many comments for a specific post.
+
+		[HttpGet("GetTableSizeByPostId/{postId}")]
+		public async Task<long> GetTableSizeByPostId(String postId)
+		{
+			const string query =
+				@"SELECT COUNT(*) FROM Comment WHERE postId=@postId";
+
+			var sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
+
+			await using var conn = new MySqlConnection(sqlDataSource);
+			await conn.OpenAsync();
+
+			long commentsLenght = 0;
+
+			await using var cmd = new MySqlCommand(query, conn);
+			cmd.Parameters.AddWithValue("@postId", postId);
+
+			var reader = cmd.ExecuteReader();
+
+			while (await reader.ReadAsync())
+				commentsLenght = await reader.GetFieldValueAsync<long>(0);
+
+			await reader.CloseAsync();
+			await conn.CloseAsync();
+
+			return commentsLenght;
+		}
+
 		//Get command for comments made by a specific profile.
 
 		[HttpGet("GetByProfileId/{profileId}")]

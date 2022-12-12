@@ -42,7 +42,7 @@ namespace LFG.Controllers
 	public async Task<List<Post>> GetAll()
 	{
 		const string query =
-			@"SELECT postId, title, DATE_FORMAT(createDate,'%Y-%m-%dT%TZ') as createDate, content, profileId, photoFileName, numberOfComments FROM Post ORDER by createDate DESC";
+			@"SELECT postId, title, DATE_FORMAT(createDate,'%Y-%m-%dT%TZ') as createDate, content, profileId, photoFileName FROM Post ORDER by createDate DESC";
 
 			var sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
 
@@ -63,7 +63,6 @@ namespace LFG.Controllers
 				content = await reader.GetFieldValueAsync<string>(3),
 				profileId = await reader.GetFieldValueAsync<string>(4),
 				photoFileName = await reader.GetFieldValueOrNullAsync<string>(5),
-				numberOfComments = await reader.GetFieldValueAsync<int>(6)
 			});
 
 			await reader.CloseAsync();
@@ -79,7 +78,7 @@ namespace LFG.Controllers
 	public async Task<Post> Get(string id)
 	{
 		const string query =
-			@"SELECT postId, title, DATE_FORMAT(createDate,'%Y-%m-%dT%TZ') as createDate, content, profileId, photoFileName, numberOfComments FROM Post WHERE postId=@postId";
+			@"SELECT postId, title, DATE_FORMAT(createDate,'%Y-%m-%dT%TZ') as createDate, content, profileId, photoFileName FROM Post WHERE postId=@postId";
 
 			var sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
 
@@ -101,7 +100,6 @@ namespace LFG.Controllers
 				content = await reader.GetFieldValueAsync<string>(3),
 				profileId = await reader.GetFieldValueAsync<string>(4),
 				photoFileName = await reader.GetFieldValueOrNullAsync<string>(5),
-				numberOfComments = await reader.GetFieldValueAsync<int>(6)
 			});
 
 			await reader.CloseAsync();
@@ -116,7 +114,7 @@ namespace LFG.Controllers
 	public async Task<List<Post>> GetByProfileId(String profileId)
 	{
 		const string query =
-			@"SELECT postId, title, DATE_FORMAT(createDate,'%Y-%m-%dT%TZ') as createDate, content, profileId, photoFileName, numberOfComments FROM Post WHERE profileId=@profileId ORDER by createDate DESC";
+			@"SELECT postId, title, DATE_FORMAT(createDate,'%Y-%m-%dT%TZ') as createDate, content, profileId, photoFileName FROM Post WHERE profileId=@profileId ORDER by createDate DESC";
 
 			var sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
 
@@ -138,7 +136,6 @@ namespace LFG.Controllers
 				content = await reader.GetFieldValueAsync<string>(3),
 				profileId = await reader.GetFieldValueAsync<string>(4),
 				photoFileName = await reader.GetFieldValueOrNullAsync<string>(5),
-				numberOfComments = await reader.GetFieldValueAsync<int>(6)
 			});
 
 			await reader.CloseAsync();
@@ -154,7 +151,7 @@ namespace LFG.Controllers
 	public JsonResult Post(PostDto post)
 	{
 		const string query =
-			@"INSERT INTO Post (postId, title, content, profileId, photoFileName, numberOfComments) VALUES (NULL, @title, @content, @profileId, @photoFileName, @numberOfComments);";
+			@"INSERT INTO Post (postId, title, content, profileId, photoFileName) VALUES (NULL, @title, @content, @profileId, @photoFileName);";
 
 		var table = new DataTable();
 		var sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
@@ -167,9 +164,8 @@ namespace LFG.Controllers
 				myCommand.Parameters.AddWithValue("@title", post.title);
 				myCommand.Parameters.AddWithValue("@content", post.content);
 				myCommand.Parameters.AddWithValue("@photoFileName", post.photoFileName);
-				myCommand.Parameters.AddWithValue("@numberOfComments", post.numberOfComments);
 
-					var id = HttpContext.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+				var id = HttpContext.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
 					myCommand.Parameters.AddWithValue("@profileId", id);
 
 					myReader = myCommand.ExecuteReader();
@@ -190,7 +186,7 @@ namespace LFG.Controllers
 	public JsonResult Put(string id, PostDto post)
 	{
 		const string query =
-			@"UPDATE Post SET title=@title, content=@content, photoFileName=@photoFileName, numberOfComments=@numberOfComments WHERE postId=@postId AND profileId=@profileId;";
+			@"UPDATE Post SET title=@title, content=@content, photoFileName=@photoFileName WHERE postId=@postId AND profileId=@profileId;";
 
 		var table = new DataTable();
 		var sqlDataSource = _configuration.GetConnectionString("MySqlDBConnection");
@@ -204,9 +200,8 @@ namespace LFG.Controllers
 				myCommand.Parameters.AddWithValue("@title", post.title);
 				myCommand.Parameters.AddWithValue("@content", post.content);
 				myCommand.Parameters.AddWithValue("@photoFileName", post.photoFileName);
-				myCommand.Parameters.AddWithValue("@numberOfComments", post.numberOfComments);
 
-					var profileId = HttpContext.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+				var profileId = HttpContext.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
 					myCommand.Parameters.AddWithValue("@profileId", profileId);
 
 					myReader = myCommand.ExecuteReader();

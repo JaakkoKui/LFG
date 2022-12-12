@@ -7,13 +7,13 @@
 				to="/"
 				class="px-4 h-full hover:text-text-white z-20"
 			>
-				<button class="h-full">{{$t("nav.feed")}}</button>
+				<button class="h-full">{{ $t("nav.feed") }}</button>
 			</RouterLink>
 			<RouterLink
-			to="/about"
-			class="px-4 h-full hover:text-text-white z-20"
+				to="/about"
+				class="px-4 h-full hover:text-text-white z-20"
 			>
-			<button class="h-full">{{ $t("nav.about") }}</button>
+				<button class="h-full">{{ $t("nav.about") }}</button>
 			</RouterLink>
 		</div>
 
@@ -24,11 +24,11 @@
 				:to="'/profile/' + profile.profileId"
 				class="flex pr-4 rounded-full h-fit my-auto bg-background-default hover:scale-105 transition duration-100 ease-out max-sm:mr-2 sm:mr-4"
 			>
-				<AvatarHelper class="h-[40px] my-auto" :avatar="profile.avatar" :profile-id="profile.profileId" />
+				<AvatarHelper class="h-[40px] my-auto" :avatar="profile.avatar" :profile-id="profile.profileId"/>
 				<span class="text-regular my-auto ml-2">{{ profile.nickname }}</span>
 			</RouterLink>
 
-	  	<!-- logout -->
+			<!-- logout -->
 			<a
 				v-if="loggedIn"
 				href="https://localhost:5001/Auth/Logout"
@@ -41,7 +41,7 @@
 				</button>
 			</a>
 
-	  	<!-- login -->
+			<!-- login -->
 			<a
 				v-if="!loggedIn"
 				href="https://localhost:5001/Auth/Login"
@@ -51,28 +51,26 @@
 					class="material-symbols-outlined w-full h-full font-bold hover:scale-125 transition duration-300 ease-out"
 				>
 					login
-			</button>
+				</button>
 			</a>
 		</div>
 	</nav>
 
-	<div class="text-text-default">
-		<RouterView />
-	</div>
+	<RouterView/>
 </template>
 
 <script>
-import { RouterLink, RouterView } from 'vue-router'
+import {RouterLink, RouterView} from 'vue-router'
 import AvatarHelper from '@/helpers/AvatarHelper.vue'
-import { useMeStore } from '@/stores/me.ts'
+import {useMeStore} from '@/stores/me.ts'
 
 export default {
-	components: { AvatarHelper, RouterLink, RouterView },
+	components: {AvatarHelper, RouterLink, RouterView},
 
 	//Setup for pinia storage
 	setup() {
 		const meStore = useMeStore()
-		return { meStore }
+		return {meStore}
 	},
 
 	//Data for profile and keeping track of login
@@ -84,7 +82,7 @@ export default {
 	},
 
 	methods: {
-	  //Set the value of API @me to pinia storage on page load so it can be accessed globally
+		//Set the value of API @me to pinia storage on page load so it can be accessed globally
 		async setMe() {
 			await this.meStore.setMe()
 			this.profile = this.meStore.$state
@@ -106,8 +104,8 @@ export default {
 		profile: {
 			handler() {
 				this.checkLogin()
-				if(this.profile.locale){
-		  		this.$i18n.locale = this.profile.locale
+				if (this.profile.locale) {
+					this.$i18n.locale = this.profile.locale
 				}
 			},
 			deep: true,

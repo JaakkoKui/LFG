@@ -53,7 +53,7 @@
 						id="comments"
 					>
 							<span v-if="!commentsOpen" class="px-4 opacity-75 hover:opacity-100" id="numberOfComments"
-							>{{ $t('posts.showComments', {numberOfComments: post.numberOfComments}) }}</span
+							>{{ $t('posts.showComments', {numberOfComments: numberOfComments}) }}</span
 							>
 						<span v-if="commentsOpen" class="px-4 opacity-75 hover:opacity-100"
 									id="hideComments">{{ $t('posts.hideComments') }}</span>
@@ -63,7 +63,7 @@
 			<hr v-if="commentsOpen" class="mt-8 mb-4 border-[1px] border-background-lighter"/>
 			<!-- Post comments -->
 			<section v-if="commentsOpen">
-				<h4 class="font-semibold mb-4">{{ post.numberOfComments }} {{ $t('posts.comments') }}</h4>
+				<h4 class="font-semibold mb-4">{{ numberOfComments }} {{ $t('posts.comments') }}</h4>
 				<CommentsLayout
 					@updateComments="getComments"
 					:post-id="post.postId"
@@ -156,6 +156,8 @@ export default {
 			commentsOpen: false,
 			isEditing: false,
 
+			numberOfComments: 0,
+
 			checkForDelete: false,
 
 			profile: {},
@@ -186,7 +188,7 @@ export default {
 		//Get posters profile from API
 		async getProfile() {
 			axios
-				.get('https://localhost:5001/api/Profile/' + this.post.profileId)
+				.get('/api/Profile/' + this.post.profileId)
 				.then((response) => {
 					this.profile = response.data
 				})
@@ -198,7 +200,7 @@ export default {
 		//Get comments by post from API
 		async getComments() {
 			axios
-				.get('https://localhost:5001/api/Comment/GetByPostId/' + this.post.postId)
+				.get('/api/Comment/GetByPostId/' + this.post.postId)
 				.then((response) => {
 					this.comments = response.data
 				})
@@ -226,9 +228,21 @@ export default {
 		//Delete selected post
 		async deletePost() {
 			axios
-				.delete('https://localhost:5001/api/Post/' + this.post.postId)
+				.delete('/api/Post/' + this.post.postId)
 				.then(() => {
 					this.$emit('updatePost')
+				})
+				.catch((error) => {
+					console.log(error)
+				})
+		},
+
+		//Gets the number of comments that belong to this post from API
+		async getNumberOfComments() {
+			axios
+				.get('/api/Comment/GetTableSizeByPostId/' + this.post.postId)
+				.then((response) => {
+					this.numberOfComments = response.data
 				})
 				.catch((error) => {
 					console.log(error)
@@ -251,6 +265,9 @@ export default {
 	//Get poster profile when post is beginning to render
 	mounted() {
 		this.getProfile()
+		if(this.post){
+	  	this.getNumberOfComments()
+		}
 	},
 }
 </script>

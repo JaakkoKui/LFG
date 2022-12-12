@@ -1,7 +1,7 @@
 ﻿<template>
 	<!-- game render structure -->
 	<div
-		v-if="games.length > 0"
+		v-if="gameIsEmpty"
 		class="flex flex-wrap px-2 sm:px-4 md:px-8 gap-4 bg-background-darker rounded-xl py-4 sm:py-8 w-full max-w-[1600px] mx-auto"
 	>
 		<!-- Game Card -->
@@ -21,6 +21,17 @@ export default {
 	components: {
 		GameCardComponent,
 		EmptyException,
+	},
+
+	computed: {
+	  gameIsEmpty(){
+			try {
+				return this.games.length > 0;
+			} catch (e) {
+
+	  }
+
+		}
 	},
 
 	//Props passed from parent. List of games that should be rendered and profile they belong to
