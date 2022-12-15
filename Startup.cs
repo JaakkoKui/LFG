@@ -54,6 +54,7 @@ public class Startup
 			.AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver
 				= new DefaultContractResolver());
 
+		//Authentication middleware that uses oAuth2 and saves a session lasting authentication cookie to the users browser
 		services.AddAuthentication(options =>
 			{
 				options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -63,6 +64,7 @@ public class Startup
 			.AddCookie()
 			.AddOAuth("Discord", options =>
 			{
+				//We ask discord to fill the info needed to build our profile
 				const string DISCORD_URL = "https://discord.com";
 				const string DISCORD_API_URL = "https://discord.com/api";
 
@@ -118,9 +120,9 @@ public class Startup
 				};
 			});
 
-		services.AddControllers();
+		services.AddControllers();	//Aktivoidaan controllerit
 
-		services.AddSwaggerGen();
+		services.AddSwaggerGen(); //Generoidaan swagger
 
 		services.AddSpaStaticFiles(configuration => { configuration.RootPath = "dist"; });
 	}
@@ -153,6 +155,7 @@ public class Startup
 
 		app.Use(async (context, next) =>
 		{
+			//Jos profile on jo olemassa, pyritään sitä pitämään ajan tasalla discordin kanssa kirjautuessa.
 			if (context.User.Identity.IsAuthenticated)
 			{
 				var id = Convert.ToUInt64(context.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier)
@@ -183,6 +186,7 @@ public class Startup
 					await reader.CloseAsync();
 				}
 
+				//Jos profiilia ei ole olemassa, niin sellainen luodaan.
 				if (table.Rows.Count == 0)
 				{
 					await using var cmd = new MySqlCommand(

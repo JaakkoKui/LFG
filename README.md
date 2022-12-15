@@ -13,8 +13,7 @@ The need is for gamers to find people playing similar games to play games with o
 
 ### What has been done?
 This vision is currently being realized by the possibilities to:
-- Make and use your very own profile and giving others a Nickname to call you by, an email to us to know you by, a password to protect you
-  and optionally for other users your: age, name and discord.
+- Login with Discord and you account is created automatically.
 - Add games and their statistics to your profile including: nickname, hours, rank and server.
 - Post your thoughts to a common page we call "feed".
 - Edit or delete the above mentioned.
@@ -30,7 +29,7 @@ We would like to continue developing this vision in the near future by
 
 ### Front-end
 Front-end uses Vue 3.0 with Javascript and Typescript and supporting libraries:
-- vue-router for routing.
+- Vue-router for routing.
 	- Axios for API communications
 	- Pinia for better storage.
 	- Prettier for better code.
@@ -43,7 +42,7 @@ Front-end uses Vue 3.0 with Javascript and Typescript and supporting libraries:
 ASP.NET using .NET Core 3.1 library with the use of C#
 
 ### Testing
-Front-end testing is done with Playwright
+Front-end testing is done with Playwright and Vitest
 
 ### API
 
@@ -69,9 +68,9 @@ DevOps tools used were:
 
 ## Our Team
 This project is being made by Team 7:
+- Jaakko Kuivasniemi (Scrum Master)
 - Andreas Lang
 - Jesper Oja
-- Jaakko Kuivasniemi (Scrum Master)
 - Antti Aho
 
 *Metropolia University of Applied Sciences*
@@ -80,14 +79,17 @@ This project is being made by Team 7:
 
 ### Prerequisites
 
-- You need the Discord Developer App keys
+- You need the Discord API keys in user secrets by \
+`dotnet user-secrets init` \
+`dotnet user-secrets set "Discord:ClientSecret" "<secret>"` \
+`dotnet user-secrets set "Discord:ClientId" "<clientId>"`
 - You **NEED** to be in **Metropolia VPN** in order to access the database.
 
 ### Startup
 
 You will need to start the ASP.NET backend and frontend separately.
 
-You can start backend IIS from the LFG run configuration.
+You can start backend from the LFG run configuration.
 
 Then you can start front-end with the command
 

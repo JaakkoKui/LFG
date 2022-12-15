@@ -17,13 +17,13 @@
 					</div>
 					<div class="h-[600px] max-lg:w-full lg:w-1/2 lg:pl-2 max-lg:order-1">
 						<div class="bg-white rounded-xl h-full">
-							<img src="src/assets/images/About/Team.png" class="object-contain w-full h-full rounded-xl" alt="game"/>
+							<img src="@/assets/images/About/Team.png" class="object-contain w-full h-full rounded-xl" alt="game"/>
 						</div>
 					</div>
 
 					<div class="h-[600px] max-lg:w-full lg:w-1/3 lg:pr-2 max-lg:order-4">
 						<div class="bg-white rounded-xl h-full">
-							<img src="src/assets/images/About/Game.png" class="object-contain w-full h-full rounded-xl" alt="game"/>
+							<img src="@/assets/images/About/Game.png" class="object-contain w-full h-full rounded-xl" alt="game"/>
 						</div>
 					</div>
 					<div class="h-[600px] max-lg:w-full lg:w-2/3 lg:pl-2 max-lg:order-3">
@@ -61,7 +61,7 @@
 					</div>
 					<div class="h-[600px] max-lg:w-full lg:w-1/2 lg:pl-2">
 						<div class="bg-white rounded-xl h-full">
-							<img src="src/assets/images/About/Future.png" class="object-contain w-full h-full rounded-xl -scale-x-100" alt="game"/>
+							<img src="@/assets/images/About/Future.png" class="object-contain w-full h-full rounded-xl -scale-x-100" alt="game"/>
 						</div>
 					</div>
 				</div>
