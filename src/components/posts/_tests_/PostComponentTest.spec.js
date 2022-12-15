@@ -45,10 +45,27 @@ describe('Tests for the Post Component', () => {
             },
             global: {
                 plugins: [createTestingPinia()],
+                mocks:{
+                    $t: () => {}
+                }
+                
             },
             computed: {
                 isOwner() {
                     return true
+                }
+            },
+
+            data: () => {
+                return {
+                    profile: {
+                        avatar: "avatar",
+                        profileId: "Jepsu",
+                        nickname: "Xermos"
+                    },
+                    editable: false,
+                    commentsOpen: false,
+                    comments: []
                 }
             }
         })
@@ -61,28 +78,7 @@ describe('Tests for the Post Component', () => {
         
     })
 
-    const startTest = async () => {
-        wrapper.setData({
-            profile: {
-                avatar: "avatar",
-                profileId: "Jepsu",
-                nickname: "Xermos"
-            },
-            editable: false,
-            commentsOpen: false,
-            comments: []
-        })
-
-    }
-
     it('Comment button shows be first to comment', async () => {
-
-        startTest()
-
-        await flushPromises()
-
-        expect(axios.get).toHaveBeenCalledTimes(1)
-        expect(axios.get).toBeCalledWith(expect.stringMatching(/Jepsu/))
 
         expect(wrapper.vm.profile.avatar).toMatch('avatar')
 
@@ -93,12 +89,6 @@ describe('Tests for the Post Component', () => {
     })
 
     it('Post title, content, likes and dislikes shows right', async () => {
-        startTest()
-
-        await flushPromises()
-
-        expect(axios.get).toHaveBeenCalledTimes(1)
-        expect(axios.get).toBeCalledWith(expect.stringMatching(/Jepsu/))
 
         const title = wrapper.find('h2')
         expect(title.text()).toMatch('Title for testing')
@@ -114,18 +104,12 @@ describe('Tests for the Post Component', () => {
     })
 
     it('Number of comments shows', async () => {
-        startTest()
 
         wrapper.setProps({
             post: {
                 numberOfComments: 2
             }
         })
-
-        await flushPromises()
-
-        expect(axios.get).toHaveBeenCalledTimes(1)
-        expect(axios.get).toBeCalledWith(expect.stringMatching(/Jepsu/))
 
         expect(wrapper.vm.commentsOpen).toBeFalsy()
 
@@ -135,12 +119,6 @@ describe('Tests for the Post Component', () => {
     })
 
     it('Like and Dislike buttons are shown right', async () => {
-        startTest()
-
-        await flushPromises()
-
-        expect(axios.get).toHaveBeenCalledTimes(1)
-        expect(axios.get).toBeCalledWith(expect.stringMatching(/Jepsu/))
 
         const aside = wrapper.find('#reactButtons')
         expect(aside.exists()).toBeTruthy()
@@ -153,19 +131,6 @@ describe('Tests for the Post Component', () => {
     })
 
     it('Owner buttons, Edit and Delete, are shown when owner', async () => {
-        wrapper.setData({
-            profile: {
-                avatar: "avatar",
-                profileId: "Jepsu",
-                nickname: "Xermos",
-
-            },
-        })
-
-        await flushPromises()
-
-        expect(axios.get).toHaveBeenCalledTimes(1)
-        expect(axios.get).toBeCalledWith(expect.stringMatching(/Jepsu/))
 
         const aside = wrapper.find(`#${wrapper.props().post.postId}-controls`)
         expect(aside.exists()).toBeTruthy()
@@ -178,18 +143,12 @@ describe('Tests for the Post Component', () => {
     })
 
     it('Show comments button works', async () => {
-        startTest()
 
         wrapper.setProps({
             post: {
                 numberOfComments: 2
             }
         })
-
-        await flushPromises()
-
-        expect(axios.get).toHaveBeenCalledTimes(1)
-        expect(axios.get).toBeCalledWith(expect.stringMatching(/Jepsu/))
 
         expect(wrapper.vm.commentsOpen).toBeFalsy()
 

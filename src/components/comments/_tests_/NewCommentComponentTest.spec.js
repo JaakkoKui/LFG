@@ -43,6 +43,9 @@ describe('Tests for the New Comment Component', () => {
             },
             global: {
                 plugins: [createTestingPinia()],
+                mocks: {
+                    $t: () => {}
+                }
             },
             data: () => {
                 return {

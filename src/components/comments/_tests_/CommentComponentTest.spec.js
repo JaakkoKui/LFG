@@ -43,20 +43,19 @@ describe('Tests for the Comment Component', () => {
       global: {
         mocks:
         {
-            $tc: vi.fn()
+            $tc: () => {}
         },
         plugins: [createTestingPinia()],
+    },
+    data: () => {
+      return {
+        profile: { nickname: "Xermos", id: "Jepsu" }
+      }
     }
     })
   })
 
   it('check successful events', async () => {
-    
-    wrapper.setData({ profile: { nickname: "Xermos", id: "Jepsu" } })
-    await flushPromises()
-
-    expect(axios.get).toHaveBeenCalledTimes(1)
-    expect(axios.get).toBeCalledWith(expect.stringMatching(/Jepsu/))
 
     expect(wrapper.props().comment.profileId).toMatch('Jepsu')
 
@@ -67,24 +66,7 @@ describe('Tests for the Comment Component', () => {
     expect(wrapper.findAll('p').at(0).text()).toMatch('Testing')
   })
 
-  it('check failure events without profile info', async () => {
-
-    await flushPromises()
-
-    expect(axios.get).toHaveBeenCalledTimes(1)
-    expect(axios.get).toBeCalledWith(expect.stringMatching(/Jepsu/))
-
-    expect(wrapper.find('#comment').exists()).toBeFalsy();
-  })
-
   it('Check if date showed right', async () => {
-
-    wrapper.setData({ profile: { nickname: "Xermos", id: "Jepsu" } })
-
-    await flushPromises()
-
-    expect(axios.get).toHaveBeenCalledTimes(1)
-    expect(axios.get).toBeCalledWith(expect.stringMatching(/Jepsu/))
 
     expect(wrapper.props().comment.profileId).toMatch('Jepsu')
     expect(wrapper.find('#comment').exists()).toBeTruthy();

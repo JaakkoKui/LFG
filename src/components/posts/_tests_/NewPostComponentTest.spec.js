@@ -72,12 +72,6 @@ describe('Tests for the New Post Component', () => {
         axios.post.mockReset()
     })
 
-    it('Postheader is showing and getting right data', async () => {
-        
-        const header = wrapper.findComponent({ ref: "postHeader" })
-        expect(header.exists()).toBeTruthy()
-    })
-
     it('Title input field and Content textarea show correct placeholders', async () => {
 
         const title = wrapper.find('#newPostTitle')

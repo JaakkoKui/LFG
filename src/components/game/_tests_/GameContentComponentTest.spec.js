@@ -23,6 +23,7 @@ describe('Tests for the Game Content Component', () => {
         })
     })
 
+    
     it('Game name shows correctly', () => {
         expect(wrapper.props().game.gameName).toMatch('Hades')
 
@@ -49,6 +50,7 @@ describe('Tests for the Game Content Component', () => {
         expect(server.text()).toMatch('EU')
     })
 
+    
     it('Game info values show empty if not given', async () => {
         await wrapper.setProps({
             game:{

@@ -8,7 +8,7 @@ export default mergeConfig(viteConfig, defineConfig({
 	test: {
 		globals: true,
 		setupFiles: ['unit.setup.js'],
-		environment: 'jsdom',
+		environment: 'happy-dom',
 
 	},
 }))
